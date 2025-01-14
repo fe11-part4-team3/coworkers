@@ -1,6 +1,7 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+import { FlatCompat } from '@eslint/eslintrc';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -10,33 +11,23 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
-  ...compat.extends(
-    "next/core-web-vitals", // 웹 바이탈 구칙 포함
-    "next/typescript", // 타입스크립트 규칙 포함
-    "prettier", // Prettier와 충돌하는 ESLint 규칙을 비활성화
-    "plugin:import/recommended", // import 순서 및 구문 검사
-    "plugin:jsx-a11y/recommended" // 접근성 규칙
-  ),
+  ...compat.extends('next/core-web-vitals', 'next/typescript', 'plugin:prettier/recommended'),
   {
-    plugins: ["unused-imports"], // 사용하지 않는 import 제거
     rules: {
-      "unused-imports/no-unused-imports": "error",
-      "unused-imports/no-unused-vars": [
-        "warn",
-        { vars: "all",  args: "after-used", },
-      ],
-      "import/order": [
-        "error",
+      'prettier/prettier': ['error', { endOfLine: 'auto' }],
+      'no-console': 'warn',
+      eqeqeq: ['error', 'always'],
+      '@typescript-eslint/no-explicit-any': 'error',
+      '@typescript-eslint/no-unused-vars': 'error',
+      // '@typescript-eslint/explicit-function-return-type': 'warn',
+      'import/order': [
+        'error',
         {
-          groups: ["builtin", "external", "internal", "parent", "sibling", "index", "object", "type"],
-          "newlines-between": "always",
-          alphabetize: { order: "asc", caseInsensitive: true },
+          groups: ['builtin', 'external', 'internal'],
+          'newlines-between': 'always',
         },
       ],
     },
-  },
-  {
-    ignorePatterns: [".eslintrc.js", "next.config.js"],
   },
 ];
 
