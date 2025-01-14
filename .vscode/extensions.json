@@ -4,6 +4,7 @@
     "PKief.material-icon-theme",
     "bradlc.vscode-tailwindcss",
     "dbaeumer.vscode-eslint",
-    "seatonjiang.gitmoji-vscode"
+    "seatonjiang.gitmoji-vscode",
+    "hediet.vscode-drawio"
   ]
 }

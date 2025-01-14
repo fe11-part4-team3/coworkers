@@ -16,3 +16,4 @@ npm i
 2. Material Icon Theme
 3. eslint
 4. Tailwind CSS Intellisense
+5. gitmoji
