@@ -1,13 +1,13 @@
 import {
   IGroup,
   IMembership,
-  ITask,
   UpdateUserParams,
   IUser,
   ResetPasswordEmailParams,
   ResetPasswordParams,
   UpdatePasswordParams,
 } from '@/types/user.type';
+import { ITaskMetadata } from '@/types/taskList.type';
 
 import instance from './axios';
 
@@ -68,7 +68,7 @@ const getMembershipList = async (): Promise<
  *
  * 완료한 작업 조회
  */
-const getHistory = async (): Promise<ITask[]> => {
+const getHistory = async (): Promise<ITaskMetadata[]> => {
   const response = await instance.get('/user/history');
   return response.data.taskDone;
 };

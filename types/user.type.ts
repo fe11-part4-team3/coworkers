@@ -3,21 +3,17 @@ enum Role {
   MEMBER,
 }
 
-enum FrequencyType {
-  DAILY,
-  WEEKLY,
-  MONTHLY,
-  ONCE,
-}
-
-interface IUser {
-  teamId: string;
+interface IUserProfile {
   image: string | null;
   nickname: string;
+  id: number;
+}
+
+interface IUser extends IUserProfile {
+  teamId: string;
   updatedAt: string;
   createdAt: string;
   email: string;
-  id: number;
   memberships: IMembership[];
 }
 
@@ -45,21 +41,6 @@ interface UpdateUserParams {
   image?: string;
 }
 
-interface ITask {
-  displayIndex: number;
-  writerId: number;
-  userId: number;
-  deletedAt: string;
-  frequency: FrequencyType;
-  description: string;
-  name: string;
-  recurringId: number;
-  doneAt: string;
-  date: string;
-  updatedAt: string;
-  id: number;
-}
-
 interface ResetPasswordEmailParams {
   email: string;
   redirectUrl: string;
@@ -74,11 +55,11 @@ interface UpdatePasswordParams {
 }
 
 export type {
+  IUserProfile,
   IUser,
   IMembership,
   IGroup,
   UpdateUserParams,
-  ITask,
   ResetPasswordEmailParams,
   ResetPasswordParams,
   UpdatePasswordParams,
