@@ -1,0 +1,39 @@
+name: Create Issue Branch
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  create_issue_branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Create and push branch
+        run: |
+          # 브랜치 이름 생성 (예: issue-123)
+          BRANCH_NAME="feat-${{ github.event.issue.number }}"
+          
+          # 새 브랜치 생성
+          git checkout develop
+          git pull origin develop  # 최신 상태로 업데이트
+          git checkout -b $BRANCH_NAME
+          
+          # 원격 저장소에 브랜치 푸시
+          git push origin $BRANCH_NAME
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+
+      - name: Comment on issue
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{secrets.TOKEN}}
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `브랜치 \`issue-${context.issue.number}\`가 생성되었습니다.`
+            })
