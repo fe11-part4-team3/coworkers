@@ -11,7 +11,11 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
-  ...compat.extends('next/core-web-vitals', 'next/typescript', 'plugin:prettier/recommended'),
+  ...compat.extends(
+    'next/core-web-vitals',
+    'next/typescript',
+    // 'plugin:prettier/recommended',
+  ),
   {
     rules: {
       'prettier/prettier': ['error', { endOfLine: 'auto' }],
@@ -19,7 +23,6 @@ const eslintConfig = [
       eqeqeq: ['error', 'always'],
       '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/no-unused-vars': 'error',
-      // '@typescript-eslint/explicit-function-return-type': 'warn',
       'import/order': [
         'error',
         {
