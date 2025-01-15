@@ -7,7 +7,7 @@ import {
   ResetPasswordParams,
   UpdatePasswordParams,
 } from '@/types/user.type';
-import { ITaskMetadata } from '@/types/taskList.type';
+import { ITaskMetadata } from '@/types/task.type';
 
 import instance from './axios';
 

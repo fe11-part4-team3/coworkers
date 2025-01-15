@@ -1,33 +1,4 @@
-import { IUserProfile } from './user.type';
-
-enum FrequencyType {
-  DAILY,
-  WEEKLY,
-  MONTHLY,
-  ONCE,
-}
-
-interface ITaskMetadata {
-  displayIndex: number;
-  writerId: number;
-  userId: number;
-  deletedAt: string;
-  frequency: FrequencyType;
-  description: string;
-  name: string;
-  recurringId: number;
-  doneAt: string;
-  date: string;
-  updatedAt: string;
-  id: number;
-}
-
-interface ITask extends ITaskMetadata {
-  doneBy: {
-    user: IUserProfile | null;
-  } | null;
-  writer: IUserProfile | null;
-}
+import { ITask } from './task.type';
 
 interface ITaskList {
   displayIndex: number;
@@ -86,8 +57,6 @@ interface OrderTaskListParams {
 }
 
 export type {
-  ITaskMetadata,
-  ITask,
   ITaskList,
   GetTaskListParams,
   UpdateTaskListParams,
