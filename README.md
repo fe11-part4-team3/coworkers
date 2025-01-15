@@ -10,7 +10,7 @@ clone 이후 아래 세팅 방법을 따라 주세요
 npm i
 ```
 
-### 2. 확장 프로그램 설치
+### 2. vscode 확장 프로그램 설치
 
 1. Prettier
 2. Material Icon Theme
