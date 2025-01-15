@@ -9,6 +9,9 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['Pretendard', 'Arial', 'sans-serif'],
+      },
       colors: {
         // background: 'hsl(var(--background))',
         background: 'var(--b-primary-light)',
@@ -108,6 +111,124 @@ export default {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
+      },
+      fontSize: {
+        12: [
+          '12px',
+          { lineHeight: '14px', fontWeight: '400' },
+        ],
+        '12m': [
+          '12px',
+          { lineHeight: '14px', fontWeight: '500' },
+        ],
+        '12sb': [
+          '12px',
+          { lineHeight: '14px', fontWeight: '600' },
+        ],
+        13: [
+          '13px',
+          { lineHeight: '16px', fontWeight: '400' },
+        ],
+        '13m': [
+          '13px',
+          { lineHeight: '16px', fontWeight: '500' },
+        ],
+        '13sb': [
+          '13px',
+          { lineHeight: '16px', fontWeight: '600' },
+        ],
+        14: [
+          '14px',
+          { lineHeight: '17px', fontWeight: '400' },
+        ],
+        '14m': [
+          '14px',
+          { lineHeight: '17px', fontWeight: '500' },
+        ],
+        '14sb': [
+          '14px',
+          { lineHeight: '17px', fontWeight: '600' },
+        ],
+        '14b': [
+          '14px',
+          { lineHeight: '17px', fontWeight: '700' },
+        ],
+        16: [
+          '16px',
+          { lineHeight: '19px', fontWeight: '400' },
+        ],
+        '16m': [
+          '16px',
+          { lineHeight: '19px', fontWeight: '500' },
+        ],
+        '16sb': [
+          '16px',
+          { lineHeight: '19px', fontWeight: '600' },
+        ],
+        '16b': [
+          '16px',
+          { lineHeight: '19px', fontWeight: '700' },
+        ],
+        18: [
+          '18px',
+          { lineHeight: '21px', fontWeight: '400' },
+        ],
+        '18m': [
+          '18px',
+          { lineHeight: '21px', fontWeight: '500' },
+        ],
+        '18sb': [
+          '18px',
+          { lineHeight: '21px', fontWeight: '600' },
+        ],
+        '18b': [
+          '18px',
+          { lineHeight: '21px', fontWeight: '700' },
+        ],
+        20: [
+          '20px',
+          { lineHeight: '24px', fontWeight: '400' },
+        ],
+        '20m': [
+          '20px',
+          { lineHeight: '24px', fontWeight: '500' },
+        ],
+        '20sb': [
+          '20px',
+          { lineHeight: '24px', fontWeight: '600' },
+        ],
+        '20b': [
+          '20px',
+          { lineHeight: '24px', fontWeight: '700' },
+        ],
+        24: [
+          '24px',
+          { lineHeight: '28px', fontWeight: '400' },
+        ],
+        '24m': [
+          '24px',
+          { lineHeight: '28px', fontWeight: '500' },
+        ],
+        '24sb': [
+          '24px',
+          { lineHeight: '28px', fontWeight: '600' },
+        ],
+        '24b': [
+          '24px',
+          { lineHeight: '28px', fontWeight: '700' },
+        ],
+        '32sb': [
+          '32px',
+          { lineHeight: '38px', fontWeight: '600' },
+        ],
+        '32b': [
+          '32px',
+          { lineHeight: '38px', fontWeight: '700' },
+        ],
+        '40m': [
+          '40px',
+          { lineHeight: '48px', fontWeight: '500' },
+        ],
       },
     },
   },
