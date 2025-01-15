@@ -2,7 +2,7 @@ name: Create Issue Branch
 
 on:
   issues:
-    types: [opened]
+    types: [assigned]
 
 jobs:
   create_issue_branch:
@@ -15,32 +15,24 @@ jobs:
 
       - name: Create and push branch
         run: |
-          # 브랜치 이름 생성
-          BRANCH_NAME="feat-${{ github.event.issue.number }}"
-
-          # 기본 브랜치 확인
-          DEFAULT_BRANCH=$(git remote show origin | grep 'HEAD branch' | cut -d' ' -f5)
-
-          # 기본 브랜치에서 시작
-          git checkout $DEFAULT_BRANCH
-          git pull origin $DEFAULT_BRANCH
-
-          # 새 브랜치 생성
+          BRANCH_NAME="feature/issue-${{ github.event.issue.number }}"
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git checkout develop
+          git pull origin develop
           git checkout -b $BRANCH_NAME
-
-          # 원격 저장소에 브랜치 푸시
           git push origin $BRANCH_NAME
         env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Comment on issue
         uses: actions/github-script@v6
         with:
-          github-token: ${{secrets.TOKEN}}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `브랜치 \`${BRANCH_NAME}\`가 생성되었습니다.`
+              body: `브랜치 \`${BRANCH_NAME}\`가 develop 브랜치에서 생성되었습니다.`
             })
