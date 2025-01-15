@@ -1,6 +1,5 @@
 import {
   CreateTaskParams,
-  IRecurring,
   GetTasksParams,
   ITask,
   GetTaskParams,
@@ -10,6 +9,7 @@ import {
   OrderTaskParams,
   DeleteRecurringParams,
 } from '@/types/task.type';
+import { IRecurring } from '@/types/recurring.type';
 
 import instance from './axios';
 
@@ -28,10 +28,11 @@ import instance from './axios';
  * - WEEKLY: 매주 생성 (시작일(startDate) 이후 해당 조건에 따라 존재)
  * - MONTHLY: 매월 생성 (시작일(startDate) 이후 해당 조건에 따라 존재)
  */
-const createTask = async (
-  params: CreateTaskParams,
-): Promise<IRecurring> => {
-  const { groupId, taskListId, body } = params;
+const createTask = async ({
+  groupId,
+  taskListId,
+  body,
+}: CreateTaskParams): Promise<IRecurring> => {
   const path = `/groups/${groupId}/task-lists/${taskListId}/tasks`;
   const response = await instance.post(path, body);
   return response.data.recurring;

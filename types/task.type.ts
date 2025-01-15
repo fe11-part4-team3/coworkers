@@ -29,21 +29,6 @@ interface ITask extends ITaskMetadata {
   writer: IUserProfile | null;
 }
 
-interface IRecurring {
-  writerId: number;
-  groupId: number;
-  taskListId: number;
-  monthDay: number;
-  weekDays: number;
-  frequencyType: FrequencyType;
-  startDate: string;
-  updatedAt: string;
-  createdAt: string;
-  description: string;
-  name: string;
-  id: number;
-}
-
 interface TaskRecurringCreateBody {
   name: string;
   description?: string | null;
@@ -129,7 +114,6 @@ export { FrequencyType };
 export type {
   ITaskMetadata,
   ITask,
-  IRecurring,
   TaskRecurringCreateDto,
   MonthlyRecurringCreateBody,
   WeeklyRecurringCreateBody,
