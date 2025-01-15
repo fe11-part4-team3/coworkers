@@ -3,6 +3,7 @@
 @tailwind utilities;
 @layer base {
   :root {
+    /* shadcn color */
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
     --card: 0 0% 100%;
@@ -28,8 +29,64 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
+
+    /* project color */
+    /* brand */
+    --brand-primary: #10b981;
+    --brand-secondary: #34d399;
+    --brand-tertiary: #a3e635;
+    --brand-gradient: linear-gradient(
+      90deg,
+      #10b981 0%,
+      #a3e635 100%
+    );
+
+    /* point */
+    --p-purple: #a855f7;
+    --p-blue: #3b82f6;
+    --p-cyan: #06b6d4;
+    --p-pink: #ec4899;
+    --p-rose: #f43f5e;
+    --p-orange: #f97316;
+    --p-yellow: #eab308;
+
+    /* background */
+    --b-primary-dark: #0f172a;
+    --b-primary-light: #ffffff;
+    --b-secondary-dark: #1e293b;
+    --b-secondary-light: #f1f5f9;
+    --b-tertiary-dark: #334155;
+    --b-tertiary-light: #e2e8f0;
+    --b-inverse: #ffffff;
+
+    /* interactive */
+    --i-inactive: #94a3b8;
+    --i-hover: #059669;
+    --i-pressed: #047857;
+    --i-focus: #10b981;
+
+    /* border */
+    --border-primary: rgba(#f8fafc, 0.5);
+
+    /* text */
+    --t-primary-dark: #f8fafc;
+    --t-primary-light: #1e293b;
+    --t-secondary: #cbd5e1;
+    --t-tertiary: #e2e8f0;
+    --t-default: #64748b;
+    --t-inverse: #ffffff;
+    --t-disabled: #94a3b8;
+
+    /* status */
+    --s-danger: #dc2626;
+
+    /* icon */
+    --icon-primary: #64748b;
+    --icon-inverse: #f8fafc;
+    --icon-brand: #10b981;
   }
   .dark {
+    /* shadcn color */
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
     --card: 240 10% 3.9%;
@@ -54,6 +111,12 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+
+    /* project color */
+    --b-primary-light: var(--b-primary-dark);
+    --b-secondary-light: var(--b-secondary-dark);
+    --b-tertiary-light: var(--b-tertiary-dark);
+    --t-primary-light: var(--t-primary-dark);
   }
 }
 @layer base {
@@ -61,6 +124,6 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-t-primary;
   }
 }
