@@ -99,7 +99,7 @@
     --i-focus: #10b981;
 
     /* border */
-    --border-primary: rgba(#f8fafc, 0.5);
+    --border-primary: rgba(248, 250, 252, 0.5);
 
     /* text */
     --t-primary-dark: #f8fafc;
@@ -144,12 +144,19 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
-
     /* project color */
     --b-primary-light: var(--b-primary-dark);
     --b-secondary-light: var(--b-secondary-dark);
     --b-tertiary-light: var(--b-tertiary-dark);
     --t-primary-light: var(--t-primary-dark);
+  }
+
+  .light {
+    /* project color */
+    --b-primary-dark: var(--b-primary-light);
+    --b-secondary-dark: var(--b-secondary-light);
+    --b-tertiary-dark: var(--b-tertiary-light);
+    --t-primary-dark: var(--t-primary-light);
   }
 }
 @layer base {
