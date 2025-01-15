@@ -34,5 +34,5 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `브랜치 \`${BRANCH_NAME}\`가 develop 브랜치에서 생성되었습니다.`
+              body: `Create ${BRANCH_NAME} from develop`
             })
