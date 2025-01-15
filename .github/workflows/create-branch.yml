@@ -23,12 +23,12 @@ jobs:
           git checkout -b $BRANCH_NAME
           git push origin $BRANCH_NAME
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TOKEN}}
 
       - name: Comment on issue
         uses: actions/github-script@v6
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.TOKEN }}
           script: |
             github.rest.issues.createComment({
               issue_number: context.issue.number,
