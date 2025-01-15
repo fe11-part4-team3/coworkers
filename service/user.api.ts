@@ -1,5 +1,4 @@
 import {
-  IGroup,
   IMembership,
   UpdateUserParams,
   IUser,
@@ -8,6 +7,7 @@ import {
   UpdatePasswordParams,
 } from '@/types/user.type';
 import { ITaskMetadata } from '@/types/task.type';
+import { IGroup } from '@/types/group.type';
 
 import instance from './axios';
 

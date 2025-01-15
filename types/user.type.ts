@@ -1,7 +1,4 @@
-enum Role {
-  ADMIN,
-  MEMBER,
-}
+import { IGroup, IMember } from './group.type';
 
 interface IUserProfile {
   image: string | null;
@@ -17,23 +14,8 @@ interface IUser extends IUserProfile {
   memberships: IMembership[];
 }
 
-interface IMembership {
+interface IMembership extends IMember {
   group: IGroup;
-  role: Role;
-  userImage: string | null;
-  userEmail: string;
-  userName: string;
-  groupId: number;
-  userId: number;
-}
-
-interface IGroup {
-  teamId: string;
-  updatedAt: string;
-  createdAt: string;
-  image: string | null;
-  name: string;
-  id: number;
 }
 
 interface UpdateUserParams {
@@ -58,7 +40,6 @@ export type {
   IUserProfile,
   IUser,
   IMembership,
-  IGroup,
   UpdateUserParams,
   ResetPasswordEmailParams,
   ResetPasswordParams,
