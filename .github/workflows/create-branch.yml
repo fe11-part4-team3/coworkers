@@ -10,17 +10,24 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Create and push branch
         run: |
-          # 브랜치 이름 생성 (예: issue-123)
+          # 브랜치 이름 생성
           BRANCH_NAME="feat-${{ github.event.issue.number }}"
-          
+
+          # 기본 브랜치 확인
+          DEFAULT_BRANCH=$(git remote show origin | grep 'HEAD branch' | cut -d' ' -f5)
+
+          # 기본 브랜치에서 시작
+          git checkout $DEFAULT_BRANCH
+          git pull origin $DEFAULT_BRANCH
+
           # 새 브랜치 생성
-          git checkout develop
-          git pull origin develop  # 최신 상태로 업데이트
           git checkout -b $BRANCH_NAME
-          
+
           # 원격 저장소에 브랜치 푸시
           git push origin $BRANCH_NAME
         env:
@@ -35,5 +42,5 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `브랜치 \`issue-${context.issue.number}\`가 생성되었습니다.`
+              body: `브랜치 \`${BRANCH_NAME}\`가 생성되었습니다.`
             })
