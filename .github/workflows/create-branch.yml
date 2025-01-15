@@ -30,6 +30,7 @@ jobs:
         with:
           github-token: ${{ secrets.TOKEN }}
           script: |
+          const branchName = "feature/issue-${{ github.event.issue.number }}";
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
