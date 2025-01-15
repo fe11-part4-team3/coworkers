@@ -233,6 +233,7 @@ export default {
       screens: {
         mo: { max: '767px' }, // 모바일: 0 ~ 767px
         ta: { min: '768px', max: '1279px' }, // 태블릿: 768px ~ 1279px
+        tamo: { max: '1279px' }, // 모바일+태블릿: 0 ~ 1279px
       },
     },
   },
