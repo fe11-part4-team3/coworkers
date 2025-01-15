@@ -230,6 +230,10 @@ export default {
           { lineHeight: '48px', fontWeight: '500' },
         ],
       },
+      screens: {
+        mo: { max: '767px' }, // 모바일: 0 ~ 767px
+        ta: { min: '768px', max: '1279px' }, // 태블릿: 768px ~ 1279px
+      },
     },
   },
   plugins: [tailwindcssAnimate],
