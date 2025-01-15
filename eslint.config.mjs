@@ -18,6 +18,9 @@ const eslintConfig = [
     'plugin:import/recommended',
   ),
   {
+    'prettier/prettier': ['error', { endOfLine: 'auto' }],
+  },
+  {
     rules: {
       'no-console': 'warn',
       eqeqeq: ['error', 'always'],
