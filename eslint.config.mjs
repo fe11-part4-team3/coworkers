@@ -11,16 +11,17 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
-  // prettier-ignore
-  ...compat.extends('next/core-web-vitals','next/typescript','plugin:prettier/recommended',),
+  ...compat.extends(
+    'next/core-web-vitals',
+    'next/typescript',
+    'plugin:prettier/recommended',
+  ),
   {
     rules: {
-      'prettier/prettier': ['error', { endOfLine: 'auto' }],
       'no-console': 'warn',
       eqeqeq: ['error', 'always'],
       '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/no-unused-vars': 'error',
-
       'import/order': [
         'error',
         {
