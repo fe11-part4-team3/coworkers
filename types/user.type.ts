@@ -1,5 +1,9 @@
 import { IGroup, IMember } from './group.type';
 
+interface IMembership extends IMember {
+  group: IGroup;
+}
+
 interface IUserProfile {
   image: string | null;
   nickname: string;
@@ -11,11 +15,10 @@ interface IUser extends IUserProfile {
   updatedAt: string;
   createdAt: string;
   email: string;
-  memberships: IMembership[];
 }
 
-interface IMembership extends IMember {
-  group: IGroup;
+interface IUserDetail extends IUser {
+  memberships: IMembership[];
 }
 
 interface UpdateUserParams {
@@ -39,6 +42,7 @@ interface UpdatePasswordParams {
 export type {
   IUserProfile,
   IUser,
+  IUserDetail,
   IMembership,
   UpdateUserParams,
   ResetPasswordEmailParams,

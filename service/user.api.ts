@@ -1,7 +1,7 @@
 import {
   IMembership,
   UpdateUserParams,
-  IUser,
+  IUserDetail,
   ResetPasswordEmailParams,
   ResetPasswordParams,
   UpdatePasswordParams,
@@ -14,7 +14,7 @@ import instance from './axios';
 /**
  * **※인증 필요**
  */
-const getUser = async (): Promise<IUser> => {
+const getUser = async (): Promise<IUserDetail> => {
   const response = await instance.get('/user');
   return response.data;
 };
