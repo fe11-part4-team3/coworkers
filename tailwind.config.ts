@@ -1,6 +1,27 @@
 import type { Config } from 'tailwindcss';
 import tailwindcssAnimate from 'tailwindcss-animate';
 
+const plugin = require('tailwindcss/plugin');
+
+// 공통 유틸리티 생성 함수
+interface GenerateSizesOptions {
+  limit: number;
+  divider: number;
+  prefix: string;
+}
+
+const generateSizes = ({
+  limit,
+  divider,
+  prefix,
+}: GenerateSizesOptions): Record<string, string> => {
+  const sizes: Record<string, string> = {};
+  for (let i = 0; i <= limit; i++) {
+    sizes[`${prefix}-${i}`] = `${i / divider}rem`;
+  }
+  return sizes;
+};
+
 export default {
   darkMode: ['class'],
   content: [
@@ -13,6 +34,7 @@ export default {
         sans: ['Pretendard', 'Arial', 'sans-serif'],
       },
       colors: {
+        // REVIEW : shadcn option
         // background: 'hsl(var(--background))',
         background: 'var(--b-primary-light)',
         foreground: 'hsl(var(--foreground))',
@@ -44,6 +66,7 @@ export default {
           DEFAULT: 'hsl(var(--destructive))',
           foreground: 'hsl(var(--destructive-foreground))',
         },
+        // REVIEW : shadcn option
         // border: 'hsl(var(--border))',
         border: 'var(--border-primary)',
         input: 'hsl(var(--input))',
@@ -107,127 +130,128 @@ export default {
           brand: 'var(--icon-brand)',
         },
       },
-      borderRadius: {
-        lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)',
-      },
+      // REVIEW : shadcn option
+      // borderRadius: {
+      //   lg: 'var(--radius)',
+      //   md: 'calc(var(--radius) - 2px)',
+      //   sm: 'calc(var(--radius) - 4px)',
+      // },
       fontSize: {
         12: [
-          '12px',
-          { lineHeight: '14px', fontWeight: '400' },
+          '0.75rem',
+          { lineHeight: '0.875rem', fontWeight: '400' },
         ],
         '12m': [
-          '12px',
-          { lineHeight: '14px', fontWeight: '500' },
+          '0.75rem',
+          { lineHeight: '0.875rem', fontWeight: '500' },
         ],
         '12sb': [
-          '12px',
-          { lineHeight: '14px', fontWeight: '600' },
+          '0.75rem',
+          { lineHeight: '0.875rem', fontWeight: '600' },
         ],
         13: [
-          '13px',
-          { lineHeight: '16px', fontWeight: '400' },
+          '0.8125rem',
+          { lineHeight: '1rem', fontWeight: '400' },
         ],
         '13m': [
-          '13px',
-          { lineHeight: '16px', fontWeight: '500' },
+          '0.8125rem',
+          { lineHeight: '1rem', fontWeight: '500' },
         ],
         '13sb': [
-          '13px',
-          { lineHeight: '16px', fontWeight: '600' },
+          '0.8125rem',
+          { lineHeight: '1rem', fontWeight: '600' },
         ],
         14: [
-          '14px',
-          { lineHeight: '17px', fontWeight: '400' },
+          '0.875rem',
+          { lineHeight: '1.0625rem', fontWeight: '400' },
         ],
         '14m': [
-          '14px',
-          { lineHeight: '17px', fontWeight: '500' },
+          '0.875rem',
+          { lineHeight: '1.0625rem', fontWeight: '500' },
         ],
         '14sb': [
-          '14px',
-          { lineHeight: '17px', fontWeight: '600' },
+          '0.875rem',
+          { lineHeight: '1.0625rem', fontWeight: '600' },
         ],
         '14b': [
-          '14px',
-          { lineHeight: '17px', fontWeight: '700' },
+          '0.875rem',
+          { lineHeight: '1.0625rem', fontWeight: '700' },
         ],
         16: [
-          '16px',
-          { lineHeight: '19px', fontWeight: '400' },
+          '1rem',
+          { lineHeight: '1.1875rem', fontWeight: '400' },
         ],
         '16m': [
-          '16px',
-          { lineHeight: '19px', fontWeight: '500' },
+          '1rem',
+          { lineHeight: '1.1875rem', fontWeight: '500' },
         ],
         '16sb': [
-          '16px',
-          { lineHeight: '19px', fontWeight: '600' },
+          '1rem',
+          { lineHeight: '1.1875rem', fontWeight: '600' },
         ],
         '16b': [
-          '16px',
-          { lineHeight: '19px', fontWeight: '700' },
+          '1rem',
+          { lineHeight: '1.1875rem', fontWeight: '700' },
         ],
         18: [
-          '18px',
-          { lineHeight: '21px', fontWeight: '400' },
+          '1.125rem',
+          { lineHeight: '1.3125rem', fontWeight: '400' },
         ],
         '18m': [
-          '18px',
-          { lineHeight: '21px', fontWeight: '500' },
+          '1.125rem',
+          { lineHeight: '1.3125rem', fontWeight: '500' },
         ],
         '18sb': [
-          '18px',
-          { lineHeight: '21px', fontWeight: '600' },
+          '1.125rem',
+          { lineHeight: '1.3125rem', fontWeight: '600' },
         ],
         '18b': [
-          '18px',
-          { lineHeight: '21px', fontWeight: '700' },
+          '1.125rem',
+          { lineHeight: '1.3125rem', fontWeight: '700' },
         ],
         20: [
-          '20px',
-          { lineHeight: '24px', fontWeight: '400' },
+          '1.25rem',
+          { lineHeight: '1.5rem', fontWeight: '400' },
         ],
         '20m': [
-          '20px',
-          { lineHeight: '24px', fontWeight: '500' },
+          '1.25rem',
+          { lineHeight: '1.5rem', fontWeight: '500' },
         ],
         '20sb': [
-          '20px',
-          { lineHeight: '24px', fontWeight: '600' },
+          '1.25rem',
+          { lineHeight: '1.5rem', fontWeight: '600' },
         ],
         '20b': [
-          '20px',
-          { lineHeight: '24px', fontWeight: '700' },
+          '1.25rem',
+          { lineHeight: '1.5rem', fontWeight: '700' },
         ],
         24: [
-          '24px',
-          { lineHeight: '28px', fontWeight: '400' },
+          '1.5rem',
+          { lineHeight: '1.75rem', fontWeight: '400' },
         ],
         '24m': [
-          '24px',
-          { lineHeight: '28px', fontWeight: '500' },
+          '1.5rem',
+          { lineHeight: '1.75rem', fontWeight: '500' },
         ],
         '24sb': [
-          '24px',
-          { lineHeight: '28px', fontWeight: '600' },
+          '1.5rem',
+          { lineHeight: '1.75rem', fontWeight: '600' },
         ],
         '24b': [
-          '24px',
-          { lineHeight: '28px', fontWeight: '700' },
+          '1.5rem',
+          { lineHeight: '1.75rem', fontWeight: '700' },
         ],
         '32sb': [
-          '32px',
-          { lineHeight: '38px', fontWeight: '600' },
+          '2rem',
+          { lineHeight: '2.375rem', fontWeight: '600' },
         ],
         '32b': [
-          '32px',
-          { lineHeight: '38px', fontWeight: '700' },
+          '2rem',
+          { lineHeight: '2.375rem', fontWeight: '700' },
         ],
         '40m': [
-          '40px',
-          { lineHeight: '48px', fontWeight: '500' },
+          '2.5rem',
+          { lineHeight: '3rem', fontWeight: '500' },
         ],
       },
       screens: {
@@ -235,6 +259,63 @@ export default {
         ta: { min: '768px', max: '1279px' }, // 태블릿: 768px ~ 1279px
         tamo: { max: '1279px' }, // 모바일+태블릿: 0 ~ 1279px
       },
+
+      // 유틸리티 동적 생성
+      spacing: ({ theme }) => {
+        return generateSizes({
+          limit: theme('spacingLimit', 2000),
+          divider: theme('remDivider', 16),
+          prefix: 'pr',
+        });
+      },
+      borderRadius: ({ theme }) => {
+        return generateSizes({
+          limit: theme('borderRadiusLimit', 100),
+          divider: theme('remDivider', 16),
+          prefix: 'pr',
+        });
+      },
+    },
+    plugins: [
+      plugin(function ({
+        addUtilities,
+        theme,
+      }: {
+        addUtilities: (
+          utilities: Record<string, any>,
+          options?: { variants?: string[] },
+        ) => void;
+        theme: (path: string, defaultValue?: any) => any;
+      }) {
+        const fontSizeLimit = theme('fontSizeLimit', 100);
+        const remDivider = theme('remDivider', 16);
+
+        // fontSize 유틸리티 동적 생성
+        const fontSizes = generateSizes({
+          limit: fontSizeLimit,
+          divider: remDivider,
+          prefix: 'text-pr',
+        });
+
+        // Tailwind 유틸리티 추가
+        addUtilities(
+          Object.fromEntries(
+            Object.entries(fontSizes).map(
+              ([key, value]) => [
+                `.${key}`,
+                { fontSize: value },
+              ],
+            ),
+          ),
+          { variants: ['responsive'] },
+        );
+      }),
+    ],
+    theme: {
+      remDivider: 16, // 기본 remDivider 값 설정
+      fontSizeLimit: 100, // 폰트 크기 제한
+      spacingLimit: 2000, // 간격 제한
+      borderRadiusLimit: 100, // border-radius 제한
     },
   },
   plugins: [tailwindcssAnimate],
