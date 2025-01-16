@@ -1,6 +1,6 @@
 import { IUserProfile } from './user.type';
 
-interface IComment {
+interface ITaskComment {
   content: string;
   updatedAt: string;
   createdAt: string;
@@ -8,30 +8,30 @@ interface IComment {
   user: IUserProfile;
 }
 
-interface GetCommentParams {
+interface GetTaskCommentParams {
   taskId: number;
 }
 
-interface CreateCommentParams {
+interface CreateTaskCommentParams {
   taskId: number;
   content: string;
 }
 
-interface UpdateCommentParams {
+interface UpdateTaskCommentParams {
   taskId: number;
   commentId: number;
   content: string;
 }
 
-interface DeleteCommentParams {
+interface DeleteTaskCommentParams {
   taskId: number;
   commentId: number;
 }
 
 export type {
-  IComment,
-  GetCommentParams,
-  CreateCommentParams,
-  UpdateCommentParams,
-  DeleteCommentParams,
+  ITaskComment,
+  GetTaskCommentParams,
+  CreateTaskCommentParams,
+  UpdateTaskCommentParams,
+  DeleteTaskCommentParams,
 };

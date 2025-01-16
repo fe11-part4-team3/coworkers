@@ -1,53 +1,53 @@
 import {
-  CreateCommentParams,
-  DeleteCommentParams,
-  GetCommentParams,
-  UpdateCommentParams,
+  CreateTaskCommentParams,
+  DeleteTaskCommentParams,
+  GetTaskCommentParams,
+  ITaskComment,
+  UpdateTaskCommentParams,
 } from '@/types/comment.type';
-import { IUserProfile } from '@/types/user.type';
 
 import instance from './axios';
 
-const getComment = async ({
+const getTaskComment = async ({
   taskId,
-}: GetCommentParams): Promise<string> => {
+}: GetTaskCommentParams): Promise<string> => {
   const response = await instance.get(
     `/tasks/${taskId}/comments`,
   );
   return response.data;
 };
 
-const createComment = async ({
+const createTaskComment = async ({
   taskId,
   content,
-}: CreateCommentParams): Promise<IUserProfile> => {
+}: CreateTaskCommentParams): Promise<ITaskComment> => {
   const path = `/tasks/${taskId}/comments`;
   const response = await instance.post(path, { content });
   return response.data;
 };
 
-const updateComment = async ({
+const updateTaskComment = async ({
   taskId,
   commentId,
   content,
-}: UpdateCommentParams): Promise<string> => {
+}: UpdateTaskCommentParams): Promise<string> => {
   const path = `/tasks/${taskId}/comments/${commentId}`;
   const response = await instance.patch(path, { content });
   return response.data;
 };
 
-const deleteComment = async ({
+const deleteTaskComment = async ({
   taskId,
   commentId,
-}: DeleteCommentParams): Promise<string> => {
+}: DeleteTaskCommentParams): Promise<string> => {
   const path = `/tasks/${taskId}/comments/${commentId}`;
   const response = await instance.delete(path);
   return response.data;
 };
 
 export {
-  getComment,
-  createComment,
-  updateComment,
-  deleteComment,
+  getTaskComment,
+  createTaskComment,
+  updateTaskComment,
+  deleteTaskComment,
 };
