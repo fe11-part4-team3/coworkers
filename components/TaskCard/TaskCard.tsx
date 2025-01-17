@@ -1,16 +1,18 @@
 'use client';
 
+import { useState } from 'react';
+
 import {
   Card,
   CardContent,
   CardFooter,
 } from '@/components/ui/card';
 import { newDate, newTime } from '@/utils/dateConversion';
+import type { TaskCardProps } from '@/types/taskCard.type';
+
 import IconText from './IconLabel';
 import KebabButton from './KebabButton';
 import TaskCheckbox from './TaskCheckbox';
-import type { TaskCardProps } from '@/types/taskCard.type';
-import { useState } from 'react';
 
 const frequencyList: Record<string, string> = {
   DAILY: '매일 반복',
