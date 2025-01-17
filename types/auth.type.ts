@@ -26,9 +26,14 @@ interface AuthResponse {
   refreshToken: string;
 }
 
+interface TokenResponse {
+  accessToken: string;
+}
+
 export type {
   SignUpParams,
   SignInParams,
   SignInProviderParams,
   AuthResponse,
+  TokenResponse,
 };

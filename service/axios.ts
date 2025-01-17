@@ -6,6 +6,7 @@ import axios, {
 } from 'axios';
 
 import { useRouter } from 'next/router';
+import { TokenResponse } from '@/types/auth.type';
 
 export const BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? '';
@@ -17,11 +18,6 @@ const instance = axios.create({
     'Content-Type': 'application/json',
   },
 });
-
-// 토큰 응답 타입
-interface TokenResponse {
-  accessToken: string;
-}
 
 // 공개 엔드포인트 목록
 const PUBLIC_ENDPOINTS = {
