@@ -19,7 +19,7 @@ export default function AddTaskList({
 }) {
   const { isOpen, closeModal } = useModalStore();
 
-  const modalRef = useClickOutside({
+  const ref = useClickOutside({
     callback: closeModal,
     isOpen,
   });
@@ -33,7 +33,7 @@ export default function AddTaskList({
 
   return (
     <div
-      ref={modalRef}
+      ref={ref}
       className="absolute flex h-pr-235 w-pr-380 flex-col items-center justify-between rounded-xl bg-popover pb-pr-32 font-medium"
     >
       <div className="relative flex w-full flex-col items-center gap-pr-16 pt-pr-48">

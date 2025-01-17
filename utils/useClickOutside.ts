@@ -15,12 +15,12 @@ export function useClickOutside({
   callback: () => void;
   isOpen: boolean;
 }) {
-  const modalRef = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   const handleClickOutside = (e: MouseEvent) => {
     if (
-      modalRef.current &&
-      !modalRef.current.contains(e.target as Node)
+      ref.current &&
+      !ref.current.contains(e.target as Node)
     ) {
       callback();
     }
@@ -39,5 +39,5 @@ export function useClickOutside({
     };
   }, [isOpen]);
 
-  return modalRef;
+  return ref;
 }
