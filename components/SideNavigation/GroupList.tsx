@@ -1,11 +1,13 @@
+import { useRouter } from 'next/navigation';
+
 import { IGroup } from '@/types/group.type';
+
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarMenuSkeleton,
 } from '../ui/sidebar';
-import { useRouter } from 'next/navigation';
 
 interface GroupListProps {
   groups: IGroup[] | undefined;

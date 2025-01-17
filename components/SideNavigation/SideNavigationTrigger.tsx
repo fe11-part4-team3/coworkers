@@ -1,10 +1,12 @@
 'use client';
 
-import { cn } from '@/lib/utils';
-import { Button, ButtonProps } from '../ui/button';
-import { useSidebar } from '../ui/sidebar';
 import React from 'react';
 import Image from 'next/image';
+
+import { cn } from '@/lib/utils';
+
+import { Button, ButtonProps } from '../ui/button';
+import { useSidebar } from '../ui/sidebar';
 
 interface SideNavigationTriggerProps extends ButtonProps {
   src: string;

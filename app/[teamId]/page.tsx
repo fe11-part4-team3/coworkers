@@ -1,10 +1,11 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+
 import Container from '@/components/layout/Container';
 import getMockGroups from '@/components/SideNavigation/mockGroups';
 import SideNavigationBar from '@/components/SideNavigation/SideNavigation';
 import SideNavigationTrigger from '@/components/SideNavigation/SideNavigationTrigger';
-import { useEffect, useState } from 'react';
 
 export default function TeamPage() {
   const [loading, setLoading] = useState(true);

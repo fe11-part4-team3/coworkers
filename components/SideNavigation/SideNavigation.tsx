@@ -1,5 +1,9 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+
+import { IGroup } from '@/types/group.type';
+
 import {
   Sidebar,
   SidebarContent,
@@ -10,9 +14,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
 } from '../ui/sidebar';
-import { IGroup } from '@/types/group.type';
 import GroupList from './GroupList';
-import { useRouter } from 'next/navigation';
 import SideNavigationTrigger from './SideNavigationTrigger';
 
 interface SNBProps {
