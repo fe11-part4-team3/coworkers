@@ -45,6 +45,7 @@ const eslintConfig = [
     files: ['components/ui/**/*.{js,ts,jsx,tsx}'],
     rules: {
       'tailwindcss/enforces-shorthand': 'off',
+      'prettier/prettier': 'off',
     },
   },
 ];
