@@ -4,17 +4,19 @@ import Container from '@/components/layout/Container';
 import getMockGroups from '@/components/SideNavigation/mockGroups';
 import SideNavigationBar from '@/components/SideNavigation/SideNavigation';
 import SideNavigationTrigger from '@/components/SideNavigation/SideNavigationTrigger';
-import { IGroup } from '@/types/group.type';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function TeamPage() {
   const [loading, setLoading] = useState(true);
-  const [groups, setGroups] = useState<IGroup[]>([]);
+  const groups = getMockGroups(10);
 
   setTimeout(() => {
     setLoading(false);
-    setGroups(getMockGroups(10));
   }, 3000);
+
+  useEffect(() => {
+    setLoading(true);
+  }, []);
 
   return (
     <>

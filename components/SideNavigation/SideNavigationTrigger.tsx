@@ -12,22 +12,23 @@ interface SideNavigationTriggerProps extends ButtonProps {
   iconSize?: number;
 }
 
+/**
+ * 사이드 네비게이션 렌더링 트리거
+ * @param props
+ * @param props.src 아이콘 경로
+ * @param props.alt 버튼 설명
+ * @param props.iconSize 아이콘 크기
+ */
 function SideNavigationTrigger({
   src,
   alt,
   iconSize = 24,
   className,
-  onClick,
   ...props
 }: SideNavigationTriggerProps) {
   const { toggleSidebar } = useSidebar();
 
-  const handleClick = (
-    event: React.MouseEvent<HTMLButtonElement>,
-  ) => {
-    onClick?.(event);
-    toggleSidebar();
-  };
+  const handleClick = () => toggleSidebar();
 
   return (
     <Button

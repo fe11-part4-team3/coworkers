@@ -22,6 +22,14 @@ interface SNBProps {
   skeletonLength?: number | undefined;
 }
 
+/**
+ * 사이드 네비게이션
+ * @param props
+ * @param props.groups 그룹 배열
+ * @param props.loading groups 로딩 여부
+ * @param props.showSkeleton 로딩 시 스켈레톤 표기 여부
+ * @param props.skeletonLength 표기 스켈레톤 요소 수
+ */
 export default function SideNavigation({
   loading,
   groups,
