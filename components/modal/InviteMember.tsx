@@ -1,6 +1,9 @@
+'use client';
+
 import useModalStore from '@/stores/modalStore';
 import ModalButton from '@/components/ModalButton';
 import CloseIcon from '@/public/images/icon-close.svg';
+import { useRef, useEffect } from 'react';
 
 /**
  * 멤버 초대 모달 컴포넌트.
@@ -15,16 +18,43 @@ export default function InviteMember({
   onClick: () => void;
 }) {
   const { isOpen, closeModal } = useModalStore();
+  const modalRef = useRef<HTMLDivElement>(null);
 
-  if (!isOpen) return null;
+  const handleClickOutside = (e: MouseEvent) => {
+    if (
+      modalRef.current &&
+      !modalRef.current.contains(e.target as Node)
+    ) {
+      closeModal();
+    }
+  };
 
   const handleOnclick = () => {
     onClick();
     closeModal();
   };
 
+  useEffect(() => {
+    document.addEventListener(
+      'mousedown',
+      handleClickOutside,
+    );
+
+    return () => {
+      document.removeEventListener(
+        'mousedown',
+        handleClickOutside,
+      );
+    };
+  }, [isOpen]);
+
+  if (!isOpen) return null;
+
   return (
-    <div className="absolute flex h-pr-210 w-pr-380 flex-col items-center justify-between rounded-xl bg-popover pb-pr-32 font-medium">
+    <div
+      ref={modalRef}
+      className="absolute flex h-pr-210 w-pr-380 flex-col items-center justify-between rounded-xl bg-popover pb-pr-32 font-medium"
+    >
       <div className="relative flex w-full flex-col items-center gap-pr-4 pt-pr-48">
         <CloseIcon
           width={20}
