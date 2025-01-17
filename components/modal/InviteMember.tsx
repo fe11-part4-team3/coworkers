@@ -1,5 +1,6 @@
 import useModalStore from '@/stores/modalStore';
 import ModalButton from '@/components/ModalButton';
+import CloseIcon from '@/public/images/icon-close.svg';
 
 /**
  * 멤버 초대 모달 컴포넌트.
@@ -23,8 +24,15 @@ export default function InviteMember({
   };
 
   return (
-    <div className="absolute flex h-pr-210 w-pr-380 flex-col items-center justify-between rounded-xl bg-popover pb-pr-32 pt-pr-48 font-medium">
-      <div className="flex flex-col items-center gap-pr-4">
+    <div className="absolute flex h-pr-210 w-pr-380 flex-col items-center justify-between rounded-xl bg-popover pb-pr-32 font-medium">
+      <div className="relative flex w-full flex-col items-center gap-pr-4 pt-pr-48">
+        <CloseIcon
+          width={20}
+          height={20}
+          fill="#fff"
+          className="absolute right-pr-16 top-pr-16 cursor-pointer"
+          onClick={closeModal}
+        />
         <h2 className="text-lg text-t-primary">
           멤버 초대
         </h2>

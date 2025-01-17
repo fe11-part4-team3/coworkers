@@ -8,6 +8,7 @@ import { ModalStore } from '@/types/modal.type';
  * @method openModal - modal을 여는 함수
  * @method closeModal - modal을 닫는 함수
  */
+
 const useModalStore = create<ModalStore>((set) => ({
   isOpen: false,
   openModal: () => set({ isOpen: true }),
