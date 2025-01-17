@@ -1,10 +1,11 @@
 import { IGroup } from '@/types/group.type';
 import {
   SidebarMenu,
+  SidebarMenuButton,
   SidebarMenuItem,
   SidebarMenuSkeleton,
 } from '../ui/sidebar';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 interface GroupListProps {
   groups: IGroup[] | undefined;
@@ -21,6 +22,8 @@ export default function GroupList({
   showSkeleton,
   skeletonLength,
 }: GroupListProps) {
+  const router = useRouter();
+
   if (loading && showSkeleton) {
     return (
       <GroupListSkeleton skeletonLength={skeletonLength} />
@@ -30,13 +33,12 @@ export default function GroupList({
   return (
     <SidebarMenu className="gap-pr-24">
       {groups.map((group) => (
-        <SidebarMenuItem key={group.id}>
-          <SidebarMenuItem>
-            <Link href={`/${group.id}`}>
-              <span className="text-14m">{group.name}</span>
-            </Link>
-          </SidebarMenuItem>
-        </SidebarMenuItem>
+        <SidebarMenuButton
+          key={group.id}
+          onClick={() => router.push(`/${group.id}`)}
+        >
+          <span className="text-14m">{group.name}</span>
+        </SidebarMenuButton>
       ))}
     </SidebarMenu>
   );
