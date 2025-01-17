@@ -4,10 +4,4 @@ interface ModalStore {
   closeModal: () => void;
 }
 
-interface ModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onClick: () => void;
-}
-
-export type { ModalStore, ModalProps };
+export type { ModalStore };

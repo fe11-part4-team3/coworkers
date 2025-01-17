@@ -1,15 +1,24 @@
-import { ModalProps } from '@/types/modal.type';
+import useModalStore from '@/stores/modalStore';
+
+/**
+ * 멤버 초대 모달 컴포넌트.
+ * 그룹에 참여할 수 있는 링크를 복사하는 기능을 제공합니다.
+ *
+ * @param {Function} onClick - 모달 실행 함수 (링크 복사 기능을 처리하는 함수 전달해주세요.)
+ */
 
 export default function InviteMember({
-  isOpen,
-  onClose,
   onClick,
-}: ModalProps) {
+}: {
+  onClick: () => void;
+}) {
+  const { isOpen, closeModal } = useModalStore();
+
   if (!isOpen) return null;
 
   const handleOnclick = () => {
     onClick();
-    onClose();
+    closeModal();
   };
 
   return (
