@@ -25,7 +25,10 @@ export default function LandingPage() {
       )}
       <div className="flex gap-pr-10">
         {isAuthenticated && user ? (
-          <Link href="/mypage" className={testStyled}>
+          <Link
+            href="/mypage"
+            className="rounded-md bg-b-secondary p-pr-15 text-16"
+          >
             마이페이지
           </Link>
         ) : (
