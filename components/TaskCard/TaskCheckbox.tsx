@@ -3,7 +3,7 @@ import { TaskCheckboxProps } from '@/types/taskCard.type';
 function TaskCheckbox({
   name,
   isChecked,
-  toggleChecked,
+  handleCheckedToggle,
 }: TaskCheckboxProps) {
   return (
     <div className="flex gap-pr-12">
@@ -12,7 +12,7 @@ function TaskCheckbox({
         type="checkbox"
         className="bg-md h-pr-16 w-pr-16 flex-shrink-0 cursor-pointer appearance-none rounded-md border border-solid border-[--t-primary-dark] checked:border-none checked:bg-[url('/images/icon_checked.svg')]"
         checked={isChecked}
-        onChange={toggleChecked}
+        onChange={handleCheckedToggle}
       />
       <div className="grid gap-1.5">
         <label

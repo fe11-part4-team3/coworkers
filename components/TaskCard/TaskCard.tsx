@@ -31,7 +31,7 @@ function TaskCard({
     Boolean(doneAt),
   );
 
-  const toggleChecked = () => {
+  const handleCheckedToggle = () => {
     setIsChecked(!isChecked);
   };
 
@@ -43,7 +43,7 @@ function TaskCard({
         <TaskCheckbox
           name={name}
           isChecked={isChecked}
-          toggleChecked={toggleChecked}
+          handleCheckedToggle={handleCheckedToggle}
         />
         <IconText type="commentCount" text={commentCount} />
         <KebabButton />

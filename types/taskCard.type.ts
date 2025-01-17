@@ -16,7 +16,7 @@ interface IconTextProps {
 interface TaskCheckboxProps {
   name: string;
   isChecked: boolean;
-  toggleChecked: () => void;
+  handleCheckedToggle: () => void;
 }
 
 export type { TaskCard, IconTextProps, TaskCheckboxProps };
