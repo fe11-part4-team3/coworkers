@@ -9,7 +9,7 @@ import IconText from './IconLabel';
 import KebabButton from './KebabButton';
 import TaskCheckbox from './TaskCheckbox';
 import { newDate, newTime } from '@/utils/dateConversion';
-import type { TaskCard } from '@/types/taskCard.type';
+import type { TaskCardProps } from '@/types/taskCard.type';
 import { useState } from 'react';
 
 const frequencyList: Record<string, string> = {
@@ -19,14 +19,23 @@ const frequencyList: Record<string, string> = {
   ONCE: '한 번 실행',
 };
 
+/**
+ * @param param.name string
+ * @param param.description string - 할 일 상세에서 사용될 것 같아 추가하였는데 다른 방법으로 작업 예정이시면 제거 부탁드립니다.
+ * @param param.date string
+ * @param param.doneAt string | null
+ * @param param.commentCount number
+ * @param param.frequency string
+ * @returns 할 일 카드 컴포넌트
+ */
 function TaskCard({
   name,
-  description, // 할 일 상세에서 사용될 것 같아 추가하였는데 다른 방법으로 작업 예정이시면 제거 부탁드립니다.
+  description,
   date,
   doneAt,
   commentCount,
   frequency,
-}: TaskCard) {
+}: TaskCardProps) {
   const [isChecked, setIsChecked] = useState(
     Boolean(doneAt),
   );

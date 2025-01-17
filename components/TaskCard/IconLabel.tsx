@@ -1,5 +1,11 @@
 import { IconTextProps } from '@/types/taskCard.type';
 
+/**
+ * @param param.text string | number
+ * @param param.type calendar | time | repeat | commentCount
+ * @param param.hasBar true
+ * @returns 아이콘과 텍스트 컴포넌트 (날짜, 시간, 반복 일정, 댓글 수)
+ */
 const IconText = ({
   text,
   type,

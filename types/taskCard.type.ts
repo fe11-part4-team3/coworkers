@@ -1,4 +1,4 @@
-interface TaskCard {
+interface TaskCardProps {
   name: string;
   description: string;
   date: string;
@@ -19,4 +19,8 @@ interface TaskCheckboxProps {
   handleCheckedToggle: () => void;
 }
 
-export type { TaskCard, IconTextProps, TaskCheckboxProps };
+export type {
+  TaskCardProps,
+  IconTextProps,
+  TaskCheckboxProps,
+};
