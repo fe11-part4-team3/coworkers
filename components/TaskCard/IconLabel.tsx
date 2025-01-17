@@ -1,8 +1,4 @@
-interface IconTextProps {
-  text: string | number;
-  type: 'calendar' | 'time' | 'repeat' | 'commentCount';
-  hasBar?: true;
-}
+import { IconTextProps } from '@/types/taskCard.type';
 
 const IconText = ({
   text,

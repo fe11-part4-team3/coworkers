@@ -1,8 +1,4 @@
-interface TaskCheckboxProps {
-  name: string;
-  isChecked: boolean;
-  toggleChecked: () => void;
-}
+import { TaskCheckboxProps } from '@/types/taskCard.type';
 
 function TaskCheckbox({
   name,
