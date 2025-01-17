@@ -14,14 +14,12 @@ function TaskCheckbox({
         checked={isChecked}
         onChange={handleCheckedToggle}
       />
-      <div className="grid gap-1.5">
-        <label
-          htmlFor={name}
-          className={`cursor-pointer truncate text-sm font-normal leading-4 ${isChecked ? 'line-through' : ''} `}
-        >
-          {name}
-        </label>
-      </div>
+      <label
+        htmlFor={name}
+        className={`cursor-pointer truncate text-sm font-normal leading-4 ${isChecked ? 'line-through' : ''} `}
+      >
+        {name}
+      </label>
     </div>
   );
 }
