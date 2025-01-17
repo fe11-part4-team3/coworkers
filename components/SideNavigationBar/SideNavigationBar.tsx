@@ -28,7 +28,7 @@ export default function SideNavigationBar({
           <SidebarGroup>
             <SidebarGroupLabel>그룹</SidebarGroupLabel>
             <SidebarGroupContent>
-              컨텐츠
+              <GroupContent groups={groups} />
             </SidebarGroupContent>
           </SidebarGroup>
           <SidebarGroup>
@@ -48,5 +48,21 @@ export default function SideNavigationBar({
         </SidebarContent>
       </Sidebar>
     </div>
+  );
+}
+
+function GroupContent({ groups }: { groups: IGroup[] }) {
+  return (
+    <SidebarMenu>
+      {groups.map((group) => (
+        <SidebarMenuItem key={group.id}>
+          <SidebarMenuItem>
+            <Link href={`/${group.id}`}>
+              <span className="text-14m">{group.name}</span>
+            </Link>
+          </SidebarMenuItem>
+        </SidebarMenuItem>
+      ))}
+    </SidebarMenu>
   );
 }
