@@ -13,11 +13,11 @@ const IconText = ({
 }: IconTextProps) => {
   const iconClass = {
     calendar:
-      "before:bg-[url('/images/icon_calendar.svg')]",
-    time: "before:bg-[url('/images/icon_time.svg')]",
-    repeat: "before:bg-[url('/images/icon_repeat.svg')]",
+      "before:bg-[url('/images/icon-calendar.svg')]",
+    time: "before:bg-[url('/images/icon-time.svg')]",
+    repeat: "before:bg-[url('/images/icon-repeat.svg')]",
     commentCount:
-      "before:bg-[url('/images/icon_comment.svg')]",
+      "before:bg-[url('/images/icon-comment.svg')]",
   }[type];
 
   return (
