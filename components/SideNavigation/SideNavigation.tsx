@@ -13,6 +13,7 @@ import {
 import { IGroup } from '@/types/group.type';
 import GroupList from './GroupList';
 import { useRouter } from 'next/navigation';
+import SideNavigationTrigger from './SideNavigationTrigger';
 
 interface SNBProps {
   loading?: boolean | undefined;
@@ -21,7 +22,7 @@ interface SNBProps {
   skeletonLength?: number | undefined;
 }
 
-export default function SideNavigationBar({
+export default function SideNavigation({
   loading,
   groups,
   showSkeleton,
@@ -32,7 +33,12 @@ export default function SideNavigationBar({
   return (
     <div className="fixed left-0 top-0">
       <Sidebar className="border-none">
-        <SidebarHeader className="items-end"></SidebarHeader>
+        <SidebarHeader className="items-end">
+          <SideNavigationTrigger
+            src="images/icon-close-x.svg"
+            alt="사이드 네비게이션 닫기"
+          />
+        </SidebarHeader>
         <SidebarContent>
           <SidebarGroup>
             <SidebarGroupLabel>그룹</SidebarGroupLabel>
