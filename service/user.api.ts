@@ -14,9 +14,27 @@ import instance from './axios';
 /**
  * **※인증 필요**
  */
-const getUser = async (): Promise<IUserDetail> => {
-  const response = await instance.get('/user');
-  return response.data;
+const getUser = async (
+  accessToken: string | null,
+): Promise<IUserDetail | null> => {
+  if (!accessToken) {
+    return null;
+  } else {
+    try {
+      const response = await instance.get('/user', {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error(
+        '유저 정보를 불러오지 못했습니다.',
+        error,
+      );
+      return null;
+    }
+  }
 };
 
 /**
@@ -40,26 +58,42 @@ const updateUser = async ({
  *
  * 회원 탈퇴
  */
-const deleteUser = async (): Promise<boolean> => {
-  const response = await instance.delete('/user');
+const deleteUser = async (
+  accessToken: string | null,
+): Promise<boolean> => {
+  const response = await instance.delete('/user', {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
   return response.status === 204;
 };
 
 /**
  * **※인증 필요**
  */
-const getGroupList = async (): Promise<IGroup[]> => {
-  const response = await instance.get('/user/groups');
+const getGroupList = async (
+  accessToken: string | null,
+): Promise<IGroup[]> => {
+  const response = await instance.get('/user/groups', {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
   return response.data;
 };
 
 /**
  * **※인증 필요**
  */
-const getMembershipList = async (): Promise<
-  IMembership[]
-> => {
-  const response = await instance.get('/user/memberships');
+const getMembershipList = async (
+  accessToken: string | null,
+): Promise<IMembership[]> => {
+  const response = await instance.get('/user/memberships', {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
   return response.data;
 };
 
@@ -68,8 +102,14 @@ const getMembershipList = async (): Promise<
  *
  * 완료한 작업 조회
  */
-const getHistory = async (): Promise<ITaskMetadata[]> => {
-  const response = await instance.get('/user/history');
+const getHistory = async (
+  accessToken: string | null,
+): Promise<ITaskMetadata[]> => {
+  const response = await instance.get('/user/history', {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
   return response.data.taskDone;
 };
 
@@ -85,7 +125,10 @@ const resetPasswordEmail = async ({
 }: ResetPasswordEmailParams): Promise<string> => {
   const response = await instance.post(
     '/user/send-reset-password-email',
-    { email, redirectUrl },
+    {
+      email,
+      redirectUrl,
+    },
   );
   return response.data.message;
 };
