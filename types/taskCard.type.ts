@@ -1,6 +1,5 @@
 interface TaskCardProps {
   name: string;
-  description: string;
   date: string;
   doneAt: string | null;
   commentCount: number;

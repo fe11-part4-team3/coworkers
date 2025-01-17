@@ -5,10 +5,10 @@ import {
   CardContent,
   CardFooter,
 } from '@/components/ui/card';
+import { newDate, newTime } from '@/utils/dateConversion';
 import IconText from './IconLabel';
 import KebabButton from './KebabButton';
 import TaskCheckbox from './TaskCheckbox';
-import { newDate, newTime } from '@/utils/dateConversion';
 import type { TaskCardProps } from '@/types/taskCard.type';
 import { useState } from 'react';
 
@@ -21,7 +21,6 @@ const frequencyList: Record<string, string> = {
 
 /**
  * @param param.name string
- * @param param.description string - 할 일 상세에서 사용될 것 같아 추가하였는데 다른 방법으로 작업 예정이시면 제거 부탁드립니다.
  * @param param.date string
  * @param param.doneAt string | null
  * @param param.commentCount number
@@ -30,7 +29,6 @@ const frequencyList: Record<string, string> = {
  */
 function TaskCard({
   name,
-  description,
   date,
   doneAt,
   commentCount,

@@ -91,7 +91,6 @@ export default function TestTaskCard() {
           <TaskCard
             key={task.id}
             name={task.name}
-            description={task.description}
             date={task.date}
             doneAt={task.doneAt}
             commentCount={task.commentCount}
