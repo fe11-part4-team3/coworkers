@@ -1,4 +1,5 @@
 import useModalStore from '@/stores/modalStore';
+import ModalButton from '@/components/ModalButton';
 
 /**
  * 멤버 초대 모달 컴포넌트.
@@ -31,12 +32,11 @@ export default function InviteMember({
           그룹에 참여할 수 있는 링크를 복사합니다.
         </p>
       </div>
-      <button
+      <ModalButton
+        text="링크 복사하기"
         onClick={handleOnclick}
-        className="font-semiBold flex h-pr-48 w-pr-280 items-center justify-center rounded-xl bg-brand-primary text-lg text-white"
-      >
-        링크 복사하기
-      </button>
+        color="primary"
+      />
     </div>
   );
 }
