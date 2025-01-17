@@ -11,6 +11,7 @@ import './globals-custom.css';
 
 import { ThemeProvider } from '@/utils/theme-provider';
 import DarkmodeToggle from '@/components/DarkmodeToggle';
+import { SidebarProvider } from '@/components/ui/sidebar';
 
 const queryClient = new QueryClient();
 
@@ -29,8 +30,10 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <QueryClientProvider client={queryClient}>
-            <DarkmodeToggle />
-            {children}
+            <SidebarProvider defaultOpen={false}>
+              <DarkmodeToggle />
+              {children}
+            </SidebarProvider>
             <ReactQueryDevtools initialIsOpen={false} />
           </QueryClientProvider>
         </ThemeProvider>
