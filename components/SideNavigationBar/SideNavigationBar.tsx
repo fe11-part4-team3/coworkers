@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import {
   Sidebar,
   SidebarContent,
@@ -9,17 +8,27 @@ import {
   SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
-  SidebarMenuItem,
+  SidebarMenuButton,
 } from '../ui/sidebar';
 import { IGroup } from '@/types/group.type';
+import GroupList from './GroupList';
+import { useRouter } from 'next/navigation';
 
 interface SNBProps {
-  groups: IGroup[];
+  loading?: boolean | undefined;
+  groups?: IGroup[] | undefined;
+  showSkeleton?: boolean | undefined;
+  skeletonLength?: number | undefined;
 }
 
 export default function SideNavigationBar({
+  loading,
   groups,
+  showSkeleton,
+  skeletonLength,
 }: SNBProps) {
+  const router = useRouter();
+
   return (
     <div className="fixed left-0 top-0">
       <Sidebar className="border-none">
@@ -28,41 +37,31 @@ export default function SideNavigationBar({
           <SidebarGroup>
             <SidebarGroupLabel>그룹</SidebarGroupLabel>
             <SidebarGroupContent>
-              <GroupContent groups={groups} />
+              <GroupList
+                groups={groups}
+                loading={loading}
+                showSkeleton={showSkeleton}
+                skeletonLength={skeletonLength}
+              />
             </SidebarGroupContent>
           </SidebarGroup>
           <SidebarGroup>
-            <SidebarGroupLabel>기타</SidebarGroupLabel>
+            <SidebarGroupLabel>
+              네비게이션
+            </SidebarGroupLabel>
             <SidebarGroupContent>
-              <SidebarMenu>
-                <SidebarMenuItem>
-                  <Link href="/boards">
-                    <span className="text-14m">
-                      자유게시판
-                    </span>
-                  </Link>
-                </SidebarMenuItem>
+              <SidebarMenu className="gap-pr-24">
+                <SidebarMenuButton
+                  className="text-14m"
+                  onClick={() => router.push('/boards')}
+                >
+                  <span>자유게시판</span>
+                </SidebarMenuButton>
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
         </SidebarContent>
       </Sidebar>
     </div>
-  );
-}
-
-function GroupContent({ groups }: { groups: IGroup[] }) {
-  return (
-    <SidebarMenu>
-      {groups.map((group) => (
-        <SidebarMenuItem key={group.id}>
-          <SidebarMenuItem>
-            <Link href={`/${group.id}`}>
-              <span className="text-14m">{group.name}</span>
-            </Link>
-          </SidebarMenuItem>
-        </SidebarMenuItem>
-      ))}
-    </SidebarMenu>
   );
 }
