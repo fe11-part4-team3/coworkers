@@ -14,7 +14,7 @@ import instance from './axios';
 /**
  * **※인증 필요**
  */
-const getUser = async (): Promise<IUserDetail> => {
+const getUser = async (): Promise<IUserDetail | null> => {
   const response = await instance.get('/user');
   return response.data;
 };
@@ -40,7 +40,9 @@ const updateUser = async ({
  *
  * 회원 탈퇴
  */
-const deleteUser = async (): Promise<boolean> => {
+const deleteUser = async (
+  accessToken: string | null,
+): Promise<boolean> => {
   const response = await instance.delete('/user');
   return response.status === 204;
 };
@@ -48,7 +50,9 @@ const deleteUser = async (): Promise<boolean> => {
 /**
  * **※인증 필요**
  */
-const getGroupList = async (): Promise<IGroup[]> => {
+const getGroupList = async (
+  accessToken: string | null,
+): Promise<IGroup[]> => {
   const response = await instance.get('/user/groups');
   return response.data;
 };
@@ -56,9 +60,9 @@ const getGroupList = async (): Promise<IGroup[]> => {
 /**
  * **※인증 필요**
  */
-const getMembershipList = async (): Promise<
-  IMembership[]
-> => {
+const getMembershipList = async (
+  accessToken: string | null,
+): Promise<IMembership[]> => {
   const response = await instance.get('/user/memberships');
   return response.data;
 };
@@ -68,7 +72,9 @@ const getMembershipList = async (): Promise<
  *
  * 완료한 작업 조회
  */
-const getHistory = async (): Promise<ITaskMetadata[]> => {
+const getHistory = async (
+  accessToken: string | null,
+): Promise<ITaskMetadata[]> => {
   const response = await instance.get('/user/history');
   return response.data.taskDone;
 };
@@ -85,7 +91,10 @@ const resetPasswordEmail = async ({
 }: ResetPasswordEmailParams): Promise<string> => {
   const response = await instance.post(
     '/user/send-reset-password-email',
-    { email, redirectUrl },
+    {
+      email,
+      redirectUrl,
+    },
   );
   return response.data.message;
 };
