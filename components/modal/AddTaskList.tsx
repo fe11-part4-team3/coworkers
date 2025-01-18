@@ -3,8 +3,7 @@
 import useModalStore from '@/stores/modalStore';
 import Button from '@/components/Button';
 import CloseIcon from '@/public/images/icon-close.svg';
-
-import ModalBase from './ModalBase';
+import ModalBase from '@/components/modal/ModalBase';
 
 /**
  * 할 일 목록 추가 모달 컴포넌트.
@@ -23,8 +22,8 @@ export default function AddTaskList({ onClick }: { onClick: () => void }) {
 
   return (
     <>
-      <ModalBase className="h-pr-235">
-        <div className="relative flex w-full flex-col items-center gap-pr-16 pt-pr-48">
+      <ModalBase>
+        <div className="relative mb-pr-24 flex w-full flex-col items-center gap-pr-16 pt-pr-48">
           <CloseIcon
             width={20}
             height={20}
