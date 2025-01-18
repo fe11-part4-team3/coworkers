@@ -1,8 +1,9 @@
 'use client';
 
 import useModalStore from '@/stores/modalStore';
-import ModalButton from '@/components/ModalButton';
+import Button from '@/components/Button';
 import CloseIcon from '@/public/images/icon-close.svg';
+import ModalBase from './ModalBase';
 
 /**
  * 할 일 목록 추가 모달 컴포넌트.
@@ -11,27 +12,17 @@ import CloseIcon from '@/public/images/icon-close.svg';
  * @param {Function} onClick - 모달 실행 함수 (할 일 목록 추가 기능을 처리하는 함수 전달해주세요.)
  */
 
-export default function AddTaskList({
-  onClick,
-}: {
-  onClick: () => void;
-}) {
-  const { isOpen, closeModal } = useModalStore();
+export default function AddTaskList({ onClick }: { onClick: () => void }) {
+  const { closeModal } = useModalStore();
 
   const handleOnClick = () => {
     onClick();
     closeModal();
   };
 
-  if (!isOpen) return null;
-
   return (
     <>
-      <div
-        className="fixed inset-0 z-10 bg-black bg-opacity-50"
-        onClick={closeModal}
-      />
-      <div className="absolute z-20 flex h-pr-235 w-pr-380 flex-col items-center justify-between rounded-xl bg-popover pb-pr-32">
+      <ModalBase className="h-pr-235 w-pr-380">
         <div className="relative flex w-full flex-col items-center gap-pr-16 pt-pr-48">
           <CloseIcon
             width={20}
@@ -40,18 +31,17 @@ export default function AddTaskList({
             className="absolute right-pr-16 top-pr-16 cursor-pointer"
             onClick={closeModal}
           />
-          <h2 className="text-18 text-t-primary">
-            할 일 목록
-          </h2>
+          <h2 className="text-18 text-t-primary">할 일 목록</h2>
           {/* input 컴포넌트 제작 전 임시로 그냥 input으로 대체 */}
           <input />
         </div>
-        <ModalButton
+        <Button
           text="만들기"
           onClick={handleOnClick}
           color="primary"
+          className="w-pr-280"
         />
-      </div>
+      </ModalBase>
     </>
   );
 }

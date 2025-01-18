@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 
 /**
  * 외부 클릭 감지 훅 (ex. 모달 외부 클릭 시 모달 닫기)
@@ -18,25 +18,19 @@ export function useClickOutside({
 }) {
   const ref = useRef<HTMLDivElement>(null);
 
-  const handleClickOutside = (e: MouseEvent) => {
-    if (
-      ref.current &&
-      !ref.current.contains(e.target as Node)
-    ) {
-      callback();
-    }
-  };
+  const handleClickOutside = useCallback(
+    (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        callback();
+      }
+    },
+    [callback],
+  );
 
   useEffect(() => {
-    document.addEventListener(
-      'mousedown',
-      handleClickOutside,
-    );
+    document.addEventListener('mousedown', handleClickOutside);
     return () => {
-      document.removeEventListener(
-        'mousedown',
-        handleClickOutside,
-      );
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isOpen]);
 

@@ -13,26 +13,22 @@
  * @returns {JSX.Element} 렌더링된 버튼 컴포넌트
  */
 
-export default function ModalButton({
+export default function Button({
   text,
   onClick,
   color,
+  className,
 }: {
   text: string;
   onClick: () => void;
-  color:
-    | 'primary'
-    | 'primaryReverse'
-    | 'danger'
-    | 'dangerReverse';
+  color: 'primary' | 'primaryReverse' | 'danger' | 'dangerReverse';
+  className?: string;
 }) {
   const buttonStyle = {
     primary: 'bg-brand-primary text-white',
-    primaryReverse:
-      'bg-white text-brand-primary border border-brand-primary',
+    primaryReverse: 'bg-white text-brand-primary border border-brand-primary',
     danger: 'bg-s-danger text-white',
-    dangerReverse:
-      'bg-white text-t-default border border-t-default',
+    dangerReverse: 'bg-white text-t-default border border-t-default',
   };
 
   const style = buttonStyle[color];
@@ -40,7 +36,7 @@ export default function ModalButton({
   return (
     <button
       onClick={onClick}
-      className={`${style} text-16sm flex h-pr-48 w-pr-280 items-center justify-center rounded-xl`}
+      className={`${style} ${className} text-16sm flex h-pr-48 items-center justify-center rounded-xl`}
     >
       {text}
     </button>
