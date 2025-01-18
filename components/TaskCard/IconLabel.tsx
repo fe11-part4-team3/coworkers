@@ -8,12 +8,10 @@ import { IconTextProps } from '@/types/taskCard.type';
  */
 function IconText({ text, type, hasBar }: IconTextProps) {
   const iconClass = {
-    calendar:
-      "before:bg-[url('/images/icon-calendar.svg')]",
+    calendar: "before:bg-[url('/images/icon-calendar.svg')]",
     time: "before:bg-[url('/images/icon-time.svg')]",
     repeat: "before:bg-[url('/images/icon-repeat.svg')]",
-    commentCount:
-      "before:bg-[url('/images/icon-comment.svg')]",
+    commentCount: "before:bg-[url('/images/icon-comment.svg')]",
   }[type];
 
   return (
