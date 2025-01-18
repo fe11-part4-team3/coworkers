@@ -5,7 +5,7 @@ import { InputFieldProps } from '@/types/inputField.type';
 import { Input } from '../ui/input';
 import ErrorMessage from './ErrorMessage';
 import InputLabel from './InputLabel';
-import VisibilityToggle from './visibilityToggle';
+import HideToggle from './HideToggle';
 
 // input 공통 스타일
 export const inputStyled =
@@ -71,7 +71,7 @@ export default function InputField({
               변경하기
             </button>
           ) : (
-            <VisibilityToggle
+            <HideToggle
               togglePassword={togglePassword}
               showPassword={showPassword}
             />
