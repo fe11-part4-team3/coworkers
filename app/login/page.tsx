@@ -9,6 +9,7 @@ import { useAuth } from '@/hooks/useAuth';
 import useUserInfo from '@/hooks/useUserInfo';
 import { testStyled } from '@/styles/test.styles';
 import useForm from '@/hooks/useForm';
+import errorCatch from '@/utils/error';
 
 function LoginPage() {
   const { formData, handleChange } = useForm({
@@ -42,9 +43,9 @@ function LoginPage() {
       }
       alert('로그인 되었습니다.');
       route.push('/');
-    } catch (err) {
-      console.error('로그인 실패:', err);
+    } catch (e) {
       setError('이메일 또는 비밀번호가 올바르지 않습니다.');
+      errorCatch(e as Error);
     }
   };
 
