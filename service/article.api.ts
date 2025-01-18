@@ -54,9 +54,7 @@ const getArticleList = async ({
 const getArticleDetail = async ({
   articleId,
 }: GetArticleDetailParams): Promise<IArticleDetail> => {
-  const response = await instance.get(
-    `/article/${articleId}`,
-  );
+  const response = await instance.get(`/article/${articleId}`);
   return response.data;
 };
 
@@ -66,10 +64,11 @@ const updateArticle = async ({
   content,
   title,
 }: UpdateArticleParams): Promise<IArticleDetail> => {
-  const response = await instance.patch(
-    `/article/${articleId}`,
-    { image, content, title },
-  );
+  const response = await instance.patch(`/article/${articleId}`, {
+    image,
+    content,
+    title,
+  });
   return response.data;
 };
 
@@ -79,27 +78,21 @@ const updateArticle = async ({
 const deleteArticle = async ({
   articleId,
 }: DeleteArticleDetailParams): Promise<number> => {
-  const response = await instance.delete(
-    `/article/${articleId}`,
-  );
+  const response = await instance.delete(`/article/${articleId}`);
   return response.data.id;
 };
 
 const likeArticle = async ({
   articleId,
 }: LikeArticleParams): Promise<IArticleDetail> => {
-  const response = await instance.post(
-    `/article/${articleId}/like`,
-  );
+  const response = await instance.post(`/article/${articleId}/like`);
   return response.data;
 };
 
 const unlikeArticle = async ({
   articleId,
 }: UnlikeArticleParams): Promise<IArticleDetail> => {
-  const response = await instance.delete(
-    `/article/${articleId}/like`,
-  );
+  const response = await instance.delete(`/article/${articleId}/like`);
   return response.data;
 };
 

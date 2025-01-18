@@ -16,18 +16,12 @@ import instance from './axios';
  * ```
  * @returns 이미지 url
  */
-const uploadImage = async (
-  image: FormData,
-): Promise<string> => {
-  const response = await instance.post(
-    '/images/upload',
-    image,
-    {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
+const uploadImage = async (image: FormData): Promise<string> => {
+  const response = await instance.post('/images/upload', image, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
     },
-  );
+  });
   return response.data.url;
 };
 
