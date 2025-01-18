@@ -1,19 +1,17 @@
 import { IconTextProps } from '@/types/taskCard.type';
 
 /**
- * @param param.text string | number
- * @param param.type calendar | time | repeat | commentCount
- * @param param.hasBar true
- * @returns 아이콘과 텍스트 컴포넌트 (날짜, 시간, 반복 일정, 댓글 수)
+ * @param {string | number} text - 텍스트 (날짜, 시간, 반복 일정, 댓글 수)
+ * @param {'calendar' | 'time' | 'repeat' | 'commentCount'} type - 아이콘 타입
+ * @param {boolean} hasBar - 해당 컴포넌트 우측 바 표시 여부
+ * @returns {JSX.Element} 아이콘과 텍스트 컴포넌트 (날짜, 시간, 반복 일정, 댓글 수)
  */
 function IconText({ text, type, hasBar }: IconTextProps) {
   const iconClass = {
-    calendar:
-      "before:bg-[url('/images/icon-calendar.svg')]",
+    calendar: "before:bg-[url('/images/icon-calendar.svg')]",
     time: "before:bg-[url('/images/icon-time.svg')]",
     repeat: "before:bg-[url('/images/icon-repeat.svg')]",
-    commentCount:
-      "before:bg-[url('/images/icon-comment.svg')]",
+    commentCount: "before:bg-[url('/images/icon-comment.svg')]",
   }[type];
 
   return (
