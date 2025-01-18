@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { getUser } from '@/service/user.api';
 import useUserStore from '@/store/useUser.store';
 import { useAuth } from '@/hooks/useAuth';
+import { IUserDetail } from '@/types/user.type';
 
 /**
  * 사용자 정보를 불러오는 커스텀 훅
@@ -20,7 +21,8 @@ const useUserInfo = () => {
     // 사용자 정보를 불러오는 비동기 함수
     const fetchUserInfo = async () => {
       try {
-        const userInfo = await getUser(accessToken);
+        const userInfo: IUserDetail | null =
+          await getUser(accessToken);
         if (userInfo) {
           setUser(userInfo);
         }
