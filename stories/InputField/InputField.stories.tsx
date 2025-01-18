@@ -19,14 +19,13 @@ export default {
     placeholder: { control: 'text' },
     error: { control: 'text' },
     disabled: { control: 'boolean' },
+    width: { control: 'text' },
     onChange: { action: 'changed' },
     onClick: { action: 'clicked' },
   },
 } as Meta;
 
-const Template: StoryFn<InputFieldProps> = (args) => (
-  <InputField {...args} />
-);
+const Template: StoryFn<InputFieldProps> = (args) => <InputField {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
@@ -54,4 +53,14 @@ Password.args = {
   label: 'Password',
   placeholder: 'Enter your password',
   disabled: false,
+};
+
+export const CustomWidth = Template.bind({});
+CustomWidth.args = {
+  type: 'text',
+  value: '',
+  label: 'Label',
+  placeholder: 'Placeholder를 작성해주세요',
+  disabled: false,
+  width: 'w-pr-300',
 };
