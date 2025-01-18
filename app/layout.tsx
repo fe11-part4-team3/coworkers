@@ -9,6 +9,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import './globals.css';
 import { ThemeProvider } from '@/utils/theme-provider';
 import DarkmodeToggle from '@/components/DarkmodeToggle';
+import Headers from '@/components/layout/Header/Headers';
 
 const queryClient = new QueryClient();
 
@@ -27,6 +28,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <QueryClientProvider client={queryClient}>
+            <Headers />
             <DarkmodeToggle />
             {children}
             <ReactQueryDevtools initialIsOpen={false} />
