@@ -1,7 +1,6 @@
 'use client';
 
 import AddTaskList from '@/components/modal/AddTaskList';
-import InviteMember from '@/components/modal/InviteMember';
 import useModalStore from '@/stores/modalStore';
 
 export default function TaskListPage() {

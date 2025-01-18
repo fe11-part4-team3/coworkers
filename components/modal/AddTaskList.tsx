@@ -3,6 +3,7 @@
 import useModalStore from '@/stores/modalStore';
 import Button from '@/components/Button';
 import CloseIcon from '@/public/images/icon-close.svg';
+
 import ModalBase from './ModalBase';
 
 /**
@@ -22,7 +23,7 @@ export default function AddTaskList({ onClick }: { onClick: () => void }) {
 
   return (
     <>
-      <ModalBase className="h-pr-235 w-pr-380">
+      <ModalBase className="h-pr-235">
         <div className="relative flex w-full flex-col items-center gap-pr-16 pt-pr-48">
           <CloseIcon
             width={20}

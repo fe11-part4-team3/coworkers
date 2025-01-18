@@ -26,7 +26,7 @@ export default function ModalBase({
         onClick={closeModal}
       />
       <div
-        className={`${className} absolute z-20 flex flex-col items-center justify-between rounded-xl bg-popover pb-pr-32`}
+        className={`${className} absolute z-20 flex w-pr-380 flex-col items-center justify-between rounded-xl bg-popover pb-pr-32 mo:rounded-b-none`}
       >
         {children}
       </div>

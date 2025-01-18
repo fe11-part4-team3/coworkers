@@ -24,11 +24,7 @@ export default function InviteMember({ onClick }: { onClick: () => void }) {
 
   return (
     <>
-      <div
-        className="fixed inset-0 z-10 bg-black bg-opacity-50"
-        onClick={closeModal}
-      />
-      <div className="absolute z-20 flex h-pr-210 w-pr-380 flex-col items-center justify-between rounded-xl bg-popover pb-pr-32">
+      <ModalBase className="h-pr-210 mo:h-pr-195">
         <div className="relative flex w-full flex-col items-center gap-pr-8 pt-pr-48">
           <CloseIcon
             width={20}
@@ -48,7 +44,7 @@ export default function InviteMember({ onClick }: { onClick: () => void }) {
           color="primary"
           className="w-pr-280"
         />
-      </div>
+      </ModalBase>
     </>
   );
 }

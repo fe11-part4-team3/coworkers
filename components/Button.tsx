@@ -36,7 +36,7 @@ export default function Button({
   return (
     <button
       onClick={onClick}
-      className={`${style} ${className} text-16sm flex h-pr-48 items-center justify-center rounded-xl`}
+      className={`${style} ${className} flex h-pr-48 items-center justify-center rounded-xl text-16sb`}
     >
       {text}
     </button>
