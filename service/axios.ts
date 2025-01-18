@@ -28,20 +28,10 @@ const PUBLIC_ENDPOINTS = {
     '/auth/{provider}',
   ],
   get: [
-    '/user',
-    '/user/*',
-    '/groups',
-    '/groups/*',
-    '/groups/*/tasks',
-    '/groups/*/task-lists/*',
-    '/groups/*/task-lists/*/tasks',
-    '/groups/*/task-lists/*/tasks/*',
-    '/groups/*/member/*',
-    '/groups/*/invitation',
+    '/user/reset-password',
     '/articles',
     '/articles/*',
     '/articles/*/comments',
-    '/tasks/*/comments',
   ],
 } as const;
 
