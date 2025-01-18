@@ -4,6 +4,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from 'react';
 
@@ -40,8 +41,10 @@ export function DeviceTypeProvider({
     return () => window.removeEventListener('resize', handleResize);
   }, [handleResize]);
 
+  const value = useMemo(() => deviceType, [deviceType]);
+
   return (
-    <DeviceTypeContext.Provider value={deviceType}>
+    <DeviceTypeContext.Provider value={value}>
       {children}
     </DeviceTypeContext.Provider>
   );
