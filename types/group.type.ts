@@ -1,7 +1,7 @@
-enum Role {
-  ADMIN,
-  MEMBER,
-}
+// enum Role {
+//   ADMIN,
+//   MEMBER,
+// }
 
 interface IGroup {
   teamId: string;
@@ -13,7 +13,7 @@ interface IGroup {
 }
 
 interface IMember {
-  role: Role;
+  role: 'ADMIN' | 'MEMBER';
   userImage: string | null;
   userEmail: string;
   userName: string;
@@ -92,7 +92,7 @@ interface GetTasksInGroupParams {
   date: string;
 }
 
-export { Role };
+// export { Role };
 export type {
   IMember,
   IGroup,
