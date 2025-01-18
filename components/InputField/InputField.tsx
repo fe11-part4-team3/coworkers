@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { Input } from '../ui/input';
-import VisibilityToggle from './visibilityToggle';
+import VisibilityToggle from './VisibilityToggle';
 
 export interface InputFieldProps {
   value: string;
