@@ -1,21 +1,23 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import Logo from './Logo';
-import Profile from './Profile';
 import Image from 'next/image';
 import Link from 'next/link';
+import Logo from './Logo';
+import Profile from './Profile';
 
 function Headers() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [teamId, setTeamId] = useState<string | null>('');
-  const [profileImage, setProfileImage] = useState<
-    string | undefined
-  >(undefined);
+  const [profileImage, setProfileImage] = useState<string | undefined>(
+    undefined,
+  );
 
   // TODO : 팀 아이디를 가져오는 로직이 필요합니다.
   useEffect(() => {
     setTeamId('경영지원팀');
+    setIsLoggedIn(false);
+    setProfileImage('/images/img-Profile.svg');
   }, []);
 
   return (
@@ -45,10 +47,7 @@ function Headers() {
         </nav>
 
         {isLoggedIn && (
-          <Profile
-            userName="안해나"
-            profileImage={profileImage}
-          />
+          <Profile userName="안해나" profileImage={profileImage} />
         )}
       </div>
     </header>

@@ -7,7 +7,7 @@ import useUserInfo from '@/hooks/useUserInfo';
 import { useAuth } from '@/hooks/useAuth';
 import { testStyled } from '@/styles/test.styles';
 import Container from '@/components/layout/Container';
-import Header from '@/components/layout/Header/Headers';
+
 export default function LandingPage() {
   const { isAuthenticated } = useAuth();
   const { user } = useUserStore((state) => state);

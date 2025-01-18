@@ -6,16 +6,13 @@ interface ProfileProps {
   profileImage?: string;
 }
 
-const Profile: React.FC<ProfileProps> = ({
-  userName,
-  profileImage,
-}) => {
+const Profile: React.FC<ProfileProps> = ({ userName, profileImage }) => {
   return (
     <div className="flex items-center space-x-2">
       <Image
         src={profileImage || '/images/img-BasicProfile.svg'}
         alt="프로필 사진"
-        className="h-pr-16 w-pr-16 rounded-full"
+        className="size-pr-16 rounded-full"
         width={16}
         height={16}
       />
