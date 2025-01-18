@@ -18,7 +18,7 @@ export default function VisibilityToggle({
     <button
       type="button"
       onClick={togglePassword}
-      className="absolute right-pr-16 top-1/2 -translate-y-1/2 transform"
+      className="absolute right-pr-16 top-1/2 -translate-y-1/2"
     >
       <Image
         src={
