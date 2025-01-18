@@ -3,10 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-import {
-  deleteUser,
-  updatePassword,
-} from '@/service/user.api';
+import { deleteUser, updatePassword } from '@/service/user.api';
 import useUserStore from '@/store/useUser.store';
 import { useAuth } from '@/hooks/useAuth';
 import useUserInfo from '@/hooks/useUserInfo';
@@ -20,8 +17,7 @@ export default function MyPage() {
     password: '',
   });
   // 인증된 사용자인지 확인
-  const { clearToken, isAuthenticated, accessToken } =
-    useAuth();
+  const { clearToken, isAuthenticated, accessToken } = useAuth();
 
   // 사용자 정보 상태 및 초기화 함수
   const { user, clearUser } = useUserStore();
@@ -43,9 +39,7 @@ export default function MyPage() {
 
   // 회원탈퇴 버튼 클릭 시
   const handleUserDelete = async () => {
-    const confirm = window.confirm(
-      '정말로 회원탈퇴를 진행하시겠습니까?',
-    );
+    const confirm = window.confirm('정말로 회원탈퇴를 진행하시겠습니까?');
     if (confirm) {
       // 회원탈퇴 요청
       try {

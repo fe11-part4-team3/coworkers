@@ -21,8 +21,7 @@ function LoginPage() {
   const route = useRouter();
 
   // 인증된 사용자인지 확인
-  const { setAccessToken, isAuthenticated, accessToken } =
-    useAuth();
+  const { setAccessToken, isAuthenticated, accessToken } = useAuth();
 
   // 사용자 정보 상태 및 초기화 함수
   const { user } = useUserStore();
@@ -36,10 +35,7 @@ function LoginPage() {
     setError(null);
 
     try {
-      const response = await signIn(
-        formData,
-        setAccessToken,
-      );
+      const response = await signIn(formData, setAccessToken);
 
       if (response.accessToken) {
         setAccessToken(response.accessToken);
