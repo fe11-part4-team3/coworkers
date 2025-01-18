@@ -31,7 +31,7 @@ export default function InviteMember({
         className="fixed inset-0 z-10 bg-black bg-opacity-50"
         onClick={closeModal}
       />
-      <div className="absolute flex h-pr-210 w-pr-380 flex-col items-center justify-between rounded-xl bg-popover pb-pr-32 font-medium">
+      <div className="absolute z-20 flex h-pr-210 w-pr-380 flex-col items-center justify-between rounded-xl bg-popover pb-pr-32 font-medium">
         <div className="relative flex w-full flex-col items-center gap-pr-4 pt-pr-48">
           <CloseIcon
             width={20}
