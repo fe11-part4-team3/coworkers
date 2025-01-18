@@ -1,7 +1,5 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-
 import Container from '@/components/layout/Container';
 import getMockGroups from '@/components/SideNavigation/mockGroups';
 import SideNavigationBar from '@/components/SideNavigation/SideNavigation';
@@ -19,22 +17,13 @@ const MOCK_MEMBER: IMember = {
 };
 
 export default function TeamPage() {
-  const [loading, setLoading] = useState(true);
   const groups = getMockGroups(10);
-
-  setTimeout(() => {
-    setLoading(false);
-  }, 3000);
-
-  useEffect(() => {
-    setLoading(true);
-  }, []);
 
   return (
     <>
       <SideNavigationBar
         groups={groups}
-        loading={loading}
+        loading={false}
         showSkeleton={true}
         skeletonLength={10}
       />

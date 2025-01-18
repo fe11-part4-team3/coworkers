@@ -41,7 +41,7 @@ export default function SideNavigation({
   const router = useRouter();
 
   return (
-    <div className="fixed left-0 top-0">
+    <div className="fixed left-0 top-0 z-10">
       <Sidebar className="border-none">
         <SidebarHeader className="items-end">
           <SideNavigationTrigger

@@ -29,7 +29,7 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <QueryClientProvider client={queryClient}>
-              <SidebarProvider defaultOpen={true}>
+              <SidebarProvider defaultOpen={false}>
                 <DarkmodeToggle />
                 {children}
               </SidebarProvider>
