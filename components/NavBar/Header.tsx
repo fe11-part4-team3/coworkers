@@ -3,17 +3,14 @@
 import React, { useState } from 'react';
 import Logo from './Logo';
 import Profile from './Profile';
+import Image from 'next/image';
 
-const Header = () => {
+const Headers = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [teamName, setTeamName] = useState('');
   const [profileImage, setProfileImage] = useState<
     string | undefined
   >(undefined);
-
-  const handleTestImageChange = () => {
-    setProfileImage('/images/codeitprofile.png');
-  };
 
   return (
     <div>
@@ -25,7 +22,13 @@ const Header = () => {
             <>
               {teamName && (
                 <span className="text-sm">
-                  {teamName} ▾
+                  {teamName}{' '}
+                  <Image
+                    src="/images/img-Check.svg"
+                    alt="check"
+                    width={16}
+                    height={16}
+                  />
                 </span>
               )}
               <span className="text-sm">자유게시판</span>
@@ -46,4 +49,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default Headers;
