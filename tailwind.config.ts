@@ -47,7 +47,7 @@ const shadcnConfig: Config = {
           foreground: 'hsl(var(--destructive-foreground))',
         },
         input: 'hsl(var(--input))',
-        ring: 'hsl(var(--ring))',
+        ring: 'var(--ring)',
         chart: {
           '1': 'hsl(var(--chart-1))',
           '2': 'hsl(var(--chart-2))',
