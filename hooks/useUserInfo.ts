@@ -14,7 +14,7 @@ import { IUserDetail } from '@/types/user.type';
  * useUserInfo();
  */
 const useUserInfo = () => {
-  const { isAuthenticated, accessToken } = useAuth();
+  const { isAuthenticated } = useAuth();
   const { setUser } = useUserStore();
 
   useEffect(() => {
@@ -22,7 +22,7 @@ const useUserInfo = () => {
     const fetchUserInfo = async () => {
       try {
         const userInfo: IUserDetail | null =
-          await getUser(accessToken);
+          await getUser();
         if (userInfo) {
           setUser(userInfo);
         }
@@ -38,7 +38,7 @@ const useUserInfo = () => {
     if (isAuthenticated) {
       fetchUserInfo();
     }
-  }, [isAuthenticated, accessToken, setUser]);
+  }, [isAuthenticated, setUser]);
 };
 
 export default useUserInfo;
