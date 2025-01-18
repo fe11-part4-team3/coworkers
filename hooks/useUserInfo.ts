@@ -21,16 +21,12 @@ const useUserInfo = () => {
     // 사용자 정보를 불러오는 비동기 함수
     const fetchUserInfo = async () => {
       try {
-        const userInfo: IUserDetail | null =
-          await getUser();
+        const userInfo: IUserDetail | null = await getUser();
         if (userInfo) {
           setUser(userInfo);
         }
       } catch (error) {
-        console.log(
-          '유저 정보를 불러올 수 없습니다.',
-          error,
-        );
+        console.log('유저 정보를 불러올 수 없습니다.', error);
       }
     };
 

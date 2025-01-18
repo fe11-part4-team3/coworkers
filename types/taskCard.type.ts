@@ -20,8 +20,4 @@ interface TaskCheckboxProps {
   handleCheckedToggle: () => void;
 }
 
-export type {
-  TaskCardProps,
-  IconTextProps,
-  TaskCheckboxProps,
-};
+export type { TaskCardProps, IconTextProps, TaskCheckboxProps };

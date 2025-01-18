@@ -18,9 +18,7 @@ import { ITask } from '@/types/task.type';
 
 import instance from './axios';
 
-const getGroup = async ({
-  id,
-}: GetGroupParams): Promise<IGroupDetail> => {
+const getGroup = async ({ id }: GetGroupParams): Promise<IGroupDetail> => {
   const response = await instance.get(`/groups/${id}`);
   return response.data;
 };
@@ -41,9 +39,7 @@ const updateGroup = async ({
   return response.data;
 };
 
-const deleteGroup = async ({
-  id,
-}: DeleteGroupParams): Promise<boolean> => {
+const deleteGroup = async ({ id }: DeleteGroupParams): Promise<boolean> => {
   const response = await instance.delete(`/groups/${id}`);
   return response.status === 204;
 };
@@ -97,9 +93,7 @@ const deleteMember = async ({
  * 스스로를 그룹에 포함시키게 됨.
  * ```
  */
-const getInvitation = async ({
-  id,
-}: GetInvitationParams): Promise<string> => {
+const getInvitation = async ({ id }: GetInvitationParams): Promise<string> => {
   const path = `/groups/${id}/invitation`;
   const response = await instance.get(path);
   return response.data;

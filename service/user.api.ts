@@ -40,9 +40,7 @@ const updateUser = async ({
  *
  * 회원 탈퇴
  */
-const deleteUser = async (
-  accessToken: string | null,
-): Promise<boolean> => {
+const deleteUser = async (accessToken: string | null): Promise<boolean> => {
   const response = await instance.delete('/user');
   return response.status === 204;
 };
@@ -50,9 +48,7 @@ const deleteUser = async (
 /**
  * **※인증 필요**
  */
-const getGroupList = async (
-  accessToken: string | null,
-): Promise<IGroup[]> => {
+const getGroupList = async (accessToken: string | null): Promise<IGroup[]> => {
   const response = await instance.get('/user/groups');
   return response.data;
 };
@@ -89,13 +85,10 @@ const resetPasswordEmail = async ({
   email,
   redirectUrl,
 }: ResetPasswordEmailParams): Promise<string> => {
-  const response = await instance.post(
-    '/user/send-reset-password-email',
-    {
-      email,
-      redirectUrl,
-    },
-  );
+  const response = await instance.post('/user/send-reset-password-email', {
+    email,
+    redirectUrl,
+  });
   return response.data.message;
 };
 
@@ -110,14 +103,11 @@ const resetPassword = async ({
   password,
   token,
 }: ResetPasswordParams) => {
-  const response = await instance.patch(
-    '/user/reset-password',
-    {
-      passwordConfirmation,
-      password,
-      token,
-    },
-  );
+  const response = await instance.patch('/user/reset-password', {
+    passwordConfirmation,
+    password,
+    token,
+  });
   return response.data.message;
 };
 

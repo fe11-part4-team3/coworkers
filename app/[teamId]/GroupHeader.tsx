@@ -22,7 +22,7 @@ export default function GroupHeader({
   // onClick,
 }: GroupHeaderProps) {
   return (
-    <header className="flex max-h-pr-64 max-w-pr-1200 items-center justify-between rounded-pr-12 border border-[#F8FAFC1A] bg-slate-50 bg-opacity-10 px-pr-20">
+    <header className="flex max-h-pr-64 max-w-pr-1200 items-center justify-between rounded-pr-12 border border-[#F8FAFC1A] bg-slate-50/10 px-pr-20">
       <h2 className="text-20b text-primary">{name}</h2>
       <div className="flex gap-pr-20">
         <Image

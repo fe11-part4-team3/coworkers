@@ -43,11 +43,7 @@
     --brand-primary: #10b981;
     --brand-secondary: #34d399;
     --brand-tertiary: #a3e635;
-    --brand-gradient: linear-gradient(
-      90deg,
-      #10b981 0%,
-      #a3e635 100%
-    );
+    --brand-gradient: linear-gradient(90deg, #10b981 0%, #a3e635 100%);
 
     /* point */
     --p-purple: #a855f7;

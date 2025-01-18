@@ -71,7 +71,7 @@ export default function InputField({
           placeholder={placeholder}
           disabled={disabled}
           onChange={onChange}
-          className={`py-pr-14.5 mo:py-pr-13.5 px-pr-16 ${error && 'border-s-danger'} ${!disabled && !error && 'hover:border-i-hover'} ${inputStyled}`}
+          className={`px-pr-16 py-pr-14.5 mo:py-pr-13.5 ${error && 'border-s-danger'} ${!disabled && !error && 'hover:border-i-hover'} ${inputStyled}`}
           {...props}
         />
         {type === 'password' &&

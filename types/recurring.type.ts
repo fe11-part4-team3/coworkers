@@ -1,7 +1,4 @@
-import {
-  FrequencyType,
-  TaskRecurringCreateDto,
-} from './task.type';
+import { FrequencyType, TaskRecurringCreateDto } from './task.type';
 
 interface IRecurring {
   writerId: number;
