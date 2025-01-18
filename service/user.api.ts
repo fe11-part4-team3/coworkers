@@ -14,27 +14,9 @@ import instance from './axios';
 /**
  * **※인증 필요**
  */
-const getUser = async (
-  accessToken: string | null,
-): Promise<IUserDetail | null> => {
-  if (!accessToken) {
-    return null;
-  } else {
-    try {
-      const response = await instance.get('/user', {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      return response.data;
-    } catch (error) {
-      console.error(
-        '유저 정보를 불러오지 못했습니다.',
-        error,
-      );
-      return null;
-    }
-  }
+const getUser = async (): Promise<IUserDetail | null> => {
+  const response = await instance.get('/user');
+  return response.data;
 };
 
 /**
@@ -61,11 +43,7 @@ const updateUser = async ({
 const deleteUser = async (
   accessToken: string | null,
 ): Promise<boolean> => {
-  const response = await instance.delete('/user', {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
+  const response = await instance.delete('/user');
   return response.status === 204;
 };
 
@@ -75,11 +53,7 @@ const deleteUser = async (
 const getGroupList = async (
   accessToken: string | null,
 ): Promise<IGroup[]> => {
-  const response = await instance.get('/user/groups', {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
+  const response = await instance.get('/user/groups');
   return response.data;
 };
 
@@ -89,11 +63,7 @@ const getGroupList = async (
 const getMembershipList = async (
   accessToken: string | null,
 ): Promise<IMembership[]> => {
-  const response = await instance.get('/user/memberships', {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
+  const response = await instance.get('/user/memberships');
   return response.data;
 };
 
@@ -105,11 +75,7 @@ const getMembershipList = async (
 const getHistory = async (
   accessToken: string | null,
 ): Promise<ITaskMetadata[]> => {
-  const response = await instance.get('/user/history', {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
+  const response = await instance.get('/user/history');
   return response.data.taskDone;
 };
 
