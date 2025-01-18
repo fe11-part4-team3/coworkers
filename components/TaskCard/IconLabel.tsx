@@ -17,9 +17,8 @@ function IconText({ text, type, hasBar }: IconTextProps) {
   return (
     <span
       className={`relative flex items-center text-xs text-slate-500 before:inline-block before:size-pr-16 before:flex-1 before:bg-no-repeat before:content-[''] ${iconClass} ${type === 'commentCount' ? 'ml-pr-12 mr-pr-8 gap-pr-2 mo:ml-auto' : 'gap-pr-6'} ${
-        hasBar
-          ? 'after:absolute after:right-[-10px] after:top-1/2 after:inline-block after:h-pr-8 after:w-pr-1 after:-translate-y-1/2 after:bg-slate-700 after:content-[""]'
-          : ''
+        hasBar &&
+        'after:absolute after:right-[-10px] after:top-1/2 after:inline-block after:h-pr-8 after:w-pr-1 after:-translate-y-1/2 after:bg-slate-700 after:content-[""]'
       }`}
     >
       {text}
