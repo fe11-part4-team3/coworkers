@@ -50,7 +50,7 @@ export default function InputField({
   };
 
   return (
-    <>
+    <fieldset>
       {label && (
         <label
           htmlFor={label}
@@ -97,6 +97,6 @@ export default function InputField({
           </p>
         )}
       </div>
-    </>
+    </fieldset>
   );
 }
