@@ -1,10 +1,10 @@
 import { useState } from 'react';
 
-import { Input } from '../ui/input';
+import { InputFieldProps } from '@/types/inputField.type';
 
+import { Input } from '../ui/input';
 import VisibilityToggle from './VisibilityToggle';
 import ErrorMessage from './ErrorMessage';
-import { InputFieldProps } from '@/types/inputField.type';
 import InputLabel from './InputLabel';
 
 // input 공통 스타일

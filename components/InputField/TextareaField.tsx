@@ -1,6 +1,7 @@
+import { TextareaFieldProps } from '@/types/inputField.type';
+
 import { inputStyled } from './InputField';
 import { Textarea } from '../ui/textarea';
-import { TextareaFieldProps } from '@/types/inputField.type';
 import InputLabel from './InputLabel';
 
 const sizes = {
