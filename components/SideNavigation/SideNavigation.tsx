@@ -45,7 +45,7 @@ export default function SideNavigation({
       <Sidebar className="border-none">
         <SidebarHeader className="items-end">
           <SideNavigationTrigger
-            src="images/icon-close-x.svg"
+            src="images/icon-close.svg"
             alt="사이드 네비게이션 닫기"
           />
         </SidebarHeader>
