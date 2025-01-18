@@ -1,5 +1,7 @@
+type TaskName = string;
+
 interface TaskCardProps {
-  name: string;
+  name: TaskName;
   date: string;
   doneAt: string | null;
   commentCount: number;
@@ -9,11 +11,11 @@ interface TaskCardProps {
 interface IconTextProps {
   text: string | number;
   type: 'calendar' | 'time' | 'repeat' | 'commentCount';
-  hasBar?: true;
+  hasBar?: boolean;
 }
 
 interface TaskCheckboxProps {
-  name: string;
+  name: TaskName;
   isChecked: boolean;
   handleCheckedToggle: () => void;
 }
