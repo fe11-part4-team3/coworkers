@@ -1,6 +1,7 @@
 import { TaskCheckboxProps } from '@/types/taskCard.type';
-import { Toaster } from '../ui/toaster';
 import { useToast } from '@/hooks/use-toast';
+
+import { Toaster } from '../ui/toaster';
 
 function TaskCheckbox({
   name,
