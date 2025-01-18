@@ -98,6 +98,18 @@ const shadcnConfig: Config = {
           inverse: 'var(--icon-inverse)',
           brand: 'var(--icon-brand)',
         },
+        sidebar: {
+          DEFAULT: 'hsl(var(--sidebar-background))',
+          foreground: 'hsl(var(--sidebar-foreground))',
+          primary: 'hsl(var(--sidebar-primary))',
+          'primary-foreground':
+            'hsl(var(--sidebar-primary-foreground))',
+          accent: 'hsl(var(--sidebar-accent))',
+          'accent-foreground':
+            'hsl(var(--sidebar-accent-foreground))',
+          border: 'hsl(var(--sidebar-border))',
+          ring: 'hsl(var(--sidebar-ring))',
+        },
       },
       fontSize: {
         '12': [
@@ -317,7 +329,6 @@ const shadcnConfig: Config = {
         },
       },
     },
-    plugins: ['tailwindcssAnimate'],
     theme: {
       remDivider: 16,
       fontSizeLimit: 100,
@@ -338,4 +349,5 @@ export default {
       ...customConfig.theme?.plugins,
     },
   },
+  plugins: [tailwindcssAnimate],
 } satisfies Config;
