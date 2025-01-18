@@ -13,14 +13,12 @@ import ModalBase from '@/components/modal/ModalBase';
  */
 
 export default function InviteMember({ onClick }: { onClick: () => void }) {
-  const { isOpen, closeModal } = useModalStore();
+  const { closeModal } = useModalStore();
 
   const handleOnClick = () => {
     onClick();
     closeModal();
   };
-
-  if (!isOpen) return null;
 
   return (
     <>
