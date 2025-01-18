@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 function Logo() {
   return (
-    <Link href="/">
+    <Link href="/" className="flex items-center">
       <Image
         src="/images/img-Logo.svg"
         alt="로고"
