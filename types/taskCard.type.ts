@@ -1,6 +1,7 @@
 type TaskName = string;
 
 interface TaskCardProps {
+  type: 'history' | 'taskList';
   name: TaskName;
   date: string;
   doneAt: string | null;
@@ -18,10 +19,7 @@ interface TaskCheckboxProps {
   name: TaskName;
   isChecked: boolean;
   handleCheckedToggle: () => void;
+  isTaskList: boolean;
 }
 
-export type {
-  TaskCardProps,
-  IconTextProps,
-  TaskCheckboxProps,
-};
+export type { TaskCardProps, IconTextProps, TaskCheckboxProps };
