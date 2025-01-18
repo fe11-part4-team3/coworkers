@@ -1,7 +1,7 @@
 import ICON_VISIBILITY_ON from '@/public/images/icon-visibility_on.svg';
 import ICON_VISIBILITY_OFF from '@/public/images/icon-visibility_off.svg';
 
-interface VisibilityToggleProps {
+interface HideToggleProps {
   togglePassword: () => void;
   showPassword: boolean;
 }
@@ -14,7 +14,7 @@ interface VisibilityToggleProps {
 export default function HideToggle({
   togglePassword,
   showPassword,
-}: VisibilityToggleProps) {
+}: HideToggleProps) {
   return (
     <button
       type="button"
@@ -22,9 +22,9 @@ export default function HideToggle({
       className="absolute right-pr-16 top-1/2 -translate-y-1/2"
     >
       {showPassword ? (
-        <ICON_VISIBILITY_ON width={20} height={20} />
+        <ICON_VISIBILITY_ON width={24} height={24} />
       ) : (
-        <ICON_VISIBILITY_OFF width={20} height={20} />
+        <ICON_VISIBILITY_OFF width={24} height={24} />
       )}
     </button>
   );
