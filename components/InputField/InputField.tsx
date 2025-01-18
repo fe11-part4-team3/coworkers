@@ -1,5 +1,6 @@
-import { Input } from '../ui/input';
 import { useState } from 'react';
+
+import { Input } from '../ui/input';
 import VisibilityToggle from './visibilityToggle';
 
 export interface InputFieldProps {
@@ -9,15 +10,14 @@ export interface InputFieldProps {
   label?: string;
   error?: string;
   disabled?: boolean;
-  onChange: (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => void;
+  width?: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onClickButton?: () => void;
 }
 
 // input 공통 스타일
 export const inputStyled =
-  'focuse:border-i-focus disabled:border-b-disabled visited:border-i-focus target:border-i-focus focus:border-i-focus active:border-i-focus rounded-xl w-full border bg-b-secondary text-t-default disabled:bg-b-tertiary disabled:text-t-disabled text-16 mo:text-14';
+  'focuse:border-i-focus disabled:border-b-disabled visited:border-i-focus target:border-i-focus focus:border-i-focus active:border-i-focus rounded-xl w-full border bg-b-secondary text-t-default disabled:bg-b-tertiary disabled:text-t-disabled text-16 mo:text-14 h-auto';
 
 /**
  * @description InputField 컴포넌트
@@ -27,6 +27,7 @@ export const inputStyled =
  * @param {string} props.placeholder - input placeholder
  * @param {string} props.error - input 에러 메시지
  * @param {boolean} props.disabled - input 비활성화 여부
+ * @param {string} props.width - input 너비
  * @param {Function} props.onChange - input 값 변경 이벤트
  * @param {Function} props.onClickButton - input 내부 버튼 클릭 이벤트(password 타입일 때만 사용)
  * @param {React.InputHTMLAttributes<HTMLInputElement>} props.props - input 속성
@@ -38,6 +39,7 @@ export default function InputField({
   placeholder = 'placeholder를 작성해주세요',
   error,
   disabled = false,
+  width = '',
   onChange,
   onClickButton,
   ...props
@@ -50,7 +52,7 @@ export default function InputField({
   };
 
   return (
-    <fieldset>
+    <fieldset className={width}>
       {label && (
         <label
           htmlFor={label}
@@ -63,11 +65,7 @@ export default function InputField({
         <Input
           id={label}
           type={
-            type === 'password'
-              ? showPassword
-                ? 'text'
-                : 'password'
-              : type
+            type === 'password' ? (showPassword ? 'text' : 'password') : type
           }
           value={value}
           placeholder={placeholder}
@@ -80,7 +78,7 @@ export default function InputField({
           (disabled ? (
             <button
               type="button"
-              className="absolute right-pr-16 top-1/2 -translate-y-1/2 transform"
+              className="absolute right-pr-16 top-1/2 -translate-y-1/2"
               onClick={onClickButton}
             >
               변경하기
@@ -91,11 +89,7 @@ export default function InputField({
               showPassword={showPassword}
             />
           ))}
-        {error && (
-          <p className="mt-pr-8 text-14m text-s-danger">
-            {error}
-          </p>
-        )}
+        {error && <p className="mt-pr-8 text-14m text-s-danger">{error}</p>}
       </div>
     </fieldset>
   );
