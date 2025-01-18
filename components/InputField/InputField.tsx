@@ -3,9 +3,9 @@ import { useState } from 'react';
 import { InputFieldProps } from '@/types/inputField.type';
 
 import { Input } from '../ui/input';
-import VisibilityToggle from './VisibilityToggle';
 import ErrorMessage from './ErrorMessage';
 import InputLabel from './InputLabel';
+import VisibilityToggle from './visibilityToggle';
 
 // input 공통 스타일
 export const inputStyled =
