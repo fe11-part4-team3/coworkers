@@ -13,13 +13,13 @@ const Profile: React.FC<ProfileProps> = ({
   return (
     <div className="flex items-center space-x-2">
       <Image
-        src={profileImage || '/images/img-BasicProfile.png'}
+        src={profileImage || '/images/img-BasicProfile.svg'}
         alt="프로필 사진"
         className="h-8 w-8 rounded-full"
         width={16}
         height={16}
       />
-      <span className="text-sm text-white">{userName}</span>
+      <span className="text-14m">{userName}</span>
     </div>
   );
 };

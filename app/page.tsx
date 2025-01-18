@@ -1,9 +1,11 @@
 import Container from '@/components/layout/Container';
-
+import Header from '@/components/NavBar/Header';
 export default function LandingPage() {
   return (
     <Container>
-      <div>랜딩 페이지</div>
+      <div>
+        <Header />
+      </div>
     </Container>
   );
 }

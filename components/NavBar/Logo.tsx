@@ -4,17 +4,15 @@ import Link from 'next/link';
 
 const Logo = () => {
   return (
-    <div>
-      <Link href="/">
-        <Image
-          src="/images/img-Logo.png"
-          alt="로고"
-          layout="intrinsic"
-          width={158}
-          height={32}
-        />
-      </Link>
-    </div>
+    <Link href="/">
+      <Image
+        src="/images/img-Logo.svg"
+        alt="로고"
+        layout="intrinsic"
+        width={158}
+        height={32}
+      />
+    </Link>
   );
 };
 
