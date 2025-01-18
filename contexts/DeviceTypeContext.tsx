@@ -27,7 +27,7 @@ export function DeviceTypeProvider({
 
   const handleResize = useCallback(
     useDebounce(() => {
-      if (typeof window === 'undefined') {
+      if (typeof window !== 'undefined') {
         setDeviceType(getDeviceType());
       }
     }, 100),
