@@ -6,11 +6,7 @@ import { IconTextProps } from '@/types/taskCard.type';
  * @param param.hasBar true
  * @returns 아이콘과 텍스트 컴포넌트 (날짜, 시간, 반복 일정, 댓글 수)
  */
-const IconText = ({
-  text,
-  type,
-  hasBar,
-}: IconTextProps) => {
+function IconText({ text, type, hasBar }: IconTextProps) {
   const iconClass = {
     calendar:
       "before:bg-[url('/images/icon-calendar.svg')]",
@@ -31,6 +27,6 @@ const IconText = ({
       {text}
     </span>
   );
-};
+}
 
 export default IconText;
