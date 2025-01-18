@@ -27,9 +27,7 @@ export default function GroupList({
   const router = useRouter();
 
   if (loading && showSkeleton) {
-    return (
-      <GroupListSkeleton skeletonLength={skeletonLength} />
-    );
+    return <GroupListSkeleton skeletonLength={skeletonLength} />;
   }
 
   return (
@@ -57,13 +55,11 @@ function GroupListSkeleton({
 }: GroupListSKeletonProps) {
   return (
     <SidebarMenu className="gap-pr-24">
-      {Array.from({ length: skeletonLength }).map(
-        (_, index) => (
-          <SidebarMenuItem key={index}>
-            <SidebarMenuSkeleton showIcon />
-          </SidebarMenuItem>
-        ),
-      )}
+      {Array.from({ length: skeletonLength }).map((_, index) => (
+        <SidebarMenuItem key={index}>
+          <SidebarMenuSkeleton showIcon />
+        </SidebarMenuItem>
+      ))}
     </SidebarMenu>
   );
 }

@@ -41,12 +41,7 @@ function SideNavigationTrigger({
       onClick={handleClick}
       {...props}
     >
-      <Image
-        width={iconSize}
-        height={iconSize}
-        src={src}
-        alt={alt}
-      />
+      <Image width={iconSize} height={iconSize} src={src} alt={alt} />
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   );

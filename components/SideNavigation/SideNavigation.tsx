@@ -62,9 +62,7 @@ export default function SideNavigation({
             </SidebarGroupContent>
           </SidebarGroup>
           <SidebarGroup>
-            <SidebarGroupLabel>
-              네비게이션
-            </SidebarGroupLabel>
+            <SidebarGroupLabel>네비게이션</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu className="gap-pr-24">
                 <SidebarMenuButton
