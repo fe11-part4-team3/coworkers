@@ -31,7 +31,7 @@ function Headers() {
                   />
                 </span>
               )}
-              <span className="text-16m">자유게시판</span>
+              <span className="text-">자유게시판</span>
             </>
           )}
         </div>
