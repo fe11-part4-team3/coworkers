@@ -15,7 +15,7 @@ const Profile: React.FC<ProfileProps> = ({
       <Image
         src={profileImage || '/images/img-BasicProfile.svg'}
         alt="프로필 사진"
-        className="h-8 w-8 rounded-full"
+        className="h-pr-16 w-pr-16 rounded-full"
         width={16}
         height={16}
       />

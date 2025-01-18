@@ -5,7 +5,7 @@ import Logo from './Logo';
 import Profile from './Profile';
 import Image from 'next/image';
 
-const Headers = () => {
+function Headers() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [teamName, setTeamName] = useState('');
   const [profileImage, setProfileImage] = useState<
@@ -21,7 +21,7 @@ const Headers = () => {
           {isLoggedIn && (
             <>
               {teamName && (
-                <span className="text-sm">
+                <span className="text-16m">
                   {teamName}{' '}
                   <Image
                     src="/images/img-Check.svg"
@@ -31,7 +31,7 @@ const Headers = () => {
                   />
                 </span>
               )}
-              <span className="text-sm">자유게시판</span>
+              <span className="text-16m">자유게시판</span>
             </>
           )}
         </div>
@@ -47,6 +47,6 @@ const Headers = () => {
       </nav>
     </div>
   );
-};
+}
 
 export default Headers;
