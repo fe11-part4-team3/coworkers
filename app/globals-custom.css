@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Pretendard';
+  src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
+    format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Medium.woff')
+    format('woff');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-SemiBold.woff')
+    format('woff');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Bold.woff')
+    format('woff');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@layer base {
+  :root {
+    --background: #fff;
+    --border: rgba(248, 250, 252, 0.5);
+
+    /* brand */
+    --brand-primary: #10b981;
+    --brand-secondary: #34d399;
+    --brand-tertiary: #a3e635;
+    --brand-gradient: linear-gradient(90deg, #10b981 0%, #a3e635 100%);
+
+    /* point */
+    --p-purple: #a855f7;
+    --p-blue: #3b82f6;
+    --p-cyan: #06b6d4;
+    --p-pink: #ec4899;
+    --p-rose: #f43f5e;
+    --p-orange: #f97316;
+    --p-yellow: #eab308;
+
+    /* background */
+    --b-primary-dark: #0f172a;
+    --b-primary-light: #ffffff;
+    --b-secondary-dark: #1e293b;
+    --b-secondary-light: #f1f5f9;
+    --b-tertiary-dark: #334155;
+    --b-tertiary-light: #e2e8f0;
+    --b-inverse: #ffffff;
+
+    /* interactive */
+    --i-inactive: #94a3b8;
+    --i-hover: #059669;
+    --i-pressed: #047857;
+    --i-focus: #10b981;
+    --ring: #10b981;
+    --ring-color: #10b981;
+
+    /* text */
+    --t-primary-dark: #f8fafc;
+    --t-primary-light: #1e293b;
+    --t-secondary: #cbd5e1;
+    --t-tertiary: #e2e8f0;
+    --t-default: #64748b;
+    --t-inverse: #ffffff;
+    --t-disabled: #94a3b8;
+
+    /* status */
+    --s-danger: #dc2626;
+
+    /* icon */
+    --icon-primary: #64748b;
+    --icon-inverse: #f8fafc;
+    --icon-brand: #10b981;
+  }
+  .dark {
+    --background: #0f172a;
+    --border: rgba(248, 250, 252, 0.5);
+    --b-primary-light: var(--b-primary-dark);
+    --b-secondary-light: var(--b-secondary-dark);
+    --b-tertiary-light: var(--b-tertiary-dark);
+    --t-primary-light: var(--t-primary-dark);
+    --ring: #10b981;
+    --ring-color: #10b981;
+  }
+
+  .light {
+    --b-primary-dark: var(--b-primary-light);
+    --b-secondary-dark: var(--b-secondary-light);
+    --b-tertiary-dark: var(--b-tertiary-light);
+    --t-primary-dark: var(--t-primary-light);
+  }
+}
+@layer base {
+  * {
+    @apply border-border font-sans;
+  }
+  body {
+    @apply text-t-primary;
+  }
+}

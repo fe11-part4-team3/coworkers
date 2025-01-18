@@ -1,32 +1,14 @@
 import type { Config } from 'tailwindcss';
 import tailwindcssAnimate from 'tailwindcss-animate';
+import { customConfig } from './tailwind-custom.config';
 
-const plugin = require('tailwindcss/plugin');
-
-// 공통 유틸리티 생성 함수
-interface GenerateSizesOptions {
-  limit: number;
-  divider: number;
-  prefix: string;
-}
-
-const generateSizes = ({
-  limit,
-  divider,
-  prefix,
-}: GenerateSizesOptions): Record<string, string> => {
-  const sizes: Record<string, string> = {};
-  for (let i = 0; i <= limit; i++) {
-    sizes[`${prefix}-${i}`] = `${i / divider}rem`;
-  }
-  return sizes;
-};
-
-export default {
+const shadcnConfig: Config = {
   darkMode: ['class'],
   content: [
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
+    './stories/**/*.{js,ts,jsx,tsx}',
+    './globals.css',
   ],
   theme: {
     extend: {
@@ -34,8 +16,6 @@ export default {
         sans: ['Pretendard', 'Arial', 'sans-serif'],
       },
       colors: {
-        // REVIEW : shadcn option
-        // background: 'hsl(var(--background))',
         background: 'var(--b-primary-light)',
         foreground: 'hsl(var(--foreground))',
         card: {
@@ -66,11 +46,8 @@ export default {
           DEFAULT: 'hsl(var(--destructive))',
           foreground: 'hsl(var(--destructive-foreground))',
         },
-        // REVIEW : shadcn option
-        // border: 'hsl(var(--border))',
-        border: 'var(--border-primary)',
         input: 'hsl(var(--input))',
-        ring: 'hsl(var(--ring))',
+        ring: 'var(--ring)',
         chart: {
           '1': 'hsl(var(--chart-1))',
           '2': 'hsl(var(--chart-2))',
@@ -78,8 +55,7 @@ export default {
           '4': 'hsl(var(--chart-4))',
           '5': 'hsl(var(--chart-5))',
         },
-        // 컬러 커스텀
-        // Point 컬러
+        border: 'var(--border)',
         p: {
           purple: 'var(--point-purple)',
           blue: 'var(--point-blue)',
@@ -89,21 +65,18 @@ export default {
           orange: 'var(--point-orange)',
           yellow: 'var(--point-yellow)',
         },
-        // 브랜드 컬러
         brand: {
           primary: 'var(--brand-primary)',
           secondary: 'var(--brand-secondary)',
           tertiary: 'var(--brand-tertiary)',
           gradient: 'var(--brand-gradient)',
         },
-        // 배경색
         b: {
           primary: 'var(--b-primary-light)',
           secondary: 'var(--b-secondary-light)',
           tertiary: 'var(--b-tertiary-light)',
           inverse: 'var(--b-inverse)',
         },
-        // 텍스트 색상
         t: {
           primary: 'var(--t-primary-light)',
           secondary: 'var(--t-secondary)',
@@ -112,210 +85,267 @@ export default {
           inverse: 'var(--t-inverse)',
           disabled: 'var(--t-disabled)',
         },
-        // 상호작용 색상
         i: {
           inactive: 'var(--i-inactive)',
           hover: 'var(--i-hover)',
           pressed: 'var(--i-pressed)',
           focus: 'var(--i-focus)',
         },
-        // 기타 상태
         s: {
           danger: 'var(--s-danger)',
         },
-        // 아이콘 색상
         icon: {
           primary: 'var(--icon-primary)',
           inverse: 'var(--icon-inverse)',
           brand: 'var(--icon-brand)',
         },
+        sidebar: {
+          DEFAULT: 'hsl(var(--sidebar-background))',
+          foreground: 'hsl(var(--sidebar-foreground))',
+          primary: 'hsl(var(--sidebar-primary))',
+          'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
+          accent: 'hsl(var(--sidebar-accent))',
+          'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
+          border: 'hsl(var(--sidebar-border))',
+          ring: 'hsl(var(--sidebar-ring))',
+        },
       },
-      // REVIEW : shadcn option
-      // borderRadius: {
-      //   lg: 'var(--radius)',
-      //   md: 'calc(var(--radius) - 2px)',
-      //   sm: 'calc(var(--radius) - 4px)',
-      // },
       fontSize: {
-        12: [
+        '12': [
           '0.75rem',
-          { lineHeight: '0.875rem', fontWeight: '400' },
+          {
+            lineHeight: '0.875rem',
+            fontWeight: '400',
+          },
+        ],
+        '13': [
+          '0.8125rem',
+          {
+            lineHeight: '1rem',
+            fontWeight: '400',
+          },
+        ],
+        '14': [
+          '0.875rem',
+          {
+            lineHeight: '1.0625rem',
+            fontWeight: '400',
+          },
+        ],
+        '16': [
+          '1rem',
+          {
+            lineHeight: '1.1875rem',
+            fontWeight: '400',
+          },
+        ],
+        '18': [
+          '1.125rem',
+          {
+            lineHeight: '1.3125rem',
+            fontWeight: '400',
+          },
+        ],
+        '20': [
+          '1.25rem',
+          {
+            lineHeight: '1.5rem',
+            fontWeight: '400',
+          },
+        ],
+        '24': [
+          '1.5rem',
+          {
+            lineHeight: '1.75rem',
+            fontWeight: '400',
+          },
         ],
         '12m': [
           '0.75rem',
-          { lineHeight: '0.875rem', fontWeight: '500' },
+          {
+            lineHeight: '0.875rem',
+            fontWeight: '500',
+          },
         ],
         '12sb': [
           '0.75rem',
-          { lineHeight: '0.875rem', fontWeight: '600' },
-        ],
-        13: [
-          '0.8125rem',
-          { lineHeight: '1rem', fontWeight: '400' },
+          {
+            lineHeight: '0.875rem',
+            fontWeight: '600',
+          },
         ],
         '13m': [
           '0.8125rem',
-          { lineHeight: '1rem', fontWeight: '500' },
+          {
+            lineHeight: '1rem',
+            fontWeight: '500',
+          },
         ],
         '13sb': [
           '0.8125rem',
-          { lineHeight: '1rem', fontWeight: '600' },
-        ],
-        14: [
-          '0.875rem',
-          { lineHeight: '1.0625rem', fontWeight: '400' },
+          {
+            lineHeight: '1rem',
+            fontWeight: '600',
+          },
         ],
         '14m': [
           '0.875rem',
-          { lineHeight: '1.0625rem', fontWeight: '500' },
+          {
+            lineHeight: '1.0625rem',
+            fontWeight: '500',
+          },
         ],
         '14sb': [
           '0.875rem',
-          { lineHeight: '1.0625rem', fontWeight: '600' },
+          {
+            lineHeight: '1.0625rem',
+            fontWeight: '600',
+          },
         ],
         '14b': [
           '0.875rem',
-          { lineHeight: '1.0625rem', fontWeight: '700' },
-        ],
-        16: [
-          '1rem',
-          { lineHeight: '1.1875rem', fontWeight: '400' },
+          {
+            lineHeight: '1.0625rem',
+            fontWeight: '700',
+          },
         ],
         '16m': [
           '1rem',
-          { lineHeight: '1.1875rem', fontWeight: '500' },
+          {
+            lineHeight: '1.1875rem',
+            fontWeight: '500',
+          },
         ],
         '16sb': [
           '1rem',
-          { lineHeight: '1.1875rem', fontWeight: '600' },
+          {
+            lineHeight: '1.1875rem',
+            fontWeight: '600',
+          },
         ],
         '16b': [
           '1rem',
-          { lineHeight: '1.1875rem', fontWeight: '700' },
-        ],
-        18: [
-          '1.125rem',
-          { lineHeight: '1.3125rem', fontWeight: '400' },
+          {
+            lineHeight: '1.1875rem',
+            fontWeight: '700',
+          },
         ],
         '18m': [
           '1.125rem',
-          { lineHeight: '1.3125rem', fontWeight: '500' },
+          {
+            lineHeight: '1.3125rem',
+            fontWeight: '500',
+          },
         ],
         '18sb': [
           '1.125rem',
-          { lineHeight: '1.3125rem', fontWeight: '600' },
+          {
+            lineHeight: '1.3125rem',
+            fontWeight: '600',
+          },
         ],
         '18b': [
           '1.125rem',
-          { lineHeight: '1.3125rem', fontWeight: '700' },
-        ],
-        20: [
-          '1.25rem',
-          { lineHeight: '1.5rem', fontWeight: '400' },
+          {
+            lineHeight: '1.3125rem',
+            fontWeight: '700',
+          },
         ],
         '20m': [
           '1.25rem',
-          { lineHeight: '1.5rem', fontWeight: '500' },
+          {
+            lineHeight: '1.5rem',
+            fontWeight: '500',
+          },
         ],
         '20sb': [
           '1.25rem',
-          { lineHeight: '1.5rem', fontWeight: '600' },
+          {
+            lineHeight: '1.5rem',
+            fontWeight: '600',
+          },
         ],
         '20b': [
           '1.25rem',
-          { lineHeight: '1.5rem', fontWeight: '700' },
-        ],
-        24: [
-          '1.5rem',
-          { lineHeight: '1.75rem', fontWeight: '400' },
+          {
+            lineHeight: '1.5rem',
+            fontWeight: '700',
+          },
         ],
         '24m': [
           '1.5rem',
-          { lineHeight: '1.75rem', fontWeight: '500' },
+          {
+            lineHeight: '1.75rem',
+            fontWeight: '500',
+          },
         ],
         '24sb': [
           '1.5rem',
-          { lineHeight: '1.75rem', fontWeight: '600' },
+          {
+            lineHeight: '1.75rem',
+            fontWeight: '600',
+          },
         ],
         '24b': [
           '1.5rem',
-          { lineHeight: '1.75rem', fontWeight: '700' },
+          {
+            lineHeight: '1.75rem',
+            fontWeight: '700',
+          },
         ],
         '32sb': [
           '2rem',
-          { lineHeight: '2.375rem', fontWeight: '600' },
+          {
+            lineHeight: '2.375rem',
+            fontWeight: '600',
+          },
         ],
         '32b': [
           '2rem',
-          { lineHeight: '2.375rem', fontWeight: '700' },
+          {
+            lineHeight: '2.375rem',
+            fontWeight: '700',
+          },
         ],
         '40m': [
           '2.5rem',
-          { lineHeight: '3rem', fontWeight: '500' },
+          {
+            lineHeight: '3rem',
+            fontWeight: '500',
+          },
         ],
       },
       screens: {
-        mo: { max: '767px' }, // 모바일: 0 ~ 767px
-        ta: { min: '768px', max: '1279px' }, // 태블릿: 768px ~ 1279px
-        tamo: { max: '1279px' }, // 모바일+태블릿: 0 ~ 1279px
-      },
-
-      // 유틸리티 동적 생성
-      spacing: ({ theme }) => {
-        return generateSizes({
-          limit: theme('spacingLimit', 2000),
-          divider: theme('remDivider', 16),
-          prefix: 'pr',
-        });
-      },
-      borderRadius: ({ theme }) => {
-        return generateSizes({
-          limit: theme('borderRadiusLimit', 100),
-          divider: theme('remDivider', 16),
-          prefix: 'pr',
-        });
+        mo: {
+          max: '767px',
+        },
+        ta: {
+          min: '768px',
+          max: '1279px',
+        },
+        tamo: {
+          max: '1279px',
+        },
       },
     },
-    plugins: [
-      plugin(function ({
-        addUtilities,
-        theme,
-      }: {
-        addUtilities: (
-          utilities: Record<string, any>,
-          options?: { variants?: string[] },
-        ) => void;
-        theme: (path: string, defaultValue?: any) => any;
-      }) {
-        const fontSizeLimit = theme('fontSizeLimit', 100);
-        const remDivider = theme('remDivider', 16);
-
-        // fontSize 유틸리티 동적 생성
-        const fontSizes = generateSizes({
-          limit: fontSizeLimit,
-          divider: remDivider,
-          prefix: 'text-pr',
-        });
-
-        // Tailwind 유틸리티 추가
-        addUtilities(
-          Object.fromEntries(
-            Object.entries(fontSizes).map(
-              ([key, value]) => [
-                `.${key}`,
-                { fontSize: value },
-              ],
-            ),
-          ),
-          { variants: ['responsive'] },
-        );
-      }),
-    ],
     theme: {
-      remDivider: 16, // 기본 remDivider 값 설정
-      fontSizeLimit: 100, // 폰트 크기 제한
-      spacingLimit: 2000, // 간격 제한
-      borderRadiusLimit: 100, // border-radius 제한
+      remDivider: 16,
+      fontSizeLimit: 100,
+      spacingLimit: 2000,
+      borderRadiusLimit: 100,
+    },
+  },
+};
+export default {
+  ...shadcnConfig,
+  theme: {
+    extend: {
+      ...shadcnConfig.theme?.extend,
+      ...customConfig.theme?.extend,
+    },
+    plugins: {
+      ...shadcnConfig.theme?.plugins,
+      ...customConfig.theme?.plugins,
     },
   },
   plugins: [tailwindcssAnimate],
