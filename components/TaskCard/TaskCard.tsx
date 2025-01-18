@@ -2,11 +2,7 @@
 
 import { useState } from 'react';
 
-import {
-  Card,
-  CardContent,
-  CardFooter,
-} from '@/components/ui/card';
+import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { newDate, newTime } from '@/utils/dateConversion';
 import type { TaskCardProps } from '@/types/taskCard.type';
 
@@ -36,9 +32,7 @@ function TaskCard({
   commentCount,
   frequency,
 }: TaskCardProps) {
-  const [isChecked, setIsChecked] = useState(
-    Boolean(doneAt),
-  );
+  const [isChecked, setIsChecked] = useState(Boolean(doneAt));
 
   const handleCheckedToggle = () => {
     setIsChecked(!isChecked);
@@ -59,11 +53,7 @@ function TaskCard({
       </CardContent>
 
       <CardFooter className="flex gap-pr-20 p-0">
-        <IconText
-          type="calendar"
-          text={newDate(date)}
-          hasBar
-        />
+        <IconText type="calendar" text={newDate(date)} hasBar />
         <IconText type="time" text={newTime(date)} hasBar />
         <IconText type="repeat" text={frequencyText} />
       </CardFooter>
