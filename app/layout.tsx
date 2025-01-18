@@ -7,6 +7,8 @@ import {
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import './globals.css';
+import './globals-custom.css';
+
 import { ThemeProvider } from '@/utils/theme-provider';
 import DarkmodeToggle from '@/components/DarkmodeToggle';
 
