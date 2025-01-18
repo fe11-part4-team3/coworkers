@@ -3,7 +3,6 @@
 import useModalStore from '@/stores/modalStore';
 import ModalButton from '@/components/ModalButton';
 import CloseIcon from '@/public/images/icon-close.svg';
-import { useClickOutside } from '@/utils/useClickOutside';
 
 /**
  * 할 일 목록 추가 모달 컴포넌트.
@@ -19,11 +18,6 @@ export default function AddTaskList({
 }) {
   const { isOpen, closeModal } = useModalStore();
 
-  const ref = useClickOutside({
-    callback: closeModal,
-    isOpen,
-  });
-
   const handleOnClick = () => {
     onClick();
     closeModal();
@@ -37,10 +31,7 @@ export default function AddTaskList({
         className="fixed inset-0 z-10 bg-black bg-opacity-50"
         onClick={closeModal}
       />
-      <div
-        ref={ref}
-        className="absolute z-20 flex h-pr-235 w-pr-380 flex-col items-center justify-between rounded-xl bg-popover pb-pr-32 font-medium"
-      >
+      <div className="absolute z-20 flex h-pr-235 w-pr-380 flex-col items-center justify-between rounded-xl bg-popover pb-pr-32 font-medium">
         <div className="relative flex w-full flex-col items-center gap-pr-16 pt-pr-48">
           <CloseIcon
             width={20}
