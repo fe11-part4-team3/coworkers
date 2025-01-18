@@ -1,15 +1,11 @@
 'use client';
 
-import axios, {
-  AxiosError,
-  AxiosRequestConfig,
-} from 'axios';
+import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 
 import { useRouter } from 'next/router';
 import { TokenResponse } from '@/types/auth.type';
 
-export const BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? '';
+export const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? '';
 
 const instance = axios.create({
   baseURL: BASE_URL,
@@ -41,10 +37,7 @@ const PUBLIC_ENDPOINTS = {
  * @param method - HTTP 메서드
  * @returns 공개 여부
  */
-const isPublicEndpoint = (
-  url?: string,
-  method?: string,
-): boolean => {
+const isPublicEndpoint = (url?: string, method?: string): boolean => {
   if (!url || !method) return false;
 
   const upperMethod = method.toUpperCase();
@@ -60,9 +53,7 @@ const isPublicEndpoint = (
   if (upperMethod === 'GET') {
     return PUBLIC_ENDPOINTS.get.some((pattern) => {
       if (pattern.includes('*')) {
-        const regex = new RegExp(
-          `^${pattern.replace('*', '[^/]+')}$`,
-        );
+        const regex = new RegExp(`^${pattern.replace('*', '[^/]+')}$`);
         return regex.test(url);
       }
       return pattern === url;
@@ -94,8 +85,7 @@ const refreshToken = async (): Promise<string | null> => {
     );
     const { accessToken } = response.data;
 
-    if (!accessToken)
-      throw new Error('잘못된 액세스 토큰 수신');
+    if (!accessToken) throw new Error('잘못된 액세스 토큰 수신');
 
     localStorage.setItem('accessToken', accessToken);
     return accessToken;
@@ -112,8 +102,7 @@ const refreshToken = async (): Promise<string | null> => {
  */
 instance.interceptors.request.use(
   (config) => {
-    if (isPublicEndpoint(config.url, config.method))
-      return config;
+    if (isPublicEndpoint(config.url, config.method)) return config;
 
     const token = localStorage.getItem('accessToken');
     if (token) {
@@ -131,20 +120,16 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   (response) => response,
   async (error: AxiosError) => {
-    const originalRequest =
-      error.config as AxiosRequestConfig & {
-        _retry?: boolean;
-      };
+    const originalRequest = error.config as AxiosRequestConfig & {
+      _retry?: boolean;
+    };
 
     if (!originalRequest || originalRequest._retry)
       return Promise.reject(error);
 
     if (
       error.response?.status === 401 &&
-      !isPublicEndpoint(
-        originalRequest.url,
-        originalRequest.method,
-      )
+      !isPublicEndpoint(originalRequest.url, originalRequest.method)
     ) {
       originalRequest._retry = true;
       const newToken = await refreshToken();

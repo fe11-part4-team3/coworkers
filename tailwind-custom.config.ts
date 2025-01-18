@@ -65,12 +65,10 @@ export const customConfig: Config = {
         // Tailwind 유틸리티 추가
         addUtilities(
           Object.fromEntries(
-            Object.entries(fontSizes).map(
-              ([key, value]) => [
-                `.${key}`,
-                { fontSize: value },
-              ],
-            ),
+            Object.entries(fontSizes).map(([key, value]) => [
+              `.${key}`,
+              { fontSize: value },
+            ]),
           ),
           { variants: ['responsive'] },
         );

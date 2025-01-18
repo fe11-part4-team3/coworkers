@@ -1,7 +1,4 @@
-import {
-  CreateRecuringParams,
-  IRecurring,
-} from '@/types/recurring.type';
+import { CreateRecuringParams, IRecurring } from '@/types/recurring.type';
 
 import instance from './axios';
 
