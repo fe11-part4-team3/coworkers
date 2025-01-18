@@ -32,29 +32,35 @@ export default function AddTaskList({
   if (!isOpen) return null;
 
   return (
-    <div
-      ref={ref}
-      className="absolute flex h-pr-235 w-pr-380 flex-col items-center justify-between rounded-xl bg-popover pb-pr-32 font-medium"
-    >
-      <div className="relative flex w-full flex-col items-center gap-pr-16 pt-pr-48">
-        <CloseIcon
-          width={20}
-          height={20}
-          fill="#fff"
-          className="absolute right-pr-16 top-pr-16 cursor-pointer"
-          onClick={closeModal}
-        />
-        <h2 className="text-lg text-t-primary">
-          할 일 목록
-        </h2>
-        {/* input 컴포넌트 제작 전 임시로 그냥 input으로 대체 */}
-        <input />
-      </div>
-      <ModalButton
-        text="만들기"
-        onClick={handleOnClick}
-        color="primary"
+    <>
+      <div
+        className="fixed inset-0 z-10 bg-black bg-opacity-50"
+        onClick={closeModal}
       />
-    </div>
+      <div
+        ref={ref}
+        className="absolute z-20 flex h-pr-235 w-pr-380 flex-col items-center justify-between rounded-xl bg-popover pb-pr-32 font-medium"
+      >
+        <div className="relative flex w-full flex-col items-center gap-pr-16 pt-pr-48">
+          <CloseIcon
+            width={20}
+            height={20}
+            fill="#fff"
+            className="absolute right-pr-16 top-pr-16 cursor-pointer"
+            onClick={closeModal}
+          />
+          <h2 className="text-lg text-t-primary">
+            할 일 목록
+          </h2>
+          {/* input 컴포넌트 제작 전 임시로 그냥 input으로 대체 */}
+          <input />
+        </div>
+        <ModalButton
+          text="만들기"
+          onClick={handleOnClick}
+          color="primary"
+        />
+      </div>
+    </>
   );
 }
