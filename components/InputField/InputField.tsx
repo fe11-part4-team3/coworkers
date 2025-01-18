@@ -28,7 +28,7 @@ export const inputStyled =
 export default function InputField({
   value,
   type = 'text',
-  label = 'label',
+  label = '',
   essential = false,
   placeholder = 'placeholder를 작성해주세요',
   errorMessage,
