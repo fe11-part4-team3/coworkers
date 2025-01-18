@@ -10,7 +10,6 @@ import useUserInfo from '@/hooks/useUserInfo';
 import { testStyled } from '@/styles/test.styles';
 import Container from '@/components/layout/Container';
 import useForm from '@/hooks/useForm';
-import errorCatch from '@/utils/error';
 
 export default function MyPage() {
   const { formData, handleChange, setFormData } = useForm({
@@ -55,9 +54,9 @@ export default function MyPage() {
 
           route.push('/');
         }
-      } catch (e) {
+      } catch (err) {
+        console.error('회원탈퇴 실패:', err);
         alert('회원탈퇴에 실패했습니다.');
-        errorCatch(e as Error);
       }
     }
   };
@@ -83,9 +82,9 @@ export default function MyPage() {
 
         route.push('/login');
       }
-    } catch (e) {
+    } catch (err) {
+      console.error('회원탈퇴 실패:', err);
       setError('이메일 또는 비밀번호가 올바르지 않습니다.');
-      errorCatch(e as Error);
     }
   };
 

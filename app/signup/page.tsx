@@ -7,7 +7,6 @@ import { signUp } from '@/service/auth.api';
 import { useAuth } from '@/hooks/useAuth';
 import { testStyled } from '@/styles/test.styles';
 import useForm from '@/hooks/useForm';
-import errorCatch from '@/utils/error';
 
 function SignupPage() {
   const { formData, handleChange } = useForm({
@@ -31,13 +30,16 @@ function SignupPage() {
 
     // 회원가입 요청
     try {
-      await signUp(formData);
+      const response = await signUp(formData);
+      // TODO : 테스트 코드
+      console.log('회원가입 성공:', response);
       alert('회원가입이 완료되었습니다!');
 
       route.push('/login');
-    } catch (e) {
+    } catch (err) {
+      // TODO : 테스트 코드
+      console.error('회원가입 실패:', err);
       setError('회원가입 중 오류가 발생했습니다.');
-      errorCatch(e as Error);
     }
   };
 
