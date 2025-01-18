@@ -1,8 +1,7 @@
 import React from 'react';
 import { Meta, StoryFn } from '@storybook/react';
-import InputField, {
-  InputFieldProps,
-} from '@/components/InputField/InputField';
+import InputField from '@/components/InputField/InputField';
+import { InputFieldProps } from '@/types/inputField.type';
 
 export default {
   title: 'Components/InputField',
@@ -17,9 +16,10 @@ export default {
     value: { control: 'text' },
     label: { control: 'text' },
     placeholder: { control: 'text' },
-    error: { control: 'text' },
+    errorMessage: { control: 'text' },
     disabled: { control: 'boolean' },
     width: { control: 'text' },
+    essential: { control: 'boolean' },
     onChange: { action: 'changed' },
     onClick: { action: 'clicked' },
   },
@@ -36,13 +36,23 @@ Default.args = {
   disabled: false,
 };
 
+export const LableEssential = Template.bind({});
+LableEssential.args = {
+  type: 'text',
+  value: '',
+  label: 'Label',
+  essential: true,
+  placeholder: 'Placeholder를 작성해주세요',
+  disabled: false,
+};
+
 export const Error = Template.bind({});
 Error.args = {
   type: 'text',
   value: '',
   label: 'Label',
   placeholder: 'Placeholder를 작성해주세요',
-  error: 'This is an error message',
+  errorMessage: 'This is an error message',
   disabled: false,
 };
 
