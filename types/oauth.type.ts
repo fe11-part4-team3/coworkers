@@ -20,7 +20,4 @@ interface CreateOauthAppsResponse {
 }
 
 export { OauthProvider };
-export type {
-  CreateOauthAppsParams,
-  CreateOauthAppsResponse,
-};
+export type { CreateOauthAppsParams, CreateOauthAppsResponse };
