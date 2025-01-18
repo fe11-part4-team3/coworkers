@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+
 import Logo from './Logo';
 import Profile from './Profile';
 
@@ -21,8 +22,8 @@ function Headers() {
   }, []);
 
   return (
-    <header className="align-center border-bottom fixed flex h-pr-60 w-full bg-b-secondary">
-      <div className="align-center mx-auto flex w-pr-1200 gap-pr-40 px-pr-40 mo:px-pr-16 ta:gap-pr-24 ta:px-pr-25">
+    <header className="fixed flex h-pr-60 w-full items-center border-b bg-b-secondary">
+      <div className="mx-auto flex w-pr-1200 items-center gap-pr-40 px-pr-40 mo:px-pr-16 ta:gap-pr-24 ta:px-pr-25">
         <Logo />
         <nav className="ml-4 flex items-center space-x-4">
           <ul className="flex items-center space-x-4 text-16m">
