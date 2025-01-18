@@ -48,7 +48,7 @@ function TaskCard({
     <Card
       className={`${isTaskList && 'h-pr-74'} flex w-full flex-col justify-between rounded-lg border-none bg-b-secondary px-pr-18 py-pr-16`}
     >
-      <CardContent className="items-top flex p-0">
+      <CardContent className="flex items-center p-0">
         <TaskCheckbox
           name={name}
           isChecked={isChecked}

@@ -27,7 +27,7 @@ function TaskCheckbox({
         <input
           id={name}
           type="checkbox"
-          className={`bg-md size-pr-16 shrink-0 appearance-none rounded-md border border-t-primary checked:border-none checked:bg-[url('/images/icon-checked.svg')] ${isTaskList && 'cursor-pointer'}`}
+          className={`size-pr-16 shrink-0 appearance-none rounded-md border border-t-primary checked:border-none checked:bg-[url('/images/icon-checked.svg')] ${isTaskList && 'cursor-pointer'}`}
           checked={isChecked}
           onChange={handleCheckedToggle}
         />
