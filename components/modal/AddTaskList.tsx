@@ -31,7 +31,7 @@ export default function AddTaskList({
         className="fixed inset-0 z-10 bg-black bg-opacity-50"
         onClick={closeModal}
       />
-      <div className="absolute z-20 flex h-pr-235 w-pr-380 flex-col items-center justify-between rounded-xl bg-popover pb-pr-32 font-medium">
+      <div className="absolute z-20 flex h-pr-235 w-pr-380 flex-col items-center justify-between rounded-xl bg-popover pb-pr-32">
         <div className="relative flex w-full flex-col items-center gap-pr-16 pt-pr-48">
           <CloseIcon
             width={20}
@@ -40,7 +40,7 @@ export default function AddTaskList({
             className="absolute right-pr-16 top-pr-16 cursor-pointer"
             onClick={closeModal}
           />
-          <h2 className="text-lg text-t-primary">
+          <h2 className="text-18 text-t-primary">
             할 일 목록
           </h2>
           {/* input 컴포넌트 제작 전 임시로 그냥 input으로 대체 */}

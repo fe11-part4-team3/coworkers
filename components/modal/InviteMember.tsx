@@ -31,8 +31,8 @@ export default function InviteMember({
         className="fixed inset-0 z-10 bg-black bg-opacity-50"
         onClick={closeModal}
       />
-      <div className="absolute z-20 flex h-pr-210 w-pr-380 flex-col items-center justify-between rounded-xl bg-popover pb-pr-32 font-medium">
-        <div className="relative flex w-full flex-col items-center gap-pr-4 pt-pr-48">
+      <div className="absolute z-20 flex h-pr-210 w-pr-380 flex-col items-center justify-between rounded-xl bg-popover pb-pr-32">
+        <div className="relative flex w-full flex-col items-center gap-pr-8 pt-pr-48">
           <CloseIcon
             width={20}
             height={20}
@@ -40,10 +40,10 @@ export default function InviteMember({
             className="absolute right-pr-16 top-pr-16 cursor-pointer"
             onClick={closeModal}
           />
-          <h2 className="text-lg text-t-primary">
+          <h2 className="text-18 text-t-primary">
             멤버 초대
           </h2>
-          <p className="text-sm text-t-secondary">
+          <p className="text-14 text-t-secondary">
             그룹에 참여할 수 있는 링크를 복사합니다.
           </p>
         </div>

@@ -40,7 +40,7 @@ export default function ModalButton({
   return (
     <button
       onClick={onClick}
-      className={`${style} font-semiBold flex h-pr-48 w-pr-280 items-center justify-center rounded-xl`}
+      className={`${style} text-16sm flex h-pr-48 w-pr-280 items-center justify-center rounded-xl`}
     >
       {text}
     </button>
