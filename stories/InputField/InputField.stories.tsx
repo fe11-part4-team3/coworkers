@@ -31,7 +31,7 @@ export const Default = Template.bind({});
 Default.args = {
   type: 'text',
   value: '',
-  label: 'Label',
+  label: '',
   placeholder: 'Placeholder를 작성해주세요',
   disabled: false,
 };
