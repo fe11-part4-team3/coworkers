@@ -6,7 +6,84 @@ import TaskCard from '@/components/TaskCard/TaskCard';
  *
  * 데이터 요청이 가능하다면 제거 부탁드립니다.
  */
-const taskData = [
+const taskListData = [
+  {
+    id: 16166,
+    name: '팀미팅',
+    description: '팀미팅',
+    date: '2025-01-16T09:00:00+09:00',
+    doneAt: null,
+    updatedAt: '2025-01-16T18:50:27+09:00',
+    user: null,
+    recurringId: 4172,
+    deletedAt: null,
+    displayIndex: 0,
+    writer: {
+      id: 1299,
+      nickname: '휘철',
+      image: null,
+    },
+    doneBy: {
+      user: null,
+    },
+    commentCount: 0,
+    frequency: 'ONCE',
+  },
+  {
+    id: 16167,
+    name: '팀미팅2',
+    description: '팀미팅2',
+    date: '2025-01-16T09:00:00+09:00',
+    doneAt: null,
+    updatedAt: '2025-01-16T18:51:13+09:00',
+    user: null,
+    recurringId: 4173,
+    deletedAt: null,
+    displayIndex: 1,
+    writer: {
+      id: 1299,
+      nickname: '휘철',
+      image: null,
+    },
+    doneBy: {
+      user: null,
+    },
+    commentCount: 77,
+    frequency: 'ONCE',
+  },
+  {
+    id: 16168,
+    name: '긴제목테스트긴제목테스트긴제목테스트긴제목테스트긴제목테스트긴제목테스트긴제목테스트긴제목테스트긴제목테스트긴제목테스트긴제목테스트긴제목테스트긴제목테스트긴제목테스트긴제목테스트긴제목테스트긴제목테스트긴제목테스트긴제목테스트긴제목테스트긴제목테스트',
+    description: '팀미팅 2-1',
+    date: '2025-01-16T09:00:00+09:00',
+    doneAt: '2025-01-17T15:53:25+09:00',
+    updatedAt: '2025-01-17T15:53:25+09:00',
+    user: {
+      id: 1299,
+      nickname: '휘철',
+      image: null,
+    },
+    recurringId: 4174,
+    deletedAt: null,
+    displayIndex: 2,
+    writer: {
+      id: 1299,
+      nickname: '휘철',
+      image: null,
+    },
+    doneBy: {
+      user: {
+        id: 1299,
+        nickname: '휘철',
+        image: null,
+      },
+    },
+    commentCount: 100,
+    frequency: 'WEEKLY',
+  },
+];
+
+const historyData = [
   {
     id: 16166,
     name: '팀미팅',
@@ -86,10 +163,25 @@ const taskData = [
 export default function TestTaskCard() {
   return (
     <div className="flex flex-col gap-pr-16">
-      {taskData.map((task) => {
+      {taskListData.map((task) => {
         return (
           <TaskCard
             key={task.id}
+            type="taskList"
+            name={task.name}
+            date={task.date}
+            doneAt={task.doneAt}
+            commentCount={task.commentCount}
+            frequency={task.frequency}
+          />
+        );
+      })}
+
+      {historyData.map((task) => {
+        return (
+          <TaskCard
+            key={task.id}
+            type="history"
             name={task.name}
             date={task.date}
             doneAt={task.doneAt}
