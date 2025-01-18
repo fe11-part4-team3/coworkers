@@ -68,6 +68,8 @@
     --i-hover: #059669;
     --i-pressed: #047857;
     --i-focus: #10b981;
+    --ring: #10b981;
+    --ring-color: #10b981;
 
     /* text */
     --t-primary-dark: #f8fafc;
@@ -93,6 +95,8 @@
     --b-secondary-light: var(--b-secondary-dark);
     --b-tertiary-light: var(--b-tertiary-dark);
     --t-primary-light: var(--t-primary-dark);
+    --ring: #10b981;
+    --ring-color: #10b981;
   }
 
   .light {

@@ -15,8 +15,11 @@ const generateSizes = ({
   prefix,
 }: GenerateSizesOptions): Record<string, string> => {
   const sizes: Record<string, string> = {};
-  for (let i = 0; i <= limit; i++) {
-    sizes[`${prefix}-${i}`] = `${i / divider}rem`;
+  for (let i = 0; i <= limit * 10; i++) {
+    const value = i / 10 / divider;
+    const key =
+      i % 10 === 0 ? `${prefix}-${i / 10}` : `${prefix}-${(i / 10).toFixed(1)}`;
+    sizes[key] = `${value}rem`;
   }
   return sizes;
 };
