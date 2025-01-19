@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
@@ -12,7 +11,6 @@ import DarkmodeToggle from '@/components/DarkmodeToggle';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import Headers from '@/components/layout/Header/Headers';
 import { DeviceTypeProvider } from '@/contexts/DeviceTypeContext';
-import useUserStore from '@/stores/useUser.store';
 
 const queryClient = new QueryClient();
 export default function RootLayout({
@@ -20,12 +18,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const initializeUserData = useUserStore((state) => state.initializeUserData);
-
-  useEffect(() => {
-    initializeUserData(); // Zustand 상태 초기화
-  }, [initializeUserData]);
-
   return (
     <html lang="ko">
       <body>
