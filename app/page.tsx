@@ -7,7 +7,6 @@ import useUserInfo from '@/hooks/useUserInfo';
 import { useAuth } from '@/hooks/useAuth';
 import { testStyled } from '@/styles/test.styles';
 import Container from '@/components/layout/Container';
-import TestTaskCard from '@/components/TaskCard/Test.TaskCard';
 
 export default function LandingPage() {
   const { isAuthenticated } = useAuth();
@@ -43,8 +42,6 @@ export default function LandingPage() {
           </>
         )}
       </div>
-
-      <TestTaskCard />
     </Container>
   );
 }
