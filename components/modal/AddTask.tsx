@@ -25,12 +25,12 @@ export default function AddTask({ onClick }: { onClick: () => void }) {
         <div className="w-full">
           <div className="text-center">
             <h2 className="mb-pr-8 text-18 text-t-primary">할 일 만들기</h2>
-            <p className="text-14 text-t-secondary">
+            <p className="text-14 text-t-default mo:text-t-secondary">
               할 일은 실제로 행동 가능한 작업 중심으로 <br />
               작성해주시면 좋습니다.
             </p>
           </div>
-          <div className="mb-pr-24 mt-pr-16">
+          <div className="mb-pr-32 mt-pr-24 mo:mb-pr-24 mo:mt-pr-16">
             {/* input 컴포넌트 제작 전 임시로 그냥 input으로 대체 */}
             <input className="w-full" />
           </div>
