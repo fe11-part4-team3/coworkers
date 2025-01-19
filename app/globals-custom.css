@@ -114,3 +114,8 @@
     @apply text-t-primary;
   }
 }
+
+/* 드롭다운 item 스타일 */
+.dropdown-item {
+  @apply size-full cursor-pointer focus:bg-b-tertiary focus:outline-none;
+}
