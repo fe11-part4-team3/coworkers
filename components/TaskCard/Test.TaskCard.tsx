@@ -164,31 +164,11 @@ export default function TestTaskCard() {
   return (
     <div className="flex flex-col gap-pr-16">
       {taskListData.map((task) => {
-        return (
-          <TaskCard
-            key={task.id}
-            type="taskList"
-            name={task.name}
-            date={task.date}
-            doneAt={task.doneAt}
-            commentCount={task.commentCount}
-            frequency={task.frequency}
-          />
-        );
+        return <TaskCard key={task.id} type="taskList" taskData={task} />;
       })}
 
       {historyData.map((task) => {
-        return (
-          <TaskCard
-            key={task.id}
-            type="history"
-            name={task.name}
-            date={task.date}
-            doneAt={task.doneAt}
-            commentCount={task.commentCount}
-            frequency={task.frequency}
-          />
-        );
+        return <TaskCard key={task.id} type="history" taskData={task} />;
       })}
     </div>
   );

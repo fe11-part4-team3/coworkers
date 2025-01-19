@@ -2,11 +2,15 @@ type TaskName = string;
 
 interface TaskCardProps {
   type: 'history' | 'taskList';
-  name: TaskName;
+  taskData: taskData;
+}
+
+interface taskData {
+  name: string;
   date: string;
   doneAt: string | null;
   commentCount: number;
-  frequency: string;
+  frequency: 'ONCE' | 'DAILY' | 'WEEKLY' | 'MONTHLY' | string;
 }
 
 interface IconTextProps {

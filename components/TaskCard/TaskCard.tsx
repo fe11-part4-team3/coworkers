@@ -10,7 +10,10 @@ import IconText from './IconLabel';
 import KebabButton from './KebabButton';
 import TaskCheckbox from './TaskCheckbox';
 
-const frequencyList: Record<string, string> = {
+const frequencyList: Record<
+  'ONCE' | 'DAILY' | 'WEEKLY' | 'MONTHLY' | string,
+  string
+> = {
   DAILY: '매일 반복',
   WEEKLY: '매주 반복',
   MONTHLY: '매월 반복',
@@ -18,22 +21,12 @@ const frequencyList: Record<string, string> = {
 };
 
 /**
- * @param {'history' | 'taskList} type - 페이지별 카드 형태
- * @param {string} name - 할 일 제목
- * @param {string} date - 할 일 날짜
- * @param  {string | null} doneAt - 할 일 완료 유무
- * @param  {number} commentCount - 할 일 댓글 수
- * @param  {string} frequency - 반복 일정 종류
+ * @param {'history' | 'taskList'} props.type - 페이지별 카드 형태
+ * @param {object} props.taskData - 할 일 데이터
  * @returns {JSX.Element} 할 일 카드 컴포넌트
  */
-function TaskCard({
-  type,
-  name,
-  date,
-  doneAt,
-  commentCount,
-  frequency,
-}: TaskCardProps) {
+function TaskCard({ type, taskData }: TaskCardProps) {
+  const { name, date, doneAt, commentCount, frequency } = taskData;
   const [isChecked, setIsChecked] = useState(Boolean(doneAt));
   const isTaskList = type === 'taskList';
   const frequencyText = frequencyList[frequency];
