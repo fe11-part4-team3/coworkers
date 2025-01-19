@@ -7,6 +7,7 @@ import { signUp } from '@/service/auth.api';
 import { useAuth } from '@/hooks/useAuth';
 import { testStyled } from '@/styles/test.styles';
 import useForm from '@/hooks/useForm';
+import Container from '@/components/layout/Container';
 
 function SignupPage() {
   const { formData, handleChange } = useForm({
@@ -50,61 +51,63 @@ function SignupPage() {
   }, [isAuthenticated, route]);
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>
-          이름:
-          <input
-            type="text"
-            name="nickname"
-            value={formData.nickname}
-            onChange={handleChange}
-            required
-          />
-        </label>
-      </div>
-      <div>
-        <label>
-          이메일:
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-        </label>
-      </div>
+    <Container>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>
+            이름:
+            <input
+              type="text"
+              name="nickname"
+              value={formData.nickname}
+              onChange={handleChange}
+              required
+            />
+          </label>
+        </div>
+        <div>
+          <label>
+            이메일:
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+          </label>
+        </div>
 
-      <div>
-        <label>
-          비밀번호:
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-        </label>
-      </div>
-      <div>
-        <label>
-          비밀번호 확인:
-          <input
-            type="password"
-            name="passwordConfirmation"
-            value={formData.passwordConfirmation}
-            onChange={handleChange}
-            required
-          />
-        </label>
-      </div>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <button type="submit" className={testStyled}>
-        회원가입
-      </button>
-    </form>
+        <div>
+          <label>
+            비밀번호:
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+          </label>
+        </div>
+        <div>
+          <label>
+            비밀번호 확인:
+            <input
+              type="password"
+              name="passwordConfirmation"
+              value={formData.passwordConfirmation}
+              onChange={handleChange}
+              required
+            />
+          </label>
+        </div>
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+        <button type="submit" className={testStyled}>
+          회원가입
+        </button>
+      </form>
+    </Container>
   );
 }
 
