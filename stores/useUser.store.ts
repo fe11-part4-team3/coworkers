@@ -1,13 +1,13 @@
-import { getUser } from '@/service/user.api';
 import { IUserDetail } from '@/types/user.type';
 import { create } from 'zustand';
+import { getUser } from '@/service/user.api';
+import { persist } from 'zustand/middleware';
 
-interface AuthState {
+interface IUserStore {
   user: IUserDetail | null;
-  accessToken: string | null;
-  initializeUserData: () => Promise<void>;
-  setAccessToken: (token: string) => void;
   setUser: (user: IUserDetail) => void;
+  clearUser: () => void;
+  initializeUserData: () => Promise<void>;
 }
 
 /**
@@ -32,25 +32,31 @@ interface AuthState {
  * }
  */
 
-const useUserStore = create<AuthState>((set) => ({
-  user: null,
-  accessToken: null,
-  setAccessToken: (token) => set({ accessToken: token }),
-  setUser: (user) => set({ user }),
-  initializeUserData: async () => {
-    const token = localStorage.getItem('accessToken');
-    if (!token) return;
+const useUserStore = create(
+  persist<IUserStore>(
+    (set) => ({
+      user: null,
+      setUser: (user: IUserDetail) => set({ user }),
+      clearUser: () => set({ user: null }),
+      initializeUserData: async () => {
+        const token = localStorage.getItem('accessToken');
+        if (!token) return;
 
-    try {
-      const response = await getUser();
-      if (!response) throw new Error('유저 데이터를 불러오지못했습니다.');
+        try {
+          const response = await getUser();
+          if (!response) throw new Error('유저 데이터를 불러오지 못했습니다.');
 
-      set({ user: response, accessToken: token });
-    } catch (error) {
-      console.error('유저 초기 데이터가 없습니다.:', error);
-      set({ user: null });
-    }
-  },
-}));
+          set({ user: response });
+        } catch (error) {
+          console.error('유저 초기 데이터가 없습니다.:', error);
+          set({ user: null });
+        }
+      },
+    }),
+    {
+      name: 'user-store',
+    },
+  ),
+);
 
 export default useUserStore;
