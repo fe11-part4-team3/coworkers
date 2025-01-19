@@ -10,7 +10,7 @@ function TaskCheckbox({
       <input
         id={name}
         type="checkbox"
-        className="bg-md size-pr-16 shrink-0 cursor-pointer appearance-none rounded-md border border-t-primary checked:border-none checked:bg-[url('/images/icon-checked.svg')]"
+        className="size-pr-16 shrink-0 cursor-pointer appearance-none rounded-md border border-t-primary checked:border-none checked:bg-[url('/images/icon-checked.svg')]"
         checked={isChecked}
         onChange={handleCheckedToggle}
       />
