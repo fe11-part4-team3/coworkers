@@ -27,7 +27,6 @@ export default function AddTaskList({ onClick }: { onClick: () => void }) {
           <CloseIcon
             width={20}
             height={20}
-            fill="#fff"
             className="absolute right-pr-16 top-pr-16 cursor-pointer"
             onClick={closeModal}
           />

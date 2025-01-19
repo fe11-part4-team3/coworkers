@@ -21,7 +21,7 @@ export default function AddTask({ onClick }: { onClick: () => void }) {
 
   return (
     <>
-      <ModalBase className="px-pr-52 pt-pr-48">
+      <ModalBase className="px-pr-24 pt-pr-32">
         <div className="w-full">
           <div className="text-center">
             <h2 className="mb-pr-8 text-18 text-t-primary">할 일 만들기</h2>

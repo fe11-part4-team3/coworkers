@@ -36,7 +36,7 @@ export default function MemberProfile({
 
   return (
     <>
-      <ModalBase className="px-pr-52 pt-pr-48">
+      <ModalBase className="px-pr-32 pt-pr-48">
         <div className="w-full">
           <CloseIcon
             width={20}
