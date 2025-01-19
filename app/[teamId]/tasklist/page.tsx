@@ -1,5 +1,8 @@
 'use client';
 
+import MemberProfile from '@/components/modal/MemberProfile';
+import ChangePassword from '@/components/modal/ChangePassword';
+import Logout from '@/components/modal/Logout';
 import DeleteAccount from '@/components/modal/DeleteAccount';
 import ResetPassword from '@/components/modal/ResetPassword';
 import AddTask from '@/components/modal/AddTask';
@@ -22,7 +25,7 @@ export default function TaskListPage() {
           우와아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아악
           불투명도 테스트테스트
         </button>
-        <DeleteAccount onClick={handleOnclick} />
+        <MemberProfile onClick={handleOnclick} name="이름" email="이메일" />
       </div>
     </>
   );
