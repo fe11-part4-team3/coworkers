@@ -22,8 +22,8 @@ export default function InviteMember({ onClick }: { onClick: () => void }) {
 
   return (
     <>
-      <ModalBase>
-        <div className="relative mb-pr-40 flex w-full flex-col items-center gap-pr-8 pt-pr-48 mo:mb-pr-24">
+      <ModalBase className="px-pr-52 pt-pr-48">
+        <div className="w-full">
           <CloseIcon
             width={20}
             height={20}
@@ -31,16 +31,18 @@ export default function InviteMember({ onClick }: { onClick: () => void }) {
             className="absolute right-pr-16 top-pr-16 cursor-pointer"
             onClick={closeModal}
           />
-          <h2 className="text-18 text-t-primary">멤버 초대</h2>
-          <p className="text-14 text-t-secondary">
-            그룹에 참여할 수 있는 링크를 복사합니다.
-          </p>
+          <div className="mb-pr-40 text-center">
+            <h2 className="mb-pr-8 text-18 text-t-primary">멤버 초대</h2>
+            <p className="text-14 text-t-secondary">
+              그룹에 참여할 수 있는 링크를 복사합니다.
+            </p>
+          </div>
         </div>
         <Button
           text="링크 복사하기"
           onClick={handleOnClick}
           color="primary"
-          className="w-pr-280"
+          className="w-full"
         />
       </ModalBase>
     </>
