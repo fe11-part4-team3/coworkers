@@ -11,7 +11,7 @@ import ModalBase from '@/components/modal/ModalBase';
  * @param {Function} onClick - 모달 실행 함수 (할 일 추가 기능을 처리하는 함수 전달해주세요.)
  */
 
-export default function AddTaskList({ onClick }: { onClick: () => void }) {
+export default function AddTask({ onClick }: { onClick: () => void }) {
   const { closeModal } = useModalStore();
 
   const handleOnClick = () => {

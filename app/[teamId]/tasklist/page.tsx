@@ -1,5 +1,6 @@
 'use client';
 
+import DeleteAccount from '@/components/modal/DeleteAccount';
 import ResetPassword from '@/components/modal/ResetPassword';
 import AddTask from '@/components/modal/AddTask';
 import AddTaskList from '@/components/modal/AddTaskList';
@@ -21,7 +22,7 @@ export default function TaskListPage() {
           우와아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아악
           불투명도 테스트테스트
         </button>
-        <ResetPassword onClick={handleOnclick} />
+        <DeleteAccount onClick={handleOnclick} />
       </div>
     </>
   );

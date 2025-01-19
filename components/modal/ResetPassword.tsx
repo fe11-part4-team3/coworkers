@@ -11,7 +11,7 @@ import ModalBase from '@/components/modal/ModalBase';
  * @param {Function} onClick - 모달 실행 함수 (비밀번호 재설정 링크를 보내는 함수 전달해주세요.)
  */
 
-export default function AddTaskList({ onClick }: { onClick: () => void }) {
+export default function ResetPassword({ onClick }: { onClick: () => void }) {
   const { closeModal } = useModalStore();
 
   const handleOnClick = () => {
