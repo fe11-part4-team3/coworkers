@@ -29,22 +29,25 @@ export default function GroupMemberCard({ member }: GroupMemberCard) {
   );
 }
 
+// NOTE GroupMemberCard와 타입이 동일하지만 의미론적으로 분리했습니다.
 interface ContentProps {
   member: IMember;
 }
 
-const defaultProfile = '/images/icon-profile-member-default.svg';
+const DEFAULT_PROFILE = '/images/icon-profile-member-default.svg';
+const NAME_CLASSNAME = 'truncate text-14m text-primary';
+const EMAIL_CLASSNME = 'truncate text-12 text-t-secondary';
 
 function DefaultContent({ member }: ContentProps) {
   return (
     <>
       <Avatar className="z-0 h-pr-32 w-pr-32">
-        <AvatarImage src={member.userImage || defaultProfile} />
+        <AvatarImage src={member.userImage || DEFAULT_PROFILE} />
         <AvatarFallback>프로필</AvatarFallback>
       </Avatar>
       <div className="grow overflow-hidden">
-        <p className="truncate text-14m text-primary">{member.userName}</p>
-        <p className="truncate text-12 text-t-secondary">{member.userEmail}</p>
+        <p className={NAME_CLASSNAME}>{member.userName}</p>
+        <p className={EMAIL_CLASSNME}>{member.userEmail}</p>
       </div>
     </>
   );
@@ -55,12 +58,12 @@ function MobileContent({ member }: ContentProps) {
     <div className="flex flex-col overflow-hidden">
       <div className="flex items-center gap-pr-8">
         <Avatar className="z-0 h-pr-24 w-pr-24">
-          <AvatarImage src={member.userImage || defaultProfile} />
+          <AvatarImage src={member.userImage || DEFAULT_PROFILE} />
           <AvatarFallback>프로필</AvatarFallback>
         </Avatar>
-        <p className="truncate text-14m text-primary">{member.userName}</p>
+        <p className={NAME_CLASSNAME}>{member.userName}</p>
       </div>
-      <p className="truncate text-12 text-t-secondary">{member.userEmail}</p>
+      <p className={EMAIL_CLASSNME}>{member.userEmail}</p>
     </div>
   );
 }
