@@ -50,7 +50,7 @@ export default function NavigationGroupDropdown({
           <ArrowDwon />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="rounded-pr-12 border-none bg-b-secondary p-pr-16">
+      <DropdownMenuContent className="mt-pr-16 rounded-pr-12 border-none bg-b-secondary p-pr-16">
         {groups.map((group) => (
           <Item key={group.id} group={group} onClick={handleClick} />
         ))}
