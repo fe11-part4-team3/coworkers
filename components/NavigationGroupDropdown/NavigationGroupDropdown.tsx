@@ -2,15 +2,14 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
-  DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
 import { Button } from '../ui/button';
 import { IGroup } from '@/types/group.type';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
 import ArrowDwon from '@/public/images/icon-arrow-down.svg';
-import Plus from '@/public/images/icon-plus.svg';
+import DropdownTab from './DropdownTab';
+import DropdownAddGroup from './DropdownAddGroup';
 
 interface NavigationGroupDropdownProps {
   groups: IGroup[];
@@ -52,54 +51,13 @@ export default function NavigationGroupDropdown({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="mt-pr-16 rounded-pr-12 border-none bg-b-secondary p-pr-16">
+        //SECTION 드롭다운 그룹 리스트
         {groups.map((group) => (
-          <Item key={group.id} group={group} onClick={handleClick} />
+          <DropdownTab key={group.id} group={group} onClick={handleClick} />
         ))}
-        <DropdownMenuItem asChild>
-          <Button className="mt-pr-16 w-full rounded-pr-8 border border-slate-50 bg-inherit">
-            <Plus />
-            <span className="text-white">팀 추가하기</span>
-          </Button>
-        </DropdownMenuItem>
+        //SECTION 팀 추가하기 버튼
+        <DropdownAddGroup />
       </DropdownMenuContent>
     </DropdownMenu>
-  );
-}
-
-interface ItemProps {
-  group: IGroup;
-  onClick: (groupId: number) => void;
-}
-
-const DEFAULT_GROUP_PROFILE = '/images/icon-image-default.svg';
-
-/**
- * SECTION 드롭다운 아이템 컴포넌트
- * @param props.group 표기 그룹
- * @param props.onClick 리다이렉트 핸들러
- */
-function Item({ group, onClick }: ItemProps) {
-  const handleClick = () => onClick(group.id);
-
-  return (
-    <DropdownMenuItem
-      className="mb-pr-8 rounded-pr-8 px-pr-8 py-pr-7"
-      onClick={handleClick}
-    >
-      <Image
-        width={24}
-        height={24}
-        src={group.image || DEFAULT_GROUP_PROFILE}
-        alt="프로필 옵션"
-      />
-      <span className="grow text-16m text-white">{group.name}</span>
-      <Image
-        className="rounded-full transition-all duration-300 hover:bg-primary/10 active:bg-primary/20"
-        width={24}
-        height={24}
-        src="/images/icon-kebab.svg"
-        alt="프로필 옵션"
-      />
-    </DropdownMenuItem>
   );
 }
