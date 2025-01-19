@@ -47,7 +47,7 @@ const DefaultButton: React.FC<ButtonProps> = ({
           : `border border-${backgroundColor}`;
 
   const stateClass =
-    state === 'default' ? 'bg-gray-200' : `bg-${backgroundColor}`;
+    state === 'default' ? 'bg-brand-primary' : `bg-${backgroundColor}`;
   const textColorClass = backgroundColor === 'white' ? 'bg-b-inverse' : '';
   const borderColorClass =
     backgroundColor === 'white' ? 'border-b-inverse' : '';
