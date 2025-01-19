@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 import { deleteUser, updatePassword } from '@/service/user.api';
 import useUserStore from '@/stores/useUser.store';
@@ -9,7 +10,6 @@ import { useAuth } from '@/hooks/useAuth';
 import { testStyled } from '@/styles/test.styles';
 import Container from '@/components/layout/Container';
 import useForm from '@/hooks/useForm';
-import Link from 'next/link';
 
 export default function MyPage() {
   const { formData, handleChange, setFormData } = useForm({
