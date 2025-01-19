@@ -10,6 +10,7 @@ import { ThemeProvider } from '@/utils/theme-provider';
 import DarkmodeToggle from '@/components/DarkmodeToggle';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import Headers from '@/components/layout/Header/Headers';
+import { DeviceTypeProvider } from '@/contexts/DeviceTypeContext';
 
 const queryClient = new QueryClient();
 export default function RootLayout({
@@ -20,21 +21,23 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <QueryClientProvider client={queryClient}>
-            <SidebarProvider defaultOpen={true}>
-              <Headers />
-              <DarkmodeToggle />
-              {children}
-            </SidebarProvider>
-            <ReactQueryDevtools initialIsOpen={false} />
-          </QueryClientProvider>
-        </ThemeProvider>
+        <DeviceTypeProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <QueryClientProvider client={queryClient}>
+              <SidebarProvider defaultOpen={true}>
+                <Headers />
+                <DarkmodeToggle />
+                {children}
+              </SidebarProvider>
+              <ReactQueryDevtools initialIsOpen={false} />
+            </QueryClientProvider>
+          </ThemeProvider>
+        </DeviceTypeProvider>
       </body>
     </html>
   );
