@@ -10,6 +10,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import ArrowDwon from '@/public/images/icon-arrow-down.svg';
+import Plus from '@/public/images/icon-plus.svg';
 
 interface NavigationGroupDropdownProps {
   groups: IGroup[];
@@ -54,6 +55,12 @@ export default function NavigationGroupDropdown({
         {groups.map((group) => (
           <Item key={group.id} group={group} onClick={handleClick} />
         ))}
+        <DropdownMenuItem asChild>
+          <Button className="mt-pr-16 w-full rounded-pr-8 border border-slate-50 bg-inherit">
+            <Plus />
+            <span className="text-white">팀 추가하기</span>
+          </Button>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
