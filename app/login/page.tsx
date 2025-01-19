@@ -9,6 +9,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { testStyled } from '@/styles/test.styles';
 import useForm from '@/hooks/useForm';
 import Container from '@/components/layout/Container';
+import { getUser } from '@/service/user.api';
 
 function LoginPage() {
   const { formData, handleChange } = useForm({
@@ -22,7 +23,7 @@ function LoginPage() {
 
   // 인증된 사용자인지 확인
   const { setAccessToken, isAuthenticated } = useAuth();
-  const user = useUserStore((state) => state.user);
+  const { setUser, initializeUserData } = useUserStore();
 
   // 로그인 버튼 클릭 시
   const handleSubmit = async (e: React.FormEvent) => {
@@ -33,6 +34,11 @@ function LoginPage() {
       const response = await signIn(formData, setAccessToken);
       if (!response) return;
       setAccessToken(response.accessToken);
+
+      const userResponse = await getUser();
+      if (!userResponse) throw new Error('유저 데이터를 불러오지 못했습니다.');
+      setUser(userResponse);
+
       alert('로그인 되었습니다.');
       route.push('/');
     } catch (err) {
@@ -43,10 +49,11 @@ function LoginPage() {
 
   // 로그인 상태일 때
   useEffect(() => {
-    if (isAuthenticated && user) {
+    if (isAuthenticated) {
+      initializeUserData();
       route.push('/');
     }
-  }, [isAuthenticated, route, user]);
+  }, [isAuthenticated, initializeUserData]);
 
   // 로그인 상태가 아닐 때
   return (
