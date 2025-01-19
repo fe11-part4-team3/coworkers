@@ -12,6 +12,7 @@ interface SelectBoxProps {
   defaultValue?: string;
   placeholder?: string;
   width?: string;
+  height?: string;
   onValueChange?: (value: string) => void;
 }
 
@@ -36,27 +37,42 @@ export default function SelectBox({
   width,
   onValueChange,
 }: SelectBoxProps) {
+  // prefix로 필터링
+  const filterByPrefix = (input: string, prefix: string): string => {
+    const str = input.split(' ');
+    const splitArr = str.filter((item) =>
+      new RegExp(`(^|\\b)(\\w*:)?${prefix}`).test(item),
+    );
+    if (splitArr.length === 0) throw new Error('width 값이 없습니다.');
+    return splitArr.join(' ');
+  };
+
+  // w-pr 관련 항목 필터링
+  const widthStyledSliceWPr = (width: string) => filterByPrefix(width, 'w-pr');
+
   return (
-    <Select defaultValue={defaultValue} onValueChange={onValueChange}>
-      <SelectTrigger
-        className={`font-14 mo:font-12 focus:ring-none size-full rounded-xl border-none bg-b-secondary px-pr-14 py-pr-10 text-t-primary hover:bg-b-tertiary focus:bg-b-tertiary focus:outline-none data-[state=open]:bg-b-tertiary data-[placeholder='']:text-t-default mo:rounded-lg mo:p-pr-8 ${width}`}
-      >
-        <SelectValue placeholder={placeholder} />
-        <ICON_ARROW_FILLEND width={24} height={24} />
-      </SelectTrigger>
-      <SelectContent
-        className={`mt-pr-8 w-auto min-w-pr-90 overflow-hidden rounded-xl border border-b-tertiary bg-b-secondary text-center text-16 text-t-default mo:text-14 ${width}`}
-      >
-        {options.map((option) => (
-          <SelectItem
-            key={option}
-            value={option}
-            className="dropdown-item rounded-0 w-full px-pr-14 py-pr-11 text-t-primary mo:px-pr-8"
-          >
-            {option}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
+    <div>
+      <Select defaultValue={defaultValue} onValueChange={onValueChange}>
+        <SelectTrigger
+          className={`font-14 mo:font-12 focus:ring-none w-full rounded-xl border-none bg-b-secondary px-pr-14 py-pr-10 text-t-primary hover:bg-b-tertiary focus:bg-b-tertiary focus:outline-none data-[state=open]:bg-b-tertiary data-[placeholder='']:text-t-default mo:rounded-lg mo:p-pr-8 ${width && widthStyledSliceWPr(width)}`}
+        >
+          <SelectValue placeholder={placeholder} />
+          <ICON_ARROW_FILLEND width={24} height={24} />
+        </SelectTrigger>
+        <SelectContent
+          className={`mt-pr-8 h-full w-auto min-w-pr-90 overflow-hidden rounded-xl border border-b-tertiary bg-b-secondary text-center text-16 text-t-default mo:text-14 ${width && widthStyledSliceWPr(width)}`}
+        >
+          {options.map((option) => (
+            <SelectItem
+              key={option}
+              value={option}
+              className="dropdown-item rounded-0 px-pr-14 py-pr-11 text-t-primary mo:px-pr-8"
+            >
+              {option}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </div>
   );
 }
