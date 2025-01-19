@@ -30,6 +30,7 @@ export default function RootLayout({
           >
             <QueryClientProvider client={queryClient}>
               <SidebarProvider defaultOpen={false}>
+                <Headers />
                 <DarkmodeToggle />
                 {children}
               </SidebarProvider>
