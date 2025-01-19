@@ -41,7 +41,7 @@ const EMAIL_CLASSNME = 'truncate text-12 text-t-secondary';
 function DefaultContent({ member }: ContentProps) {
   return (
     <>
-      <Avatar className="z-0 size-pr-32">
+      <Avatar className="z-0 h-pr-32 w-pr-32">
         <AvatarImage src={member.userImage || DEFAULT_PROFILE} />
         <AvatarFallback>프로필</AvatarFallback>
       </Avatar>
@@ -57,7 +57,7 @@ function MobileContent({ member }: ContentProps) {
   return (
     <div className="flex flex-col overflow-hidden">
       <div className="flex items-center gap-pr-8">
-        <Avatar className="z-0 size-pr-24">
+        <Avatar className="z-0 h-pr-24 w-pr-24">
           <AvatarImage src={member.userImage || DEFAULT_PROFILE} />
           <AvatarFallback>프로필</AvatarFallback>
         </Avatar>
