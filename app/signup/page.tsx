@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { signUp } from '@/service/auth.api';
@@ -43,10 +43,11 @@ function SignupPage() {
     }
   };
 
-  if (isAuthenticated) {
-    route.push('/');
-    return null;
-  }
+  useEffect(() => {
+    if (isAuthenticated) {
+      route.push('/');
+    }
+  }, [isAuthenticated, route]);
 
   return (
     <form onSubmit={handleSubmit}>
