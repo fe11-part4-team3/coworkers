@@ -20,7 +20,7 @@ export default function MyPage() {
   const { clearToken, isAuthenticated } = useAuth();
 
   // 사용자 정보 상태 및 초기화 함수
-  const user = useUserStore((state) => state.user);
+  const { user, clearUser } = useUserStore();
 
   const [error, setError] = useState<string | null>(null);
 
@@ -29,6 +29,7 @@ export default function MyPage() {
   // 로그아웃 버튼 클릭 시
   const handleSubmitLogout = () => {
     clearToken();
+    clearUser();
     route.push('/');
     alert('로그아웃 되었습니다.');
   };

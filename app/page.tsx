@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect } from 'react';
 
 import useUserStore from '@/stores/useUser.store';
 import { useAuth } from '@/hooks/useAuth';
@@ -10,11 +9,7 @@ import Container from '@/components/layout/Container';
 
 export default function LandingPage() {
   const { isAuthenticated } = useAuth();
-  const { user, initializeUserData } = useUserStore();
-
-  useEffect(() => {
-    initializeUserData();
-  }, [initializeUserData]);
+  const { user } = useUserStore();
 
   if (isAuthenticated && !user) {
     return <div>사용자 정보를 불러오는 중입니다...</div>;
