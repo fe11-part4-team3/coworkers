@@ -1,19 +1,11 @@
 import { useState } from 'react';
 
-import { Input } from '../ui/input';
-import VisibilityToggle from './visibilityToggle';
+import { InputFieldProps } from '@/types/inputField.type';
 
-export interface InputFieldProps {
-  value: string;
-  placeholder: string;
-  type?: 'text' | 'password' | 'email';
-  label?: string;
-  error?: string;
-  disabled?: boolean;
-  width?: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onClickButton?: () => void;
-}
+import { Input } from '../ui/input';
+import ErrorMessage from './ErrorMessage';
+import InputLabel from './InputLabel';
+import HideToggle from './HideToggle';
 
 // input 공통 스타일
 export const inputStyled =
@@ -24,8 +16,9 @@ export const inputStyled =
  * @param {string} props.type - input 타입
  * @param {string} props.value - input 값
  * @param {string} props.label - input 라벨
+ * @param {boolean} props.essential - 필수 여부
  * @param {string} props.placeholder - input placeholder
- * @param {string} props.error - input 에러 메시지
+ * @param {string} props.errorMessage - input 에러 메시지
  * @param {boolean} props.disabled - input 비활성화 여부
  * @param {string} props.width - input 너비
  * @param {Function} props.onChange - input 값 변경 이벤트
@@ -35,9 +28,10 @@ export const inputStyled =
 export default function InputField({
   value,
   type = 'text',
-  label = 'label',
+  label = '',
+  essential = false,
   placeholder = 'placeholder를 작성해주세요',
-  error,
+  errorMessage,
   disabled = false,
   width = '',
   onChange,
@@ -53,14 +47,7 @@ export default function InputField({
 
   return (
     <fieldset className={width}>
-      {label && (
-        <label
-          htmlFor={label}
-          className="mb-pr-12 flex text-16m text-t-primary"
-        >
-          {label}
-        </label>
-      )}
+      {label && <InputLabel label={label} essential={essential} />}
       <div className="relative">
         <Input
           id={label}
@@ -71,7 +58,7 @@ export default function InputField({
           placeholder={placeholder}
           disabled={disabled}
           onChange={onChange}
-          className={`px-pr-16 py-pr-14.5 mo:py-pr-13.5 ${error && 'border-s-danger'} ${!disabled && !error && 'hover:border-i-hover'} ${inputStyled}`}
+          className={`px-pr-16 py-pr-14.5 mo:py-pr-13.5 ${errorMessage && 'border-s-danger'} ${!disabled && !errorMessage && 'hover:border-i-hover'} ${inputStyled}`}
           {...props}
         />
         {type === 'password' &&
@@ -84,12 +71,12 @@ export default function InputField({
               변경하기
             </button>
           ) : (
-            <VisibilityToggle
+            <HideToggle
               togglePassword={togglePassword}
               showPassword={showPassword}
             />
           ))}
-        {error && <p className="mt-pr-8 text-14m text-s-danger">{error}</p>}
+        {errorMessage && <ErrorMessage message={errorMessage} />}
       </div>
     </fieldset>
   );
