@@ -1,12 +1,11 @@
 'use client';
 
+import { useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import './globals.css';
 import './globals-custom.css';
-
-import { useEffect } from 'react';
 
 import { ThemeProvider } from '@/utils/theme-provider';
 import DarkmodeToggle from '@/components/DarkmodeToggle';
