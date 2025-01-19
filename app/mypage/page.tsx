@@ -9,6 +9,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { testStyled } from '@/styles/test.styles';
 import Container from '@/components/layout/Container';
 import useForm from '@/hooks/useForm';
+import Link from 'next/link';
 
 export default function MyPage() {
   const { formData, handleChange, setFormData } = useForm({
@@ -75,64 +76,73 @@ export default function MyPage() {
     }
   };
 
-  if (!user) {
-    return <div>사용자 정보를 불러오는 중입니다...</div>;
-  }
-
-  // 로그인 상태일 때
-  if (isAuthenticated && user) {
+  if (!isAuthenticated || !user) {
     return (
       <Container>
-        <div>환영합니다. {user.nickname} 님!</div>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label>
-              변경할 비밀번호:
-              <input
-                type="password"
-                name="password"
-                autoComplete="new-password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-              />
-            </label>
-          </div>
-          <div>
-            <label>
-              변경할 비밀번호 확인:
-              <input
-                type="password"
-                name="passwordConfirmation"
-                autoComplete="new-password"
-                value={formData.passwordConfirmation}
-                onChange={handleChange}
-                required
-              />
-            </label>
-          </div>
-          {error && <p style={{ color: 'red' }}>{error}</p>}
-          <button type="submit" className={testStyled}>
-            비밀번호 변경
-          </button>
-        </form>
-        <div className="flex gap-pr-10">
-          <button
-            type="submit"
-            onClick={handleSubmitLogout}
-            className={testStyled}
-          >
-            로그아웃
-          </button>
-          <button
-            type="button"
-            onClick={handleUserDelete}
-            className={testStyled}
-          >
-            회원탈퇴
-          </button>
+        <div>로그인이 필요합니다</div>
+        <div className="align-center flex gap-pr-10">
+          <Link href="/" className={testStyled}>
+            메인 페이지로 이동하기
+          </Link>
+          <Link href="/login" className={testStyled}>
+            로그인 하러가기
+          </Link>
+          <Link href="/signup" className={testStyled}>
+            회원가입 하러가기
+          </Link>
         </div>
       </Container>
     );
   }
+
+  // 로그인 상태일 때
+  return (
+    <Container>
+      <div>환영합니다. {user.nickname} 님!</div>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>
+            변경할 비밀번호:
+            <input
+              type="password"
+              name="password"
+              autoComplete="new-password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+          </label>
+        </div>
+        <div>
+          <label>
+            변경할 비밀번호 확인:
+            <input
+              type="password"
+              name="passwordConfirmation"
+              autoComplete="new-password"
+              value={formData.passwordConfirmation}
+              onChange={handleChange}
+              required
+            />
+          </label>
+        </div>
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+        <button type="submit" className={testStyled}>
+          비밀번호 변경
+        </button>
+      </form>
+      <div className="flex gap-pr-10">
+        <button
+          type="submit"
+          onClick={handleSubmitLogout}
+          className={testStyled}
+        >
+          로그아웃
+        </button>
+        <button type="button" onClick={handleUserDelete} className={testStyled}>
+          회원탈퇴
+        </button>
+      </div>
+    </Container>
+  );
 }
