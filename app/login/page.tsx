@@ -1,12 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import useUserStore from '@/store/useUser.store';
 import { signIn } from '@/service/auth.api';
 import { useAuth } from '@/hooks/useAuth';
-import useUserInfo from '@/hooks/useUserInfo';
 import { testStyled } from '@/styles/test.styles';
 import useForm from '@/hooks/useForm';
 
@@ -21,13 +20,10 @@ function LoginPage() {
   const route = useRouter();
 
   // 인증된 사용자인지 확인
-  const { setAccessToken, isAuthenticated, accessToken } = useAuth();
+  const { setAccessToken, isAuthenticated } = useAuth();
 
   // 사용자 정보 상태 및 초기화 함수
-  const { user } = useUserStore();
-
-  // 사용자 정보 불러오는 훅
-  useUserInfo();
+  const user = useUserStore((state) => state.user);
 
   // 로그인 버튼 클릭 시
   const handleSubmit = async (e: React.FormEvent) => {
@@ -36,10 +32,8 @@ function LoginPage() {
 
     try {
       const response = await signIn(formData, setAccessToken);
-
-      if (response.accessToken) {
-        setAccessToken(response.accessToken);
-      }
+      if (!response) return;
+      setAccessToken(response.accessToken);
       alert('로그인 되었습니다.');
       route.push('/');
     } catch (err) {
@@ -49,9 +43,11 @@ function LoginPage() {
   };
 
   // 로그인 상태일 때
-  if (isAuthenticated && accessToken && user) {
-    route.push('/mypage');
-  }
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      route.push('/mypage');
+    }
+  }, [isAuthenticated, user, route]);
 
   // 로그인 상태가 아닐 때
   return (
