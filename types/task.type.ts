@@ -35,25 +35,21 @@ interface TaskRecurringCreateBody {
   startDate?: string;
 }
 
-interface MonthlyRecurringCreateBody
-  extends TaskRecurringCreateBody {
+interface MonthlyRecurringCreateBody extends TaskRecurringCreateBody {
   frequencyType: FrequencyType.MONTHLY;
   monthDay: number;
 }
 
-interface WeeklyRecurringCreateBody
-  extends TaskRecurringCreateBody {
+interface WeeklyRecurringCreateBody extends TaskRecurringCreateBody {
   frequencyType: FrequencyType.WEEKLY;
   weekDays: number[];
 }
 
-interface DailyRecurringCreateBody
-  extends TaskRecurringCreateBody {
+interface DailyRecurringCreateBody extends TaskRecurringCreateBody {
   frequencyType: FrequencyType.DAILY;
 }
 
-interface OnceRecurringCreateBody
-  extends TaskRecurringCreateBody {
+interface OnceRecurringCreateBody extends TaskRecurringCreateBody {
   frequencyType: FrequencyType.ONCE;
 }
 

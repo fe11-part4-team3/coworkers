@@ -26,10 +26,7 @@ const signIn = async (
   setAccessToken: (token: string | null) => void,
 ): Promise<AuthResponse> => {
   try {
-    const response = await instance.post(
-      '/auth/signIn',
-      data,
-    );
+    const response = await instance.post('/auth/signIn', data);
     // 로그인 성공 시 토큰 저장
     const { accessToken, refreshToken } = response.data;
 
@@ -50,15 +47,10 @@ const signIn = async (
  * @param refreshToken 리프레시 토큰
  * @returns `accessToken` 엑세스 토큰
  */
-const refreshAccessToken = async (
-  refreshToken: string,
-): Promise<string> => {
-  const response = await instance.post(
-    '/auth/refresh-token',
-    {
-      refreshToken,
-    },
-  );
+const refreshAccessToken = async (refreshToken: string): Promise<string> => {
+  const response = await instance.post('/auth/refresh-token', {
+    refreshToken,
+  });
   return response.data.accessToken;
 };
 
@@ -97,9 +89,4 @@ const signInProvider = async ({
   return response.data;
 };
 
-export {
-  signUp,
-  signIn,
-  refreshAccessToken,
-  signInProvider,
-};
+export { signUp, signIn, refreshAccessToken, signInProvider };

@@ -12,12 +12,9 @@ import { useState, useEffect } from 'react';
  */
 export const useAuth = () => {
   // 엑세스 토큰 상태
-  const [accessToken, setAccessTokenState] = useState<
-    string | null
-  >(null);
+  const [accessToken, setAccessTokenState] = useState<string | null>(null);
   // 사용자 인
-  const [isAuthenticated, setIsAuthenticated] =
-    useState<boolean>(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
   // accessToken 상태를 업데이트하면서 localStorage와 동기화
   const setAccessToken = (token: string | null) => {
