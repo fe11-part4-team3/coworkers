@@ -7,6 +7,7 @@ const shadcnConfig: Config = {
   content: [
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
+    './stories/**/*.{js,ts,jsx,tsx}',
     './globals.css',
   ],
   theme: {
@@ -46,7 +47,7 @@ const shadcnConfig: Config = {
           foreground: 'hsl(var(--destructive-foreground))',
         },
         input: 'hsl(var(--input))',
-        ring: 'hsl(var(--ring))',
+        ring: 'var(--ring)',
         chart: {
           '1': 'hsl(var(--chart-1))',
           '2': 'hsl(var(--chart-2))',
@@ -97,6 +98,16 @@ const shadcnConfig: Config = {
           primary: 'var(--icon-primary)',
           inverse: 'var(--icon-inverse)',
           brand: 'var(--icon-brand)',
+        },
+        sidebar: {
+          DEFAULT: 'hsl(var(--sidebar-background))',
+          foreground: 'hsl(var(--sidebar-foreground))',
+          primary: 'hsl(var(--sidebar-primary))',
+          'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
+          accent: 'hsl(var(--sidebar-accent))',
+          'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
+          border: 'hsl(var(--sidebar-border))',
+          ring: 'hsl(var(--sidebar-ring))',
         },
       },
       fontSize: {
@@ -317,7 +328,6 @@ const shadcnConfig: Config = {
         },
       },
     },
-    plugins: ['tailwindcssAnimate'],
     theme: {
       remDivider: 16,
       fontSizeLimit: 100,
@@ -338,4 +348,5 @@ export default {
       ...customConfig.theme?.plugins,
     },
   },
+  plugins: [tailwindcssAnimate],
 } satisfies Config;
