@@ -23,9 +23,9 @@ function CommentTextarea({ value, onChange }: CommentTextareaProps) {
   }, [value]);
 
   return (
-    <div className="flex items-start border border-x-0 py-pr-12 pt-pr-13">
+    <div className="flex items-start border border-x-0 border-input py-pr-12 pt-pr-13">
       <textarea
-        className="h-pr-24 w-full resize-none bg-transparent text-14 leading-6 outline-none placeholder:text-t-default"
+        className="w-full resize-none bg-transparent text-14 leading-6 outline-none placeholder:text-t-default"
         placeholder="댓글을 달아주세요"
         value={value}
         onChange={onChange}
