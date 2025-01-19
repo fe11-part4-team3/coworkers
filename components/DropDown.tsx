@@ -7,11 +7,9 @@ import {
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
 
-interface DropDownItem {
-  text: string;
-  href?: string;
-  onClick?: () => void;
-}
+type DropDownItem =
+  | { text: string; href: string; onClick?: never }
+  | { text: string; href?: never; onClick: () => void };
 
 export interface DropDownProps {
   trigger: React.ReactNode;
