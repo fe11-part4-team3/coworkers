@@ -8,6 +8,7 @@ import { signIn } from '@/service/auth.api';
 import { useAuth } from '@/hooks/useAuth';
 import { testStyled } from '@/styles/test.styles';
 import useForm from '@/hooks/useForm';
+import Container from '@/components/layout/Container';
 
 function LoginPage() {
   const { formData, handleChange } = useForm({
@@ -21,8 +22,6 @@ function LoginPage() {
 
   // 인증된 사용자인지 확인
   const { setAccessToken, isAuthenticated } = useAuth();
-
-  // 사용자 정보 상태 및 초기화 함수
   const user = useUserStore((state) => state.user);
 
   // 로그인 버튼 클릭 시
@@ -45,13 +44,13 @@ function LoginPage() {
   // 로그인 상태일 때
   useEffect(() => {
     if (isAuthenticated && user) {
-      route.push('/mypage');
+      route.push('/');
     }
-  }, [isAuthenticated, user, route]);
+  }, [isAuthenticated, route, user]);
 
   // 로그인 상태가 아닐 때
   return (
-    <div>
+    <Container>
       <h1>로그인 페이지</h1>
       <form onSubmit={handleSubmit}>
         <div>
@@ -83,7 +82,7 @@ function LoginPage() {
           로그인
         </button>
       </form>
-    </div>
+    </Container>
   );
 }
 
