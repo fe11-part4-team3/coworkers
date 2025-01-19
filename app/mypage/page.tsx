@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { deleteUser, updatePassword } from '@/service/user.api';
-import useUserStore from '@/store/useUser.store';
+import useUserStore from '@/stores/useUser.store';
 import { useAuth } from '@/hooks/useAuth';
 import { testStyled } from '@/styles/test.styles';
 import Container from '@/components/layout/Container';

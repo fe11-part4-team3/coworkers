@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-import useUserStore from '@/store/useUser.store';
+import useUserStore from '@/stores/useUser.store';
 import { signIn } from '@/service/auth.api';
 import { useAuth } from '@/hooks/useAuth';
 import { testStyled } from '@/styles/test.styles';

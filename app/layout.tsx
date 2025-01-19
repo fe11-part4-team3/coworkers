@@ -13,7 +13,7 @@ import DarkmodeToggle from '@/components/DarkmodeToggle';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import Headers from '@/components/layout/Header/Headers';
 import { DeviceTypeProvider } from '@/contexts/DeviceTypeContext';
-import useUserStore from '@/store/useUser.store';
+import useUserStore from '@/stores/useUser.store';
 
 const queryClient = new QueryClient();
 export default function RootLayout({
