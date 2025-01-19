@@ -4,6 +4,9 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
+import NavigationGroupDropdown from '@/components/NavigationGroupDropdown/NavigationGroupDropdown';
+import getMockGroups from '@/components/SideNavigation/mockGroups';
+
 import Logo from './Logo';
 import Profile from './Profile';
 
@@ -41,6 +44,10 @@ function Headers() {
                 />
               </li>
             )}
+            {/*TODO 테스트용. 나중에 지워야합니다!*/}
+            <li>
+              <NavigationGroupDropdown groups={getMockGroups(10)} />
+            </li>
             <li>
               <Link href="/board">자유게시판</Link>
             </li>

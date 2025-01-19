@@ -1,13 +1,15 @@
+import { useParams, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+
+import { IGroup } from '@/types/group.type';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Button } from '../ui/button';
-import { IGroup } from '@/types/group.type';
-import { useParams, useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
 import ArrowDwon from '@/public/images/icon-arrow-down.svg';
+
+import { Button } from '../ui/button';
 import DropdownTab from './DropdownTab';
 import DropdownAddGroup from './DropdownAddGroup';
 
@@ -45,17 +47,18 @@ export default function NavigationGroupDropdown({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
+        {/* SECTION 트리거. 선택된 그룹 표기 */}
         <Button className="bg-inherit text-16m text-primary hover:bg-primary/10">
           <span>{selected}</span>
           <ArrowDwon />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="mt-pr-16 rounded-pr-12 border-none bg-b-secondary p-pr-16">
-        //SECTION 드롭다운 그룹 리스트
+        {/* SECTION 드롭다운 그룹 리스트 */}
         {groups.map((group) => (
           <DropdownTab key={group.id} group={group} onClick={handleClick} />
         ))}
-        //SECTION 팀 추가하기 버튼
+        {/* SECTION 팀 추가하기 버튼 */}
         <DropdownAddGroup />
       </DropdownMenuContent>
     </DropdownMenu>

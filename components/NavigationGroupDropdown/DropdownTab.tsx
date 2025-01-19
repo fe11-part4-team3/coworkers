@@ -1,6 +1,7 @@
-import { IGroup } from '@/types/group.type';
 import Image from 'next/image';
-import { DropdownMenuItem } from '../ui/dropdown-menu';
+
+import { IGroup } from '@/types/group.type';
+import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 
 interface DropdownTabProps {
   group: IGroup;
@@ -11,6 +12,7 @@ const DEFAULT_GROUP_PROFILE = '/images/icon-image-default.svg';
 
 /**
  * SECTION 드롭다운 아이템 컴포넌트
+ * TODO 프로필 이미지 디자인  해야합니다.
  * @param props.group 표기 그룹
  * @param props.onClick 리다이렉트 핸들러
  */
