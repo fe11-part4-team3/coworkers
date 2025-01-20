@@ -1,11 +1,17 @@
 type TaskName = string;
 
 interface TaskCardProps {
-  name: TaskName;
+  type: 'history' | 'taskList';
+  taskData: taskData;
+}
+
+interface taskData {
+  id: number;
+  name: string;
   date: string;
   doneAt: string | null;
   commentCount: number;
-  frequency: string;
+  frequency: 'ONCE' | 'DAILY' | 'WEEKLY' | 'MONTHLY' | string;
 }
 
 interface IconTextProps {
@@ -18,6 +24,7 @@ interface TaskCheckboxProps {
   name: TaskName;
   isChecked: boolean;
   handleCheckedToggle: () => void;
+  isTaskList: boolean;
 }
 
 export type { TaskCardProps, IconTextProps, TaskCheckboxProps };
