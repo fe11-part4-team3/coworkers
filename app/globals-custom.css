@@ -122,5 +122,5 @@
 
 /* kebab icon 스타일 */
 .icon-kebab {
-  @apply absolute left-0 top-0 size-pr-16 bg-[url('/images/icon-kebab.svg')];
+  @apply absolute right-0 top-0 size-pr-16 rounded-full bg-[url('/images/icon-kebab.svg')] duration-300 hover:bg-primary/10 active:bg-primary/20;
 }
