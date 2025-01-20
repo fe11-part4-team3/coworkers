@@ -1,26 +1,18 @@
+import { ChangeEvent, useState } from 'react';
+
+import { TaskDetailCommentProps } from '@/types/taskDetailComment.type';
+
 import { Card, CardContent, CardFooter } from '../ui/card';
 import Profile from '../Profile';
 import DateDisplay from '../DateDisplay';
 import CommentContent from './CommentContent';
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import DropDown from '../DropDown';
-import { TaskDetailCommentProps } from '@/types/taskDetailComment.type';
 import TextareaField from '../InputField/TextareaField';
 
 function TaskDetailComment({ commentData }: TaskDetailCommentProps) {
   const { id, content, createdAt, user } = commentData;
   const [commentContent, setCommentContent] = useState(content);
   const [commentEdit, setCommentEdit] = useState(false);
-  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
-
-  useEffect(() => {
-    if (commentEdit && textareaRef.current) {
-      textareaRef.current.focus(); // 상태가 true가 되면 포커스 설정
-      // 커서를 텍스트 끝으로 이동
-      const length = textareaRef.current.value.length;
-      textareaRef.current.setSelectionRange(length, length);
-    }
-  }, [commentEdit]);
 
   const handleEditClick = () => {
     setCommentEdit(true);
@@ -31,7 +23,7 @@ function TaskDetailComment({ commentData }: TaskDetailCommentProps) {
   };
 
   return (
-    <Card className="rounded-none border-l-0 border-r-0 border-t-0 border-input bg-transparent py-pr-16 shadow-none">
+    <Card className="rounded-none border-x-0 border-t-0 border-input bg-transparent py-pr-16 shadow-none">
       {!commentEdit ? (
         <CardContent className="flex justify-between p-0">
           <CommentContent content={commentContent} />
@@ -51,7 +43,6 @@ function TaskDetailComment({ commentData }: TaskDetailCommentProps) {
           value={commentContent}
           placeholder="댓글을 입력해주세요"
           onChange={handleCommentChange}
-          ref={textareaRef}
         />
       )}
 
