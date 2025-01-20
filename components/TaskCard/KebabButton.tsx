@@ -4,9 +4,7 @@ function KebabButton({ taskId }: { taskId: number }) {
   return (
     <div className="ml-auto size-pr-16 mo:ml-0">
       <DropDown
-        trigger={
-          <button className="size-pr-16 shrink-0 bg-[url('/images/icon-kebab.svg')] text-xs" />
-        }
+        trigger={<button className="icon-kebab" />}
         items={[
           {
             text: '수정하기',
