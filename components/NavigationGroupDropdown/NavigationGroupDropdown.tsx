@@ -37,13 +37,16 @@ export default function NavigationGroupDropdown({
     if (!groupId || !groups) return;
 
     //SECTION 드롭다운 선택된 그룹 찾는 로직
-    groups.some((group) => {
+    const result = groups.some((group) => {
       if (group.id === groupId) {
         setSelected(group.name);
         return true;
       }
       return false;
     });
+
+    //SECTION 없는 그룹일 경우 리다이렉트트
+    if (!result) router.push('/');
   }, [groupId, groups]);
 
   if (!groups || !visible) return null;
