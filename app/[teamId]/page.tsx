@@ -6,6 +6,7 @@ import SideNavigationBar from '@/components/SideNavigation/SideNavigation';
 import SideNavigationTrigger from '@/components/SideNavigation/SideNavigationTrigger';
 import GroupMemberCard from '@/components/GroupMemberCard.tsx/GroupMemberCard';
 import { IMember } from '@/types/group.type';
+import NavigationGroupDropdown from '@/components/NavigationGroupDropdown/NavigationGroupDropdown';
 
 const MOCK_MEMBER: IMember = {
   role: 'ADMIN',
@@ -33,6 +34,7 @@ export default function TeamPage() {
           alt="사이드 네비게이션 열기"
         />
         <GroupMemberCard member={MOCK_MEMBER} />
+        <NavigationGroupDropdown groups={groups} />
       </Container>
     </>
   );
