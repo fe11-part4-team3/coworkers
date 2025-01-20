@@ -8,6 +8,7 @@ import DateDisplay from '../DateDisplay';
 import CommentContent from './CommentContent';
 import DropDown from '../DropDown';
 import TextareaField from '../InputField/TextareaField';
+import useUserStore from '@/stores/useUser.store';
 
 /**
  * @param {object} props.commentData - 댓글 데이터
@@ -15,8 +16,12 @@ import TextareaField from '../InputField/TextareaField';
  */
 function TaskDetailComment({ commentData }: TaskDetailCommentProps) {
   const { id, content, createdAt, user } = commentData;
+  const { user: userData } = useUserStore();
   const [commentContent, setCommentContent] = useState(content);
   const [commentEdit, setCommentEdit] = useState(false);
+
+  // 유저 정보가 없으면 리턴
+  if (!userData) return;
 
   // Dropdown 수정하기
   const handleEditClick = () => {
@@ -51,14 +56,17 @@ function TaskDetailComment({ commentData }: TaskDetailCommentProps) {
       {!commentEdit ? (
         <CardContent className="flex justify-between p-0">
           <CommentContent content={commentContent} />
-          <DropDown
-            trigger={<button className="icon-kebab" />}
-            items={[
-              { text: '수정하기', onClick: handleEditClick },
-              { text: '삭제하기', onClick: handleDeleteClick },
-            ]}
-            width="w-pr-100"
-          />
+
+          {userData.id === user.id && (
+            <DropDown
+              trigger={<button className="icon-kebab" />}
+              items={[
+                { text: '수정하기', onClick: handleEditClick },
+                { text: '삭제하기', onClick: handleDeleteClick },
+              ]}
+              width="w-pr-120"
+            />
+          )}
         </CardContent>
       ) : (
         <TextareaField
