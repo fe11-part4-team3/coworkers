@@ -5,9 +5,9 @@ import { useRouter } from 'next/navigation';
 
 import { signUp } from '@/service/auth.api';
 import { useAuth } from '@/hooks/useAuth';
-import { testStyled } from '@/styles/test.styles';
 import useForm from '@/hooks/useForm';
 import Container from '@/components/layout/Container';
+import { Button } from '@/components/ui/button';
 
 function SignupPage() {
   const { formData, handleChange } = useForm({
@@ -103,9 +103,7 @@ function SignupPage() {
           </label>
         </div>
         {error && <p style={{ color: 'red' }}>{error}</p>}
-        <button type="submit" className={testStyled}>
-          회원가입
-        </button>
+        <Button type="submit">회원가입</Button>
       </form>
     </Container>
   );

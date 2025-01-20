@@ -4,7 +4,6 @@ import Link from 'next/link';
 
 import useUserStore from '@/stores/useUser.store';
 import { useAuth } from '@/hooks/useAuth';
-import { testStyled } from '@/styles/test.styles';
 import Container from '@/components/layout/Container';
 import { Button } from '@/components/ui/button';
 
@@ -34,23 +33,12 @@ export default function LandingPage() {
     <Container>
       <div>랜딩 페이지</div>
       <div className="flex gap-pr-10">
-        {isAuthenticated && user ? (
-          <Link
-            href="/mypage"
-            className="rounded-md bg-b-secondary p-pr-15 text-16"
-          >
-            마이페이지
-          </Link>
-        ) : (
-          <>
-            <Link href="/login" className={testStyled}>
-              로그인 페이지
-            </Link>
-            <Link href="/signup" className={testStyled}>
-              회원가입 페이지
-            </Link>
-          </>
-        )}
+        <Link href="/login">
+          <Button variant="link">로그인</Button>
+        </Link>
+        <Link href="/signup">
+          <Button variant="link">회원가입</Button>
+        </Link>
       </div>
     </Container>
   );

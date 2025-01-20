@@ -6,10 +6,10 @@ import { useRouter } from 'next/navigation';
 import useUserStore from '@/stores/useUser.store';
 import { signIn } from '@/service/auth.api';
 import { useAuth } from '@/hooks/useAuth';
-import { testStyled } from '@/styles/test.styles';
 import useForm from '@/hooks/useForm';
 import Container from '@/components/layout/Container';
 import { getUser } from '@/service/user.api';
+import { Button } from '@/components/ui/button';
 
 function LoginPage() {
   const { formData, handleChange } = useForm({
@@ -23,7 +23,7 @@ function LoginPage() {
 
   // 인증된 사용자인지 확인
   const { setAccessToken, isAuthenticated } = useAuth();
-  const { setUser, initializeUserData, user } = useUserStore();
+  const { setUser, user } = useUserStore();
 
   // 로그인 버튼 클릭 시
   const handleSubmit = async (e: React.FormEvent) => {
@@ -39,7 +39,7 @@ function LoginPage() {
       if (!userResponse) throw new Error('유저 데이터를 불러오지 못했습니다.');
       setUser(userResponse);
 
-      alert('로그인 되었습니다.');
+      console.log('로그인 되었습니다.');
     } catch (err) {
       console.error('로그인 실패:', err);
       setError('이메일 또는 비밀번호가 올바르지 않습니다.');
@@ -56,7 +56,7 @@ function LoginPage() {
     } else {
       return;
     }
-  }, [user, route]);
+  }, [user, route, isAuthenticated]);
 
   // 로그인 상태가 아닐 때
   return (
@@ -88,9 +88,7 @@ function LoginPage() {
           </label>
         </div>
         {error && <p style={{ color: 'red' }}>{error}</p>}
-        <button type="submit" className={testStyled}>
-          로그인
-        </button>
+        <Button type="submit">로그인</Button>
       </form>
     </Container>
   );
