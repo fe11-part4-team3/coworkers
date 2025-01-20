@@ -36,14 +36,14 @@ export interface DropDownProps {
  *   />
  */
 export default function DropDown({ trigger, items, width }: DropDownProps) {
-  const dropDownItemStyled = 'py-pr-14 mo:py-pr-12 dropdown-item';
+  const dropDownItemStyled = 'py-pr-14 mo:py-pr-12 dropdown-item text-14';
 
   return (
     <div className="relative">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>{trigger}</DropdownMenuTrigger>
         <DropdownMenuContent
-          className={`mt-pr-8 w-auto overflow-hidden rounded-xl border bg-b-secondary p-0 text-center text-16 text-t-default mo:text-14 ${width}`}
+          className={`mt-pr-8 w-auto overflow-hidden rounded-xl border bg-b-secondary p-0 text-center text-14 text-t-default ${width}`}
           align="end"
         >
           {items.length !== 0 &&

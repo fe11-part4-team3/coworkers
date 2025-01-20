@@ -35,17 +35,19 @@ interface ContentProps {
 }
 
 const DEFAULT_PROFILE = '/images/icon-profile-member-default.svg';
-const NAME_CLASSNAME = 'truncate text-14m text-primary';
+const NAME_CLASSNAME = 'truncate text-14m text-t-primary';
 const EMAIL_CLASSNME = 'truncate text-12 text-t-secondary';
+//NOTE className에 직접 넣으니 h랑 w가 size로 병합되어 따로 상수로 만들었습니다.
+const AVATAR_CALSSNAME = 'z-0 h-pr-32 w-pr-32';
 
 function DefaultContent({ member }: ContentProps) {
   return (
     <>
-      <Avatar className="z-0 h-pr-32 w-pr-32">
+      <Avatar className={AVATAR_CALSSNAME}>
         <AvatarImage src={member.userImage || DEFAULT_PROFILE} />
         <AvatarFallback>프로필</AvatarFallback>
       </Avatar>
-      <div className="grow overflow-hidden">
+      <div className="grow overflow-hidden text-t-primary">
         <p className={NAME_CLASSNAME}>{member.userName}</p>
         <p className={EMAIL_CLASSNME}>{member.userEmail}</p>
       </div>
@@ -57,7 +59,7 @@ function MobileContent({ member }: ContentProps) {
   return (
     <div className="flex flex-col overflow-hidden">
       <div className="flex items-center gap-pr-8">
-        <Avatar className="z-0 h-pr-24 w-pr-24">
+        <Avatar className="z-0 size-pr-24">
           <AvatarImage src={member.userImage || DEFAULT_PROFILE} />
           <AvatarFallback>프로필</AvatarFallback>
         </Avatar>

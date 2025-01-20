@@ -1,14 +1,15 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-import useUserStore from '@/store/useUser.store';
+import useUserStore from '@/stores/useUser.store';
 import { signIn } from '@/service/auth.api';
 import { useAuth } from '@/hooks/useAuth';
-import useUserInfo from '@/hooks/useUserInfo';
-import { testStyled } from '@/styles/test.styles';
 import useForm from '@/hooks/useForm';
+import Container from '@/components/layout/Container';
+import { getUser } from '@/service/user.api';
+import { Button } from '@/components/ui/button';
 
 function LoginPage() {
   const { formData, handleChange } = useForm({
@@ -21,13 +22,8 @@ function LoginPage() {
   const route = useRouter();
 
   // 인증된 사용자인지 확인
-  const { setAccessToken, isAuthenticated, accessToken } = useAuth();
-
-  // 사용자 정보 상태 및 초기화 함수
-  const { user } = useUserStore();
-
-  // 사용자 정보 불러오는 훅
-  useUserInfo();
+  const { setAccessToken, isAuthenticated } = useAuth();
+  const { setUser, user } = useUserStore();
 
   // 로그인 버튼 클릭 시
   const handleSubmit = async (e: React.FormEvent) => {
@@ -36,26 +32,35 @@ function LoginPage() {
 
     try {
       const response = await signIn(formData, setAccessToken);
+      if (!response) return;
+      setAccessToken(response.accessToken);
 
-      if (response.accessToken) {
-        setAccessToken(response.accessToken);
-      }
-      alert('로그인 되었습니다.');
-      route.push('/');
+      const userResponse = await getUser();
+      if (!userResponse) throw new Error('유저 데이터를 불러오지 못했습니다.');
+      setUser(userResponse);
+
+      console.log('로그인 되었습니다.');
     } catch (err) {
       console.error('로그인 실패:', err);
       setError('이메일 또는 비밀번호가 올바르지 않습니다.');
     }
   };
 
-  // 로그인 상태일 때
-  if (isAuthenticated && accessToken && user) {
-    route.push('/mypage');
-  }
+  useEffect(() => {
+    if (isAuthenticated) {
+      if (user && user.memberships.length > 0) {
+        route.push(`/${user.memberships[0].groupId}`);
+      } else {
+        route.push(`/`);
+      }
+    } else {
+      return;
+    }
+  }, [user, route, isAuthenticated]);
 
   // 로그인 상태가 아닐 때
   return (
-    <div>
+    <Container>
       <h1>로그인 페이지</h1>
       <form onSubmit={handleSubmit}>
         <div>
@@ -83,11 +88,9 @@ function LoginPage() {
           </label>
         </div>
         {error && <p style={{ color: 'red' }}>{error}</p>}
-        <button type="submit" className={testStyled}>
-          로그인
-        </button>
+        <Button type="submit">로그인</Button>
       </form>
-    </div>
+    </Container>
   );
 }
 

@@ -1,25 +1,32 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+
+import NavigationGroupDropdown from '@/components/NavigationGroupDropdown/NavigationGroupDropdown';
+import getMockGroups from '@/components/SideNavigation/mockGroups';
+import { useAuth } from '@/hooks/useAuth';
+import useUserStore from '@/stores/useUser.store';
+import { Button } from '@/components/ui/button';
 
 import Logo from './Logo';
 import Profile from './Profile';
 
 function Headers() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [teamId, setTeamId] = useState<string | null>('');
-  const [profileImage, setProfileImage] = useState<string | undefined>(
-    undefined,
-  );
+  const { isAuthenticated, accessToken } = useAuth();
+  const { user, initializeUserData } = useUserStore();
 
-  // TODO : 팀 아이디를 가져오는 로직이 필요합니다.
   useEffect(() => {
-    setTeamId('경영지원팀');
-    setIsLoggedIn(false);
-    setProfileImage('/images/img-Profile.svg');
-  }, []);
+    // 컴포넌트가 마운트될 때 사용자 데이터를 초기화
+    initializeUserData();
+  }, [initializeUserData]);
+
+  useEffect(() => {
+    console.log('인증상태', isAuthenticated);
+    console.log('유저 정보', user);
+    console.log('토큰', accessToken);
+  }, [user]);
 
   return (
     <header className="fixed flex h-pr-60 w-full items-center border-b bg-b-secondary">
@@ -28,10 +35,10 @@ function Headers() {
         <nav className="ml-4 flex items-center space-x-4">
           <ul className="flex items-center space-x-4 text-16m">
             {/* TODO : 모바일일때는 안보이게 */}
-            {isLoggedIn && teamId && (
+            {user && user.memberships.length > 0 && (
               <li>
-                <Link href={`/${teamId}`}>
-                  <p>{teamId}</p>
+                <Link href={`/${user.memberships[0].groupId}`}>
+                  <p>{user.memberships[0].groupId}</p>
                 </Link>
                 <Image
                   src="/images/img-Check.svg"
@@ -41,14 +48,23 @@ function Headers() {
                 />
               </li>
             )}
+            {/*TODO 테스트용. 나중에 지워야합니다!*/}
             <li>
-              <Link href="/board">자유게시판</Link>
+              <NavigationGroupDropdown groups={getMockGroups(10)} />
+            </li>
+            <li>
+              <Link href="/boards">자유게시판</Link>
             </li>
           </ul>
         </nav>
 
-        {isLoggedIn && (
-          <Profile userName="안해나" profileImage={profileImage} />
+        {user && (
+          <>
+            <Profile userName={user.nickname} profileImage={user.image} />
+            <Link href="/mypage">
+              <Button variant="link">마이페이지</Button>
+            </Link>
+          </>
         )}
       </div>
     </header>

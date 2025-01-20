@@ -30,5 +30,22 @@
   },
   "editor.quickSuggestions": {
     "strings": "on"
-  }
+  },
+  "files.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/.git": true,
+    "**/.next": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/.next": true
+  },
+  "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "**/dist/**": true,
+    "**/.next": true
+  },
+  "typescript.tsserver.maxTsServerMemory": 4096
 }

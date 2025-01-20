@@ -119,3 +119,8 @@
 .dropdown-item {
   @apply size-full cursor-pointer focus:bg-b-tertiary focus:outline-none;
 }
+
+/* kebab icon 스타일 */
+.icon-kebab {
+  @apply absolute left-0 top-0 size-pr-16 bg-[url('/images/icon-kebab.svg')];
+}
