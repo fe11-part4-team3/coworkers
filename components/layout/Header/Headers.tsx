@@ -1,27 +1,27 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 
 import NavigationGroupDropdown from '@/components/NavigationGroupDropdown/NavigationGroupDropdown';
-import getMockGroups from '@/components/SideNavigation/mockGroups';
 import { useAuth } from '@/hooks/useAuth';
 import useUserStore from '@/stores/useUser.store';
 import { Button } from '@/components/ui/button';
 
 import Logo from './Logo';
 import Profile from './Profile';
+import { useQuery } from '@tanstack/react-query';
+import { getGroupList } from '@/service/user.api';
+import { useDeviceType } from '@/contexts/DeviceTypeContext';
 
 function Headers() {
-  const [teamId, setTeamId] = useState<string | null>('');
+  const deviceType = useDeviceType();
   const { isAuthenticated } = useAuth();
   const { user } = useUserStore();
-
-  // TODO : 팀 아이디를 가져오는 로직이 필요합니다.
-  useEffect(() => {
-    setTeamId('경영지원팀');
-  }, []);
+  const { data: groups } = useQuery({
+    queryKey: ['groups'],
+    queryFn: getGroupList,
+    enabled: isAuthenticated,
+  });
 
   return (
     <header className="fixed flex h-pr-60 w-full items-center border-b bg-b-secondary">
@@ -29,23 +29,11 @@ function Headers() {
         <Logo />
         <nav className="ml-4 flex items-center space-x-4">
           <ul className="flex items-center space-x-4 text-16m">
-            {/* TODO : 모바일일때는 안보이게 */}
-            {isAuthenticated && user && user.memberships.length > 0 && (
-              <li>
-                <Link href={`/${teamId}`}>
-                  <p>{teamId}</p>
-                </Link>
-                <Image
-                  src="/images/img-Check.svg"
-                  alt="check"
-                  width={16}
-                  height={16}
-                />
-              </li>
-            )}
-            {/*TODO 테스트용. 나중에 지워야합니다!*/}
             <li>
-              <NavigationGroupDropdown groups={getMockGroups(10)} />
+              <NavigationGroupDropdown
+                groups={groups}
+                visible={deviceType !== 'mobile'}
+              />
             </li>
             <li>
               <Link href="/boards">자유게시판</Link>
