@@ -6,6 +6,7 @@ interface TaskCardProps {
 }
 
 interface taskData {
+  id: number;
   name: string;
   date: string;
   doneAt: string | null;

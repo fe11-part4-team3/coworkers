@@ -2,7 +2,6 @@
 
 import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 
-import { useRouter } from 'next/router';
 import { TokenResponse } from '@/types/auth.type';
 
 export const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? '';
@@ -68,8 +67,6 @@ const isPublicEndpoint = (url?: string, method?: string): boolean => {
  * @returns 새 액세스 토큰 또는 null
  */
 const refreshToken = async (): Promise<string | null> => {
-  const router = useRouter();
-
   const storedToken = localStorage.getItem('refreshToken');
   if (!storedToken) {
     console.log('로그인 세션 만료');
@@ -92,7 +89,6 @@ const refreshToken = async (): Promise<string | null> => {
   } catch (error) {
     localStorage.clear();
     console.log('로그인 세션 만료');
-    router.push('/login');
     return null;
   }
 };

@@ -4,6 +4,7 @@ export interface InputFieldBaseProps {
   disabled?: boolean;
   label?: string;
   essential?: boolean;
+  name: string;
 }
 
 export interface InputFieldProps extends InputFieldBaseProps {
