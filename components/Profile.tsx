@@ -10,6 +10,10 @@ interface ProfileProp {
 
 const DEFAULT_PROFILE = '/images/icon-profile-member-default.svg';
 
+/**
+ * @param {object} props.user - 유저 데이터
+ * @returns {JSX.Element} 프로필 컴포넌트
+ */
 function Profile({ user }: ProfileProp) {
   const { nickname, image } = user;
 
