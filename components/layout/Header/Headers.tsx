@@ -6,6 +6,7 @@ import Link from 'next/link';
 
 import NavigationGroupDropdown from '@/components/NavigationGroupDropdown/NavigationGroupDropdown';
 import getMockGroups from '@/components/SideNavigation/mockGroups';
+
 import { useAuth } from '@/hooks/useAuth';
 import useUserStore from '@/stores/useUser.store';
 import { Button } from '@/components/ui/button';
@@ -43,6 +44,7 @@ function Headers() {
                 />
               </li>
             )}
+            {/*TODO 테스트용. 나중에 지워야합니다!*/}
             <li>
               <NavigationGroupDropdown groups={getMockGroups(10)} />
             </li>
