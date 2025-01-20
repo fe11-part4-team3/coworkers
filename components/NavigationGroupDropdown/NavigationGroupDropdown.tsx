@@ -14,7 +14,8 @@ import DropdownTab from './DropdownTab';
 import DropdownAddGroup from './DropdownAddGroup';
 
 interface NavigationGroupDropdownProps {
-  groups: IGroup[];
+  groups: IGroup[] | undefined;
+  visible?: boolean;
 }
 
 /**
@@ -23,6 +24,7 @@ interface NavigationGroupDropdownProps {
  */
 export default function NavigationGroupDropdown({
   groups,
+  visible = true,
 }: NavigationGroupDropdownProps) {
   const router = useRouter();
   const { teamId } = useParams();
@@ -43,6 +45,8 @@ export default function NavigationGroupDropdown({
       return false;
     });
   }, [groupId, groups]);
+
+  if (!groups || !visible) return null;
 
   return (
     <DropdownMenu>
