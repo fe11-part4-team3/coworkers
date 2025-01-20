@@ -1,6 +1,7 @@
 import { ChangeEvent, useState } from 'react';
 
 import { TaskDetailCommentProps } from '@/types/taskDetailComment.type';
+import useUserStore from '@/stores/useUser.store';
 
 import { Card, CardContent, CardFooter } from '../ui/card';
 import Profile from '../Profile';
@@ -8,7 +9,6 @@ import DateDisplay from '../DateDisplay';
 import CommentContent from './CommentContent';
 import DropDown from '../DropDown';
 import TextareaField from '../InputField/TextareaField';
-import useUserStore from '@/stores/useUser.store';
 
 /**
  * @param {object} props.commentData - 댓글 데이터
