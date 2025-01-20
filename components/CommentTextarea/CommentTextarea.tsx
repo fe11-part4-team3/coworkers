@@ -17,7 +17,7 @@ function CommentTextarea({ value, onChange }: CommentTextareaProps) {
     if (textareaRef.current) {
       // 높이의 초기값을 디자인 기준인 24px로 설정
       textareaRef.current.style.height = '24px';
-      // (댓글 입력 값 줄 수 x 24px)로 높이 설정
+      // 댓글 입력 값 줄 수에 따라 높이 설정
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
     }
   }, [value]);
@@ -27,6 +27,7 @@ function CommentTextarea({ value, onChange }: CommentTextareaProps) {
       <textarea
         className="w-full resize-none bg-transparent text-14 leading-6 outline-none placeholder:text-t-default"
         placeholder="댓글을 달아주세요"
+        name="content"
         value={value}
         onChange={onChange}
         ref={textareaRef}
