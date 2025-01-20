@@ -12,6 +12,8 @@ import Profile from './Profile';
 import { useQuery } from '@tanstack/react-query';
 import { getGroupList } from '@/service/user.api';
 import { useDeviceType } from '@/contexts/DeviceTypeContext';
+import SideNavigationTrigger from '@/components/SideNavigation/SideNavigationTrigger';
+import SideNavigation from '@/components/SideNavigation/SideNavigation';
 
 function Headers() {
   const deviceType = useDeviceType();
@@ -24,12 +26,26 @@ function Headers() {
   });
 
   return (
-    <header className="fixed flex h-pr-60 w-full items-center border-b bg-b-secondary">
+    <header className="fixed flex h-pr-60 w-full items-center border-b bg-b-secondary transition-all">
       <div className="mx-auto flex w-pr-1200 items-center gap-pr-40 px-pr-40 mo:px-pr-16 ta:gap-pr-24 ta:px-pr-25">
+        {deviceType === 'mobile' && (
+          <>
+            <SideNavigationTrigger
+              src="/images/icon-gnb-menu.svg"
+              alt="그룹 네비게이션"
+            />
+            <SideNavigation
+              groups={groups}
+              loading={false}
+              showSkeleton={true}
+              skeletonLength={10}
+            />
+          </>
+        )}
         <Logo />
         <nav className="ml-4 flex items-center space-x-4">
           <ul className="flex items-center space-x-4 text-16m">
-            <li>
+            <li className="mo:hidden">
               <NavigationGroupDropdown
                 groups={groups}
                 visible={deviceType !== 'mobile'}
