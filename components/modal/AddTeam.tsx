@@ -4,6 +4,7 @@ import useModalStore from '@/stores/modalStore';
 import Button from '@/components/Button';
 import CloseIcon from '@/public/images/icon-close.svg';
 import ModalBase from '@/components/modal/ModalBase';
+import InputField from '@/components/InputField/InputField';
 
 /**
  * 팀 추가 모달 컴포넌트.
@@ -33,17 +34,21 @@ export default function AddTeam({ onClick }: { onClick: () => void }) {
           <div className="text-center">
             <h2 className="text-18 text-t-primary">팀 이름</h2>
           </div>
-          <div className="mb-pr-24 mt-pr-16">
-            {/* input 컴포넌트 제작 전 임시로 그냥 input으로 대체 */}
-            <input className="w-full" />
-          </div>
+          <form className="mt-pr-16">
+            <InputField
+              value=""
+              placeholder="팀 이름을 입력해주세요."
+              name="team-name"
+              onChange={() => {}}
+            />
+            <Button
+              text="추가하기"
+              onClick={handleOnClick}
+              color="primary"
+              className="mt-pr-24 w-full"
+            />
+          </form>
         </div>
-        <Button
-          text="추가하기"
-          onClick={handleOnClick}
-          color="primary"
-          className="w-full"
-        />
       </ModalBase>
     </>
   );

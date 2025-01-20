@@ -1,6 +1,6 @@
 'use client';
 
-import AddTask from '@/components/modal/AddTask';
+import ResetPassword from '@/components/modal/ResetPassword';
 import useModalStore from '@/stores/modalStore';
 
 export default function TaskListPage() {
@@ -18,7 +18,7 @@ export default function TaskListPage() {
           우와아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아악
           불투명도 테스트테스트
         </button>
-        <AddTask onClick={handleOnclick} />
+        <ResetPassword onClick={handleOnclick} />
       </div>
     </>
   );

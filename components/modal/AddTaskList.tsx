@@ -4,6 +4,7 @@ import useModalStore from '@/stores/modalStore';
 import Button from '@/components/Button';
 import CloseIcon from '@/public/images/icon-close.svg';
 import ModalBase from '@/components/modal/ModalBase';
+import InputField from '@/components/InputField/InputField';
 
 /**
  * 할 일 목록 추가 모달 컴포넌트.
@@ -33,17 +34,21 @@ export default function AddTaskList({ onClick }: { onClick: () => void }) {
           <div className="text-center">
             <h2 className="text-18 text-t-primary">할 일 목록</h2>
           </div>
-          <div className="mb-pr-24 mt-pr-16">
-            {/* input 컴포넌트 제작 전 임시로 그냥 input으로 대체 */}
-            <input className="w-full" />
-          </div>
+          <form className="mt-pr-16">
+            <InputField
+              value=""
+              placeholder="목록 명을 입력해주세요."
+              name="task-list-title"
+              onChange={() => {}}
+            />
+            <Button
+              text="만들기"
+              onClick={handleOnClick}
+              color="primary"
+              className="mt-pr-24 w-full"
+            />
+          </form>
         </div>
-        <Button
-          text="만들기"
-          onClick={handleOnClick}
-          color="primary"
-          className="w-full"
-        />
       </ModalBase>
     </>
   );

@@ -3,6 +3,7 @@
 import useModalStore from '@/stores/modalStore';
 import Button from '@/components/Button';
 import ModalBase from '@/components/modal/ModalBase';
+import InputField from '@/components/InputField/InputField';
 
 /**
  * 목록 추가 모달 컴포넌트.
@@ -30,16 +31,21 @@ export default function AddList({ onClick }: { onClick: () => void }) {
               목록별 할 일을 만들 수 있습니다.
             </p>
           </div>
-          <div className="mb-pr-24 mt-pr-16">
-            {/* input 컴포넌트 제작 전 임시로 그냥 input으로 대체 */}
-            <input className="w-full" />
-          </div>
-          <Button
-            text="만들기"
-            onClick={handleOnClick}
-            color="primary"
-            className="w-full"
-          />
+          <form className="mt-pr-16">
+            <InputField
+              value=""
+              placeholder="목록 이름을 입력해주세요."
+              label="목록 이름"
+              name="list-name"
+              onChange={() => {}}
+            />
+            <Button
+              text="만들기"
+              onClick={handleOnClick}
+              color="primary"
+              className="mt-pr-24 w-full"
+            />
+          </form>
         </div>
       </ModalBase>
     </>
