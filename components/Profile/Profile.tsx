@@ -1,17 +1,43 @@
 import Image from 'next/image';
+import { useTheme } from 'next-themes';
+import { useEffect, useState } from 'react';
 
-interface ProfileProps {
+type Variant = 'member' | 'group';
+
+type Theme = 'dark' | 'light';
+const DEFAULT_THEME = 'dark';
+
+type ProfileImageType = {
+  [key in Variant]: {
+    [key in Theme]: string;
+  };
+};
+const PROFILE_IMAGE: ProfileImageType = {
+  member: {
+    dark: '/images/icon-profile-member.svg',
+    light: '/images/icon-profile-member-light.svg',
+  },
+  group: {
+    dark: '/images/icon-profile-image.svg',
+    light: '/images/icon-profile-image-light.svg',
+  },
+};
+
+type EditButtonType = {
+  [key in Theme]: string;
+};
+const EDIT_BUTTON: EditButtonType = {
+  dark: '/images/icon-edit-small.svg',
+  light: '/images/icon-edit-small-light.svg',
+};
+
+type ProfileProps = {
   src?: string;
-  variant: 'member' | 'group';
+  variant: Variant;
   profileSize?: number;
   isEdit?: boolean;
   editSzie?: number;
-  onClick?: () => void;
-}
-
-const PROFILE = {
-  member: '/images/icon-profile-member.svg',
-  group: '/images/icon-profile-image.svg',
+  onChange?: () => void;
 };
 
 /**
@@ -29,25 +55,50 @@ export default function Profile({
   profileSize = 64,
   isEdit = false,
   editSzie = 24,
-  onClick = () => {},
+  onChange,
 }: ProfileProps) {
+  const { theme, systemTheme } = useTheme();
+  const [currentTheme, setCurrentTheme] = useState<Theme>(DEFAULT_THEME);
+
+  useEffect(() => {
+    if (theme === 'system') {
+      const next = systemTheme || DEFAULT_THEME;
+      setCurrentTheme(next);
+      return;
+    }
+
+    if (theme === 'dark' || theme === 'light') {
+      setCurrentTheme(theme);
+      return;
+    }
+
+    setCurrentTheme(DEFAULT_THEME);
+  }, [theme, systemTheme]);
+
   return (
-    <button className="relative size-fit p-0" onClick={onClick}>
-      <Image
-        width={profileSize}
-        height={profileSize}
-        src={src || PROFILE[variant]}
-        alt="프로필"
-      />
-      {isEdit && (
+    <fieldset className="size-fit">
+      <label
+        htmlFor={isEdit ? 'edit' : undefined}
+        className={`relative ${isEdit && 'cursor-pointer'}`}
+      >
         <Image
-          className="absolute bottom-[-4px] right-[-4px]"
-          width={editSzie}
-          height={editSzie}
-          src="/images/icon-edit-small.svg"
-          alt="수정"
+          width={profileSize}
+          height={profileSize}
+          src={src || PROFILE_IMAGE[variant][currentTheme]}
+          alt={`${variant} 프로필 이미지`}
         />
-      )}
-    </button>
+
+        {isEdit && (
+          <Image
+            className="absolute bottom-[-4px] right-[-4px]"
+            width={editSzie}
+            height={editSzie}
+            src={EDIT_BUTTON[currentTheme]}
+            alt="수정"
+          />
+        )}
+      </label>
+      <input id="edit" type="file" className="hidden" onChange={onChange} />
+    </fieldset>
   );
 }
