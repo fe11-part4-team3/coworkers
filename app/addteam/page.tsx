@@ -11,6 +11,7 @@ import Container from '@/components/layout/Container';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { createGroup } from '@/service/group.api';
+import useUserStore from '@/stores/useUser.store';
 
 export default function AddTeamPage() {
   const { formData, handleChange, setFormData } = useForm({
@@ -19,6 +20,7 @@ export default function AddTeamPage() {
   });
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const { user, setUser } = useUserStore();
 
   const route = useRouter();
 
@@ -65,7 +67,33 @@ export default function AddTeamPage() {
 
       // STUB 팀을 생성합니다.
       const response = await createGroup(newFormData);
+      response.teamId = '11-3';
       console.log('팀 생성이 완료되었습니다', response);
+
+      if (!user) {
+        console.error('사용자 정보가 없습니다.');
+        return;
+      }
+
+      // STUB 새로운 멤버십을 생성합니다.
+      const newMembership = {
+        userId: user?.id,
+        groupId: response.id,
+        userName: user?.nickname,
+        userEmail: user?.email,
+        userImage: user?.image ?? null,
+        role: 'ADMIN' as 'ADMIN' | 'MEMBER',
+        group: { ...response },
+      };
+
+      // STUB 사용자 정보(store)에 새로운 멤버십을 추가합니다.
+      const memberships = user?.memberships ? [...user.memberships] : [];
+      memberships.push(newMembership);
+
+      // STUB 사용자 정보(store)를 업데이트합니다.
+      if (user) {
+        setUser({ ...user, memberships });
+      }
 
       route.push(`/${response.id}`);
     } catch (error) {
