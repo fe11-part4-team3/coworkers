@@ -30,10 +30,13 @@ jobs:
         with:
           github-token: ${{ secrets.TOKEN }}
           script: |
-            const branchName = "feature/issue-${{ github.event.issue.number }}";
+            const branchName = `feature/issue-${{ github.event.issue.number }}`;
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `git checkout -b ${branchName} origin/${branchName} `
-            })
+              body: `\`\`\`\n`
+                    + `git fetch\n`
+                    + `git checkout -b ${branchName} origin/${branchName}\n`
+                    + `\`\`\``
+            });
