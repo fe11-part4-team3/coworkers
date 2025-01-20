@@ -7,7 +7,7 @@ import { newDate, newTime } from '@/utils/dateConversion';
 import type { TaskCardProps } from '@/types/taskCard.type';
 
 import IconText from '../IconLabel';
-import KebabButton from './KebabButton';
+import KebabButton from './DropdownButton';
 import TaskCheckbox from './TaskCheckbox';
 
 const frequencyList: Record<
