@@ -12,14 +12,10 @@ import Logo from './Logo';
 import Profile from './Profile';
 
 function Headers() {
-  const [teamId, setTeamId] = useState<string | null>('');
   const { isAuthenticated } = useAuth();
   const { user } = useUserStore();
 
-  // TODO : 팀 아이디를 가져오는 로직이 필요합니다.
-  useEffect(() => {
-    setTeamId('경영지원팀');
-  }, []);
+  useEffect(() => {}, [user]);
 
   return (
     <header className="fixed flex h-pr-60 w-full items-center border-b bg-b-secondary">
@@ -30,8 +26,8 @@ function Headers() {
             {/* TODO : 모바일일때는 안보이게 */}
             {isAuthenticated && user && user.memberships.length > 0 && (
               <li>
-                <Link href={`/${teamId}`}>
-                  <p>{teamId}</p>
+                <Link href={`/${user.memberships[0].groupId}`}>
+                  <p>{user.memberships[0].groupId}</p>
                 </Link>
                 <Image
                   src="/images/img-Check.svg"
