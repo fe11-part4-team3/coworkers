@@ -98,7 +98,13 @@ export default function Profile({
           />
         )}
       </label>
-      <input id="edit" type="file" className="hidden" onChange={onChange} />
+      <input
+        id="edit"
+        type="file"
+        className="hidden"
+        onChange={onChange}
+        accept="image/jpeg, image/png, image/webp, image/jpg"
+      />
     </fieldset>
   );
 }
