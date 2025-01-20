@@ -10,7 +10,10 @@ import IconText from './IconLabel';
 import KebabButton from './KebabButton';
 import TaskCheckbox from './TaskCheckbox';
 
-const frequencyList: Record<string, string> = {
+const frequencyList: Record<
+  'ONCE' | 'DAILY' | 'WEEKLY' | 'MONTHLY' | string,
+  string
+> = {
   DAILY: '매일 반복',
   WEEKLY: '매주 반복',
   MONTHLY: '매월 반복',
@@ -18,45 +21,49 @@ const frequencyList: Record<string, string> = {
 };
 
 /**
- * @param param.name string
- * @param param.date string
- * @param param.doneAt string | null
- * @param param.commentCount number
- * @param param.frequency string
- * @returns 할 일 카드 컴포넌트
+ * @param {'history' | 'taskList'} props.type - 페이지별 카드 형태
+ * @param {object} props.taskData - 할 일 데이터
+ * @returns {JSX.Element} 할 일 카드 컴포넌트
  */
-function TaskCard({
-  name,
-  date,
-  doneAt,
-  commentCount,
-  frequency,
-}: TaskCardProps) {
+function TaskCard({ type, taskData }: TaskCardProps) {
+  const { id, name, date, doneAt, commentCount, frequency } = taskData;
   const [isChecked, setIsChecked] = useState(Boolean(doneAt));
-
-  const handleCheckedToggle = () => {
-    setIsChecked(!isChecked);
-  };
-
+  const isTaskList = type === 'taskList';
   const frequencyText = frequencyList[frequency];
 
+  const handleCheckedToggle = () => {
+    if (isTaskList) {
+      setIsChecked(!isChecked);
+    }
+  };
+
   return (
-    <Card className="flex h-pr-74 w-full flex-col justify-between rounded-lg border-none bg-b-secondary px-pr-14 py-pr-12">
+    <Card
+      className={`${isTaskList && 'h-pr-74'} flex w-full flex-col justify-between rounded-lg border-none bg-b-secondary px-pr-18 py-pr-16`}
+    >
       <CardContent className="flex items-center p-0">
         <TaskCheckbox
           name={name}
           isChecked={isChecked}
           handleCheckedToggle={handleCheckedToggle}
+          isTaskList={isTaskList}
         />
-        <IconText type="commentCount" text={commentCount} />
-        <KebabButton />
+
+        {isTaskList && (
+          <>
+            <IconText type="commentCount" text={commentCount} />
+            <KebabButton taskId={id} />
+          </>
+        )}
       </CardContent>
 
-      <CardFooter className="flex gap-pr-20 p-0">
-        <IconText type="calendar" text={newDate(date)} hasBar />
-        <IconText type="time" text={newTime(date)} hasBar />
-        <IconText type="repeat" text={frequencyText} />
-      </CardFooter>
+      {isTaskList && (
+        <CardFooter className="flex gap-pr-20 p-0">
+          <IconText type="calendar" text={newDate(date)} hasBar />
+          <IconText type="time" text={newTime(date)} hasBar />
+          <IconText type="repeat" text={frequencyText} />
+        </CardFooter>
+      )}
     </Card>
   );
 }
