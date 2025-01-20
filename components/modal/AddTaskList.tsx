@@ -5,6 +5,7 @@ import Button from '@/components/Button';
 import CloseIcon from '@/public/images/icon-close.svg';
 import ModalBase from '@/components/modal/ModalBase';
 import InputField from '@/components/InputField/InputField';
+import useModalForm from '@/hooks/useModalForm';
 
 /**
  * 할 일 목록 추가 모달 컴포넌트.
@@ -13,13 +14,34 @@ import InputField from '@/components/InputField/InputField';
  * @param {Function} onClick - 모달 실행 함수 (할 일 목록 추가 기능을 처리하는 함수 전달해주세요.)
  */
 
-export default function AddTaskList({ onClick }: { onClick: () => void }) {
+export default function AddTaskList({
+  onClick,
+}: {
+  onClick: (body: object) => void;
+}) {
   const { closeModal } = useModalStore();
+  const { value, handleOnClick, updateInputValue } = useModalForm({
+    onClick,
+    closeModal,
+  });
 
-  const handleOnClick = () => {
-    onClick();
-    closeModal();
-  };
+  {
+    /* 꼭 읽어주세요.
+       InputField 컴포넌트에서 updateInputValue 함수를 사용할 때,
+       props로 { index, name, value }를 전달합니다.
+       name 부분은 api 요청 시 필요한 key 값으로 사용되니,
+       해당 key 값을 잘 확인하고 사용해주세요.
+
+       그리고 추가 유효성 로직이 필요하실 땐,
+       props로 받은 onClick : fetchData 와 같이 이름을 변경한 뒤에,
+       useModalForm을 불러오는 코드 이전에 onClick 이라는 이름으로 추가 유효성 로직 함수를 선언해주세요.
+
+       form에 작성한 데이터 외에 추가적으로 body 데이터를 전달해야 하는 경우,
+       이 곳에서 body 데이터를 string[] 형식으로 추가하고,
+       useModalForm에서 optional 값으로 지정된 body를 추가해서 전달해주세요.
+       작업하실 땐 이 주석을 지워주시면 감사하겠습니다.
+    */
+  }
 
   return (
     <>
@@ -34,18 +56,20 @@ export default function AddTaskList({ onClick }: { onClick: () => void }) {
           <div className="text-center">
             <h2 className="text-18 text-t-primary">할 일 목록</h2>
           </div>
-          <form className="mt-pr-16">
+          <form className="mt-pr-16" onSubmit={handleOnClick}>
             <InputField
-              value=""
+              value={value[0]}
               placeholder="목록 명을 입력해주세요."
               name="task-list-title"
-              onChange={() => {}}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                updateInputValue(0, 'title', e.target.value)
+              }
             />
             <Button
               text="만들기"
-              onClick={handleOnClick}
               color="primary"
               className="mt-pr-24 w-full"
+              type="submit"
             />
           </form>
         </div>

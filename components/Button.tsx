@@ -18,11 +18,13 @@ export default function Button({
   onClick,
   color,
   className,
+  type = 'button',
 }: {
   text: string;
-  onClick: () => void;
+  onClick?: () => void;
   color: 'primary' | 'primaryReverse' | 'danger' | 'dangerReverse';
   className?: string;
+  type?: 'button' | 'submit' | 'reset';
 }) {
   const buttonStyle = {
     primary: 'bg-brand-primary text-white',
@@ -36,6 +38,7 @@ export default function Button({
   return (
     <button
       onClick={onClick}
+      type={type}
       className={`${style} ${className} flex h-pr-48 items-center justify-center rounded-xl text-16sb`}
     >
       {text}

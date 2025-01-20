@@ -1,13 +1,23 @@
 'use client';
 
 import ResetPassword from '@/components/modal/ResetPassword';
+import MemberProfile from '@/components/modal/MemberProfile';
+import Logout from '@/components/modal/Logout';
+import InviteMember from '@/components/modal/InviteMember';
+import DeleteTask from '@/components/modal/DeleteTask';
+import DeleteAccount from '@/components/modal/DeleteAccount';
+import ChangePassword from '@/components/modal/ChangePassword';
+import AddTeam from '@/components/modal/AddTeam';
+import AddTaskList from '@/components/modal/AddTaskList';
+import AddTask from '@/components/modal/AddTask';
+import AddList from '@/components/modal/AddList';
 import useModalStore from '@/stores/modalStore';
 
 export default function TaskListPage() {
   const { openModal } = useModalStore();
 
-  const handleOnclick = () => {
-    console.log('클릭했당');
+  const fetchData = async (body: object) => {
+    console.log('fetchData', body);
   };
 
   return (
@@ -18,7 +28,7 @@ export default function TaskListPage() {
           우와아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아악
           불투명도 테스트테스트
         </button>
-        <ResetPassword onClick={handleOnclick} />
+        <AddList onClick={fetchData} />
       </div>
     </>
   );

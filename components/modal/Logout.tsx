@@ -11,11 +11,21 @@ import ModalBase from '@/components/modal/ModalBase';
  * @param {Function} onClick - 모달 실행 함수 (로그아웃 기능을 처리하는 함수 전달해주세요.)
  */
 
-export default function Logout({ onClick }: { onClick: () => void }) {
+export default function Logout({
+  onClick,
+}: {
+  onClick: (body: object) => void;
+}) {
   const { closeModal } = useModalStore();
 
+  /* 꼭 읽어주세요.
+     확인 버튼 클릭 시 key 값과 value (true) 값을 잘 확인하고,
+     아래 { key: true } 부분 수정해서 사용해주세요. 
+  */
+
   const handleOnClick = () => {
-    onClick();
+    const body = { key: true };
+    onClick(body);
     closeModal();
   };
 
