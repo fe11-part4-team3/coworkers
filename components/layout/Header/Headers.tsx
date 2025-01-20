@@ -4,11 +4,12 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import Logo from './Logo';
-import Profile from './Profile';
 import { useAuth } from '@/hooks/useAuth';
 import useUserStore from '@/stores/useUser.store';
 import { Button } from '@/components/ui/button';
+
+import Logo from './Logo';
+import Profile from './Profile';
 
 function Headers() {
   const [teamId, setTeamId] = useState<string | null>('');
