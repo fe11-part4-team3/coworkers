@@ -6,7 +6,6 @@ import Link from 'next/link';
 
 import NavigationGroupDropdown from '@/components/NavigationGroupDropdown/NavigationGroupDropdown';
 import getMockGroups from '@/components/SideNavigation/mockGroups';
-
 import { useAuth } from '@/hooks/useAuth';
 import useUserStore from '@/stores/useUser.store';
 import { Button } from '@/components/ui/button';
