@@ -49,7 +49,7 @@ function Headers() {
               <NavigationGroupDropdown groups={getMockGroups(10)} />
             </li>
             <li>
-              <Link href="/board">자유게시판</Link>
+              <Link href="/boards">자유게시판</Link>
             </li>
           </ul>
         </nav>
