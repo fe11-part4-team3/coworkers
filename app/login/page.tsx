@@ -40,30 +40,23 @@ function LoginPage() {
       setUser(userResponse);
 
       alert('로그인 되었습니다.');
-      if (user) {
-        if (user.memberships.length > 0) {
-          route.push(`/${user.memberships[0].groupId}`);
-        } else {
-          route.push(`/`);
-        }
-      }
     } catch (err) {
       console.error('로그인 실패:', err);
       setError('이메일 또는 비밀번호가 올바르지 않습니다.');
     }
   };
 
-  // 로그인 상태일 때
   useEffect(() => {
-    if (isAuthenticated && user) {
-      initializeUserData();
-      if (user.memberships.length > 0) {
+    if (isAuthenticated) {
+      if (user && user.memberships.length > 0) {
         route.push(`/${user.memberships[0].groupId}`);
       } else {
         route.push(`/`);
       }
+    } else {
+      return;
     }
-  }, [isAuthenticated, initializeUserData]);
+  }, [user, route]);
 
   // 로그인 상태가 아닐 때
   return (
