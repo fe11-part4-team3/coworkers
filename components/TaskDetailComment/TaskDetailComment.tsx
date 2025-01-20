@@ -75,12 +75,12 @@ function TaskDetailComment({ commentData }: TaskDetailCommentProps) {
         {!commentEdit ? (
           <DateDisplay createdAt={createdAt} />
         ) : (
-          <>
-            <button onClick={cancelEditing} className="mr-pr-12">
+          <div>
+            <button onClick={cancelEditing} className="mr-pr-20">
               취소
             </button>
             <button onClick={saveChanges}>수정하기</button>
-          </>
+          </div>
         )}
       </CardFooter>
     </Card>
