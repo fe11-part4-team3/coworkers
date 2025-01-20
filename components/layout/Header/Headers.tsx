@@ -6,19 +6,18 @@ import Link from 'next/link';
 
 import Logo from './Logo';
 import Profile from './Profile';
+import { useAuth } from '@/hooks/useAuth';
+import useUserStore from '@/stores/useUser.store';
+import { Button } from '@/components/ui/button';
 
 function Headers() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [teamId, setTeamId] = useState<string | null>('');
-  const [profileImage, setProfileImage] = useState<string | undefined>(
-    undefined,
-  );
+  const { isAuthenticated } = useAuth();
+  const { user } = useUserStore();
 
   // TODO : 팀 아이디를 가져오는 로직이 필요합니다.
   useEffect(() => {
     setTeamId('경영지원팀');
-    setIsLoggedIn(false);
-    setProfileImage('/images/img-Profile.svg');
   }, []);
 
   return (
@@ -28,7 +27,7 @@ function Headers() {
         <nav className="ml-4 flex items-center space-x-4">
           <ul className="flex items-center space-x-4 text-16m">
             {/* TODO : 모바일일때는 안보이게 */}
-            {isLoggedIn && teamId && (
+            {isAuthenticated && user && user.memberships.length > 0 && (
               <li>
                 <Link href={`/${teamId}`}>
                   <p>{teamId}</p>
@@ -41,14 +40,20 @@ function Headers() {
                 />
               </li>
             )}
+
             <li>
               <Link href="/board">자유게시판</Link>
             </li>
           </ul>
         </nav>
 
-        {isLoggedIn && (
-          <Profile userName="안해나" profileImage={profileImage} />
+        {isAuthenticated && user && (
+          <>
+            <Profile userName={user.nickname} profileImage={user.image} />
+            <Link href="/mypage">
+              <Button variant="link">마이페이지</Button>
+            </Link>
+          </>
         )}
       </div>
     </header>
