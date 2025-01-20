@@ -48,7 +48,7 @@ export default function NavigationGroupDropdown({
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         {/* SECTION 트리거. 선택된 그룹 표기 */}
-        <Button className="bg-inherit text-16m text-primary hover:bg-primary/10">
+        <Button className="bg-inherit text-16m text-t-primary hover:bg-primary/10">
           <span>{selected}</span>
           <ArrowDwon />
         </Button>

@@ -30,7 +30,7 @@ export default function DropdownTab({ group, onClick }: DropdownTabProps) {
         src={group.image || DEFAULT_GROUP_PROFILE}
         alt="프로필 옵션"
       />
-      <span className="grow text-16m text-white">{group.name}</span>
+      <span className="grow text-16m text-t-primary">{group.name}</span>
       {/* TODO 케밥 버튼 클릭시 리다이렉트 되지 않는 로직 추가해야합니다. */}
       {/* TODO 케밥 버튼 클릭시 옵션 제공해야합니다. */}
       <Image

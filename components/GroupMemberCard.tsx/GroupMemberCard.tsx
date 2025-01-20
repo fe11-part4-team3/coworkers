@@ -35,7 +35,7 @@ interface ContentProps {
 }
 
 const DEFAULT_PROFILE = '/images/icon-profile-member-default.svg';
-const NAME_CLASSNAME = 'truncate text-14m text-primary';
+const NAME_CLASSNAME = 'truncate text-14m text-t-primary';
 const EMAIL_CLASSNME = 'truncate text-12 text-t-secondary';
 
 function DefaultContent({ member }: ContentProps) {
@@ -45,7 +45,7 @@ function DefaultContent({ member }: ContentProps) {
         <AvatarImage src={member.userImage || DEFAULT_PROFILE} />
         <AvatarFallback>프로필</AvatarFallback>
       </Avatar>
-      <div className="grow overflow-hidden">
+      <div className="grow overflow-hidden text-t-primary">
         <p className={NAME_CLASSNAME}>{member.userName}</p>
         <p className={EMAIL_CLASSNME}>{member.userEmail}</p>
       </div>

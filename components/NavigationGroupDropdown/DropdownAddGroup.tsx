@@ -11,7 +11,7 @@ export default function DropdownAddGroup() {
     <DropdownMenuItem asChild>
       <Button className="mt-pr-16 w-full rounded-lg border border-slate-50 bg-inherit">
         <Plus />
-        <span className="text-white">팀 추가하기</span>
+        <span className="text-t-primary">팀 추가하기</span>
       </Button>
     </DropdownMenuItem>
   );
