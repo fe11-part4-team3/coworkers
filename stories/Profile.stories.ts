@@ -7,33 +7,35 @@ const meta: Meta<typeof Profile> = {
   argTypes: {
     src: {
       control: 'text',
-      description: 'Path to the profile image.',
+      description: '프로필 이미지 경로',
       defaultValue: '',
     },
     variant: {
       control: 'radio',
       options: ['member', 'group'],
-      description: 'Type of profile placeholder image.',
+      description: '기본 프로필 이미지 설정',
       defaultValue: 'member',
     },
     profileSize: {
       control: 'number',
-      description: 'Size of the profile image.',
+      description: '프로필 이미지 사이즈',
       defaultValue: 64,
     },
     isEdit: {
       control: 'boolean',
-      description: 'Whether the edit button is shown.',
+      description: '수정 기능 사용 여부',
       defaultValue: false,
     },
     editSzie: {
       control: 'number',
-      description: 'Size of the edit button.',
+      description: '수정 버튼 아이콘 사이즈',
       defaultValue: 24,
     },
-    onClick: {
-      action: 'clicked',
-      description: 'Click handler for the profile component.',
+    selectTheme: {
+      control: 'radio',
+      options: ['dark', 'light', undefined],
+      description: '원하는 테마 선택 가능',
+      defaultValue: undefined,
     },
   },
 };
@@ -53,5 +55,6 @@ export const EditableProfile: Story = {
     isEdit: true,
     profileSize: 80,
     editSzie: 30,
+    selectTheme: undefined,
   },
 };

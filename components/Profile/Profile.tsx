@@ -38,6 +38,7 @@ type ProfileProps = {
   isEdit?: boolean;
   editSzie?: number;
   onChange?: () => void;
+  selectTheme?: Theme;
 };
 
 /**
@@ -47,7 +48,8 @@ type ProfileProps = {
  * @param profileSize 프로필 이미지 사이즈
  * @param isEdit 수정 버튼 표기 여부
  * @param editSize 수정 버튼 사이즈
- * @param onClick 클린 핸들러
+ * @param onChange Change 핸들러
+ * @param selectTheme 원하는 테마 선택
  */
 export default function Profile({
   src,
@@ -56,11 +58,17 @@ export default function Profile({
   isEdit = false,
   editSzie = 24,
   onChange,
+  selectTheme,
 }: ProfileProps) {
   const { theme, systemTheme } = useTheme();
   const [currentTheme, setCurrentTheme] = useState<Theme>(DEFAULT_THEME);
 
   useEffect(() => {
+    if (selectTheme) {
+      setCurrentTheme(selectTheme);
+      return;
+    }
+
     if (theme === 'system') {
       const next = systemTheme || DEFAULT_THEME;
       setCurrentTheme(next);
@@ -73,7 +81,7 @@ export default function Profile({
     }
 
     setCurrentTheme(DEFAULT_THEME);
-  }, [theme, systemTheme]);
+  }, [theme, systemTheme, selectTheme]);
 
   return (
     <fieldset className="size-fit">
