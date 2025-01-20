@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -14,14 +14,19 @@ import Logo from './Logo';
 import Profile from './Profile';
 
 function Headers() {
-  const [teamId, setTeamId] = useState<string | null>('');
-  const { isAuthenticated } = useAuth();
-  const { user } = useUserStore();
+  const { isAuthenticated, accessToken } = useAuth();
+  const { user, initializeUserData } = useUserStore();
 
-  // TODO : 팀 아이디를 가져오는 로직이 필요합니다.
   useEffect(() => {
-    setTeamId('경영지원팀');
-  }, []);
+    // 컴포넌트가 마운트될 때 사용자 데이터를 초기화
+    initializeUserData();
+  }, [initializeUserData]);
+
+  useEffect(() => {
+    console.log('인증상태', isAuthenticated);
+    console.log('유저 정보', user);
+    console.log('토큰', accessToken);
+  }, [user]);
 
   return (
     <header className="fixed flex h-pr-60 w-full items-center border-b bg-b-secondary">
@@ -30,10 +35,10 @@ function Headers() {
         <nav className="ml-4 flex items-center space-x-4">
           <ul className="flex items-center space-x-4 text-16m">
             {/* TODO : 모바일일때는 안보이게 */}
-            {isAuthenticated && user && user.memberships.length > 0 && (
+            {user && user.memberships.length > 0 && (
               <li>
-                <Link href={`/${teamId}`}>
-                  <p>{teamId}</p>
+                <Link href={`/${user.memberships[0].groupId}`}>
+                  <p>{user.memberships[0].groupId}</p>
                 </Link>
                 <Image
                   src="/images/img-Check.svg"
@@ -53,7 +58,7 @@ function Headers() {
           </ul>
         </nav>
 
-        {isAuthenticated && user && (
+        {user && (
           <>
             <Profile userName={user.nickname} profileImage={user.image} />
             <Link href="/mypage">
