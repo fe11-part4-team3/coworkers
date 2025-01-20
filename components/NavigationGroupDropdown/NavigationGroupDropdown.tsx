@@ -15,7 +15,6 @@ import DropdownAddGroup from './DropdownAddGroup';
 
 interface NavigationGroupDropdownProps {
   groups: IGroup[] | undefined;
-  visible?: boolean;
 }
 
 /**
@@ -24,7 +23,6 @@ interface NavigationGroupDropdownProps {
  */
 export default function NavigationGroupDropdown({
   groups,
-  visible = true,
 }: NavigationGroupDropdownProps) {
   const router = useRouter();
   const { teamId } = useParams();
@@ -37,7 +35,7 @@ export default function NavigationGroupDropdown({
     if (!groupId || !groups) return;
 
     //SECTION 드롭다운 선택된 그룹 찾는 로직
-    const result = groups.some((group) => {
+    groups.some((group) => {
       if (group.id === groupId) {
         setSelected(group.name);
         return true;
@@ -46,17 +44,16 @@ export default function NavigationGroupDropdown({
     });
 
     //SECTION 없는 그룹일 경우 리다이렉트트
-    if (!result) router.push('/');
   }, [groupId, groups]);
 
-  if (!groups || !visible) return null;
+  if (!groups) return null;
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         {/* SECTION 트리거. 선택된 그룹 표기 */}
-        <Button className="bg-inherit text-16m text-t-primary hover:bg-primary/10">
-          <span>{selected}</span>
+        <Button variant="link" className="bg-inherit text-t-primary">
+          <span className="text-16m">{selected}</span>
           <ArrowDwon />
         </Button>
       </DropdownMenuTrigger>
