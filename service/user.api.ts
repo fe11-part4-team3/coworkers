@@ -40,7 +40,7 @@ const updateUser = async ({
  *
  * 회원 탈퇴
  */
-const deleteUser = async (accessToken: string | null): Promise<boolean> => {
+const deleteUser = async (): Promise<boolean> => {
   const response = await instance.delete('/user');
   return response.status === 204;
 };
@@ -48,7 +48,7 @@ const deleteUser = async (accessToken: string | null): Promise<boolean> => {
 /**
  * **※인증 필요**
  */
-const getGroupList = async (accessToken: string | null): Promise<IGroup[]> => {
+const getGroupList = async (): Promise<IGroup[]> => {
   const response = await instance.get('/user/groups');
   return response.data;
 };
@@ -56,9 +56,7 @@ const getGroupList = async (accessToken: string | null): Promise<IGroup[]> => {
 /**
  * **※인증 필요**
  */
-const getMembershipList = async (
-  accessToken: string | null,
-): Promise<IMembership[]> => {
+const getMembershipList = async (): Promise<IMembership[]> => {
   const response = await instance.get('/user/memberships');
   return response.data;
 };
@@ -68,9 +66,7 @@ const getMembershipList = async (
  *
  * 완료한 작업 조회
  */
-const getHistory = async (
-  accessToken: string | null,
-): Promise<ITaskMetadata[]> => {
+const getHistory = async (): Promise<ITaskMetadata[]> => {
   const response = await instance.get('/user/history');
   return response.data.taskDone;
 };
