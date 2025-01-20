@@ -45,7 +45,7 @@ export default function DeleteTask({
           />
           <div className="mb-pr-24 text-center">
             <h2 className="mb-pr-8 text-18 text-t-primary">
-              '{title}' <br />할 일을 정말 삭제하시겠어요?
+              &apos;{title}&apos; <br />할 일을 정말 삭제하시겠어요?
             </h2>
             <p className="text-14 text-t-secondary">
               삭제 후에는 되돌릴 수 없습니다.

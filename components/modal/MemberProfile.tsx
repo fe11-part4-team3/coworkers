@@ -1,10 +1,11 @@
 'use client';
 
+import Image from 'next/image';
+
 import useModalStore from '@/stores/modalStore';
 import Button from '@/components/Button';
 import CloseIcon from '@/public/images/icon-close.svg';
 import ModalBase from '@/components/modal/ModalBase';
-import Image from 'next/image';
 
 /**
  * 멤버 프로필 모달 컴포넌트.
@@ -45,7 +46,7 @@ export default function MemberProfile({
             onClick={closeModal}
           />
           <div className="mb-pr-24 text-center">
-            <div className="relative mx-auto mb-pr-24 h-pr-52 w-pr-52 overflow-hidden rounded-full">
+            <div className="relative mx-auto mb-pr-24 size-pr-52 overflow-hidden rounded-full">
               <Image
                 fill
                 src={image || '/images/icon-profile-member-default.svg'}

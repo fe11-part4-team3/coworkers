@@ -35,7 +35,7 @@ function Headers() {
         <nav className="ml-4 flex items-center space-x-4">
           <ul className="flex items-center space-x-4 text-16m">
             {/* TODO : 모바일일때는 안보이게 */}
-            {/* {user && user.memberships.length > 0 && (
+            {user && user.memberships.length > 0 && (
               <li>
                 <Link href={`/${user.memberships[0].groupId}`}>
                   <p>{user.memberships[0].groupId}</p>
@@ -47,7 +47,7 @@ function Headers() {
                   height={16}
                 />
               </li>
-            )} */}
+            )}
             {/*TODO 테스트용. 나중에 지워야합니다!*/}
             <li>
               <NavigationGroupDropdown groups={getMockGroups(10)} />
