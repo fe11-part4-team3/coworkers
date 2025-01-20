@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 interface ProfileProps {
   userName: string;
-  profileImage?: string;
+  profileImage?: string | null;
 }
 
 const Profile: React.FC<ProfileProps> = ({ userName, profileImage }) => {
