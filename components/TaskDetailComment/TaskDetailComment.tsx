@@ -20,9 +20,6 @@ function TaskDetailComment({ commentData }: TaskDetailCommentProps) {
   const [commentContent, setCommentContent] = useState(content);
   const [commentEdit, setCommentEdit] = useState(false);
 
-  // 유저 정보가 없으면 리턴
-  if (!userData) return;
-
   // Dropdown 수정하기
   const handleEditClick = () => {
     setCommentEdit(true);
@@ -57,7 +54,7 @@ function TaskDetailComment({ commentData }: TaskDetailCommentProps) {
         <CardContent className="flex justify-between p-0">
           <CommentContent content={commentContent} />
 
-          {userData.id === user.id && (
+          {userData?.id === user.id && (
             <DropDown
               trigger={<button className="icon-kebab" />}
               items={[
