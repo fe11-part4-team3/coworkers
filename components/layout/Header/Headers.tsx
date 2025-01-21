@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useQuery } from '@tanstack/react-query';
 
@@ -15,12 +15,17 @@ import SideNavigation from '@/components/SideNavigation/SideNavigation';
 
 import Profile from './Profile';
 import Logo from './Logo';
+import { useParams, useRouter } from 'next/navigation';
 
 function Headers() {
   const deviceType = useDeviceType();
+  const router = useRouter();
+  const { teamId } = useParams();
+  const groupId = teamId ? Number(teamId) : null;
   const { isAuthenticated, accessToken } = useAuth();
   const { user, initializeUserData } = useUserStore();
-  const { data: groups } = useQuery({
+  const [selected, setSelected] = useState<string | null>(null);
+  const { data: groups, isPending } = useQuery({
     queryKey: ['groups'],
     queryFn: getGroupList,
     enabled: isAuthenticated,
@@ -36,6 +41,26 @@ function Headers() {
     console.log('유저 정보', user);
     console.log('토큰', accessToken);
   }, [user]);
+
+  useEffect(() => {
+    if (!groupId || !groups || isPending) {
+      setSelected(null);
+      return;
+    }
+
+    /**
+     * NOTE
+     * 선택된 그룹을 찾는 로직
+     * 선택된 그룹이 없으면 리다이렉트
+     */
+    groups.some((group) => {
+      if (group.id === groupId) {
+        setSelected(group.name);
+        return true;
+      }
+      return false;
+    }) || router.push('/');
+  }, [groupId, groups]);
 
   return (
     <header className="fixed flex w-full items-center border-b bg-b-secondary transition-all">
@@ -59,15 +84,19 @@ function Headers() {
           <Logo />
 
           {deviceType !== 'mobile' && (
-            <nav className="ml-4 flex items-center space-x-4">
-              <NavigationGroupDropdown groups={groups} />
+            <>
+              <NavigationGroupDropdown
+                groups={groups}
+                isPending={isPending}
+                selected={selected}
+              />
 
               <Link href="/boards">
                 <Button variant="link">
                   <span className="text-16m">자유게시판</span>
                 </Button>
               </Link>
-            </nav>
+            </>
           )}
         </div>
 
