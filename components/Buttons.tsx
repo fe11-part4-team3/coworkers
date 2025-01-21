@@ -32,9 +32,13 @@ const BUTTON_SIZES: Record<string, string> = {
   XL: 'py-pr-14 !text-16sb',
 };
 
-// Disabled 상태일 때 클래스명 정의
-const DISABLED_CLASSES = (bg: string, variant: string): string => {
-  if (!bg) return '';
+// 비활성화 상태에 따른 클래스명 정의
+const DISABLED_CLASSES = (
+  bg: string,
+  variant: string,
+  isDisabled: boolean,
+): string => {
+  if (!isDisabled) return '';
 
   if (bg === 'default' && variant !== 'outline') {
     return 'bg-i-inactive text-t-inverse';
@@ -65,6 +69,7 @@ const DISABLED_CLASSES = (bg: string, variant: string): string => {
  * @param {boolean} props.loading 로딩 중 여부
  * @param {string} props.width 버튼 너비
  * @param {string} props.type 버튼 타입 (button, submit)
+ * bg: 'none' 일때는, disabled를 사용할 수 없습니다.
  */
 export default function Buttons(props: ButtonsProps) {
   const {
@@ -107,33 +112,36 @@ export default function Buttons(props: ButtonsProps) {
       // bg가 'default' 또는 'gradient'일 때 텍스트 색상을 'text-white'로 설정
       'text-white': bg === 'default' || bg === 'gradient',
 
-      // variant가 'outline'이고 bg가 'white' 또는 'none'일 때 텍스트 색상
+      // bg가 'none'이거나 variant가 'outline'이고 bg가 'white'일 때 텍스트 색상 'text-brand-primary'로 설정
       'text-brand-primary':
-        variant === 'outline' && (bg === 'white' || bg === 'none'),
+        (bg === 'none' || (variant === 'outline' && bg === 'white')) &&
+        !isDisabled,
 
       // variant가 'secondary'이고 bg가 'white'일 때 텍스트 색상
-      'text-t-default': variant === 'secondary' && bg === 'white',
+      'text-t-default':
+        variant === 'secondary' && bg === 'white' && !isDisabled,
     },
     width ? widthStyledSliceWPr(width) : 'w-full',
     rounded ? 'rounded-full' : 'rounded-xl',
     {
-      [DISABLED_CLASSES(bg, variant)]: isDisabled,
+      // 비활성화 클래스 적용
+      [DISABLED_CLASSES(bg, variant, isDisabled)]: isDisabled,
 
       // variant가 'destructive'이고 bg가 'default'일 때 hover 컬러 고정
       'hover:bg-red-700 focus:bg-red-800 active:bg-red-800':
         variant === 'destructive' && bg === 'default',
 
       // bg가 'none'일 때 hover 텍스트 및 배경 색상 변경
-      'text-brand-primary hover:text-i-hover hover:bg-transparent focus:text-i-pressed focus:bg-transparent active:text-i-pressed active:bg-transparent':
-        bg === 'none',
+      'hover:text-i-hover hover:bg-transparent focus:text-i-pressed focus:bg-transparent active:text-i-pressed active:bg-transparent':
+        bg === 'none' && !isDisabled,
 
       // variant가 'outline'이고 bg가 'none'일 때 hover 텍스트 색상 변경
       'hover:text-i-hover focus:text-i-pressed active:text-i-pressed':
-        variant === 'outline' && bg === 'none',
+        variant === 'outline' && bg === 'none' && !isDisabled,
 
-      // variant: 'secondary' && bg: 'white' 일 때 hover:bg-i-inactive 추가
+      // variant: 'secondary' && bg: 'white'일 때 hover:bg-slate-200 추가
       'hover:bg-slate-200 focus:bg-slate-300 active:bg-slate-300':
-        variant === 'secondary' && bg === 'white',
+        variant === 'secondary' && bg === 'white' && !isDisabled,
     },
     'h-auto shadow-none',
   );
