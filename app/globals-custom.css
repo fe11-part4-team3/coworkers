@@ -37,7 +37,7 @@
 @layer base {
   :root {
     --background: #fff;
-    --border: rgba(248, 250, 252, 0.5);
+    --border: #e2e8f0;
 
     /* brand */
     --brand-primary: #10b981;
@@ -90,13 +90,13 @@
   }
   .dark {
     --background: #0f172a;
-    --border: rgba(248, 250, 252, 0.5);
     --b-primary-light: var(--b-primary-dark);
     --b-secondary-light: var(--b-secondary-dark);
     --b-tertiary-light: var(--b-tertiary-dark);
     --t-primary-light: var(--t-primary-dark);
     --ring: #10b981;
     --ring-color: #10b981;
+    --border: rgba(226, 232, 240, 0.1);
   }
 
   .light {
@@ -123,4 +123,8 @@
 /* kebab icon 스타일 */
 .icon-kebab {
   @apply absolute left-0 top-0 size-pr-16 bg-[url('/images/icon-kebab.svg')];
+}
+
+.border-input {
+  border-color: var(--border);
 }
