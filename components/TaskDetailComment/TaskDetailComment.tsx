@@ -4,7 +4,6 @@ import useUserStore from '@/stores/useUser.store';
 import { ITaskComment } from '@/types/comment.type';
 
 import { Card, CardContent, CardFooter } from '../ui/card';
-import Profile from '../Profile';
 import DateDisplay from '../DateDisplay';
 import CommentContent from './CommentContent';
 import DropDown from '../DropDown';
@@ -76,7 +75,6 @@ function TaskDetailComment({ commentData }: { commentData: ITaskComment }) {
       )}
 
       <CardFooter className="mt-pr-16 flex justify-between p-0">
-        <Profile user={user} />
         {!commentEdit ? (
           <DateDisplay createdAt={createdAt} />
         ) : (
