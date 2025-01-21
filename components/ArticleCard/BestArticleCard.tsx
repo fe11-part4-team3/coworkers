@@ -22,7 +22,7 @@ function BestArticleCard({ articleData }: { articleData: IArticle }) {
         <div className="mb-pr-12 flex justify-between mo:mb-0">
           <ArticleTitle title={title} />
 
-          {image !== null && <ArticleImg src="/images/codeitprofile.png" />}
+          {image !== null && <ArticleImg src={image} />}
         </div>
 
         <ArticleDate createdAt={date} />
