@@ -83,12 +83,12 @@ export const Secondary: Story = {
   },
 };
 
-// 파괴적 버튼
+// 경고 및 강조 버튼
 export const Destructive: Story = {
   args: {
-    text: '파괴적 버튼',
+    text: '경고 및 강조 버튼',
     variant: 'destructive',
-    onClick: () => alert('파괴적 버튼 클릭됨'),
+    onClick: () => alert('경고 및 강조 버튼 클릭됨'),
     bg: 'default',
     size: 'XL',
     loading: false,
