@@ -8,7 +8,7 @@ import type { TaskCardProps } from '@/types/taskCard.type';
 
 import IconText from '../IconLabel';
 import TaskCheckbox from './TaskCheckbox';
-import TaskCardDropDown from './TaskCardDropdown';
+import TaskCardDropDown from './TaskCardDropDown';
 
 const frequencyList: Record<
   'ONCE' | 'DAILY' | 'WEEKLY' | 'MONTHLY' | string,
