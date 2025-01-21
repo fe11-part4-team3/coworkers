@@ -42,7 +42,7 @@ type ProfileProps = {
 };
 
 /**
- * 프로필 컴포넌트트
+ * 프로필 컴포넌트
  * @param defaultProfile 기본 사진의 경로
  * @param vriant 표기할 기본 사진의 종류
  * @param profileSize 프로필 이미지 사이즈
@@ -113,7 +113,7 @@ export default function Profile({
         aria-label={`${variant} 프로필 이미지${isEdit ? ' 수정' : ''}`}
       >
         <div
-          className="relative overflow-hidden rounded-full"
+          className={`relative overflow-hidden rounded-full ${profileSize > 32 ? 'border-2' : 'border'}`}
           style={{ width: profileSize, height: profileSize }}
         >
           <Image
@@ -129,7 +129,7 @@ export default function Profile({
 
         {isEdit && (
           <Image
-            className="absolute bottom-[-4px] right-[-4px]"
+            className="absolute -bottom-pr-4 -right-pr-4"
             width={editSize}
             height={editSize}
             src={EDIT_BUTTON[currentTheme]}
