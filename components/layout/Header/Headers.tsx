@@ -53,13 +53,15 @@ function Headers() {
      * 선택된 그룹을 찾는 로직
      * 선택된 그룹이 없으면 리다이렉트
      */
-    groups.some((group) => {
+    const isSelected = groups.some((group) => {
       if (group.id === groupId) {
         setSelected(group.name);
         return true;
       }
       return false;
-    }) || router.push('/');
+    });
+
+    if (!isSelected) router.push('/');
   }, [groupId, groups]);
 
   return (
