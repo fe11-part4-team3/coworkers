@@ -189,20 +189,6 @@ export const transparentOutline: Story = {
   },
 };
 
-// 다양한 조합 예시
-export const MultipleCombinations: Story = {
-  args: {
-    text: '조합 버튼',
-    variant: 'secondary',
-    bg: 'gradient',
-    size: 'XL',
-    onClick: () => alert('조합 버튼 클릭됨'),
-    loading: false,
-    rounded: true,
-    icon: '/images/icon-plus.svg',
-  },
-};
-
 export const customButton1: Story = {
   args: {
     text: '생성하기',
