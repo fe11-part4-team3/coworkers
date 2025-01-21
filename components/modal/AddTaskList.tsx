@@ -1,11 +1,11 @@
 'use client';
 
 import useModalStore from '@/stores/modalStore';
-import Button from '@/components/Button';
 import CloseIcon from '@/public/images/icon-close.svg';
 import ModalBase from '@/components/modal/ModalBase';
 import InputField from '@/components/InputField/InputField';
 import useModalForm from '@/hooks/useModalForm';
+import Buttons from '@/components/Buttons';
 
 /**
  * 할 일 목록 추가 모달 컴포넌트.
@@ -65,12 +65,15 @@ export default function AddTaskList({
                 updateInputValue(0, 'title', e.target.value)
               }
             />
-            <Button
-              text="만들기"
-              color="primary"
-              className="mt-pr-24 w-full"
-              type="submit"
-            />
+            <div className="mt-pr-24">
+              <Buttons
+                text="만들기"
+                size="XL"
+                rounded={false}
+                onClick={() => {}}
+                type="submit"
+              />
+            </div>
           </form>
         </div>
       </ModalBase>

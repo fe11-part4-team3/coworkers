@@ -1,11 +1,10 @@
 'use client';
 
 import useModalStore from '@/stores/modalStore';
-import Button from '@/components/Button';
+import Buttons from '@/components/Buttons';
 import ModalBase from '@/components/modal/ModalBase';
 import useModalForm from '@/hooks/useModalForm';
-
-import InputField from '../InputField/InputField';
+import InputField from '@/components/InputField/InputField';
 
 /**
  * 비밀번호 변경 모달 컴포넌트.
@@ -74,17 +73,21 @@ export default function ChangePassword({
                 }
               />
             </div>
+
             <div className="mt-pr-24 flex items-center justify-between gap-pr-8">
-              <Button
+              <Buttons
                 text="닫기"
+                size="XL"
+                rounded={false}
                 onClick={closeModal}
-                color="primaryReverse"
-                className="w-1/2"
+                variant="outline"
+                bg="white"
               />
-              <Button
+              <Buttons
                 text="변경하기"
-                color="primary"
-                className="w-1/2"
+                size="XL"
+                rounded={false}
+                onClick={() => {}}
                 type="submit"
               />
             </div>

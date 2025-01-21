@@ -1,7 +1,7 @@
 'use client';
 
 import useModalStore from '@/stores/modalStore';
-import Button from '@/components/Button';
+import Buttons from '@/components/Buttons';
 import ModalBase from '@/components/modal/ModalBase';
 
 /**
@@ -37,17 +37,20 @@ export default function Logout({
             <h2 className="text-18 text-t-primary">로그아웃 하시겠어요?</h2>
           </div>
           <div className="flex items-center justify-between gap-pr-8">
-            <Button
+            <Buttons
               text="닫기"
+              size="XL"
+              rounded={false}
               onClick={closeModal}
-              color="dangerReverse"
-              className="w-1/2"
+              variant="secondary"
+              bg="white"
             />
-            <Button
+            <Buttons
               text="로그아웃"
+              size="XL"
+              rounded={false}
               onClick={handleOnClick}
-              color="danger"
-              className="w-1/2"
+              variant="destructive"
             />
           </div>
         </div>

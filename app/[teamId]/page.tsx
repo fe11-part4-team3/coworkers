@@ -4,7 +4,7 @@ import Container from '@/components/layout/Container';
 import getMockGroups from '@/components/SideNavigation/mockGroups';
 import SideNavigationBar from '@/components/SideNavigation/SideNavigation';
 import SideNavigationTrigger from '@/components/SideNavigation/SideNavigationTrigger';
-import GroupMemberCard from '@/components/GroupMemberCard.tsx/GroupMemberCard';
+import GroupMemberCard from '@/components/GroupMemberCard/GroupMemberCard';
 import { IMember } from '@/types/group.type';
 import NavigationGroupDropdown from '@/components/NavigationGroupDropdown/NavigationGroupDropdown';
 

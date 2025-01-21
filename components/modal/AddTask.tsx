@@ -1,12 +1,13 @@
 'use client';
 
 import useModalStore from '@/stores/modalStore';
-import Button from '@/components/Button';
+import Buttons from '@/components/Buttons';
 import ModalBase from '@/components/modal/ModalBase';
 import InputField from '@/components/InputField/InputField';
 import SelectBox from '@/components/SelectBox';
 import InputLabel from '@/components/InputField/InputLabel';
 import useModalForm from '@/hooks/useModalForm';
+import TextareaField from '@/components/InputField/TextareaField';
 
 /**
  * 할 일 추가 모달 컴포넌트.
@@ -81,21 +82,24 @@ export default function AddTask({
                 }
               />
             </div>
-            <InputField
+            <TextareaField
               value={value[2]}
               placeholder="메모를 입력해주세요."
               label="할 일 메모"
               name="task-memo"
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                 updateInputValue(2, 'description', e.target.value)
               }
             />
-            <Button
-              text="만들기"
-              color="primary"
-              className="mt-pr-32 w-full"
-              type="submit"
-            />
+            <div className="mt-pr-8">
+              <Buttons
+                text="만들기"
+                size="XL"
+                rounded={false}
+                onClick={() => {}}
+                type="submit"
+              />
+            </div>
           </form>
         </div>
       </ModalBase>

@@ -1,9 +1,8 @@
 'use client';
 
 import Image from 'next/image';
-
 import useModalStore from '@/stores/modalStore';
-import Button from '@/components/Button';
+import Buttons from '@/components/Buttons';
 import CloseIcon from '@/public/images/icon-close.svg';
 import ModalBase from '@/components/modal/ModalBase';
 
@@ -49,7 +48,7 @@ export default function MemberProfile({
             <div className="relative mx-auto mb-pr-24 size-pr-52 overflow-hidden rounded-full">
               <Image
                 fill
-                src={image || '/images/icon-profile-member-default.svg'}
+                src={image || '/images/icon-profile-member.svg'}
                 alt="멤버 이미지"
                 objectFit="cover"
                 sizes="52px"
@@ -59,11 +58,11 @@ export default function MemberProfile({
             <p className="text-14 text-t-secondary">{email}</p>
           </div>
         </div>
-        <Button
+        <Buttons
           text="이메일 복사하기"
+          size="XL"
+          rounded={false}
           onClick={handleOnClick}
-          color="primary"
-          className="w-full"
         />
       </ModalBase>
     </>

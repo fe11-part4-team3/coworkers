@@ -1,9 +1,9 @@
 'use client';
 
 import useModalStore from '@/stores/modalStore';
-import Button from '@/components/Button';
 import CloseIcon from '@/public/images/icon-close.svg';
 import ModalBase from '@/components/modal/ModalBase';
+import Buttons from '@/components/Buttons';
 
 /**
  * 멤버 초대 모달 컴포넌트.
@@ -37,11 +37,11 @@ export default function InviteMember({ onClick }: { onClick: () => void }) {
             </p>
           </div>
         </div>
-        <Button
+        <Buttons
           text="링크 복사하기"
+          size="XL"
+          rounded={false}
           onClick={handleOnClick}
-          color="primary"
-          className="w-full"
         />
       </ModalBase>
     </>

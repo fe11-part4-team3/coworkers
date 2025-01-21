@@ -1,7 +1,7 @@
 'use client';
 
 import useModalStore from '@/stores/modalStore';
-import Button from '@/components/Button';
+import Buttons from '@/components/Buttons';
 import ModalBase from '@/components/modal/ModalBase';
 import DangerIcon from '@/public/images/icon-danger.svg';
 
@@ -52,17 +52,20 @@ export default function DeleteTask({
             </p>
           </div>
           <div className="flex items-center justify-between gap-pr-8">
-            <Button
+            <Buttons
               text="닫기"
+              size="XL"
+              rounded={false}
               onClick={closeModal}
-              color="dangerReverse"
-              className="w-1/2"
+              variant="secondary"
+              bg="white"
             />
-            <Button
+            <Buttons
               text="삭제하기"
+              size="XL"
+              rounded={false}
               onClick={handleOnClick}
-              color="danger"
-              className="w-1/2"
+              variant="destructive"
             />
           </div>
         </div>

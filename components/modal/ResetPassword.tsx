@@ -1,7 +1,7 @@
 'use client';
 
 import useModalStore from '@/stores/modalStore';
-import Button from '@/components/Button';
+import Buttons from '@/components/Buttons';
 import ModalBase from '@/components/modal/ModalBase';
 import InputField from '@/components/InputField/InputField';
 import useModalForm from '@/hooks/useModalForm';
@@ -62,16 +62,19 @@ export default function ResetPassword({
               }
             />
             <div className="mt-pr-24 flex items-center justify-between gap-pr-8">
-              <Button
+              <Buttons
                 text="닫기"
+                size="XL"
+                rounded={false}
                 onClick={closeModal}
-                color="primaryReverse"
-                className="w-1/2"
+                variant="outline"
+                bg="white"
               />
-              <Button
+              <Buttons
                 text="링크 보내기"
-                color="primary"
-                className="w-1/2"
+                size="XL"
+                rounded={false}
+                onClick={() => {}}
                 type="submit"
               />
             </div>

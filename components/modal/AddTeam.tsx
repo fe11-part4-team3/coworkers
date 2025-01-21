@@ -1,7 +1,7 @@
 'use client';
 
 import useModalStore from '@/stores/modalStore';
-import Button from '@/components/Button';
+import Buttons from '@/components/Buttons';
 import CloseIcon from '@/public/images/icon-close.svg';
 import ModalBase from '@/components/modal/ModalBase';
 import InputField from '@/components/InputField/InputField';
@@ -65,12 +65,15 @@ export default function AddTeam({
                 updateInputValue(0, 'name', e.target.value)
               }
             />
-            <Button
-              text="추가하기"
-              color="primary"
-              className="mt-pr-24 w-full"
-              type="submit"
-            />
+            <div className="mt-pr-24">
+              <Buttons
+                text="추가하기"
+                size="XL"
+                rounded={false}
+                onClick={() => {}}
+                type="submit"
+              />
+            </div>
           </form>
         </div>
       </ModalBase>

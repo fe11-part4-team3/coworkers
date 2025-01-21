@@ -1,7 +1,7 @@
 'use client';
 
 import useModalStore from '@/stores/modalStore';
-import Button from '@/components/Button';
+import Buttons from '@/components/Buttons';
 import ModalBase from '@/components/modal/ModalBase';
 import InputField from '@/components/InputField/InputField';
 import useModalForm from '@/hooks/useModalForm';
@@ -63,12 +63,15 @@ export default function AddList({
                 updateInputValue(0, 'name', e.target.value)
               }
             />
-            <Button
-              text="만들기"
-              color="primary"
-              className="mt-pr-24 w-full"
-              type="submit"
-            />
+            <div className="mt-pr-24">
+              <Buttons
+                text="만들기"
+                size="XL"
+                rounded={false}
+                onClick={() => {}}
+                type="submit"
+              />
+            </div>
           </form>
         </div>
       </ModalBase>
