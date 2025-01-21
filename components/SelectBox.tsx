@@ -6,6 +6,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import ICON_ARROW_FILLEND from '@/public/images/icon-arrow-filled.svg';
+import { widthStyledSliceWPr } from '@/utils/filterClass';
 
 interface SelectBoxProps {
   options: string[];
@@ -37,19 +38,6 @@ export default function SelectBox({
   width,
   onValueChange,
 }: SelectBoxProps) {
-  // prefix로 필터링
-  const filterByPrefix = (input: string, prefix: string): string => {
-    const str = input.split(' ');
-    const splitArr = str.filter((item) =>
-      new RegExp(`(^|\\b)(\\w*:)?${prefix}`).test(item),
-    );
-    if (splitArr.length === 0) throw new Error('width 값이 없습니다.');
-    return splitArr.join(' ');
-  };
-
-  // w-pr 관련 항목 필터링
-  const widthStyledSliceWPr = (width: string) => filterByPrefix(width, 'w-pr');
-
   return (
     <div>
       <Select defaultValue={defaultValue} onValueChange={onValueChange}>
