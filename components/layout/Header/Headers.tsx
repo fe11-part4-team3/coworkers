@@ -74,7 +74,7 @@ function Headers() {
               />
               <SideNavigation
                 groups={groups}
-                loading={false}
+                loading={isPending}
                 showSkeleton={true}
                 skeletonLength={10}
               />
