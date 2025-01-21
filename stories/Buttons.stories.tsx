@@ -239,8 +239,8 @@ export const customButton4: Story = {
 
 export const customButton5: Story = {
   args: {
-    text: '생성하기',
-    onClick: () => alert('생성하기 클릭됨'),
+    text: '닫기',
+    onClick: () => alert('닫기 클릭됨'),
     variant: 'secondary',
     bg: 'white',
     size: 'XL',
@@ -251,8 +251,8 @@ export const customButton5: Story = {
 
 export const customButton6: Story = {
   args: {
-    text: '생성하기',
-    onClick: () => alert('생성하기 클릭됨'),
+    text: '회원탈퇴',
+    onClick: () => alert('회원탈퇴 클릭됨'),
     variant: 'destructive',
     bg: 'default',
     size: 'XL',
