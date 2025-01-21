@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+
 import useModalStore from '@/stores/modalStore';
 import Buttons from '@/components/Buttons';
 import CloseIcon from '@/public/images/icon-close.svg';
