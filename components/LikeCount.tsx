@@ -18,7 +18,7 @@ function LikeCount({
   return (
     <>
       <button
-        className="text-14 text-t-disabled"
+        className="text-14 text-t-disabled mo:text-12"
         onClick={handleClick}
         disabled={type === 'readOnly'}
       >
