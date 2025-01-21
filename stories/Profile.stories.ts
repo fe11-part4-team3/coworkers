@@ -5,7 +5,7 @@ const meta: Meta<typeof Profile> = {
   title: 'Components/Profile',
   component: Profile,
   argTypes: {
-    src: {
+    defaultProfile: {
       control: 'text',
       description: '프로필 이미지 경로',
       defaultValue: '',
