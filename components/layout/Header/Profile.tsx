@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import { useDeviceType } from '@/contexts/DeviceTypeContext';
 
 interface ProfileProps {
   userName: string;
@@ -7,6 +8,8 @@ interface ProfileProps {
 }
 
 const Profile: React.FC<ProfileProps> = ({ userName, profileImage }) => {
+  const deviceType = useDeviceType();
+
   return (
     <div className="flex items-center space-x-2">
       <Image
@@ -16,7 +19,7 @@ const Profile: React.FC<ProfileProps> = ({ userName, profileImage }) => {
         width={16}
         height={16}
       />
-      <span className="text-14m">{userName}</span>
+      {deviceType === 'desktop' && <span className="text-14m">{userName}</span>}
     </div>
   );
 };

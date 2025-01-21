@@ -38,43 +38,47 @@ function Headers() {
   }, [user]);
 
   return (
-    <header className="fixed flex h-pr-60 w-full items-center border-b bg-b-secondary transition-all">
-      <div className="mx-auto flex w-pr-1200 items-center gap-pr-40 px-pr-40 mo:px-pr-16 ta:gap-pr-24 ta:px-pr-25">
-        {deviceType === 'mobile' && (
-          <nav>
-            <SideNavigationTrigger
-              src="/images/icon-gnb-menu.svg"
-              alt="그룹 네비게이션"
-            />
-            <SideNavigation
-              groups={groups}
-              loading={false}
-              showSkeleton={true}
-              skeletonLength={10}
-            />
-          </nav>
-        )}
-        <Logo />
-        {deviceType !== 'mobile' && (
-          <nav className="ml-4 flex items-center space-x-4">
-            <NavigationGroupDropdown groups={groups} />
-            <Link href="/boards">
-              <Button variant="link">
-                <span className="text-16m">마이페이지</span>
-              </Button>
-            </Link>
-          </nav>
-        )}
+    <header className="fixed flex w-full items-center border-b bg-b-secondary transition-all">
+      <nav className="mx-auto flex h-pr-60 w-pr-1200 items-center justify-between px-pr-40 mo:px-pr-16 ta:px-pr-25">
+        <div className="flex items-center gap-pr-40 ta:gap-pr-24">
+          {deviceType === 'mobile' && (
+            <>
+              <SideNavigationTrigger
+                src="/images/icon-gnb-menu.svg"
+                alt="그룹 네비게이션"
+              />
+              <SideNavigation
+                groups={groups}
+                loading={false}
+                showSkeleton={true}
+                skeletonLength={10}
+              />
+            </>
+          )}
+
+          <Logo />
+
+          {deviceType !== 'mobile' && (
+            <nav className="ml-4 flex items-center space-x-4">
+              <NavigationGroupDropdown groups={groups} />
+
+              <Link href="/boards">
+                <Button variant="link">
+                  <span className="text-16m">자유게시판</span>
+                </Button>
+              </Link>
+            </nav>
+          )}
+        </div>
 
         {user && (
-          <>
-            <Profile userName={user.nickname} profileImage={user.image} />
-            <Link href="/mypage">
-              <Button variant="link">마이페이지</Button>
-            </Link>
-          </>
+          <Link href="/mypage">
+            <Button variant="link">
+              <Profile userName={user.nickname} profileImage={user.image} />
+            </Button>
+          </Link>
         )}
-      </div>
+      </nav>
     </header>
   );
 }
