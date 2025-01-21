@@ -1,10 +1,11 @@
+import { IArticle } from '@/types/article.type';
+import { dotDate } from '@/utils/dateConversion';
+
 import { Card, CardHeader, CardContent, CardFooter } from '../ui/card';
 import BestLabel from './BestLabel';
 import ArticleTitle from './ArticleTitle';
 import ArticleImg from './ArticleImg';
 import LikeCount from '../LikeCount';
-import { IArticle } from '@/types/article.type';
-import { dotDate } from '@/utils/dateConversion';
 import ArticleDate from './ArticleDate';
 import ArticleWriterProfile from './ArticleWriterProfile';
 

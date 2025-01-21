@@ -1,8 +1,9 @@
+import { IArticle } from '@/types/article.type';
+import { dotDate } from '@/utils/dateConversion';
+
 import { Card, CardContent, CardFooter } from '../ui/card';
 import ArticleTitle from './ArticleTitle';
 import LikeCount from '../LikeCount';
-import { IArticle } from '@/types/article.type';
-import { dotDate } from '@/utils/dateConversion';
 import ArticleDate from './ArticleDate';
 import ArticleDropDown from './ArticleDropDown';
 import ArticleWriterProfile from './ArticleWriterProfile';
