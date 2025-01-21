@@ -1,11 +1,11 @@
 import { Card, CardContent, CardFooter } from '../ui/card';
 import ArticleTitle from './ArticleTitle';
 import LikeCount from '../LikeCount';
-import Profile from '../Profile';
 import { IArticle } from '@/types/article.type';
 import { dotDate } from '@/utils/dateConversion';
 import ArticleDate from './ArticleDate';
 import ArticleDropDown from './ArticleDropDown';
+import ArticleWriterProfile from './ArticleWriterProfile';
 
 function ArticleCard({ articleData }: { articleData: IArticle }) {
   const { title, image, createdAt, writer, likeCount } = articleData;
@@ -20,7 +20,7 @@ function ArticleCard({ articleData }: { articleData: IArticle }) {
       </CardContent>
       <CardFooter className="mt-pr-24 flex justify-between p-0 mo:mt-0 mo:items-end">
         <div className="flex items-center mo:flex-col-reverse mo:items-start">
-          <Profile user={writer} />
+          <ArticleWriterProfile writer={writer} />
 
           <div className="relative pl-pr-32 before:absolute before:left-pr-16 before:top-1/2 before:inline-block before:h-pr-12 before:w-pr-1 before:-translate-y-1/2 before:bg-t-disabled before:content-[''] mo:mb-pr-16 mo:pl-0 mo:before:content-none">
             <ArticleDate createdAt={date} />
