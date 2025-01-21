@@ -1,7 +1,7 @@
 'use client';
 
 import Container from '@/components/layout/Container';
-import GroupMemberCard from '@/components/GroupMemberCard.tsx/GroupMemberCard';
+import GroupMemberCard from '@/components/GroupMemberCard/GroupMemberCard';
 import { IMember } from '@/types/group.type';
 
 const MOCK_MEMBER: IMember = {
