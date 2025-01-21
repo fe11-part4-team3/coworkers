@@ -140,7 +140,7 @@ export const WithLink: Story = {
 export const IconButton: Story = {
   args: {
     text: '아이콘 버튼',
-    icon: '/images/icon-plus.svg',
+    icon: <ICON_PLUS />,
     onClick: () => alert('아이콘 버튼 클릭됨'),
     variant: '',
     bg: 'default',
