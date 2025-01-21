@@ -1,5 +1,4 @@
 import { IArticle } from '@/types/article.type';
-import { dotDate } from '@/utils/dateConversion';
 
 import { Card, CardHeader, CardContent, CardFooter } from '../ui/card';
 import BestLabel from './BestLabel';
@@ -11,7 +10,6 @@ import ArticleWriterProfile from './ArticleWriterProfile';
 
 function BestArticleCard({ articleData }: { articleData: IArticle }) {
   const { title, image, createdAt, writer, likeCount } = articleData;
-  const date = dotDate(createdAt);
 
   return (
     <Card className="flex h-pr-220 w-pr-387 flex-col border border-b-tertiary bg-b-secondary px-pr-24 pb-pr-16 pt-pr-13 text-16sb mo:h-pr-178 mo:w-full mo:px-pr-16 mo:pt-pr-10 ta:w-pr-340">
@@ -26,7 +24,7 @@ function BestArticleCard({ articleData }: { articleData: IArticle }) {
           {image !== null && <ArticleImg src={image} />}
         </div>
 
-        <ArticleDate createdAt={date} />
+        <ArticleDate createdAt={createdAt} />
       </CardContent>
 
       <CardFooter className="mt-auto flex-col items-start p-0 mo:mt-auto">

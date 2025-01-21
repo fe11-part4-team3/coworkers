@@ -1,5 +1,4 @@
 import { IArticle } from '@/types/article.type';
-import { dotDate } from '@/utils/dateConversion';
 
 import { Card, CardContent, CardFooter } from '../ui/card';
 import ArticleTitle from './ArticleTitle';
@@ -10,7 +9,6 @@ import ArticleWriterProfile from './ArticleWriterProfile';
 
 function ArticleCard({ articleData }: { articleData: IArticle }) {
   const { title, image, createdAt, writer, likeCount } = articleData;
-  const date = dotDate(createdAt);
 
   return (
     <Card className="flex h-pr-176 w-pr-590 flex-col border border-b-tertiary bg-b-secondary px-pr-32 py-pr-24 text-16sb mo:relative mo:px-pr-16 tamo:w-full">
@@ -24,7 +22,7 @@ function ArticleCard({ articleData }: { articleData: IArticle }) {
           <ArticleWriterProfile writer={writer} />
 
           <div className="relative pl-pr-32 before:absolute before:left-pr-16 before:top-1/2 before:inline-block before:h-pr-12 before:w-pr-1 before:-translate-y-1/2 before:bg-t-disabled before:content-[''] mo:mb-pr-16 mo:pl-0 mo:before:content-none">
-            <ArticleDate createdAt={date} />
+            <ArticleDate createdAt={createdAt} />
           </div>
         </div>
 
