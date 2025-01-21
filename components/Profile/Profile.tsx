@@ -106,14 +106,14 @@ export default function Profile({
   }, [file]);
 
   return (
-    <fieldset className="size-fit select-none">
+    <fieldset className="relative size-fit select-none">
       <label
         htmlFor={isEdit ? 'edit' : undefined}
-        className={`relative ${isEdit && 'cursor-pointer'}`}
+        className={`relative ${isEdit && 'cursor-pointer hover:opacity-70'}`}
         aria-label={`${variant} 프로필 이미지${isEdit ? ' 수정' : ''}`}
       >
         <div
-          className="overflow-hidden rounded-full"
+          className="relative overflow-hidden rounded-full"
           style={{ width: profileSize, height: profileSize }}
         >
           <Image
