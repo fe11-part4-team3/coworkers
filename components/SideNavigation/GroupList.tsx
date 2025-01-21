@@ -1,5 +1,3 @@
-import { useRouter } from 'next/navigation';
-
 import { IGroup } from '@/types/group.type';
 
 import {
@@ -14,6 +12,7 @@ interface GroupListProps {
   loading: boolean | undefined;
   showSkeleton?: boolean | undefined;
   skeletonLength?: number | undefined;
+  onClick: (path: string) => void;
 }
 
 const DEFAULT_GROUPS: IGroup[] = [];
@@ -23,19 +22,18 @@ export default function GroupList({
   loading,
   showSkeleton,
   skeletonLength,
+  onClick,
 }: GroupListProps) {
-  const router = useRouter();
-
   if (loading && showSkeleton) {
     return <GroupListSkeleton skeletonLength={skeletonLength} />;
   }
 
   return (
-    <SidebarMenu className="gap-pr-24">
+    <SidebarMenu className="gap-pr-12">
       {groups.map((group) => (
         <SidebarMenuButton
           key={group.id}
-          onClick={() => router.push(`/${group.id}`)}
+          onClick={() => onClick(`/${group.id}`)}
         >
           <span className="text-14m">{group.name}</span>
         </SidebarMenuButton>

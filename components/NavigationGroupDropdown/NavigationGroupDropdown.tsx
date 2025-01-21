@@ -1,3 +1,5 @@
+import { useRouter } from 'next/navigation';
+
 import { IGroup } from '@/types/group.type';
 import {
   DropdownMenu,
@@ -9,7 +11,6 @@ import ArrowDwon from '@/public/images/icon-arrow-down.svg';
 import { Button } from '../ui/button';
 import DropdownTab from './DropdownTab';
 import DropdownAddGroup from './DropdownAddGroup';
-import { useRouter } from 'next/navigation';
 
 interface NavigationGroupDropdownProps {
   groups: IGroup[] | undefined;

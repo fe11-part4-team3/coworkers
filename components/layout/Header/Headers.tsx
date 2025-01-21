@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useQuery } from '@tanstack/react-query';
+import { useParams, useRouter } from 'next/navigation';
 
 import NavigationGroupDropdown from '@/components/NavigationGroupDropdown/NavigationGroupDropdown';
 import { useAuth } from '@/hooks/useAuth';
@@ -15,7 +16,6 @@ import SideNavigation from '@/components/SideNavigation/SideNavigation';
 
 import Profile from './Profile';
 import Logo from './Logo';
-import { useParams, useRouter } from 'next/navigation';
 
 function Headers() {
   const deviceType = useDeviceType();
