@@ -26,7 +26,7 @@ const meta: Meta<typeof Profile> = {
       description: '수정 기능 사용 여부',
       defaultValue: false,
     },
-    editSzie: {
+    editSize: {
       control: 'number',
       description: '수정 버튼 아이콘 사이즈',
       defaultValue: 24,
@@ -54,7 +54,7 @@ export const EditableProfile: Story = {
     variant: 'group',
     isEdit: true,
     profileSize: 80,
-    editSzie: 30,
+    editSize: 30,
     selectTheme: undefined,
   },
 };

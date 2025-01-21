@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { useTheme } from 'next-themes';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 
 type Variant = 'member' | 'group';
 
@@ -36,7 +36,7 @@ type ProfileProps = {
   variant: Variant;
   profileSize?: number;
   isEdit?: boolean;
-  editSzie?: number;
+  editSize?: number;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   selectTheme?: Theme;
 };
@@ -56,28 +56,23 @@ export default function Profile({
   variant,
   profileSize = 64,
   isEdit = false,
-  editSzie = 24,
+  editSize = 24,
   onChange,
   selectTheme,
 }: ProfileProps) {
   const { theme, systemTheme } = useTheme();
   const [currentTheme, setCurrentTheme] = useState<Theme>(DEFAULT_THEME);
   const [preview, setPreview] = useState<string | null>(null);
+  const [file, setFile] = useState<File | null>(null);
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    //NOTE 새 프로필 삽일 시 기존 프리뷰 메모라 제거
-    if (preview) URL.revokeObjectURL(preview);
-
-    //NOTE 프리뷰 생성
+  const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (files && files[0]) {
-      const next = URL.createObjectURL(files[0]);
-      setPreview(next);
+      setFile(files[0]);
     }
 
-    //NOTE 상위 컴포넌트의 이벤트 핸들링
     if (onChange) onChange(event);
-  };
+  }, []);
 
   useEffect(() => {
     if (selectTheme) {
@@ -96,28 +91,33 @@ export default function Profile({
       return;
     }
 
-    useEffect(() => {
-      //NOTE 언마운트 시 프리뷰 메모리 제거
-      return () => {
-        if (preview) URL.revokeObjectURL(preview);
-      };
-    }, []);
-
     setCurrentTheme(DEFAULT_THEME);
   }, [theme, systemTheme, selectTheme]);
 
+  useEffect(() => {
+    if (file) {
+      const next = URL.createObjectURL(file);
+      setPreview(next);
+    }
+
+    return () => {
+      if (preview) URL.revokeObjectURL(preview);
+    };
+  }, [file]);
+
   return (
-    <fieldset className="size-fit">
+    <fieldset className="size-fit select-none">
       <label
         htmlFor={isEdit ? 'edit' : undefined}
         className={`relative ${isEdit && 'cursor-pointer'}`}
+        aria-label={`${variant} 프로필 이미지${isEdit ? ' 수정' : ''}`}
       >
         <div
           className="overflow-hidden rounded-full"
           style={{ width: profileSize, height: profileSize }}
         >
           <Image
-            className="h-full w-full object-cover"
+            className="size-full object-cover"
             width={profileSize}
             height={profileSize}
             src={
@@ -130,8 +130,8 @@ export default function Profile({
         {isEdit && (
           <Image
             className="absolute bottom-[-4px] right-[-4px]"
-            width={editSzie}
-            height={editSzie}
+            width={editSize}
+            height={editSize}
             src={EDIT_BUTTON[currentTheme]}
             alt="수정"
           />
