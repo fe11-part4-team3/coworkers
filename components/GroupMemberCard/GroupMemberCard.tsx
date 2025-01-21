@@ -34,7 +34,7 @@ interface ContentProps {
   member: IMember;
 }
 
-const DEFAULT_PROFILE = '/images/icon-profile-member-default.svg';
+const DEFAULT_PROFILE = '/images/icon-profile-member.svg';
 const NAME_CLASSNAME = 'truncate text-14m text-t-primary';
 const EMAIL_CLASSNME = 'truncate text-12 text-t-secondary';
 //NOTE className에 직접 넣으니 h랑 w가 size로 병합되어 따로 상수로 만들었습니다.

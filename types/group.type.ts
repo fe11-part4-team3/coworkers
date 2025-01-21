@@ -56,6 +56,7 @@ interface CreateGroupParams {
 }
 
 interface CreateGroupResponse {
+  teamId: string;
   updatedAt: string;
   createdAt: string;
   image: string | null;
