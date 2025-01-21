@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
-import BasicProfile from '@/public/images/img-BasicProfile.svg';
 
+import BasicProfile from '@/public/images/img-BasicProfile.svg';
 import { useDeviceType } from '@/contexts/DeviceTypeContext';
 
 interface ProfileProps {
