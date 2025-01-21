@@ -4,7 +4,7 @@ interface ProfileProp {
   user: {
     id: number;
     nickname: string;
-    image?: string | null;
+    image: string | null;
   };
 }
 
