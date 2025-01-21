@@ -74,8 +74,10 @@
     /* text */
     --t-primary-dark: #f8fafc;
     --t-primary-light: #1e293b;
-    --t-secondary: #cbd5e1;
-    --t-tertiary: #e2e8f0;
+    --t-secondary-dark: #cbd5e1;
+    --t-secondary-light: #334155;
+    --t-tertiary-dark: #e2e8f0;
+    --t-tertiary-light: #0f172a;
     --t-default: #64748b;
     --t-inverse: #ffffff;
     --t-disabled: #94a3b8;
@@ -94,6 +96,9 @@
     --b-secondary-light: var(--b-secondary-dark);
     --b-tertiary-light: var(--b-tertiary-dark);
     --t-primary-light: var(--t-primary-dark);
+    --t-secondary-light: var(--t-secondary-dark);
+    --t-tertiary-light: var(--t-tertiary-dark);
+
     --ring: #10b981;
     --ring-color: #10b981;
     --border: rgba(226, 232, 240, 0.1);
@@ -104,6 +109,8 @@
     --b-secondary-dark: var(--b-secondary-light);
     --b-tertiary-dark: var(--b-tertiary-light);
     --t-primary-dark: var(--t-primary-light);
+    --t-secondary-dark: var(--t-secondary-light);
+    --t-tertiary-dark: var(--t-tertiary-dark);
   }
 }
 @layer base {
@@ -113,6 +120,11 @@
   body {
     @apply text-t-primary;
   }
+}
+
+/* bg 그라디언트 */
+.bg-brand-gradient {
+  background-image: var(--brand-gradient);
 }
 
 /* 드롭다운 item 스타일 */
@@ -127,4 +139,8 @@
 
 .border-input {
   border-color: var(--border);
+}
+
+.border-t-secondary {
+  border-color: var(--t-secondary);
 }

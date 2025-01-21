@@ -1,10 +1,10 @@
 'use client';
 
 import useModalStore from '@/stores/modalStore';
-import Button from '@/components/Button';
 import CloseIcon from '@/public/images/icon-close.svg';
 
 import ModalBase from './ModalBase';
+import { Button } from '../ui/button';
 
 /**
  * 할 일 목록 추가 모달 컴포넌트.
@@ -36,12 +36,16 @@ export default function AddTaskList({ onClick }: { onClick: () => void }) {
           {/* input 컴포넌트 제작 전 임시로 그냥 input으로 대체 */}
           <input />
         </div>
-        <Button
-          text="만들기"
+        {/* TODO 구버전 버튼 컴포넌트 주석 shadcn으로 변경 */}
+        {/* <Button
           onClick={handleOnClick}
           color="primary"
-          className="w-pr-280"
-        />
+          className="w-pr-280">
+          만들기
+          <Button /> */}
+        <Button onClick={handleOnClick} className="w-pr-280">
+          만들기
+        </Button>
       </ModalBase>
     </>
   );
