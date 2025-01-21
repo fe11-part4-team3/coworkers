@@ -69,7 +69,6 @@ export default function AddTeam({
               <Buttons
                 text="추가하기"
                 size="XL"
-                rounded={false}
                 onClick={() => {}}
                 type="submit"
               />

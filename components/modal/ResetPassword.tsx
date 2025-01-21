@@ -65,7 +65,6 @@ export default function ResetPassword({
               <Buttons
                 text="닫기"
                 size="XL"
-                rounded={false}
                 onClick={closeModal}
                 variant="outline"
                 bg="white"
@@ -73,7 +72,6 @@ export default function ResetPassword({
               <Buttons
                 text="링크 보내기"
                 size="XL"
-                rounded={false}
                 onClick={() => {}}
                 type="submit"
               />

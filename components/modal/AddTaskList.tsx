@@ -69,7 +69,6 @@ export default function AddTaskList({
               <Buttons
                 text="만들기"
                 size="XL"
-                rounded={false}
                 onClick={() => {}}
                 type="submit"
               />

@@ -37,12 +37,7 @@ export default function InviteMember({ onClick }: { onClick: () => void }) {
             </p>
           </div>
         </div>
-        <Buttons
-          text="링크 복사하기"
-          size="XL"
-          rounded={false}
-          onClick={handleOnClick}
-        />
+        <Buttons text="링크 복사하기" size="XL" onClick={handleOnClick} />
       </ModalBase>
     </>
   );

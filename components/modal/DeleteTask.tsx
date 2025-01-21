@@ -55,7 +55,6 @@ export default function DeleteTask({
             <Buttons
               text="닫기"
               size="XL"
-              rounded={false}
               onClick={closeModal}
               variant="secondary"
               bg="white"
@@ -63,7 +62,6 @@ export default function DeleteTask({
             <Buttons
               text="삭제하기"
               size="XL"
-              rounded={false}
               onClick={handleOnClick}
               variant="destructive"
             />

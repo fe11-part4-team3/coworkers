@@ -78,7 +78,6 @@ export default function ChangePassword({
               <Buttons
                 text="닫기"
                 size="XL"
-                rounded={false}
                 onClick={closeModal}
                 variant="outline"
                 bg="white"
@@ -86,7 +85,6 @@ export default function ChangePassword({
               <Buttons
                 text="변경하기"
                 size="XL"
-                rounded={false}
                 onClick={() => {}}
                 type="submit"
               />

@@ -53,7 +53,6 @@ export default function DeleteAccount({
             <Buttons
               text="닫기"
               size="XL"
-              rounded={false}
               onClick={closeModal}
               variant="secondary"
               bg="white"
@@ -61,7 +60,6 @@ export default function DeleteAccount({
             <Buttons
               text="회원 탈퇴"
               size="XL"
-              rounded={false}
               onClick={handleOnClick}
               variant="destructive"
             />
