@@ -88,10 +88,10 @@ export default function Buttons(props: ButtonsProps) {
   // 렌더링할 콘텐츠 정의
   const renderContent = () => (
     <>
-      {icon && typeof icon === 'string' ? (
-        <img src={icon} alt="icon" className="mr-2" />
-      ) : (
-        icon
+      {icon && typeof icon && (
+        <span className="flex size-pr-16 items-center justify-center">
+          {icon}
+        </span>
       )}
       {loading && <Loader2 className="mr-2 animate-spin" />}
       {text}
