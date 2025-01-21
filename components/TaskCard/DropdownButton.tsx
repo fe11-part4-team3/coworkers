@@ -1,6 +1,6 @@
 import DropDown from '../DropDown';
 
-function KebabButton({ taskId }: { taskId: number }) {
+function DropdownButton({ taskId }: { taskId: number }) {
   return (
     <div className="ml-auto size-pr-16 mo:ml-0">
       <DropDown
@@ -21,4 +21,4 @@ function KebabButton({ taskId }: { taskId: number }) {
   );
 }
 
-export default KebabButton;
+export default DropdownButton;

@@ -7,9 +7,9 @@ import Link from 'next/link';
 import { deleteUser, updatePassword } from '@/service/user.api';
 import useUserStore from '@/stores/useUser.store';
 import { useAuth } from '@/hooks/useAuth';
-import { testStyled } from '@/styles/test.styles';
 import Container from '@/components/layout/Container';
 import useForm from '@/hooks/useForm';
+import { Button } from '@/components/ui/button';
 
 export default function MyPage() {
   const { formData, handleChange, setFormData } = useForm({
@@ -82,14 +82,14 @@ export default function MyPage() {
       <Container>
         <div>로그인이 필요합니다</div>
         <div className="align-center flex gap-pr-10">
-          <Link href="/" className={testStyled}>
-            메인 페이지로 이동하기
+          <Link href="/">
+            <Button variant="link">메인 페이지로 이동하기</Button>
           </Link>
-          <Link href="/login" className={testStyled}>
-            로그인 하러가기
+          <Link href="/login">
+            <Button variant="link">로그인 하러가기</Button>
           </Link>
-          <Link href="/signup" className={testStyled}>
-            회원가입 하러가기
+          <Link href="/signup">
+            <Button variant="link">회원가입 하러가기</Button>
           </Link>
         </div>
       </Container>
@@ -128,21 +128,15 @@ export default function MyPage() {
           </label>
         </div>
         {error && <p style={{ color: 'red' }}>{error}</p>}
-        <button type="submit" className={testStyled}>
-          비밀번호 변경
-        </button>
+        <Button type="submit">비밀번호 변경</Button>
       </form>
       <div className="flex gap-pr-10">
-        <button
-          type="submit"
-          onClick={handleSubmitLogout}
-          className={testStyled}
-        >
+        <Button type="submit" onClick={handleSubmitLogout}>
           로그아웃
-        </button>
-        <button type="button" onClick={handleUserDelete} className={testStyled}>
+        </Button>
+        <Button type="button" onClick={handleUserDelete}>
           회원탈퇴
-        </button>
+        </Button>
       </div>
     </Container>
   );
