@@ -5,7 +5,7 @@ import { ITaskComment } from '@/types/comment.type';
 
 import { Card, CardContent, CardFooter } from '../ui/card';
 import DateDisplay from '../DateDisplay';
-import CommentContent from './CommentContent';
+import CommentContent from './TaskDeTailCommentContent';
 import TextareaField from '../InputField/TextareaField';
 import TaskDetailCommentDropDown from './TaskDetailCommentDropDown';
 import TaskDetailCommentProfile from './TaskDetailCommentProfile';
