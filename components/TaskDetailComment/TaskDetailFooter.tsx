@@ -1,4 +1,5 @@
 import { IUserProfile } from '@/types/user.type';
+
 import DateDisplay from '../DateDisplay';
 import { CardFooter } from '../ui/card';
 import Buttons from '../Buttons';
