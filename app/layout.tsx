@@ -3,8 +3,11 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
-import './globals.css';
-import './globals-custom.css';
+import '@/styles/fonts.css';
+import '@/styles/globals.css';
+import '@/styles/base.css';
+import '@/styles/components.css';
+import '@/styles/utilities.css';
 
 import { ThemeProvider } from '@/utils/theme-provider';
 import DarkmodeToggle from '@/components/DarkmodeToggle';
