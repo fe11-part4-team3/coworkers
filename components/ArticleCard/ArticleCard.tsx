@@ -1,35 +1,57 @@
 import { IArticle } from '@/types/article.type';
 
-import { Card, CardContent, CardFooter } from '../ui/card';
-import ArticleTitle from './ArticleTitle';
-import LikeCount from '../LikeCount';
-import ArticleDate from './ArticleDate';
-import ArticleDropDown from './ArticleDropDown';
-import ArticleWriterProfile from './ArticleWriterProfile';
+import { Card } from '@/components/ui/card';
+import { dotDate } from '@/utils/dateConversion';
+import ArticleCardContent from './ArticleCardContent';
+import ArticleCardFooter from './ArticleCardFooter';
+import BestMedal from '@/public/images/icon-medal.svg';
 
-function ArticleCard({ articleData }: { articleData: IArticle }) {
+const CARD_STYLE =
+  'flex flex-col border border-b-tertiary bg-b-secondary text-16sb mo:relative mo:w-full mo:px-pr-16';
+const NORMAL_STYLE =
+  'h-pr-176 w-pr-590 px-pr-32 py-pr-24 mo:h-pr-162 mo:pb-pr-16 ta:w-full';
+const BEST_STYLE =
+  'relative h-pr-220 w-pr-387 px-pr-24 pb-pr-16 pt-pr-48 mo:h-pr-178 mo:pt-pr-40 ta:w-pr-340';
+
+/**
+ * @param {'normal' | 'best'} props.type - 게시글 카드 타입 (normal type default)
+ * @param {object} props.articleData - 게시글 데이터
+ * @returns {JSX.Element} 베스트, 일반 게시글 카드 컴포넌트
+ */
+function ArticleCard({
+  type = 'normal',
+  articleData,
+}: {
+  type?: 'normal' | 'best';
+  articleData: IArticle;
+}) {
   const { title, image, createdAt, writer, likeCount } = articleData;
+  const isBestCard = type === 'best';
 
   return (
-    <Card className="flex h-pr-176 w-pr-590 flex-col border border-b-tertiary bg-b-secondary px-pr-32 py-pr-24 text-16sb mo:relative mo:px-pr-16 tamo:w-full">
-      <CardContent className="flex h-pr-72 justify-between p-0 mo:h-pr-64">
-        <ArticleTitle title={title} />
-
-        <ArticleDropDown image={image} />
-      </CardContent>
-      <CardFooter className="mt-pr-24 flex justify-between p-0 mo:mt-0 mo:items-end">
-        <div className="flex items-center mo:flex-col-reverse mo:items-start">
-          <ArticleWriterProfile writer={writer} />
-
-          <div className="relative pl-pr-32 before:absolute before:left-pr-16 before:top-1/2 before:inline-block before:h-pr-12 before:w-pr-1 before:-translate-y-1/2 before:bg-t-disabled before:content-[''] mo:mb-pr-16 mo:pl-0 mo:before:content-none">
-            <ArticleDate createdAt={createdAt} />
-          </div>
+    <Card className={`${CARD_STYLE} ${isBestCard ? BEST_STYLE : NORMAL_STYLE}`}>
+      {isBestCard && (
+        <div className="absolute top-pr-13 flex items-center">
+          <BestMedal />
+          <span className="ml-pr-4 text-16sb mo:text-14sb">Best</span>
         </div>
+      )}
 
-        <div className="mo:mb-pr-8 mo:pr-pr-24">
-          <LikeCount type="readOnly" likeCount={likeCount} />
+      <ArticleCardContent title={title} image={image} isBestCard={isBestCard} />
+      {isBestCard && (
+        <div className="mt-pr-12 mo:mt-0">
+          <p className="text-14m text-t-disabled mo:text-12m">
+            {dotDate(createdAt)}
+          </p>
         </div>
-      </CardFooter>
+      )}
+
+      <ArticleCardFooter
+        isBestCard={isBestCard}
+        writer={writer}
+        createdAt={createdAt}
+        likeCount={likeCount}
+      />
     </Card>
   );
 }
