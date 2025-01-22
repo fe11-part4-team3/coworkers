@@ -36,7 +36,7 @@ export default function SelectBox({
   onValueChange,
 }: SelectBoxProps) {
   // SelectBox 배경색 스타일
-  const bgStyled = {
+  const BACKGROUND_STYLED = {
     default: 'bg-b-secondary data-[state=open]:bg-b-tertiary',
     modal: 'bg-b-secondary-2 data-[state=open]:bg-b-secondary-2',
   };
@@ -45,7 +45,7 @@ export default function SelectBox({
     <div>
       <Select defaultValue={defaultValue} onValueChange={onValueChange}>
         <SelectTrigger
-          className={`font-14 mo:font-12 focus:ring-none w-full rounded-xl border-none px-pr-14 py-pr-10 text-t-primary hover:bg-b-tertiary focus:bg-b-tertiary focus:outline-none data-[placeholder='']:text-t-default mo:rounded-lg mo:p-pr-8 ${width && widthStyledSliceWPr(width)} ${bgStyled[bgType]}`}
+          className={`font-14 mo:font-12 focus:ring-none w-full rounded-xl border-none px-pr-14 py-pr-10 text-t-primary hover:bg-b-tertiary focus:bg-b-tertiary focus:outline-none data-[placeholder='']:text-t-default mo:rounded-lg mo:p-pr-8 ${width && widthStyledSliceWPr(width)} ${BACKGROUND_STYLED[bgType]}`}
         >
           <SelectValue placeholder={placeholder} />
           <ICON_ARROW_FILLEND width={24} height={24} />
