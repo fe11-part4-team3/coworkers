@@ -1,5 +1,10 @@
 import DropDown from '../DropDown';
 
+/**
+ * @param {Function} props.handleEditClick - 댓글 수정하기
+ * @param {Function} props.handleDeleteClick - 댓글 삭제하기
+ * @returns {JSX.Element} - 댓글 DropDown 컴포넌트
+ */
 function TaskDetailCommentDropDown({
   handleEditClick,
   handleDeleteClick,

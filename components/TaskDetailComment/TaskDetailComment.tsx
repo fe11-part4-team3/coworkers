@@ -13,7 +13,7 @@ import TaskDetailCommentEditButton from './TaskDetailCommentEditButton';
 
 /**
  * @param {object} props.commentData - 댓글 데이터
- * @returns {JSX.Element} 댓글 컴포넌트
+ * @returns {JSX.Element} 할 일 상세 댓글 컴포넌트
  */
 function TaskDetailComment({ commentData }: { commentData: ITaskComment }) {
   const { id, content, createdAt, user } = commentData;

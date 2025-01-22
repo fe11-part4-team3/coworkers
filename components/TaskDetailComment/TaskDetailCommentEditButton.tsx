@@ -1,5 +1,11 @@
 import Buttons from '../Buttons';
 
+/**
+ * @param {boolean} props.disabled - 기존 댓글 내용, 수정 입력 내용 비교
+ * @param {Function} props.cancelEditing - 댓글 수정모드 취소 버튼
+ * @param {Function} props.saveChanges - 댓글 수정모드 수정 완료 버튼
+ * @returns {JSX.Element} - 댓글 수정모드 버튼 컴포넌트
+ */
 function TaskDetailCommentEditButton({
   disabled,
   cancelEditing,

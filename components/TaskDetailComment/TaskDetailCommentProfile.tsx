@@ -2,6 +2,10 @@ import { IUserProfile } from '@/types/user.type';
 
 import Profile from '../Profile/Profile';
 
+/**
+ * @param {object} props.user - 유저 데이터
+ * @returns {JSX.Element} - 프로필 컴포넌트
+ */
 function TaskDetailCommentProfile({ user }: { user: IUserProfile }) {
   const { nickname, image } = user;
 
