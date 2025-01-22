@@ -20,10 +20,8 @@ function TaskDetailComment({ commentData }: { commentData: ITaskComment }) {
 
   const { user: userData } = useUserStore();
 
-  // 댓글 내용
-  const [commentContent, setCommentContent] = useState(content);
   // 댓글 수정 내용 (기존 댓글과 비교하여 변경 사항이 없다면 수정 버튼 disabled 처리)
-  const [commentEditContent, setCommentEditContent] = useState(commentContent);
+  const [commentEditContent, setCommentEditContent] = useState(content);
   // 수정 활성화
   const [commentEdit, setCommentEdit] = useState(false);
 
@@ -46,7 +44,7 @@ function TaskDetailComment({ commentData }: { commentData: ITaskComment }) {
   // 수정 중 취소하기 버튼
   const cancelEditing = () => {
     setCommentEdit(false);
-    setCommentEditContent(commentContent);
+    setCommentEditContent(content);
   };
 
   // 수정 완료
@@ -86,7 +84,7 @@ function TaskDetailComment({ commentData }: { commentData: ITaskComment }) {
           <DateDisplay createdAt={createdAt} />
         ) : (
           <TaskDetailCommentEditButton
-            disabled={commentEditContent === commentContent}
+            disabled={commentEditContent === content}
             cancelEditing={cancelEditing}
             saveChanges={saveChanges}
           />
