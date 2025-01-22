@@ -1,4 +1,5 @@
 import { IUserProfile } from '@/types/user.type';
+
 import Profile from '../Profile/Profile';
 
 function TaskDetailCommentProfile({ user }: { user: IUserProfile }) {
