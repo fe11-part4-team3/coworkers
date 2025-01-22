@@ -6,6 +6,54 @@ import useUserStore from '@/stores/useUser.store';
 import { useAuth } from '@/hooks/useAuth';
 import Container from '@/components/layout/Container';
 import { Button } from '@/components/ui/button';
+import ArticleCard from '@/components/ArticleCard/ArticleCard';
+
+const articleData = {
+  list: [
+    {
+      id: 1085,
+      title: '이렇게 올리면 되나요?',
+      image: null,
+      createdAt: '2025-01-16T21:32:07+09:00',
+      updatedAt: '2025-01-16T21:32:07+09:00',
+      writer: {
+        id: 1299,
+        nickname: '트럼프',
+      },
+      likeCount: 777,
+      commentCount: 0,
+    },
+    {
+      id: 1084,
+      title: '이렇게 남기면 되나요?',
+      image:
+        'https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/Coworkers/user/1299/licensed-image.jpeg',
+      createdAt: '2025-01-16T21:31:20+09:00',
+      updatedAt: '2025-01-16T21:31:20+09:00',
+      writer: {
+        id: 1299,
+        nickname: '도널드덕',
+      },
+      likeCount: 9999,
+      commentCount: 0,
+    },
+    {
+      id: 1081,
+      title:
+        '게시글 좋아요 누르는 방법은?게시글 좋아요 누르는 방법은?게시글 좋아요 누르는 방법은?게시글 좋아요 누르는 방법은?게시글 좋아요 누르는 방법은?게시글 좋아요 누르는 방법은?게시글 좋아요 누르는 방법은?',
+      image: '/images/codeitprofile.png',
+      createdAt: '2025-01-15T21:52:30+09:00',
+      updatedAt: '2025-01-15T21:52:30+09:00',
+      writer: {
+        id: 1299,
+        nickname: '휘철',
+      },
+      likeCount: 1,
+      commentCount: 2,
+    },
+  ],
+  totalCount: 3,
+};
 
 export default function LandingPage() {
   const { isAuthenticated } = useAuth();
@@ -29,6 +77,8 @@ export default function LandingPage() {
     );
   }
 
+  const { list: articleList } = articleData;
+
   return (
     <Container>
       <div>랜딩 페이지</div>
@@ -39,6 +89,17 @@ export default function LandingPage() {
         <Link href="/signup">
           <Button variant="link">회원가입</Button>
         </Link>
+      </div>
+
+      <div className="flex flex-col gap-pr-20">
+        {articleList.map((article) => {
+          return <ArticleCard key={article.id} articleData={article} />;
+        })}
+        {articleList.map((article) => {
+          return (
+            <ArticleCard key={article.id} type="best" articleData={article} />
+          );
+        })}
       </div>
     </Container>
   );

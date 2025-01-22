@@ -1,7 +1,6 @@
 import React from 'react';
 import { IArticle } from '@/types/article.type';
 import ArticleCard from '@/components/ArticleCard/ArticleCard';
-import BestArticleCard from '@/components/ArticleCard/BestArticleCard';
 import { Meta, StoryFn } from '@storybook/react';
 
 export default {
@@ -29,15 +28,5 @@ const Template: StoryFn<{ articleData: IArticle }> = (args) => (
 
 export const DefaultArticleCard = Template.bind({});
 DefaultArticleCard.args = {
-  articleData: articleData,
-};
-
-// BestArticleCard
-const BestTemplate: StoryFn<{ articleData: IArticle }> = (args) => (
-  <BestArticleCard {...args} />
-);
-
-export const DefaultBestArticleCard = BestTemplate.bind({});
-DefaultBestArticleCard.args = {
   articleData: articleData,
 };
