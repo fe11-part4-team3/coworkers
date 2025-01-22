@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 
 import useUserStore from '@/stores/useUser.store';
 import { ITaskComment } from '@/types/comment.type';
@@ -6,8 +6,10 @@ import { ITaskComment } from '@/types/comment.type';
 import { Card, CardContent, CardFooter } from '../ui/card';
 import DateDisplay from '../DateDisplay';
 import CommentContent from './CommentContent';
-import DropDown from '../DropDown';
 import TextareaField from '../InputField/TextareaField';
+import TaskDetailCommentDropDown from './TaskDetailCommentDropDown';
+import TaskDetailCommentProfile from './TaskDetailCommentProfile';
+import TaskDetailCommentEditButton from './TaskDetailCommentEditButton';
 
 /**
  * @param {object} props.commentData - 댓글 데이터
@@ -15,8 +17,14 @@ import TextareaField from '../InputField/TextareaField';
  */
 function TaskDetailComment({ commentData }: { commentData: ITaskComment }) {
   const { id, content, createdAt, user } = commentData;
+
   const { user: userData } = useUserStore();
+
+  // 댓글 내용
   const [commentContent, setCommentContent] = useState(content);
+  // 댓글 수정 내용 (기존 댓글과 비교하여 변경 사항이 없다면 수정 버튼 disabled 처리)
+  const [commentEditContent, setCommentEditContent] = useState(commentContent);
+  // 수정 활성화
   const [commentEdit, setCommentEdit] = useState(false);
 
   // Dropdown 수정하기
@@ -32,13 +40,13 @@ function TaskDetailComment({ commentData }: { commentData: ITaskComment }) {
 
   // textarea value onChange
   const updateCommentContent = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setCommentContent(e.target.value);
+    setCommentEditContent(e.target.value);
   };
 
   // 수정 중 취소하기 버튼
   const cancelEditing = () => {
     setCommentEdit(false);
-    setCommentContent(content);
+    setCommentEditContent(commentContent);
   };
 
   // 수정 완료
@@ -50,17 +58,14 @@ function TaskDetailComment({ commentData }: { commentData: ITaskComment }) {
   return (
     <Card className="rounded-none border-x-0 border-t-0 border-input bg-transparent py-pr-16 shadow-none">
       {!commentEdit ? (
-        <CardContent className="flex justify-between p-0">
-          <CommentContent content={commentContent} />
+        <CardContent className="flex min-h-pr-16 justify-between p-0">
+          <CommentContent content={commentEditContent} />
 
+          {/* 작성자만 DropDown(수정, 삭제) 노출 */}
           {userData?.id === user.id && (
-            <DropDown
-              trigger={<button className="icon-kebab" />}
-              items={[
-                { text: '수정하기', onClick: handleEditClick },
-                { text: '삭제하기', onClick: handleDeleteClick },
-              ]}
-              width="w-pr-120"
+            <TaskDetailCommentDropDown
+              handleEditClick={handleEditClick}
+              handleDeleteClick={handleDeleteClick}
             />
           )}
         </CardContent>
@@ -68,22 +73,23 @@ function TaskDetailComment({ commentData }: { commentData: ITaskComment }) {
         <TextareaField
           name="content"
           size="md"
-          value={commentContent}
+          value={commentEditContent}
           placeholder="댓글을 입력해주세요"
           onChange={updateCommentContent}
         />
       )}
 
       <CardFooter className="mt-pr-16 flex justify-between p-0">
+        <TaskDetailCommentProfile user={user} />
+
         {!commentEdit ? (
           <DateDisplay createdAt={createdAt} />
         ) : (
-          <div>
-            <button onClick={cancelEditing} className="mr-pr-20">
-              취소
-            </button>
-            <button onClick={saveChanges}>수정하기</button>
-          </div>
+          <TaskDetailCommentEditButton
+            disabled={commentEditContent === commentContent}
+            cancelEditing={cancelEditing}
+            saveChanges={saveChanges}
+          />
         )}
       </CardFooter>
     </Card>
