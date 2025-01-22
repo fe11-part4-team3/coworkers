@@ -1,14 +1,12 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
-import { useQuery } from '@tanstack/react-query';
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 import NavigationGroupDropdown from '@/components/NavigationGroupDropdown/NavigationGroupDropdown';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
-import { getGroupList } from '@/service/user.api';
 import { useDeviceType } from '@/contexts/DeviceTypeContext';
 import SideNavigationTrigger from '@/components/SideNavigation/SideNavigationTrigger';
 import SideNavigation from '@/components/SideNavigation/SideNavigation';
@@ -16,20 +14,14 @@ import SideNavigation from '@/components/SideNavigation/SideNavigation';
 import Profile from './Profile';
 import useUser from '@/hooks/useUser';
 import Logo from './Logo';
+import useGroupList from '@/hooks/useGroupList';
 
 function Headers() {
   const deviceType = useDeviceType();
   const router = useRouter();
-  const { teamId } = useParams();
-  const groupId = teamId ? Number(teamId) : null;
   const { isAuthenticated, accessToken } = useAuth();
-  const { user } = useUser();
-  const [selected, setSelected] = useState<string | null>(null);
-  const { data: groups, isPending } = useQuery({
-    queryKey: ['groups'],
-    queryFn: getGroupList,
-    enabled: isAuthenticated,
-  });
+  const { user, groups, isPending } = useUser();
+  const { currentGroup } = useGroupList();
 
   useEffect(() => {
     console.log('인증상태', isAuthenticated);
@@ -38,26 +30,10 @@ function Headers() {
   }, [user]);
 
   useEffect(() => {
-    if (!groupId || !groups || isPending) {
-      setSelected(null);
-      return;
+    if (!isPending && !currentGroup) {
+      router.push('/');
     }
-
-    /**
-     * NOTE
-     * 선택된 그룹을 찾는 로직
-     * 선택된 그룹이 없으면 리다이렉트
-     */
-    const isSelected = groups.some((group) => {
-      if (group.id === groupId) {
-        setSelected(group.name);
-        return true;
-      }
-      return false;
-    });
-
-    if (!isSelected) router.push('/');
-  }, [groupId, groups]);
+  }, [isPending, currentGroup]);
 
   return (
     <header className="fixed flex w-full items-center border-b bg-b-secondary transition-all">
@@ -71,7 +47,7 @@ function Headers() {
               />
               <SideNavigation
                 groups={groups}
-                loading={isPending}
+                isPending={isPending}
                 showSkeleton={true}
                 skeletonLength={10}
               />
@@ -85,7 +61,7 @@ function Headers() {
               <NavigationGroupDropdown
                 groups={groups}
                 isPending={isPending}
-                selected={selected}
+                currentGroup={currentGroup}
               />
 
               <Link href="/boards">

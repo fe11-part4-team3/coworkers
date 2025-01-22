@@ -13,9 +13,9 @@ import DropdownTab from './DropdownTab';
 import DropdownAddGroup from './DropdownAddGroup';
 
 interface NavigationGroupDropdownProps {
-  groups: IGroup[] | undefined;
+  groups: IGroup[] | null;
   isPending: boolean;
-  selected: string | null;
+  currentGroup: IGroup | null;
 }
 
 /**
@@ -26,7 +26,7 @@ interface NavigationGroupDropdownProps {
 export default function NavigationGroupDropdown({
   groups,
   isPending,
-  selected,
+  currentGroup,
 }: NavigationGroupDropdownProps) {
   const router = useRouter();
 
@@ -43,7 +43,7 @@ export default function NavigationGroupDropdown({
           {isPending ? (
             <span>로딩 중</span>
           ) : (
-            <span className="text-16m">{selected || '팀 선택'}</span>
+            <span className="text-16m">{currentGroup?.name || '팀 선택'}</span>
           )}
           {/* REVIEW 시안에는 없지만 화살표 색도 테마에 따라 변하면 좋겠음*/}
           <ArrowDwon />
