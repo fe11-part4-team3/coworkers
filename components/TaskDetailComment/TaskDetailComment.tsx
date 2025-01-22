@@ -1,15 +1,11 @@
 import { ChangeEvent, useState } from 'react';
 
-import useUserStore from '@/stores/useUser.store';
 import { ITaskComment } from '@/types/comment.type';
 
-import { Card, CardContent, CardFooter } from '../ui/card';
-import DateDisplay from '../DateDisplay';
-import CommentContent from './TaskDeTailCommentContent';
+import { Card } from '../ui/card';
 import TextareaField from '../InputField/TextareaField';
-import TaskDetailCommentDropDown from './TaskDetailCommentDropDown';
-import TaskDetailCommentProfile from './TaskDetailCommentProfile';
-import TaskDetailCommentEditButton from './TaskDetailCommentEditButton';
+import TaskDetailContent from './TaskDetailContent';
+import TaskDetailFooter from './TaskDetailFooter';
 
 /**
  * @param {object} props.commentData - 댓글 데이터
@@ -17,8 +13,6 @@ import TaskDetailCommentEditButton from './TaskDetailCommentEditButton';
  */
 function TaskDetailComment({ commentData }: { commentData: ITaskComment }) {
   const { id, content, createdAt, user } = commentData;
-
-  const { user: userData } = useUserStore();
 
   // 댓글 수정 내용 (기존 댓글과 비교하여 변경 사항이 없다면 수정 버튼 disabled 처리)
   const [commentEditContent, setCommentEditContent] = useState(content);
@@ -56,17 +50,12 @@ function TaskDetailComment({ commentData }: { commentData: ITaskComment }) {
   return (
     <Card className="rounded-none border-x-0 border-t-0 border-input bg-transparent py-pr-16 shadow-none">
       {!commentEdit ? (
-        <CardContent className="flex min-h-pr-16 justify-between p-0">
-          <CommentContent content={commentEditContent} />
-
-          {/* 작성자만 DropDown(수정, 삭제) 노출 */}
-          {userData?.id === user.id && (
-            <TaskDetailCommentDropDown
-              handleEditClick={handleEditClick}
-              handleDeleteClick={handleDeleteClick}
-            />
-          )}
-        </CardContent>
+        <TaskDetailContent
+          commentEditContent={commentEditContent}
+          user={user}
+          handleEditClick={handleEditClick}
+          handleDeleteClick={handleDeleteClick}
+        />
       ) : (
         <TextareaField
           name="content"
@@ -77,19 +66,15 @@ function TaskDetailComment({ commentData }: { commentData: ITaskComment }) {
         />
       )}
 
-      <CardFooter className="mt-pr-16 flex justify-between p-0">
-        <TaskDetailCommentProfile user={user} />
-
-        {!commentEdit ? (
-          <DateDisplay createdAt={createdAt} />
-        ) : (
-          <TaskDetailCommentEditButton
-            disabled={commentEditContent === content}
-            cancelEditing={cancelEditing}
-            saveChanges={saveChanges}
-          />
-        )}
-      </CardFooter>
+      <TaskDetailFooter
+        user={user}
+        commentEdit={commentEdit}
+        createdAt={createdAt}
+        commentEditContent={commentEditContent}
+        content={content}
+        cancelEditing={cancelEditing}
+        saveChanges={saveChanges}
+      />
     </Card>
   );
 }
