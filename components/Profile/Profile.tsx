@@ -32,7 +32,7 @@ const EDIT_BUTTON: EditButtonType = {
 };
 
 type ProfileProps = {
-  defaultProfile?: string;
+  defaultProfile?: string | undefined | null;
   variant: Variant;
   profileSize?: number;
   isEdit?: boolean;

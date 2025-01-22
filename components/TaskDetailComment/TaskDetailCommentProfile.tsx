@@ -11,7 +11,7 @@ function TaskDetailCommentProfile({ user }: { user: IUserProfile }) {
 
   return (
     <div className="flex items-center">
-      <Profile variant="member" profileSize={32} defaultProfile={image || ''} />
+      <Profile variant="member" profileSize={32} defaultProfile={image} />
       <span className="ml-pr-12 text-14m">{nickname}</span>
     </div>
   );
