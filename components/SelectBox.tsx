@@ -6,7 +6,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import ICON_ARROW_FILLEND from '@/public/images/icon-arrow-filled.svg';
-import { SelectBoxProps } from '@/types/selectBox..type';
+import { SelectBoxProps } from '@/types/selectBox.type';
 import { widthStyledSliceWPr } from '@/utils/filterClass';
 /**
  * @description SelectBox 컴포넌트
