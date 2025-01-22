@@ -5,6 +5,11 @@ import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { useEffect } from 'react';
 
+/**
+ * - `currentGroup` : 현재 경로의 teamId 기준 속해 있는 그룹 데이터
+ * - `groups` : `getGroupList`의 응답 데이터
+ * - `isPending` : 로딩 여부
+ */
 const useGroupList = () => {
   const { currentGroup, setCurrentGroup } = useGroupStore((state) => state);
   const { user } = useUserStore();
