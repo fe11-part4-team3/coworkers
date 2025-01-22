@@ -72,7 +72,6 @@
     --border: rgba(248, 250, 252, 0.1);
     --input: #343e4e;
   }
-
   .light {
     --b-primary-dark: var(--b-primary-light);
     --b-secondary-dark: var(--b-secondary-light);

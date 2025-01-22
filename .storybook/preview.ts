@@ -2,7 +2,7 @@ import type { Preview } from '@storybook/react';
 import { withThemeByClassName } from '@storybook/addon-themes';
 
 import '../styles/globals.css';
-import '../styles/variables.css';
+import '../styles/base.css';
 import '../styles/components.css';
 import '../styles/utilities.css';
 

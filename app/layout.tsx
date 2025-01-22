@@ -5,7 +5,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import '@/styles/fonts.css';
 import '@/styles/globals.css';
-import '@/styles/variables.css';
+import '@/styles/base.css';
 import '@/styles/components.css';
 import '@/styles/utilities.css';
 
