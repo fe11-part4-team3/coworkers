@@ -3,7 +3,6 @@ import { CardFooter } from '@/components/ui/card';
 import WriterProfile from '@/components/WriterProfile';
 import LikeCount from '@/components/LikeCount';
 import useUserStore from '@/stores/useUser.store';
-
 import KebabDropDown from '@/components/KebabDropDown';
 
 /**

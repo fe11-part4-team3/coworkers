@@ -2,7 +2,6 @@ import { IArticle } from '@/types/article.type';
 import { Card } from '@/components/ui/card';
 import { dotDate } from '@/utils/dateConversion';
 import BestMedal from '@/public/images/icon-medal.svg';
-
 import ArticleCardContent from '@/components/ArticleCard/ArticleCardContent';
 import ArticleCardFooter from '@/components/ArticleCard/ArticleCardFooter';
 
