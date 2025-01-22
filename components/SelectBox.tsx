@@ -6,17 +6,8 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import ICON_ARROW_FILLEND from '@/public/images/icon-arrow-filled.svg';
+import { SelectBoxProps } from '@/types/selectBox..type';
 import { widthStyledSliceWPr } from '@/utils/filterClass';
-
-interface SelectBoxProps {
-  options: string[];
-  defaultValue?: string;
-  placeholder?: string;
-  width?: string;
-  height?: string;
-  onValueChange?: (value: string) => void;
-}
-
 /**
  * @description SelectBox 컴포넌트
  * @param {string[]} props.options - 선택 옵션 리스트
@@ -26,10 +17,14 @@ interface SelectBoxProps {
  * @param {Function} props.onValueChange - 선택 옵션 변경 이벤트
  * @example
  * <SelectBox
- *  options={['옵션1', '옵션2', '옵션3']}
+ *  options={[
+ *    { label: '옵션1', value: 'OPTION1' },
+ *    { label: '옵션2', value: 'OPTION2' },
+ *    { label: '옵션3', value: 'OPTION3' },
+ *  ]}
  *  placeholder="옵션을 선택하세요"
  *  onValueChange={(value) => console.log('선택된 옵션:', value)}
- *  />
+ * />
  */
 export default function SelectBox({
   options,
@@ -52,11 +47,11 @@ export default function SelectBox({
         >
           {options.map((option) => (
             <SelectItem
-              key={option}
-              value={option}
+              key={option.value}
+              value={option.value}
               className="dropdown-item rounded-0 px-pr-14 py-pr-11 text-t-primary mo:px-pr-8"
             >
-              {option}
+              {option.label}
             </SelectItem>
           ))}
         </SelectContent>
