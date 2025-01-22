@@ -19,28 +19,31 @@ export default function DatePicker({ width = 'full' }: { width?: string }) {
 
   return (
     <>
-      <div className="relative">
-        <InputField
-          value={formattedDate}
-          placeholder="날짜를 선택해주세요."
-          disabled={true}
-          onChange={() => {}}
-          name="date"
-          width={`${width !== 'full' ? `w-pr-${width}` : ''}`}
-        />
-        <button
-          className={`z-90 absolute left-0 top-0 size-full rounded-xl ${isOpen ? 'border border-brand-primary' : ''}`}
-          onClick={() => setIsOpen(!isOpen)}
-        />
+      <div
+        className={`${`${width !== 'full' ? `w-pr-${width}` : ''}`} flex flex-col gap-pr-8`}
+      >
+        <div className="relative">
+          <InputField
+            value={formattedDate}
+            placeholder="날짜를 선택해주세요."
+            disabled={true}
+            onChange={() => {}}
+            name="date"
+          />
+          <button
+            className={`z-90 absolute left-0 top-0 size-full rounded-xl ${isOpen ? 'border border-brand-primary' : ''}`}
+            onClick={() => setIsOpen(!isOpen)}
+          />
+        </div>
+        {isOpen && (
+          <Calendar
+            mode="single"
+            selected={date}
+            onSelect={setdate}
+            className={`${width !== 'full' ? `w-pr-${width}` : 'w-full'} flex items-center justify-center rounded-2xl border border-brand-primary bg-b-secondary p-pr-16`}
+          />
+        )}
       </div>
-      {isOpen && (
-        <Calendar
-          mode="single"
-          selected={date}
-          onSelect={setdate}
-          className={`${width !== 'full' ? `w-pr-${width}` : 'w-full'} flex items-center justify-center rounded-2xl border border-brand-primary bg-b-secondary p-pr-16`}
-        />
-      )}
     </>
   );
 }
