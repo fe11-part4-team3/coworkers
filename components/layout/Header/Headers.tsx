@@ -1,45 +1,43 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 
 import NavigationGroupDropdown from '@/components/NavigationGroupDropdown/NavigationGroupDropdown';
-import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { useDeviceType } from '@/contexts/DeviceTypeContext';
 import SideNavigationTrigger from '@/components/SideNavigation/SideNavigationTrigger';
 import SideNavigation from '@/components/SideNavigation/SideNavigation';
+import useUser from '@/hooks/useUser';
+import { IGroup } from '@/types/group.type';
 
 import Profile from './Profile';
-import useUser from '@/hooks/useUser';
 import Logo from './Logo';
-import useGroupList from '@/hooks/useGroupList';
 
 function Headers() {
   const deviceType = useDeviceType();
   const router = useRouter();
-  const { isAuthenticated, accessToken } = useAuth();
+  const { teamId } = useParams();
+  const groupId = teamId ? Number(teamId) : null;
   const { user, groups, isPending } = useUser();
-  const { currentGroup } = useGroupList();
+  const [currentGroup, setCurrentGroup] = useState<IGroup | null>(null);
 
   useEffect(() => {
-    console.log('인증상태', isAuthenticated);
-    console.log('유저 정보', user);
-    console.log('토큰', accessToken);
-  }, [user]);
-
-  useEffect(() => {
-    if (!isPending && !currentGroup) {
-      router.push('/');
+    if (!groupId || !groups || isPending) {
+      setCurrentGroup(null);
+      return;
     }
-  }, [isPending, currentGroup]);
+    const group = groups.find((group) => group.id === groupId);
+    if (group) setCurrentGroup(group);
+    else router.push('/');
+  }, [groupId, groups, isPending]);
 
   return (
     <header className="fixed flex w-full items-center border-b bg-b-secondary transition-all">
       <nav className="mx-auto flex h-pr-60 w-pr-1200 items-center justify-between px-pr-40 mo:px-pr-16 ta:px-pr-25">
         <div className="flex items-center gap-pr-40 ta:gap-pr-24">
-          {deviceType === 'mobile' && user && (
+          {deviceType === 'mobile' && groups && (
             <>
               <SideNavigationTrigger
                 src="/images/icon-gnb-menu.svg"
@@ -56,7 +54,7 @@ function Headers() {
 
           <Logo />
 
-          {deviceType !== 'mobile' && user && (
+          {deviceType !== 'mobile' && groups && (
             <>
               <NavigationGroupDropdown
                 groups={groups}

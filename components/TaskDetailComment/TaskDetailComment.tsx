@@ -1,6 +1,5 @@
 import { ChangeEvent, useState } from 'react';
 
-import useUserStore from '@/stores/useUser.store';
 import { ITaskComment } from '@/types/comment.type';
 
 import { Card, CardContent, CardFooter } from '../ui/card';
@@ -8,6 +7,7 @@ import DateDisplay from '../DateDisplay';
 import CommentContent from './CommentContent';
 import DropDown from '../DropDown';
 import TextareaField from '../InputField/TextareaField';
+import useUser from '@/hooks/useUser';
 
 /**
  * @param {object} props.commentData - 댓글 데이터
@@ -15,9 +15,9 @@ import TextareaField from '../InputField/TextareaField';
  */
 function TaskDetailComment({ commentData }: { commentData: ITaskComment }) {
   const { id, content, createdAt, user } = commentData;
-  const { user: userData } = useUserStore();
   const [commentContent, setCommentContent] = useState(content);
   const [commentEdit, setCommentEdit] = useState(false);
+  const { user: userData } = useUser();
 
   // Dropdown 수정하기
   const handleEditClick = () => {

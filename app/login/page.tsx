@@ -3,13 +3,11 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-import useUserStore from '@/stores/useUser.store';
 import { signIn } from '@/service/auth.api';
-import { useAuth } from '@/hooks/useAuth';
 import useForm from '@/hooks/useForm';
 import Container from '@/components/layout/Container';
-import { getUser } from '@/service/user.api';
 import { Button } from '@/components/ui/button';
+import useUser from '@/hooks/useUser';
 
 function LoginPage() {
   const { formData, handleChange } = useForm({
@@ -18,12 +16,8 @@ function LoginPage() {
   });
 
   const [error, setError] = useState<string | null>(null);
-
   const route = useRouter();
-
-  // 인증된 사용자인지 확인
-  const { setAccessToken, isAuthenticated } = useAuth();
-  const { setUser, user } = useUserStore();
+  const { user, reload, isAuthenticated } = useUser();
 
   // 로그인 버튼 클릭 시
   const handleSubmit = async (e: React.FormEvent) => {
@@ -31,20 +25,18 @@ function LoginPage() {
     setError(null);
 
     try {
-      const response = await signIn(formData, setAccessToken);
+      const response = await signIn(formData);
       if (!response) return;
-      setAccessToken(response.accessToken);
-
-      const userResponse = await getUser();
-      if (!userResponse) throw new Error('유저 데이터를 불러오지 못했습니다.');
-      setUser(userResponse);
-
-      console.log('로그인 되었습니다.');
+      reload();
     } catch (err) {
       console.error('로그인 실패:', err);
       setError('이메일 또는 비밀번호가 올바르지 않습니다.');
     }
   };
+
+  useEffect(() => {
+    if (user) alert('로그인 성공!');
+  }, [user]);
 
   useEffect(() => {
     if (isAuthenticated) {

@@ -2,14 +2,12 @@
 
 import Link from 'next/link';
 
-import useUserStore from '@/stores/useUser.store';
-import { useAuth } from '@/hooks/useAuth';
 import Container from '@/components/layout/Container';
 import { Button } from '@/components/ui/button';
+import useUser from '@/hooks/useUser';
 
 export default function LandingPage() {
-  const { isAuthenticated } = useAuth();
-  const { user } = useUserStore();
+  const { user, isAuthenticated } = useUser();
 
   if (isAuthenticated && !user) {
     return <div>사용자 정보를 불러오는 중입니다...</div>;
