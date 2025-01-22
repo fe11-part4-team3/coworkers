@@ -18,13 +18,13 @@ export default function TimePicker({ width = 'full' }: { width?: string }) {
 
   for (let i = 0; i < 12; i++) {
     const hourTime = i;
-    amTimeSlots.push(`${String(hourTime).padStart(2, '0')}:00`); // 정각
-    amTimeSlots.push(`${String(hourTime).padStart(2, '0')}:30`); // 30분
+    amTimeSlots.push(`${String(hourTime).padStart(2, '0')}:00`);
+    amTimeSlots.push(`${String(hourTime).padStart(2, '0')}:30`);
   }
 
   for (let i = 12; i < 24; i++) {
     const hourTime = i;
-    pmTimeSlots.push(`${String(hourTime).padStart(2, '0')}:00`); // 정각
+    pmTimeSlots.push(`${String(hourTime).padStart(2, '0')}:00`);
     pmTimeSlots.push(`${String(hourTime).padStart(2, '0')}:30`);
   }
 
@@ -49,16 +49,24 @@ export default function TimePicker({ width = 'full' }: { width?: string }) {
             오후
           </button>
         </div>
-        <ol className="flex h-pr-152 w-full list-none flex-col gap-pr-16 overflow-y-auto rounded-xl bg-b-primary p-pr-16 text-16 text-t-default">
+        <ol className="scrollbar flex h-pr-152 w-full list-none flex-col gap-pr-16 overflow-y-auto rounded-xl bg-b-primary p-pr-16 text-16 text-t-default">
           {amPm === 'am'
             ? amTimeSlots.map((timeSlot, index) => (
-                <button onClick={() => setTime(timeSlot)} className="text-left">
-                  <li key={index}>{timeSlot}</li>
+                <button
+                  key={index}
+                  onClick={() => setTime(timeSlot)}
+                  className="text-left hover:text-t-primary hover:opacity-60"
+                >
+                  <li>{timeSlot}</li>
                 </button>
               ))
             : pmTimeSlots.map((timeSlot, index) => (
-                <button onClick={() => setTime(timeSlot)} className="text-left">
-                  <li key={index}>{timeSlot}</li>
+                <button
+                  key={index}
+                  onClick={() => setTime(timeSlot)}
+                  className="text-left hover:text-t-primary hover:opacity-60"
+                >
+                  <li>{timeSlot}</li>
                 </button>
               ))}
         </ol>

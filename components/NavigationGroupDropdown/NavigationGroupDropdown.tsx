@@ -51,9 +51,9 @@ export default function NavigationGroupDropdown({
       </DropdownMenuTrigger>
       <DropdownMenuContent className="mt-pr-16 rounded-pr-12 border-none bg-b-secondary p-pr-16">
         {/* SECTION 드롭다운 그룹 리스트 */}
-        {groups.map((group) => (
+        {/* {groups.map((group) => (
           <DropdownTab key={group.id} group={group} onClick={handleClick} />
-        ))}
+        ))} */}
         {/* SECTION 팀 추가하기 버튼 */}
         <DropdownAddGroup />
       </DropdownMenuContent>
