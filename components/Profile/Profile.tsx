@@ -44,7 +44,7 @@ type ProfileProps = {
 /**
  * 프로필 컴포넌트
  * @param defaultProfile 기본 사진의 경로
- * @param vriant 표기할 기본 사진의 종류
+ * @param variant 표기할 기본 사진의 종류
  * @param profileSize 프로필 이미지 사이즈
  * @param isEdit 수정 버튼 표기 여부
  * @param editSize 수정 버튼 사이즈
