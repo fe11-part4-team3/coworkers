@@ -31,7 +31,7 @@ export default function DatePicker({ width = 'full' }: { width?: string }) {
             name="date"
           />
           <button
-            className={`z-90 absolute left-0 top-0 size-full rounded-xl ${isOpen ? 'border border-brand-primary' : ''}`}
+            className={`absolute left-0 top-0 z-20 size-full rounded-xl ${isOpen ? 'border border-brand-primary' : ''}`}
             onClick={() => setIsOpen(!isOpen)}
           />
         </div>
