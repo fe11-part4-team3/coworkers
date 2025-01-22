@@ -15,27 +15,19 @@ interface IUserStore {
 }
 
 /**
- * 사용자 정보 상태 관리 훅
- * @returns 사용자 정보 상태
- * @see
- * - 사용자 정보: user
- * - 엑세스 토큰: accessToken
- * - 사용자 정보 초기화: initializeUserData
- * - 사용자 정보 설정: setUser
- * - 엑세스 토큰 설정: setAccessToken
- * @example
- * const { isAuthenticated } = useAuth();
- * const { user, initializeUserData } = useUserStore();
+ * 사용자 정보, 멤버십, 그룹 및 인증 토큰과 관련된 상태를 관리합니다.
  *
- * useEffect(() => {
- *   initializeUserData();
- * }, [initializeUserData]);
- *
- * if (isAuthenticated && !user) {
- *   return <div>사용자 정보를 불러오는 중입니다...</div>;
- * }
+ * @interface IUserStore
+ * @property  token : 현재 인증 토큰. 없을 경우 `null`.
+ * @property  user : 사용자 상세 정보. 없을 경우 `null`.
+ * @property  memberships : 사용자의 멤버십 배열. 없을 경우 `null`.
+ * @property  groups : 멤버십에서 파생된 그룹 배열. 없을 경우 `null`.
+ * @property  setToken : `localStorage`의 `accessToken` 읽어와 `token`을 설정하는 함수.
+ * @property  setUser : 사용자 정보를 설정하는 함수.
+ * @property  setMemberships : 사용자 멤버십 데이터를 설정하는 함수.
+ * @property  setGroups : 사용자 그룹 데이터를 설정하는 함수.
+ * @property  clearStore : 사용자 데이터와 토큰을 초기화하고 `localStorage`에서 토큰 데이터를 제거하는 함수.
  */
-
 const useUserStore = create<IUserStore>((set) => ({
   token: null,
   user: null,

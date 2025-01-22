@@ -1,13 +1,13 @@
 import { ChangeEvent, useState } from 'react';
 
 import { ITaskComment } from '@/types/comment.type';
+import useUser from '@/hooks/useUser';
 
 import { Card, CardContent, CardFooter } from '../ui/card';
 import DateDisplay from '../DateDisplay';
 import CommentContent from './CommentContent';
 import DropDown from '../DropDown';
 import TextareaField from '../InputField/TextareaField';
-import useUser from '@/hooks/useUser';
 
 /**
  * @param {object} props.commentData - 댓글 데이터
