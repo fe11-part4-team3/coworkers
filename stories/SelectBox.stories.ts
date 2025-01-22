@@ -33,6 +33,7 @@ export const Modal: Story = {
     ],
     width: 'w-pr-109',
     defaultValue: 'ONCE',
+    bgType: 'modal',
   },
 };
 
