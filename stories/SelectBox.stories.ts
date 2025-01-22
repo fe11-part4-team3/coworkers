@@ -13,26 +13,37 @@ export const Default: Story = {
   args: {
     placeholder: '옵션을 선택하세요',
     onValueChange: (value: string) => console.log('선택된 옵션:', value),
-    options: ['옵션1', '옵션2', '옵션3'],
+    options: [
+      { label: '옵션1', value: 'OPTION1' },
+      { label: '옵션2', value: 'OPTION2' },
+      { label: '옵션3', value: 'OPTION3' },
+    ],
     defaultValue: '',
   },
 };
 
 export const Modal: Story = {
   args: {
-    placeholder: '반복 안함',
     onValueChange: (value: string) => console.log('선택된 옵션:', value),
-    options: ['반복 안함', '한 번', '매일', '주 반복', '월 반복'],
+    options: [
+      { label: '반복 안함', value: 'ONCE' },
+      { label: '매일', value: 'DAILY' },
+      { label: '주 반복', value: 'WEEKLY' },
+      { label: '월 반복', value: 'MONTHLY' },
+    ],
     width: 'w-pr-109',
-    defaultValue: '',
+    defaultValue: 'ONCE',
   },
 };
 
 export const Sort: Story = {
   args: {
-    defaultValue: '최신순',
     onValueChange: (value: string) => console.log('선택된 옵션:', value),
-    options: ['최신순', '좋아요순'],
+    options: [
+      { label: '최신순', value: 'like' },
+      { label: '좋아요순', value: 'recent' },
+    ],
     width: 'w-pr-120 mo:w-pr-94',
+    defaultValue: 'like',
   },
 };
