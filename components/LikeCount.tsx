@@ -2,6 +2,13 @@ import { useState } from 'react';
 
 import ICON_HEART from '@/public/images/icon-heart.svg';
 
+/**
+ * @param {'readOnly' | 'interactive'} type - 컴포넌트 타입
+ *  readOnly : 좋아요 수 확인만 가능, 클릭 시 아무 동작 없음
+ *  interactive : 클릭 시 좋아요 수 카운트되며 하트 버튼 토글
+ * @param {number} likeCount - 초기 좋아요 수
+ * @returns {JSX.Element} 좋아요 수와 좋아요 버튼을 렌더링하는 컴포넌트
+ */
 function LikeCount({
   type,
   likeCount,
