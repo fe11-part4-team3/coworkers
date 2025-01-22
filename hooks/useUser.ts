@@ -1,54 +1,72 @@
 import { getUser } from '@/service/user.api';
 import useUserStore from '@/stores/useUser.store';
 import { useQuery } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 import { useCallback, useEffect } from 'react';
 
-const useUser = () => {
-  const { memberships, groups, setUser, setMemberships, setGroups } =
-    useUserStore((state) => state);
+const useUser = (required?: boolean) => {
+  const router = useRouter();
   const {
-    data: user,
-    isPending,
-    error,
-    refetch,
-  } = useQuery({
+    token,
+    user,
+    memberships,
+    groups,
+    setToken,
+    setUser,
+    setMemberships,
+    setGroups,
+    clearStore,
+  } = useUserStore((state) => state);
+  const { data, isPending, error, refetch } = useQuery({
     queryKey: ['user'],
     queryFn: getUser,
-    enabled: !!localStorage.getItem('accessToken'),
+    enabled: !!token,
   });
 
-  const storeUser = useCallback(() => {
-    setUser(user || null);
-  }, [user]);
+  const clear = useCallback(() => clearStore(), [clearStore]);
+
+  const reload = useCallback(() => {
+    setToken();
+    if (token) refetch();
+  }, [setToken, token]);
+
+  const storeUser = useCallback(() => setUser(data || null), [data, setUser]);
 
   const storeMemberships = useCallback(() => {
-    const memberships = user?.memberships || null;
-    setMemberships(memberships);
-  }, [user]);
+    setMemberships(data?.memberships || null);
+  }, [data, setMemberships]);
 
   const storeGroups = useCallback(() => {
-    const memberships = user?.memberships || null;
+    const memberships = data?.memberships || null;
+    memberships && memberships.length > 0
+      ? setGroups(memberships.map((membership) => membership.group))
+      : setGroups(null);
+  }, [data, setGroups]);
 
-    if (memberships && memberships.length > 0) {
-      setGroups(memberships.map((membership) => membership.group));
-    } else {
-      setGroups(null);
-    }
-  }, [user]);
+  useEffect(() => reload(), [reload]);
 
   useEffect(() => {
     storeUser();
     storeMemberships();
     storeGroups();
-  }, [user]);
+  }, [data]);
+
+  useEffect(() => {
+    if (!required) return;
+    if (!token || (!user && !isPending)) {
+      router.push('/');
+    }
+  }, [required, token, user, isPending, router]);
 
   return {
-    user: user || null,
+    isAuthenticated: !!token,
+    user,
     memberships,
     groups,
     isPending,
     error,
-    refetch,
+    clear,
+    reload,
   };
 };
 
