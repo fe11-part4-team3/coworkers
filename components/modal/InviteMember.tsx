@@ -3,8 +3,7 @@
 import useModalStore from '@/stores/modalStore';
 import CloseIcon from '@/public/images/icon-close.svg';
 import ModalBase from '@/components/modal/ModalBase';
-
-import { Button } from '../ui/button';
+import Buttons from '@/components/Buttons';
 
 /**
  * 멤버 초대 모달 컴포넌트.
@@ -14,39 +13,32 @@ import { Button } from '../ui/button';
  */
 
 export default function InviteMember({ onClick }: { onClick: () => void }) {
-  const { isOpen, closeModal } = useModalStore();
+  const { closeModal } = useModalStore();
 
   const handleOnClick = () => {
     onClick();
     closeModal();
   };
 
-  if (!isOpen) return null;
-
   return (
-    <ModalBase className="h-pr-210 mo:h-pr-195">
-      <div className="relative flex w-full flex-col items-center gap-pr-8 pt-pr-48">
-        <CloseIcon
-          width={20}
-          height={20}
-          fill="#fff"
-          className="absolute right-pr-16 top-pr-16 cursor-pointer"
-          onClick={closeModal}
-        />
-        <h2 className="text-18 text-t-primary">멤버 초대</h2>
-        <p className="text-14 text-t-secondary">
-          그룹에 참여할 수 있는 링크를 복사합니다.
-        </p>
-      </div>
-      {/* TODO 구버전 버튼 컴포넌트 주석  */}
-      {/* <Button
-          onClick={handleOnClick}
-          color="primary"
-          className="w-pr-280"
-        >링크 복사하기</Button> */}
-      <Button onClick={handleOnClick} className="w-pr-280">
-        링크 복사하기
-      </Button>
-    </ModalBase>
+    <>
+      <ModalBase className="px-pr-52 pt-pr-48">
+        <div className="w-full">
+          <CloseIcon
+            width={20}
+            height={20}
+            className="absolute right-pr-16 top-pr-16 cursor-pointer"
+            onClick={closeModal}
+          />
+          <div className="mb-pr-40 text-center">
+            <h2 className="mb-pr-8 text-18 text-t-primary">멤버 초대</h2>
+            <p className="text-14 text-t-secondary">
+              그룹에 참여할 수 있는 링크를 복사합니다.
+            </p>
+          </div>
+        </div>
+        <Buttons text="링크 복사하기" size="XL" onClick={handleOnClick} />
+      </ModalBase>
+    </>
   );
 }
