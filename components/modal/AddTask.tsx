@@ -73,7 +73,12 @@ export default function AddTask({
             <div className="flex flex-col gap-pr-4">
               <InputLabel label="반복 설정" />
               <SelectBox
-                options={['반복 안함', '한 번', '매일', '주 반복', '월 반복']}
+                options={[
+                  { label: '한 번', value: 'ONCE' },
+                  { label: '매일', value: 'DAILY' },
+                  { label: '주 반복', value: 'WEEKLY' },
+                  { label: '월 반복', value: 'MONTHLY' },
+                ]}
                 defaultValue="반복 안함"
                 width="w-pr-110"
                 height="w-pr-44"

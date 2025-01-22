@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
+
 import InputField from '@/components/InputField/InputField';
 
 /**
@@ -14,18 +15,20 @@ export default function TimePicker({ width = 'full' }: { width?: string }) {
   const [time, setTime] = useState<string>('');
   const [amPm, setAmPm] = useState<'am' | 'pm'>('am');
 
-  const timeSlots = [];
+  const timeSlots = useCallback(() => {
+    const slots: string[] = [];
+    for (let i = 1; i <= 12; i++) {
+      slots.push(`${String(i)}:00`);
+      slots.push(`${String(i)}:30`);
+    }
+    return slots;
+  }, []);
 
-  for (let i = 1; i < 12; i++) {
-    const hourTime = i;
-    timeSlots.push(`${String(hourTime)}:00`);
-    timeSlots.push(`${String(hourTime)}:30`);
-  }
   return (
     <>
       <div className="relative">
         <InputField
-          value={amPm === 'am' ? `오전 ${time}` : `오후 ${time}`}
+          value={time ? (amPm === 'am' ? `오전 ${time}` : `오후 ${time}`) : ''}
           placeholder="시간을 선택해주세요."
           disabled={true}
           onChange={() => {}}
@@ -33,7 +36,7 @@ export default function TimePicker({ width = 'full' }: { width?: string }) {
           width={`${width !== 'full' ? `w-pr-${width}` : ''}`}
         />
         <button
-          className={`z-90 absolute left-0 top-0 h-full w-full rounded-xl ${isOpen ? 'border border-brand-primary' : ''}`}
+          className={`z-90 absolute left-0 top-0 size-full rounded-xl ${isOpen ? 'border border-brand-primary' : ''}`}
           onClick={() => setIsOpen(!isOpen)}
         />
       </div>
@@ -56,7 +59,7 @@ export default function TimePicker({ width = 'full' }: { width?: string }) {
             </button>
           </div>
           <ol className="scrollbar flex h-pr-152 w-full list-none flex-col gap-pr-16 overflow-y-auto rounded-xl bg-b-primary p-pr-16 text-16 text-t-default">
-            {timeSlots.map((timeSlot, index) => {
+            {timeSlots().map((timeSlot, index) => {
               const isSelected = time === timeSlot;
               return (
                 <button

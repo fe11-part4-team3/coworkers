@@ -1,9 +1,10 @@
 'use client';
 
-import { Calendar } from '@/components/ui/calendar';
 import { useState } from 'react';
+import { format } from 'date-fns';
+
+import { Calendar } from '@/components/ui/calendar';
 import InputField from '@/components/InputField/InputField';
-import { format, set } from 'date-fns';
 
 /**
  * DatePicker 컴포넌트는 달력을 표시하고 선택한 날짜를 반환합니다.
@@ -28,7 +29,7 @@ export default function DatePicker({ width = 'full' }: { width?: string }) {
           width={`${width !== 'full' ? `w-pr-${width}` : ''}`}
         />
         <button
-          className={`z-90 absolute left-0 top-0 h-full w-full rounded-xl ${isOpen ? 'border border-brand-primary' : ''}`}
+          className={`z-90 absolute left-0 top-0 size-full rounded-xl ${isOpen ? 'border border-brand-primary' : ''}`}
           onClick={() => setIsOpen(!isOpen)}
         />
       </div>
