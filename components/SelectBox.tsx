@@ -11,6 +11,7 @@ import { widthStyledSliceWPr } from '@/utils/filterClass';
 /**
  * @description SelectBox 컴포넌트
  * @param {string[]} props.options - 선택 옵션 리스트
+ * @param {string} props.bgType - SelectBox 배경색 타입
  * @param {string} props.defaultValue - 기본 선택 옵션
  * @param {string} props.placeholder - 선택 옵션 placeholder
  * @param {string} props.width - SelectBox 너비
@@ -28,16 +29,23 @@ import { widthStyledSliceWPr } from '@/utils/filterClass';
  */
 export default function SelectBox({
   options,
+  bgType = 'default',
   placeholder,
   defaultValue,
   width,
   onValueChange,
 }: SelectBoxProps) {
+  // SelectBox 배경색 스타일
+  const bgStyled = {
+    default: 'bg-b-secondary data-[state=open]:bg-b-tertiary',
+    modal: 'bg-b-secondary-2 data-[state=open]:bg-b-secondary-2',
+  };
+
   return (
     <div>
       <Select defaultValue={defaultValue} onValueChange={onValueChange}>
         <SelectTrigger
-          className={`font-14 mo:font-12 focus:ring-none w-full rounded-xl border-none bg-b-secondary px-pr-14 py-pr-10 text-t-primary hover:bg-b-tertiary focus:bg-b-tertiary focus:outline-none data-[state=open]:bg-b-tertiary data-[placeholder='']:text-t-default mo:rounded-lg mo:p-pr-8 ${width && widthStyledSliceWPr(width)}`}
+          className={`font-14 mo:font-12 focus:ring-none w-full rounded-xl border-none px-pr-14 py-pr-10 text-t-primary hover:bg-b-tertiary focus:bg-b-tertiary focus:outline-none data-[placeholder='']:text-t-default mo:rounded-lg mo:p-pr-8 ${width && widthStyledSliceWPr(width)} ${bgStyled[bgType]}`}
         >
           <SelectValue placeholder={placeholder} />
           <ICON_ARROW_FILLEND width={24} height={24} />
