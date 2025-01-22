@@ -146,3 +146,13 @@
 .border-t-secondary {
   border-color: var(--t-secondary);
 }
+
+/* modal */
+
+.modal-title {
+  @apply mb-pr-16 text-16m text-t-primary;
+}
+
+.modal-subTitle {
+  @apply text-14m text-t-default;
+}
