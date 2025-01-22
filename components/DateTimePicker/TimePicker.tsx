@@ -36,35 +36,29 @@ export default function TimePicker({ width = 'full' }: { width?: string }) {
         className={`${width !== 'full' ? `w-pr-${width}` : 'w-full'} flex gap-pr-14 rounded-xl border border-brand-primary bg-b-secondary p-pr-12`}
       >
         <div className="flex flex-col gap-pr-8">
-          <Buttons text="오전" onClick={() => setAmPm('am')} width="w-pr-78" />
-          <Buttons text="오후" onClick={() => setAmPm('am')} width="w-pr-78" />
-          <div className="flex flex-col gap-pr-8 bg-b-primary">
-            <Buttons
-              text="오전"
-              onClick={() => setAmPm('am')}
-              width="w-pr-78"
-              variant=""
-              bg="none"
-            />
-            <Buttons
-              text="오후"
-              onClick={() => setAmPm('pm')}
-              width="w-pr-78"
-              variant=""
-              bg="none"
-            />
-          </div>
+          <button
+            onClick={() => setAmPm('am')}
+            className={`h-pr-40 w-pr-78 rounded-xl bg-b-primary text-14m text-t-default ${amPm === 'am' ? 'bg-brand-primary text-white' : ''}`}
+          >
+            오전
+          </button>
+          <button
+            onClick={() => setAmPm('pm')}
+            className={`h-pr-40 w-pr-78 rounded-xl bg-b-primary text-14m text-t-default ${amPm === 'pm' ? 'bg-brand-primary text-white' : ''}`}
+          >
+            오후
+          </button>
         </div>
         <ol className="flex h-pr-152 w-full list-none flex-col gap-pr-16 overflow-y-auto rounded-xl bg-b-primary p-pr-16 text-16 text-t-default">
           {amPm === 'am'
-            ? amTimeSlots.map((timeSlot) => (
+            ? amTimeSlots.map((timeSlot, index) => (
                 <button onClick={() => setTime(timeSlot)} className="text-left">
-                  <li key={timeSlot}>{timeSlot}</li>
+                  <li key={index}>{timeSlot}</li>
                 </button>
               ))
-            : pmTimeSlots.map((timeSlot) => (
+            : pmTimeSlots.map((timeSlot, index) => (
                 <button onClick={() => setTime(timeSlot)} className="text-left">
-                  <li key={timeSlot}>{timeSlot}</li>
+                  <li key={index}>{timeSlot}</li>
                 </button>
               ))}
         </ol>

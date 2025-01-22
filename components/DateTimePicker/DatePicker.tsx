@@ -23,6 +23,8 @@ import { useState } from 'react';
 export default function DatePicker({ width = 'full' }: { width?: string }) {
   const [date, setdate] = useState<Date | undefined>(undefined);
 
+  console.log(date);
+
   return (
     <Calendar
       mode="single"
