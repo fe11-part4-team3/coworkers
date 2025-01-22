@@ -1,10 +1,10 @@
 import { IArticle } from '@/types/article.type';
-
 import { Card } from '@/components/ui/card';
 import { dotDate } from '@/utils/dateConversion';
+import BestMedal from '@/public/images/icon-medal.svg';
+
 import ArticleCardContent from './ArticleCardContent';
 import ArticleCardFooter from './ArticleCardFooter';
-import BestMedal from '@/public/images/icon-medal.svg';
 
 const CARD_STYLE =
   'flex flex-col border border-b-tertiary bg-b-secondary text-16sb mo:relative mo:w-full mo:px-pr-16';
