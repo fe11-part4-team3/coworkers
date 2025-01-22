@@ -4,7 +4,7 @@ import WriterProfile from '@/components/WriterProfile';
 import LikeCount from '@/components/LikeCount';
 import useUserStore from '@/stores/useUser.store';
 
-import KebabDropDown from '../KebabDropDown';
+import KebabDropDown from '@/components/KebabDropDown';
 
 /**
  * @param {boolean} props.isBestCard - 게시글 데이터

@@ -3,8 +3,8 @@ import { Card } from '@/components/ui/card';
 import { dotDate } from '@/utils/dateConversion';
 import BestMedal from '@/public/images/icon-medal.svg';
 
-import ArticleCardContent from './ArticleCardContent';
-import ArticleCardFooter from './ArticleCardFooter';
+import ArticleCardContent from '@/components/ArticleCard/ArticleCardContent';
+import ArticleCardFooter from '@/components/ArticleCard/ArticleCardFooter';
 
 const CARD_STYLE =
   'flex flex-col border border-b-tertiary bg-b-secondary text-16sb mo:relative mo:w-full mo:px-pr-16';
