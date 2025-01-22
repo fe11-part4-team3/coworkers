@@ -1,13 +1,16 @@
-import { IUserDetail } from '@/types/user.type';
+import { IMembership, IUserDetail } from '@/types/user.type';
 import { create } from 'zustand';
 import { getUser } from '@/service/user.api';
 import { persist } from 'zustand/middleware';
+import { IGroup } from '@/types/group.type';
 
 interface IUserStore {
   user: IUserDetail | null;
-  setUser: (user: IUserDetail) => void;
-  clearUser: () => void;
-  initializeUserData: () => Promise<void>;
+  memberships: IMembership[] | null;
+  groups: IGroup[] | null;
+  setUser: (user: IUserDetail | null) => void;
+  setMemberships: (memberships: IMembership[] | null) => void;
+  setGroups: (groups: IGroup[] | null) => void;
 }
 
 /**
@@ -36,22 +39,11 @@ const useUserStore = create(
   persist<IUserStore>(
     (set) => ({
       user: null,
-      setUser: (user: IUserDetail) => set({ user }),
-      clearUser: () => set({ user: null }),
-      initializeUserData: async () => {
-        const token = localStorage.getItem('accessToken');
-        if (!token) return;
-
-        try {
-          const response = await getUser();
-          if (!response) throw new Error('유저 데이터를 불러오지 못했습니다.');
-
-          set({ user: response });
-        } catch (error) {
-          console.error('유저 초기 데이터가 없습니다.:', error);
-          set({ user: null });
-        }
-      },
+      memberships: null,
+      groups: null,
+      setUser: (user) => set({ user }),
+      setMemberships: (memberships) => set({ memberships }),
+      setGroups: (groups) => set({ groups }),
     }),
     {
       name: 'user-store',

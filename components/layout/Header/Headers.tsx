@@ -7,20 +7,15 @@ import Link from 'next/link';
 import NavigationGroupDropdown from '@/components/NavigationGroupDropdown/NavigationGroupDropdown';
 import getMockGroups from '@/components/SideNavigation/mockGroups';
 import { useAuth } from '@/hooks/useAuth';
-import useUserStore from '@/stores/useUser.store';
 import { Button } from '@/components/ui/button';
 
 import Logo from './Logo';
 import Profile from './Profile';
+import useUser from '@/hooks/useUser';
 
 function Headers() {
   const { isAuthenticated, accessToken } = useAuth();
-  const { user, initializeUserData } = useUserStore();
-
-  useEffect(() => {
-    // 컴포넌트가 마운트될 때 사용자 데이터를 초기화
-    initializeUserData();
-  }, [initializeUserData]);
+  const { user } = useUser();
 
   useEffect(() => {
     console.log('인증상태', isAuthenticated);
