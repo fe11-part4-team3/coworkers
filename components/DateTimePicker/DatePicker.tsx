@@ -20,7 +20,7 @@ export default function DatePicker({ width = 'full' }: { width?: string }) {
   return (
     <>
       <div
-        className={`${`${width !== 'full' ? `w-pr-${width}` : ''}`} flex flex-col gap-pr-8`}
+        className={`${`${width !== 'full' ? `w-pr-${width}` : 'w-full'}`} flex flex-col gap-pr-8`}
       >
         <div className="relative">
           <InputField
@@ -40,7 +40,7 @@ export default function DatePicker({ width = 'full' }: { width?: string }) {
             mode="single"
             selected={date}
             onSelect={setdate}
-            className={`${width !== 'full' ? `w-pr-${width}` : 'w-full'} flex items-center justify-center rounded-2xl border border-brand-primary bg-b-secondary p-pr-16`}
+            className="flex w-full items-center justify-center rounded-2xl border border-brand-primary bg-b-secondary p-pr-16"
           />
         )}
       </div>

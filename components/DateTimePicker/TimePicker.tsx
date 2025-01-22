@@ -27,7 +27,7 @@ export default function TimePicker({ width = 'full' }: { width?: string }) {
   return (
     <>
       <div
-        className={`flex flex-col gap-pr-8 ${width !== 'full' ? `w-pr-${width}` : ''}`}
+        className={`flex flex-col gap-pr-8 ${width !== 'full' ? `w-pr-${width}` : 'w-full'}`}
       >
         <div className="relative">
           <InputField
