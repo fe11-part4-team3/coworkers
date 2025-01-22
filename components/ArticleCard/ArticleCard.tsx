@@ -37,7 +37,12 @@ function ArticleCard({
         </div>
       )}
 
-      <ArticleCardContent title={title} image={image} isBestCard={isBestCard} />
+      <ArticleCardContent
+        isBestCard={isBestCard}
+        title={title}
+        image={image}
+        writer={writer}
+      />
       {isBestCard && (
         <div className="mt-pr-12 mo:mt-0">
           <p className="text-14m text-t-disabled mo:text-12m">

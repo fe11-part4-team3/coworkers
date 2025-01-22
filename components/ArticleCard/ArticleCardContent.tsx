@@ -2,6 +2,7 @@ import Image from 'next/image';
 
 import { CardContent } from '@/components/ui/card';
 import KebabDropDown from '@/components/KebabDropDown';
+import useUserStore from '@/stores/useUser.store';
 
 /**
  * @param {boolean} props.isBestCard - 게시글 데이터
@@ -13,11 +14,17 @@ function ArticleCardContent({
   isBestCard,
   title,
   image,
+  writer,
 }: {
   title: string;
   image: string | null;
   isBestCard: boolean;
+  writer: {
+    id: number;
+  };
 }) {
+  const { user: userData } = useUserStore();
+
   return (
     <CardContent
       className={`${isBestCard ? 'max-h-pr-72' : 'h-pr-72 mo:max-h-pr-64'} flex justify-between p-0`}
@@ -36,8 +43,8 @@ function ArticleCardContent({
             />
           </div>
         )}
-        {!isBestCard && (
-          <div className="ml-pr-16 mo:absolute mo:bottom-pr-18 mo:right-pr-16 mo:ml-0">
+        {!isBestCard && userData?.id === writer.id && (
+          <div className="ml-pr-16 mo:ml-0 mo:hidden">
             <KebabDropDown
               onEdit={() => alert('수정')}
               onDelete={() => alert('삭제')}

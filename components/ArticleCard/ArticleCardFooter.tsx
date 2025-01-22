@@ -2,6 +2,9 @@ import { dotDate } from '@/utils/dateConversion';
 import { CardFooter } from '@/components/ui/card';
 import WriterProfile from '@/components/WriterProfile';
 import LikeCount from '@/components/LikeCount';
+import useUserStore from '@/stores/useUser.store';
+
+import KebabDropDown from '../KebabDropDown';
 
 /**
  * @param {boolean} props.isBestCard - 게시글 데이터
@@ -21,9 +24,11 @@ function ArticleCardFooter({
   createdAt: string;
   likeCount: number;
 }) {
+  const { user: userData } = useUserStore();
+
   return (
     <CardFooter
-      className={`${!isBestCard ? 'mt-pr-24 flex justify-between p-0 mo:mt-pr-25 mo:items-end' : 'mt-auto flex-col items-start p-0'}`}
+      className={`${!isBestCard ? 'mt-pr-24 flex justify-between p-0 mo:mt-pr-25' : 'mt-auto flex-col p-0'} mo:items-center`}
     >
       {!isBestCard ? (
         <>
@@ -37,8 +42,17 @@ function ArticleCardFooter({
             </div>
           </div>
 
-          <div className="mo:mb-pr-8 mo:pr-pr-24">
+          <div className="mo:flex mo:items-center mo:gap-pr-8">
             <LikeCount type="readOnly" likeCount={likeCount} />
+
+            {userData?.id === writer.id && (
+              <div className="hidden mo:mt-pr-4 mo:block">
+                <KebabDropDown
+                  onEdit={() => alert('수정')}
+                  onDelete={() => alert('삭제')}
+                />
+              </div>
+            )}
           </div>
         </>
       ) : (
