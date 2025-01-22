@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import ICON_HEART from '@/public/images/icon-heart.svg';
 
 function LikeCount({
   type,
@@ -18,11 +19,14 @@ function LikeCount({
   return (
     <>
       <button
-        className="text-14 text-t-disabled mo:text-12"
+        className="flex items-center text-14 text-t-disabled mo:text-12"
         onClick={handleClick}
         disabled={type === 'readOnly'}
       >
-        {!isCheck ? '♡' : '♥︎'}
+        <ICON_HEART
+          fill={!isCheck ? 'none' : 'var(--s-danger)'}
+          stroke={!isCheck ? 'var(--icon-primary)' : 'none'}
+        />
         <span className="ml-pr-4">
           {currentCount >= 9999 ? '9999+' : currentCount}
         </span>
