@@ -23,7 +23,8 @@ export default function TaskListPage() {
   return (
     <>
       <div className="flex h-screen w-full items-center justify-center">
-        <button onClick={openModal}>팝업</button>
+        {/* REVIEW 리팩토링 후 에러 발생하여, 주석처리함 */}
+        {/* <button onClick={openModal}>팝업</button> */}
         <ResetPassword onClick={fetchData} />
       </div>
     </>
