@@ -46,7 +46,7 @@ const shadcnConfig: Config = {
           DEFAULT: 'hsl(var(--destructive))',
           foreground: 'hsl(var(--destructive-foreground))',
         },
-        input: 'hsl(var(--input))',
+        input: 'var(--input)',
         ring: 'var(--ring)',
         chart: {
           '1': 'hsl(var(--chart-1))',
@@ -73,6 +73,7 @@ const shadcnConfig: Config = {
         b: {
           primary: 'var(--b-primary-light)',
           secondary: 'var(--b-secondary-light)',
+          'secondary-2': 'var(--b-secondary-2-light)',
           tertiary: 'var(--b-tertiary-light)',
           inverse: 'var(--b-inverse)',
         },
