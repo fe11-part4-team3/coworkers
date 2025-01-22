@@ -1,12 +1,15 @@
 import React, { useEffect } from 'react';
+
 import SelectBox from '@/components/SelectBox';
 import Buttons from '@/components/Buttons';
-import InputField from '../InputField/InputField';
-import TextareaField from '../InputField/TextareaField';
+
 // import CloseButton from './ModalCloseButton';
 import useModalStore from '@/stores/modalStore';
 import useModalForm from '@/hooks/useModalForm';
 import { SelectOption } from '@/types/selectBox..type';
+
+import TextareaField from '../InputField/TextareaField';
+import InputField from '../InputField/InputField';
 
 /* 꼭 읽어주세요.
     InputField 컴포넌트에서 updateInputValue 함수를 사용할 때,
