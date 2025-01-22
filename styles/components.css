@@ -1,0 +1,14 @@
+/* 재사용 가능성이 높은 UI 컴포넌트 */
+@tailwind components;
+
+@layer components {
+  /* 드롭다운 item 스타일 */
+  .dropdown-item {
+    @apply size-full cursor-pointer focus:bg-b-tertiary focus:outline-none;
+  }
+
+  /* kebab icon 스타일 */
+  .icon-kebab {
+    @apply size-pr-16 rounded-full bg-[url('/images/icon-kebab.svg')] duration-300 hover:bg-primary/10 active:bg-primary/20;
+  }
+}

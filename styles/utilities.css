@@ -1,0 +1,12 @@
+/* 유틸리티 클래스 정의 및 확장 */
+@tailwind utilities;
+
+@layer utilities {
+  .bg-brand-gradient {
+    background-image: var(--brand-gradient);
+  }
+
+  .border-t-secondary {
+    border-color: var(--t-secondary);
+  }
+}
