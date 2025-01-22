@@ -60,6 +60,8 @@
     --b-primary-light: #ffffff;
     --b-secondary-dark: #1e293b;
     --b-secondary-light: #f1f5f9;
+    --b-secondary-2-dark: #18212f;
+    --b-secondary-2-light: #f1f5f9;
     --b-tertiary-dark: #334155;
     --b-tertiary-light: #e2e8f0;
     --b-inverse: #ffffff;
@@ -95,6 +97,7 @@
     --background: #0f172a;
     --b-primary-light: var(--b-primary-dark);
     --b-secondary-light: var(--b-secondary-dark);
+    --b-secondary-2-light: var(--b-secondary-2-dark);
     --b-tertiary-light: var(--b-tertiary-dark);
     --t-primary-light: var(--t-primary-dark);
     --t-secondary-light: var(--t-secondary-dark);
@@ -109,6 +112,7 @@
   .light {
     --b-primary-dark: var(--b-primary-light);
     --b-secondary-dark: var(--b-secondary-light);
+    --b-secondary-2-dark: var(--b-secondary-2-light);
     --b-tertiary-dark: var(--b-tertiary-light);
     --t-primary-dark: var(--t-primary-light);
     --t-secondary-dark: var(--t-secondary-light);
