@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 
 import useUserStore from '@/stores/useUser.store';
 import { ITaskComment } from '@/types/comment.type';
