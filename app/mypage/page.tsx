@@ -5,11 +5,11 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 import { deleteUser, updatePassword } from '@/service/user.api';
-import useUserStore from '@/stores/useUser.store';
 import { useAuth } from '@/hooks/useAuth';
 import Container from '@/components/layout/Container';
 import useForm from '@/hooks/useForm';
 import { Button } from '@/components/ui/button';
+import useUser from '@/hooks/useUser';
 
 export default function MyPage() {
   const { formData, handleChange, setFormData } = useForm({
@@ -20,7 +20,7 @@ export default function MyPage() {
   const { clearToken, isAuthenticated } = useAuth();
 
   // 사용자 정보 상태 및 초기화 함수
-  const { user, clearUser } = useUserStore();
+  const { user, refetch } = useUser();
 
   const [error, setError] = useState<string | null>(null);
 
@@ -29,7 +29,7 @@ export default function MyPage() {
   // 로그아웃 버튼 클릭 시
   const handleSubmitLogout = () => {
     clearToken();
-    clearUser();
+    refetch();
     route.push('/');
     alert('로그아웃 되었습니다.');
   };
