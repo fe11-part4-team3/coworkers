@@ -24,12 +24,11 @@ function ArticleCardContent({
   };
 }) {
   const { user: userData } = useUserStore();
-
   return (
     <CardContent
       className={`${isBestCard ? 'max-h-pr-72' : 'h-pr-72 mo:max-h-pr-64'} flex justify-between p-0`}
     >
-      <p className="line-clamp-2 max-h-pr-56 text-18m leading-7 text-t-secondary mo:mb-pr-12 mo:max-h-pr-48 mo:text-14 mo:leading-6">
+      <p className="article-title line-clamp-2 max-h-pr-56 mo:mb-pr-12 mo:max-h-pr-48">
         {title}
       </p>
       <div className="ml-auto flex">
@@ -44,7 +43,7 @@ function ArticleCardContent({
           </div>
         )}
         {!isBestCard && userData?.id === writer.id && (
-          <div className="ml-pr-16 mo:ml-0 mo:hidden">
+          <div className="ml-pr-16 mo:hidden">
             <KebabDropDown
               onEdit={() => alert('수정')}
               onDelete={() => alert('삭제')}

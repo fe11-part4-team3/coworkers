@@ -28,7 +28,7 @@ function ArticleCardFooter({
 
   return (
     <CardFooter
-      className={`${!isBestCard ? 'mt-pr-24 flex justify-between p-0 mo:mt-pr-25' : 'mt-auto flex-col p-0'} mo:items-center`}
+      className={`${!isBestCard ? 'mt-pr-24 flex justify-between mo:mt-pr-25' : 'mt-auto flex-col'} p-0 mo:items-center`}
     >
       {!isBestCard ? (
         <>
