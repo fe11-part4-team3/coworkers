@@ -13,6 +13,7 @@ import {
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
+  useSidebar,
 } from '../ui/sidebar';
 import GroupList from './GroupList';
 import SideNavigationTrigger from './SideNavigationTrigger';
@@ -39,6 +40,12 @@ export default function SideNavigation({
   skeletonLength,
 }: SNBProps) {
   const router = useRouter();
+  const { toggleSidebar } = useSidebar();
+
+  const handleClick = (path: string) => {
+    toggleSidebar();
+    router.push(path);
+  };
 
   return (
     <div className="fixed left-0 top-0 z-10">
@@ -58,6 +65,7 @@ export default function SideNavigation({
                 loading={loading}
                 showSkeleton={showSkeleton}
                 skeletonLength={skeletonLength}
+                onClick={handleClick}
               />
             </SidebarGroupContent>
           </SidebarGroup>
@@ -67,7 +75,7 @@ export default function SideNavigation({
               <SidebarMenu className="gap-pr-24">
                 <SidebarMenuButton
                   className="text-14m"
-                  onClick={() => router.push('/boards')}
+                  onClick={() => handleClick('/board')}
                 >
                   <span>자유게시판</span>
                 </SidebarMenuButton>
