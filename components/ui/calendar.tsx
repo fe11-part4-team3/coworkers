@@ -28,17 +28,18 @@ function Calendar({
       showOutsideDays={showOutsideDays}
       className={cn('p-3', className)}
       classNames={{
-        months: 'flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0',
-        month: 'space-y-4',
+        months:
+          'w-full flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0',
+        month: 'space-y-4 w-full',
         caption: 'flex justify-center pt-1 relative items-center',
-        caption_label: 'text-sm font-medium text-t-inverse',
-        nav: 'space-x-1 flex items-center',
+        caption_label: 'text-sm text-t-inverse',
+        nav: 'flex justify-between items-center',
         nav_button_previous: 'absolute left-0',
         nav_button_next: 'absolute right-0',
         table: 'w-full border-collapse space-y-1',
-        head_row: 'flex mb-2 space-x-0.5',
+        head_row: 'flex mb-2 justify-between',
         head_cell: 'text-t-inverse rounded-md w-8 text-14sb',
-        row: 'flex w-full',
+        row: 'flex justify-between w-full',
         cell: cn(
           'relative p-0 text-t-primary text-center text-sm focus-within:relative focus-within:z-20 [&:has([aria-selected])]:bg-accent [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected].day-range-end)]:rounded-r-md',
           props.mode === 'range'
