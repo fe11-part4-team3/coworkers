@@ -30,7 +30,12 @@ function TaskDetailContent({
 
       {/* 작성자만 DropDown(수정, 삭제) 노출 */}
       {userData?.id === user.id && (
-        <KebabDropDown onEdit={handleEditClick} onDelete={handleDeleteClick} />
+        <div className="ml-pr-16 leading-[0]">
+          <KebabDropDown
+            onEdit={handleEditClick}
+            onDelete={handleDeleteClick}
+          />
+        </div>
       )}
     </CardContent>
   );
