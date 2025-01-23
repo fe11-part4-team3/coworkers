@@ -1,6 +1,6 @@
-import DropDown from '@/components/DropDown';
 import { CardContent } from '@/components/ui/card';
 import useUserStore from '@/stores/useUser.store';
+import KebabDropDown from '@/components/KebabDropDown';
 
 /**
  * @param {string} props.commentEditContent - 댓글 내용
@@ -30,13 +30,9 @@ function ArticleDetailContent({
 
       {userData?.id === writer.id && (
         <div className="ml-pr-16 leading-[0]">
-          <DropDown
-            trigger={<button className="icon-kebab" />}
-            items={[
-              { text: '수정하기', onClick: handleEditClick },
-              { text: '삭제하기', onClick: handleDeleteClick },
-            ]}
-            width="w-pr-120"
+          <KebabDropDown
+            onEdit={handleEditClick}
+            onDelete={handleDeleteClick}
           />
         </div>
       )}

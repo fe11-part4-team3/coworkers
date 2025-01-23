@@ -1,7 +1,6 @@
 import useUserStore from '@/stores/useUser.store';
-
-import { CardContent } from '../ui/card';
-import DropDown from '../DropDown';
+import { CardContent } from '@/components/ui/card';
+import KebabDropDown from '@/components/KebabDropDown';
 
 /**
  * @param {string} props.commentEditContent - 댓글 내용
@@ -31,14 +30,7 @@ function TaskDetailContent({
 
       {/* 작성자만 DropDown(수정, 삭제) 노출 */}
       {userData?.id === user.id && (
-        <DropDown
-          trigger={<button className="icon-kebab" />}
-          items={[
-            { text: '수정하기', onClick: handleEditClick },
-            { text: '삭제하기', onClick: handleDeleteClick },
-          ]}
-          width="w-pr-120"
-        />
+        <KebabDropDown onEdit={handleEditClick} onDelete={handleDeleteClick} />
       )}
     </CardContent>
   );
