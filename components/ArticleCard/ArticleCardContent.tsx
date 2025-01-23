@@ -1,9 +1,9 @@
 import Image from 'next/image';
+import classNames from 'classnames';
 
 import { CardContent } from '@/components/ui/card';
 import KebabDropDown from '@/components/KebabDropDown';
 import useUserStore from '@/stores/useUser.store';
-import classNames from 'classnames';
 
 /**
  * @param {boolean} props.isBestCard - 게시글 데이터

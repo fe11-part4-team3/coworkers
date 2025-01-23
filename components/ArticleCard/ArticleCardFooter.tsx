@@ -1,10 +1,11 @@
+import classNames from 'classnames';
+
 import { dotDate } from '@/utils/dateConversion';
 import { CardFooter } from '@/components/ui/card';
 import WriterProfile from '@/components/WriterProfile';
 import LikeCount from '@/components/LikeCount';
 import useUserStore from '@/stores/useUser.store';
 import KebabDropDown from '@/components/KebabDropDown';
-import classNames from 'classnames';
 
 /**
  * @param {boolean} props.isBestCard - 게시글 데이터
