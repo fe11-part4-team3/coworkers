@@ -1,5 +1,9 @@
-import DropDown from '../DropDown';
+import DropDown from '@/components/DropDown';
 
+/**
+ * @param {number} props.taskId - 할 일 id
+ * @returns {JSX.Element} 할 일 카드 DropDown 컴포넌트
+ */
 function TaskCardDropDown({ taskId }: { taskId: number }) {
   return (
     <div className="ml-auto size-pr-16 mo:ml-0">
