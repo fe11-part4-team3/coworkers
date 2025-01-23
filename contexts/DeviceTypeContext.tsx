@@ -50,6 +50,9 @@ export function DeviceTypeProvider({
   );
 }
 
+/**
+ * @returns desktop | tablet | mobile
+ */
 export function useDeviceType(): DeviceType {
   return useContext(DeviceTypeContext);
 }
