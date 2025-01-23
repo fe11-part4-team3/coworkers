@@ -28,18 +28,18 @@ export default function GroupList({
     return <GroupListSkeleton skeletonLength={skeletonLength} />;
   }
 
-  return (
-    <SidebarMenu className="gap-pr-12">
-      {groups.map((group) => (
-        <SidebarMenuButton
-          key={group.id}
-          onClick={() => onClick(`/${group.id}`)}
-        >
-          <span className="text-14m">{group.name}</span>
-        </SidebarMenuButton>
-      ))}
-    </SidebarMenu>
-  );
+  // return (
+  //   <SidebarMenu className="gap-pr-12">
+  //     {groups.map((group) => (
+  //       <SidebarMenuButton
+  //         key={group.id}
+  //         onClick={() => onClick(`/${group.id}`)}
+  //       >
+  //         <span className="text-14m">{group.name}</span>
+  //       </SidebarMenuButton>
+  //     ))}
+  //   </SidebarMenu>
+  // );
 }
 
 interface GroupListSKeletonProps {
