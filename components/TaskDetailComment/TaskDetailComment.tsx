@@ -1,7 +1,6 @@
 import { ChangeEvent, useState } from 'react';
 
 import { ITaskComment } from '@/types/comment.type';
-import useUser from '@/hooks/useUser';
 
 import { Card } from '../ui/card';
 import TextareaField from '../InputField/TextareaField';
@@ -19,7 +18,6 @@ function TaskDetailComment({ commentData }: { commentData: ITaskComment }) {
   const [commentEditContent, setCommentEditContent] = useState(content);
   // 수정 활성화
   const [commentEdit, setCommentEdit] = useState(false);
-  const { user: userData } = useUser();
 
   // Dropdown 수정하기
   const handleEditClick = () => {

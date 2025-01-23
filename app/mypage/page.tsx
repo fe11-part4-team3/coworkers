@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 
 import { deleteUser, updatePassword } from '@/service/user.api';
 import Container from '@/components/layout/Container';
@@ -17,7 +16,7 @@ export default function MyPage() {
   });
 
   // 사용자 정보 상태 및 초기화 함수
-  const { user, clear, isAuthenticated } = useUser();
+  const { user, clear } = useUser(true);
   const [error, setError] = useState<string | null>(null);
   const route = useRouter();
 
@@ -70,29 +69,10 @@ export default function MyPage() {
     }
   };
 
-  if (!isAuthenticated || !user) {
-    return (
-      <Container>
-        <div>로그인이 필요합니다</div>
-        <div className="align-center flex gap-pr-10">
-          <Link href="/">
-            <Button variant="link">메인 페이지로 이동하기</Button>
-          </Link>
-          <Link href="/login">
-            <Button variant="link">로그인 하러가기</Button>
-          </Link>
-          <Link href="/signup">
-            <Button variant="link">회원가입 하러가기</Button>
-          </Link>
-        </div>
-      </Container>
-    );
-  }
-
   // 로그인 상태일 때
   return (
     <Container>
-      <div>환영합니다. {user.nickname} 님!</div>
+      <div>환영합니다. {user?.nickname} 님!</div>
       <form onSubmit={handleSubmit}>
         <div>
           <label>

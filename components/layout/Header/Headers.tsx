@@ -71,12 +71,17 @@ function Headers() {
           )}
         </div>
 
-        {user && (
+        {user ? (
           <Link href="/mypage">
             <Button variant="link">
               <Profile userName={user.nickname} profileImage={user.image} />
             </Button>
           </Link>
+        ) : (
+          <div className="flex gap-pr-16">
+            <Link href="/login">로그인</Link>
+            <Link href="/signup">회원가입</Link>
+          </div>
         )}
       </nav>
     </header>
