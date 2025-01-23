@@ -54,7 +54,7 @@ const useUser = (required?: boolean) => {
     enabled: !!token,
   });
 
-  const clear = useCallback(() => clearStore(), [clearStore]);
+  const clear = () => clearStore();
 
   const reload = useCallback(() => {
     setToken();
@@ -77,10 +77,11 @@ const useUser = (required?: boolean) => {
   useEffect(() => reload(), [reload]);
 
   useEffect(() => {
+    if (!token) return;
     storeUser();
     storeMemberships();
     storeGroups();
-  }, [data]);
+  }, [data, token]);
 
   useEffect(() => {
     if (!required) return;
@@ -94,7 +95,7 @@ const useUser = (required?: boolean) => {
     user,
     memberships,
     groups,
-    isPending,
+    isPending: !!token && isPending,
     error,
     clear,
     reload,

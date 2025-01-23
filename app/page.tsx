@@ -7,13 +7,13 @@ import { Button } from '@/components/ui/button';
 import useUser from '@/hooks/useUser';
 
 export default function LandingPage() {
-  const { user, memberships, isPending } = useUser();
+  const { user, memberships, isPending, isAuthenticated } = useUser();
 
-  if (isPending && !user) {
+  if (isAuthenticated && isPending && !user) {
     return <div>사용자 정보를 불러오는 중입니다...</div>;
   }
 
-  if (!memberships) {
+  if (user && !memberships) {
     return (
       <Container>
         <h1>아직 소속됨 팀이 없습니다. 팀을 생성하거나 팀에 참여해보세요.</h1>
