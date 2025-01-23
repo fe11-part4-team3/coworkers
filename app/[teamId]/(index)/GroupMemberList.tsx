@@ -1,10 +1,12 @@
+import { useState } from 'react';
+
 import { IMember } from '@/types/group.type';
-import GroupMemberCard from './GroupMemberCard';
 import { useDeviceType } from '@/contexts/DeviceTypeContext';
 import IconPlus from '@/public/images/icon-plus.svg';
 import { getInvitation } from '@/service/group.api';
 import ArrowDown from '@/public/images/icon-arrow-down.svg';
-import { useState } from 'react';
+
+import GroupMemberCard from './GroupMemberCard';
 
 interface GroupMemberListProps {
   groupId: number;
@@ -12,7 +14,7 @@ interface GroupMemberListProps {
 }
 
 const SIZE = {
-  desktop: 8,
+  desktop: 6,
   tablet: 6,
   mobile: 4,
 };
@@ -38,6 +40,7 @@ export default function GroupMemberList({
       navigator.clipboard.writeText(response);
       alert(response);
     } catch (error) {
+      console.error(error);
       alert('초대 토큰 생성 실패');
     }
   };
