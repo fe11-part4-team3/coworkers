@@ -43,3 +43,17 @@ export const elapsedTime = (date: string) => {
 
   return `${start.getFullYear()}.${start.getMonth() + 1}.${start.getDate()}`;
 };
+
+/**
+ * @param {string} props.date - 날짜 데이터
+ * @returns "2024.01.01" 형식의 날짜
+ */
+export const dotDate = (date: string): string => {
+  const newDate = new Date(date);
+
+  const year = newDate.getFullYear();
+  const month = (newDate.getMonth() + 1).toString().padStart(2, '0');
+  const day = newDate.getDate().toString().padStart(2, '0');
+
+  return `${year}.${month}.${day}`;
+};

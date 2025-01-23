@@ -1,6 +1,6 @@
 import DropDown from '../DropDown';
 
-function DropdownButton({ taskId }: { taskId: number }) {
+function TaskCardDropDown({ taskId }: { taskId: number }) {
   return (
     <div className="ml-auto size-pr-16 mo:ml-0">
       <DropDown
@@ -21,4 +21,4 @@ function DropdownButton({ taskId }: { taskId: number }) {
   );
 }
 
-export default DropdownButton;
+export default TaskCardDropDown;
