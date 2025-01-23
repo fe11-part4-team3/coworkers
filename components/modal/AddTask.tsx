@@ -83,7 +83,10 @@ export default function AddTask({
           }
         />
         <div>
-          <label className="mb-pr-12 flex text-16m text-t-primary">
+          <label
+            className="mb-pr-12 flex text-16m text-t-primary"
+            aria-label="반복 설정"
+          >
             반복 설정
           </label>
           <SelectBox
