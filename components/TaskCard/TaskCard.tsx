@@ -25,7 +25,7 @@ const frequencyList: Record<
  * @returns {JSX.Element} 할 일 카드 컴포넌트
  */
 function TaskCard({ type, taskData }: TaskCardProps) {
-  const { id, name, date, doneAt, commentCount, frequency } = taskData;
+  const { name, date, doneAt, commentCount, frequency } = taskData;
   const [isChecked, setIsChecked] = useState(Boolean(doneAt));
   const isTaskList = type === 'taskList';
   const frequencyText = frequencyList[frequency];
