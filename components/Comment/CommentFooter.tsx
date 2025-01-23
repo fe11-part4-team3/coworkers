@@ -4,9 +4,6 @@ import Profile from '@/components/Profile/Profile';
 import { CardFooter } from '@/components/ui/card';
 import { IUserProfile } from '@/types/user.type';
 
-export const BAR_STYLE =
-  "relative pl-pr-32 before:absolute before:left-pr-16 before:top-1/2 before:h-pr-12 before:w-pr-1 before:-translate-y-1/2 before:bg-t-disabled before:content-['']";
-
 /**
  * @param {'article'|'task'} props.type - 컴포넌트 타입(할 일 상세의 댓글 or 게시글 상세의 댓글)
  * @param {object} props.writer - 댓글 작성자 유저 닉네임, 프로필 이미지
@@ -53,9 +50,12 @@ function ArticleDetailFooter({
         </div>
 
         {isArticleComment && (
-          <div className={`${BAR_STYLE} leading-none`}>
-            <DateDisplay createdAt={createdAt} className="text-t-disabled" />
-          </div>
+          <>
+            <span className="line-col" />
+            <div className={`leading-none`}>
+              <DateDisplay createdAt={createdAt} className="text-t-disabled" />
+            </div>
+          </>
         )}
       </div>
 
