@@ -4,7 +4,7 @@ import { useParams } from 'next/navigation';
 import { useEffect } from 'react';
 
 import Container from '@/components/layout/Container';
-import GroupMemberCard from '@/components/GroupMemberCard/GroupMemberCard';
+import GroupMemberCard from '@/app/[teamId]/(index)/GroupMemberCard';
 import useUser from '@/hooks/useUser';
 import useGroup from '@/hooks/useGroup';
 import GroupHeader from './GroupHeader';
@@ -27,6 +27,9 @@ export default function TeamPage() {
       <Container>
         <div className="flex flex-col gap-pr-24 pt-pr-24">
           <GroupHeader name={group.name} />
+          {members?.map((member) => (
+            <GroupMemberCard key={member.userId} member={member} />
+          ))}
         </div>
       </Container>
     </>
