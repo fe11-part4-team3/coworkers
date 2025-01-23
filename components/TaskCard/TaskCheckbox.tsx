@@ -1,6 +1,5 @@
 import { TaskCheckboxProps } from '@/types/taskCard.type';
 import { useToast } from '@/hooks/use-toast';
-
 import { Toaster } from '@/components/ui/toaster';
 
 /**

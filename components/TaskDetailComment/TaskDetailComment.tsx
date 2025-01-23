@@ -1,7 +1,6 @@
 import { ChangeEvent, useState } from 'react';
 
 import { ITaskComment } from '@/types/comment.type';
-
 import { Card } from '@/components/ui/card';
 import TextareaField from '@/components/InputField/TextareaField';
 import TaskDetailContent from '@/components/TaskDetailComment/TaskDetailContent';
