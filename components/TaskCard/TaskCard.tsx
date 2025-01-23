@@ -7,8 +7,8 @@ import { newDate, newTime } from '@/utils/dateConversion';
 import type { TaskCardProps } from '@/types/taskCard.type';
 
 import IconText from '../IconLabel';
-import KebabButton from './DropdownButton';
 import TaskCheckbox from './TaskCheckbox';
+import TaskCardDropDown from './TaskCardDropDown';
 
 const frequencyList: Record<
   'ONCE' | 'DAILY' | 'WEEKLY' | 'MONTHLY' | string,
@@ -52,7 +52,7 @@ function TaskCard({ type, taskData }: TaskCardProps) {
         {isTaskList && (
           <>
             <IconText type="commentCount" text={commentCount} />
-            <KebabButton taskId={id} />
+            <TaskCardDropDown taskId={id} />
           </>
         )}
       </CardContent>
