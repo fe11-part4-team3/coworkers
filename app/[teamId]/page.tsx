@@ -1,26 +1,33 @@
 'use client';
 
+import { useParams } from 'next/navigation';
+import { useEffect } from 'react';
+
 import Container from '@/components/layout/Container';
 import GroupMemberCard from '@/components/GroupMemberCard/GroupMemberCard';
-import { IMember } from '@/types/group.type';
 import useUser from '@/hooks/useUser';
-
-const MOCK_MEMBER: IMember = {
-  role: 'ADMIN',
-  userImage: null,
-  userEmail: 'example@example.com',
-  userName: '김쁠뿡',
-  groupId: 0,
-  userId: 0,
-};
+import useGroup from '@/hooks/useGroup';
+import GroupHeader from './GroupHeader';
 
 export default function TeamPage() {
+  const { teamId } = useParams();
+  const { group, members, taskLists } = useGroup(Number(teamId));
   useUser(true);
+
+  useEffect(() => {
+    console.dir(group);
+    console.dir(members);
+    console.dir(taskLists);
+  }, [group, members, taskLists]);
+
+  if (!group) return null;
 
   return (
     <>
       <Container>
-        <GroupMemberCard member={MOCK_MEMBER} />
+        <div className="flex flex-col gap-pr-24 pt-pr-24">
+          <GroupHeader name={group.name} />
+        </div>
       </Container>
     </>
   );
