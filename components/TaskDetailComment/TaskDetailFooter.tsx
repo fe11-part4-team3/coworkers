@@ -1,9 +1,9 @@
 import { IUserProfile } from '@/types/user.type';
 
-import DateDisplay from '../DateDisplay';
-import { CardFooter } from '../ui/card';
-import Buttons from '../Buttons';
-import Profile from '../Profile/Profile';
+import DateDisplay from '@/components/DateDisplay';
+import { CardFooter } from '@/components/ui/card';
+import Buttons from '@/components/Buttons';
+import Profile from '@/components/Profile/Profile';
 
 /**
  * @param {object} props.user - 댓글 작성자 유저 닉네임, 프로필 이미지

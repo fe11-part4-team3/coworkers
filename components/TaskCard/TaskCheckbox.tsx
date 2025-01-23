@@ -1,8 +1,15 @@
 import { TaskCheckboxProps } from '@/types/taskCard.type';
 import { useToast } from '@/hooks/use-toast';
 
-import { Toaster } from '../ui/toaster';
+import { Toaster } from '@/components/ui/toaster';
 
+/**
+ * @param {string} props.name - 할 일 이름
+ * @param {boolean} props.isChecked - 체크박스의 초기 체크 상태
+ * @param {Function} props.handleCheckedToggle - 체크박스의 상태를 토글 함수
+ * @param {boolean} props.isTaskList - 현재 컴포넌트가 "할 일 리스트" 페이지인지 여부.
+ * @returns {JSX.Element} 할 일 카드 컴포넌트
+ */
 function TaskCheckbox({
   name,
   isChecked,

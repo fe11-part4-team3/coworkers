@@ -2,10 +2,10 @@ import { ChangeEvent, useState } from 'react';
 
 import { ITaskComment } from '@/types/comment.type';
 
-import { Card } from '../ui/card';
-import TextareaField from '../InputField/TextareaField';
-import TaskDetailContent from './TaskDetailContent';
-import TaskDetailFooter from './TaskDetailFooter';
+import { Card } from '@/components/ui/card';
+import TextareaField from '@/components/InputField/TextareaField';
+import TaskDetailContent from '@/components/TaskDetailComment/TaskDetailContent';
+import TaskDetailFooter from '@/components/TaskDetailComment/TaskDetailFooter';
 
 /**
  * @param {object} props.commentData - 댓글 데이터
