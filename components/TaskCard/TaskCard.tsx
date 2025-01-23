@@ -5,10 +5,9 @@ import { useState } from 'react';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { newDate, newTime } from '@/utils/dateConversion';
 import type { TaskCardProps } from '@/types/taskCard.type';
-
-import IconText from '../IconLabel';
-import TaskCheckbox from './TaskCheckbox';
-import KebabDropDown from '../KebabDropDown';
+import IconText from '@/components/IconLabel';
+import TaskCheckbox from '@/components/TaskCard/TaskCheckbox';
+import KebabDropDown from '@/components/KebabDropDown';
 
 const frequencyList: Record<
   'ONCE' | 'DAILY' | 'WEEKLY' | 'MONTHLY' | string,
