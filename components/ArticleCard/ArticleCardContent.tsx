@@ -30,9 +30,8 @@ function ArticleCardContent({
     'flex justify-between p-0',
     isBestCard ? 'max-h-pr-72' : 'h-pr-72 mo:max-h-pr-64',
   );
-  const imageStyled = classNames(
-    'border-b-tertiary relative ml-pr-16 size-pr-72 shrink-0 overflow-hidden rounded-lg mo:size-pr-64',
-  );
+  const imageStyled =
+    'border-b-tertiary relative ml-pr-16 size-pr-72 shrink-0 overflow-hidden rounded-lg mo:size-pr-64';
 
   return (
     <CardContent className={cardContentStyled}>
