@@ -6,6 +6,7 @@ import WriterProfile from '@/components/WriterProfile';
 import LikeCount from '@/components/LikeCount';
 import useUserStore from '@/stores/useUser.store';
 import KebabDropDown from '@/components/KebabDropDown';
+import { BAR_STYLE } from '@/components/Comment/CommentFooter';
 
 /**
  * @param {boolean} props.isBestCard - 게시글 데이터
@@ -33,8 +34,7 @@ function ArticleCardFooter({
       ? 'mt-pr-24 flex justify-between mo:mt-pr-25'
       : 'mt-auto flex-col',
   );
-  const createdAtStyled =
-    "relative pl-pr-32 before:absolute before:left-pr-16 before:top-1/2 before:inline-block before:h-pr-12 before:w-pr-1 before:-translate-y-1/2 before:bg-t-disabled before:content-[''] mo:absolute mo:-top-pr-30 mo:pl-0 mo:before:content-none";
+  const createdAtStyled = `${BAR_STYLE} mo:absolute mo:-top-pr-30 mo:pl-0 mo:before:content-none`;
 
   return (
     <CardFooter className={cardFooterStyled}>
