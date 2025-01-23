@@ -1,6 +1,7 @@
 import { IMembership, IUserDetail } from '@/types/user.type';
 import { create } from 'zustand';
 import { IGroup } from '@/types/group.type';
+import { persist } from 'zustand/middleware';
 
 interface IUserStore {
   token: string | null;
@@ -28,20 +29,27 @@ interface IUserStore {
  * @property  setGroups : 사용자 그룹 데이터를 설정하는 함수.
  * @property  clearStore : 사용자 데이터와 토큰을 초기화하고 `localStorage`에서 토큰 데이터를 제거하는 함수.
  */
-const useUserStore = create<IUserStore>((set) => ({
-  token: null,
-  user: null,
-  memberships: null,
-  groups: null,
-  setToken: () => set({ token: localStorage.getItem('accessToken') }),
-  setUser: (user) => set({ user }),
-  setMemberships: (memberships) => set({ memberships }),
-  setGroups: (groups) => set({ groups }),
-  clearStore: () => {
-    set({ token: null, user: null, memberships: null, groups: null });
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-  },
-}));
+const useUserStore = create(
+  persist<IUserStore>(
+    (set) => ({
+      token: null,
+      user: null,
+      memberships: null,
+      groups: null,
+      setToken: () => set({ token: localStorage.getItem('accessToken') }),
+      setUser: (user) => set({ user }),
+      setMemberships: (memberships) => set({ memberships }),
+      setGroups: (groups) => set({ groups }),
+      clearStore: () => {
+        set({ token: null, user: null, memberships: null, groups: null });
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+      },
+    }),
+    {
+      name: 'user-store',
+    },
+  ),
+);
 
 export default useUserStore;
