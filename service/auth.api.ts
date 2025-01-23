@@ -21,19 +21,15 @@ const signUp = async ({
   return response.data;
 };
 
-const signIn = async (
-  data: { email: string; password: string },
-  setAccessToken: (token: string | null) => void,
-): Promise<AuthResponse> => {
+const signIn = async (data: {
+  email: string;
+  password: string;
+}): Promise<AuthResponse> => {
   try {
     const response = await instance.post('/auth/signIn', data);
     // 로그인 성공 시 토큰 저장
     const { accessToken, refreshToken } = response.data;
-
-    // accessToken은 axios 인스턴스에 직접 저장
-    setAccessToken(accessToken);
-
-    // refreshToken은 여전히 localStorage에 직접 저장
+    localStorage.setItem('accessToken', accessToken);
     localStorage.setItem('refreshToken', refreshToken);
 
     return response.data;
