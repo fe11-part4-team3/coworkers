@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { CardContent } from '@/components/ui/card';
 import KebabDropDown from '@/components/KebabDropDown';
 import useUserStore from '@/stores/useUser.store';
+import classNames from 'classnames';
 
 /**
  * @param {boolean} props.isBestCard - 게시글 데이터
@@ -24,16 +25,23 @@ function ArticleCardContent({
   };
 }) {
   const { user: userData } = useUserStore();
+
+  const cardContentStyled = classNames(
+    'flex justify-between p-0',
+    isBestCard ? 'max-h-pr-72' : 'h-pr-72 mo:max-h-pr-64',
+  );
+  const imageStyled = classNames(
+    'border-b-tertiary relative ml-pr-16 size-pr-72 shrink-0 overflow-hidden rounded-lg mo:size-pr-64',
+  );
+
   return (
-    <CardContent
-      className={`${isBestCard ? 'max-h-pr-72' : 'h-pr-72 mo:max-h-pr-64'} flex justify-between p-0`}
-    >
-      <p className="article-title line-clamp-2 max-h-pr-56 mo:mb-pr-12 mo:max-h-pr-48">
+    <CardContent className={cardContentStyled}>
+      <p className="article_title line-clamp-2 max-h-pr-56 mo:mb-pr-12 mo:max-h-pr-48">
         {title}
       </p>
       <div className="ml-auto flex">
         {image !== null && (
-          <div className="relative ml-pr-16 size-pr-72 shrink-0 overflow-hidden rounded-lg border mo:size-pr-64">
+          <div className={imageStyled}>
             <Image
               src={image}
               alt="게시글 이미지"
