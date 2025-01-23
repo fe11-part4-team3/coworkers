@@ -53,7 +53,7 @@ function ArticleDetailFooter({
         </div>
 
         {isArticleComment && (
-          <div className={`${BAR_STYLE} text--t-disabled leading-none`}>
+          <div className={`${BAR_STYLE} leading-none`}>
             <DateDisplay createdAt={createdAt} className="text-t-disabled" />
           </div>
         )}
