@@ -54,19 +54,22 @@ function Headers() {
 
           <Logo />
 
-          {deviceType !== 'mobile' && groups && (
+          {deviceType !== 'mobile' && (
             <>
-              <NavigationGroupDropdown
-                groups={groups}
-                isPending={isPending}
-                currentGroup={currentGroup}
-              />
-
-              <Link href="/boards">
-                <Button variant="link">
-                  <span className="text-16m">자유게시판</span>
-                </Button>
-              </Link>
+              {groups && (
+                <NavigationGroupDropdown
+                  groups={groups}
+                  isPending={isPending}
+                  currentGroup={currentGroup}
+                />
+              )}
+              {user && (
+                <Link href="/boards">
+                  <Button variant="link">
+                    <span className="text-16m">자유게시판</span>
+                  </Button>
+                </Link>
+              )}
             </>
           )}
         </div>

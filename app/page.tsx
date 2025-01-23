@@ -7,9 +7,9 @@ import { Button } from '@/components/ui/button';
 import useUser from '@/hooks/useUser';
 
 export default function LandingPage() {
-  const { user, memberships, isPending, isAuthenticated } = useUser();
+  const { user, memberships, isPending } = useUser();
 
-  if (isAuthenticated && isPending && !user) {
+  if (isPending && !user) {
     return <div>사용자 정보를 불러오는 중입니다...</div>;
   }
 

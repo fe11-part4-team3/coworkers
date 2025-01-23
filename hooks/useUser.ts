@@ -64,7 +64,10 @@ const useUser = (required?: boolean) => {
   const storeUser = useCallback(() => setUser(data || null), [data, setUser]);
 
   const storeMemberships = useCallback(() => {
-    setMemberships(data?.memberships || null);
+    const memberships = data?.memberships;
+    if (memberships && memberships.length > 0) {
+      setMemberships(memberships);
+    } else setMemberships(null);
   }, [data, setMemberships]);
 
   const storeGroups = useCallback(() => {
