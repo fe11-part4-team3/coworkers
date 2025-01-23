@@ -1,72 +1,92 @@
 'use client';
 
-import React, { useEffect } from 'react';
-import Image from 'next/image';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useParams, useRouter } from 'next/navigation';
 
 import NavigationGroupDropdown from '@/components/NavigationGroupDropdown/NavigationGroupDropdown';
-import getMockGroups from '@/components/SideNavigation/mockGroups';
-import { useAuth } from '@/hooks/useAuth';
-import useUserStore from '@/stores/useUser.store';
 import { Button } from '@/components/ui/button';
+import { useDeviceType } from '@/contexts/DeviceTypeContext';
+import SideNavigationTrigger from '@/components/SideNavigation/SideNavigationTrigger';
+import SideNavigation from '@/components/SideNavigation/SideNavigation';
+import useUser from '@/hooks/useUser';
+import { IGroup } from '@/types/group.type';
 
-import Logo from './Logo';
 import Profile from './Profile';
+import Logo from './Logo';
 
 function Headers() {
-  const { isAuthenticated, accessToken } = useAuth();
-  const { user, initializeUserData } = useUserStore();
+  const deviceType = useDeviceType();
+  const router = useRouter();
+  const { teamId } = useParams();
+  const groupId = teamId ? Number(teamId) : null;
+  const { user, groups, isPending } = useUser();
+  const [currentGroup, setCurrentGroup] = useState<IGroup | null>(null);
 
   useEffect(() => {
-    // 컴포넌트가 마운트될 때 사용자 데이터를 초기화
-    initializeUserData();
-  }, [initializeUserData]);
-
-  useEffect(() => {
-    console.log('인증상태', isAuthenticated);
-    console.log('유저 정보', user);
-    console.log('토큰', accessToken);
-  }, [user]);
+    if (!groupId || !groups || isPending) {
+      setCurrentGroup(null);
+      return;
+    }
+    const group = groups.find((group) => group.id === groupId);
+    if (group) setCurrentGroup(group);
+    else router.push('/');
+  }, [groupId, groups, isPending]);
 
   return (
-    <header className="fixed flex h-pr-60 w-full items-center border-b bg-b-secondary">
-      <div className="mx-auto flex w-pr-1200 items-center gap-pr-40 px-pr-40 mo:px-pr-16 ta:gap-pr-24 ta:px-pr-25">
-        <Logo />
-        <nav className="ml-4 flex items-center space-x-4">
-          <ul className="flex items-center space-x-4 text-16m">
-            {/* TODO : 모바일일때는 안보이게 */}
-            {user && user.memberships.length > 0 && (
-              <li>
-                <Link href={`/${user.memberships[0].groupId}`}>
-                  <p>{user.memberships[0].groupId}</p>
-                </Link>
-                <Image
-                  src="/images/img-Check.svg"
-                  alt="check"
-                  width={16}
-                  height={16}
-                />
-              </li>
-            )}
-            {/*TODO 테스트용. 나중에 지워야합니다!*/}
-            <li>
-              <NavigationGroupDropdown groups={getMockGroups(10)} />
-            </li>
-            <li>
-              <Link href="/boards">자유게시판</Link>
-            </li>
-          </ul>
-        </nav>
+    <header className="fixed flex w-full items-center border-b bg-b-secondary transition-all">
+      <nav className="mx-auto flex h-pr-60 w-pr-1200 items-center justify-between px-pr-40 mo:px-pr-16 ta:px-pr-25">
+        <div className="flex items-center gap-pr-40 ta:gap-pr-24">
+          {deviceType === 'mobile' && groups && (
+            <>
+              <SideNavigationTrigger
+                src="/images/icon-gnb-menu.svg"
+                alt="그룹 네비게이션"
+              />
+              <SideNavigation
+                groups={groups}
+                isPending={isPending}
+                showSkeleton={true}
+                skeletonLength={10}
+              />
+            </>
+          )}
 
-        {user && (
-          <>
-            <Profile userName={user.nickname} profileImage={user.image} />
-            <Link href="/mypage">
-              <Button variant="link">마이페이지</Button>
-            </Link>
-          </>
+          <Logo />
+
+          {deviceType !== 'mobile' && (
+            <>
+              {groups && (
+                <NavigationGroupDropdown
+                  groups={groups}
+                  isPending={isPending}
+                  currentGroup={currentGroup}
+                />
+              )}
+              {user && (
+                <Link href="/boards">
+                  <Button variant="link">
+                    <span className="text-16m">자유게시판</span>
+                  </Button>
+                </Link>
+              )}
+            </>
+          )}
+        </div>
+
+        {user ? (
+          <Link href="/mypage">
+            <Button variant="link">
+              <Profile userName={user.nickname} profileImage={user.image} />
+            </Button>
+          </Link>
+        ) : (
+          <div className="flex gap-pr-16">
+            <Link href="/login">로그인</Link>
+            <Link href="/signup">회원가입</Link>
+          </div>
         )}
-      </div>
+      </nav>
     </header>
   );
 }

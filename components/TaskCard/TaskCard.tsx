@@ -5,10 +5,9 @@ import { useState } from 'react';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { newDate, newTime } from '@/utils/dateConversion';
 import type { TaskCardProps } from '@/types/taskCard.type';
-
-import IconText from '../IconLabel';
-import KebabButton from './DropdownButton';
-import TaskCheckbox from './TaskCheckbox';
+import IconText from '@/components/IconLabel';
+import TaskCheckbox from '@/components/TaskCard/TaskCheckbox';
+import TaskCardDropDown from '@/components/TaskCard/TaskCardDropDown';
 
 const frequencyList: Record<
   'ONCE' | 'DAILY' | 'WEEKLY' | 'MONTHLY' | string,
@@ -52,7 +51,7 @@ function TaskCard({ type, taskData }: TaskCardProps) {
         {isTaskList && (
           <>
             <IconText type="commentCount" text={commentCount} />
-            <KebabButton taskId={id} />
+            <TaskCardDropDown taskId={id} />
           </>
         )}
       </CardContent>

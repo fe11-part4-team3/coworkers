@@ -2,35 +2,27 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 
 import { deleteUser, updatePassword } from '@/service/user.api';
-import useUserStore from '@/stores/useUser.store';
-import { useAuth } from '@/hooks/useAuth';
 import Container from '@/components/layout/Container';
 import useForm from '@/hooks/useForm';
 import { Button } from '@/components/ui/button';
+import useUser from '@/hooks/useUser';
 
 export default function MyPage() {
   const { formData, handleChange, setFormData } = useForm({
     passwordConfirmation: '',
     password: '',
   });
-  // 인증된 사용자인지 확인
-  const { clearToken, isAuthenticated } = useAuth();
 
   // 사용자 정보 상태 및 초기화 함수
-  const { user, clearUser } = useUserStore();
-
+  const { user, clear } = useUser(true);
   const [error, setError] = useState<string | null>(null);
-
   const route = useRouter();
 
   // 로그아웃 버튼 클릭 시
   const handleSubmitLogout = () => {
-    clearToken();
-    clearUser();
-    route.push('/');
+    clear();
     alert('로그아웃 되었습니다.');
   };
 
@@ -68,7 +60,7 @@ export default function MyPage() {
         passwordConfirmation: '',
         password: '',
       });
-      clearToken();
+      clear();
 
       route.push('/login');
     } catch (err) {
@@ -77,29 +69,10 @@ export default function MyPage() {
     }
   };
 
-  if (!isAuthenticated || !user) {
-    return (
-      <Container>
-        <div>로그인이 필요합니다</div>
-        <div className="align-center flex gap-pr-10">
-          <Link href="/">
-            <Button variant="link">메인 페이지로 이동하기</Button>
-          </Link>
-          <Link href="/login">
-            <Button variant="link">로그인 하러가기</Button>
-          </Link>
-          <Link href="/signup">
-            <Button variant="link">회원가입 하러가기</Button>
-          </Link>
-        </div>
-      </Container>
-    );
-  }
-
   // 로그인 상태일 때
   return (
     <Container>
-      <div>환영합니다. {user.nickname} 님!</div>
+      <div>환영합니다. {user?.nickname} 님!</div>
       <form onSubmit={handleSubmit}>
         <div>
           <label>

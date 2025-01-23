@@ -1,38 +1,5 @@
+/* 베이스 컬러 정의 */
 @tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@font-face {
-  font-family: 'Pretendard';
-  src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
-    format('woff');
-  font-weight: 400;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Pretendard';
-  src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Medium.woff')
-    format('woff');
-  font-weight: 500;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Pretendard';
-  src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-SemiBold.woff')
-    format('woff');
-  font-weight: 600;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Pretendard';
-  src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Bold.woff')
-    format('woff');
-  font-weight: 700;
-  font-style: normal;
-}
 
 @layer base {
   :root {
@@ -108,7 +75,6 @@
     --border: rgba(248, 250, 252, 0.1);
     --input: #343e4e;
   }
-
   .light {
     --b-primary-dark: var(--b-primary-light);
     --b-secondary-dark: var(--b-secondary-light);
@@ -119,32 +85,12 @@
     --t-tertiary-dark: var(--t-tertiary-dark);
   }
 }
-@layer base {
-  * {
-    @apply border-border font-sans;
-  }
-  body {
-    @apply text-t-primary;
-  }
-}
 
-/* bg 그라디언트 */
-.bg-brand-gradient {
-  background-image: var(--brand-gradient);
+* {
+  @apply border-border;
 }
-
-/* 드롭다운 item 스타일 */
-.dropdown-item {
-  @apply size-full cursor-pointer focus:bg-b-tertiary focus:outline-none;
-}
-
-/* kebab icon 스타일 */
-.icon-kebab {
-  @apply size-pr-16 rounded-full bg-[url('/images/icon-kebab.svg')] duration-300 hover:bg-primary/10 active:bg-primary/20;
-}
-
-.border-t-secondary {
-  border-color: var(--t-secondary);
+body {
+  @apply bg-background text-foreground;
 }
 
 /* modal */

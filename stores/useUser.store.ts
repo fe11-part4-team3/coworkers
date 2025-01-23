@@ -1,56 +1,49 @@
-import { IUserDetail } from '@/types/user.type';
+import { IMembership, IUserDetail } from '@/types/user.type';
 import { create } from 'zustand';
-import { getUser } from '@/service/user.api';
+import { IGroup } from '@/types/group.type';
 import { persist } from 'zustand/middleware';
 
 interface IUserStore {
+  token: string | null;
   user: IUserDetail | null;
-  setUser: (user: IUserDetail) => void;
-  clearUser: () => void;
-  initializeUserData: () => Promise<void>;
+  memberships: IMembership[] | null;
+  groups: IGroup[] | null;
+  setToken: () => void;
+  setUser: (user: IUserDetail | null) => void;
+  setMemberships: (memberships: IMembership[] | null) => void;
+  setGroups: (groups: IGroup[] | null) => void;
+  clearStore: () => void;
 }
 
 /**
- * 사용자 정보 상태 관리 훅
- * @returns 사용자 정보 상태
- * @see
- * - 사용자 정보: user
- * - 엑세스 토큰: accessToken
- * - 사용자 정보 초기화: initializeUserData
- * - 사용자 정보 설정: setUser
- * - 엑세스 토큰 설정: setAccessToken
- * @example
- * const { isAuthenticated } = useAuth();
- * const { user, initializeUserData } = useUserStore();
+ * 사용자 정보, 멤버십, 그룹 및 인증 토큰과 관련된 상태를 관리합니다.
  *
- * useEffect(() => {
- *   initializeUserData();
- * }, [initializeUserData]);
- *
- * if (isAuthenticated && !user) {
- *   return <div>사용자 정보를 불러오는 중입니다...</div>;
- * }
+ * @interface IUserStore
+ * @property  token : 현재 인증 토큰. 없을 경우 `null`.
+ * @property  user : 사용자 상세 정보. 없을 경우 `null`.
+ * @property  memberships : 사용자의 멤버십 배열. 없을 경우 `null`.
+ * @property  groups : 멤버십에서 파생된 그룹 배열. 없을 경우 `null`.
+ * @property  setToken : `localStorage`의 `accessToken` 읽어와 `token`을 설정하는 함수.
+ * @property  setUser : 사용자 정보를 설정하는 함수.
+ * @property  setMemberships : 사용자 멤버십 데이터를 설정하는 함수.
+ * @property  setGroups : 사용자 그룹 데이터를 설정하는 함수.
+ * @property  clearStore : 사용자 데이터와 토큰을 초기화하고 `localStorage`에서 토큰 데이터를 제거하는 함수.
  */
-
 const useUserStore = create(
   persist<IUserStore>(
     (set) => ({
+      token: null,
       user: null,
-      setUser: (user: IUserDetail) => set({ user }),
-      clearUser: () => set({ user: null }),
-      initializeUserData: async () => {
-        const token = localStorage.getItem('accessToken');
-        if (!token) return;
-
-        try {
-          const response = await getUser();
-          if (!response) throw new Error('유저 데이터를 불러오지 못했습니다.');
-
-          set({ user: response });
-        } catch (error) {
-          console.error('유저 초기 데이터가 없습니다.:', error);
-          set({ user: null });
-        }
+      memberships: null,
+      groups: null,
+      setToken: () => set({ token: localStorage.getItem('accessToken') }),
+      setUser: (user) => set({ user }),
+      setMemberships: (memberships) => set({ memberships }),
+      setGroups: (groups) => set({ groups }),
+      clearStore: () => {
+        set({ token: null, user: null, memberships: null, groups: null });
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
       },
     }),
     {
