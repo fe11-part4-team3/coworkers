@@ -42,7 +42,7 @@ function TaskDetailComment({ commentData }: { commentData: ITaskComment }) {
   };
 
   // 수정 완료
-  const saveChanges = () => {
+  const handleUpdateSubmit = () => {
     setCommentEdit(false);
     // 댓글 수정 데이터 요청 로직 필요
   };
@@ -73,7 +73,7 @@ function TaskDetailComment({ commentData }: { commentData: ITaskComment }) {
         commentEditContent={commentEditContent}
         content={content}
         cancelEditing={cancelEditing}
-        saveChanges={saveChanges}
+        handleUpdateSubmit={handleUpdateSubmit}
       />
     </Card>
   );

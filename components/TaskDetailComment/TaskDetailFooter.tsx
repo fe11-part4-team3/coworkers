@@ -12,7 +12,7 @@ import Profile from '../Profile/Profile';
  * @param {string} props.commentEditContent - 수정된 댓글 내용 (기존 입력 값과 비교)
  * @param {string} props.content - 댓글 내용 (수정 입력 값과 비교)
  * @param {Function} props.cancelEditing - 댓글 수정 취소 함수
- * @param {Function} props.saveChanges - 댓글 수정 완료 함수
+ * @param {Function} props.handleUpdateSubmit - 댓글 수정 완료 함수
  * @returns {JSX.Element} 할 일 상세 댓글 컴포넌트
  */
 function TaskDetailFooter({
@@ -22,7 +22,7 @@ function TaskDetailFooter({
   commentEditContent,
   content,
   cancelEditing,
-  saveChanges,
+  handleUpdateSubmit,
 }: {
   user: IUserProfile;
   commentEdit: boolean;
@@ -30,7 +30,7 @@ function TaskDetailFooter({
   commentEditContent: string;
   content: string;
   cancelEditing: () => void;
-  saveChanges: () => void;
+  handleUpdateSubmit: () => void;
 }) {
   const { nickname, image } = user;
 
@@ -56,7 +56,7 @@ function TaskDetailFooter({
             disabled={commentEditContent === content}
             text="수정하기"
             variant="outline"
-            onClick={saveChanges}
+            onClick={handleUpdateSubmit}
             bg="none"
             size="S"
             width="w-pr-74"
