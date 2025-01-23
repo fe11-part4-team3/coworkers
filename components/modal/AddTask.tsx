@@ -6,10 +6,10 @@ import Buttons from '@/components/Buttons';
 // import CloseButton from './ModalCloseButton';
 import useModalStore from '@/stores/modalStore';
 import useModalForm from '@/hooks/useModalForm';
-import { SelectOption } from '@/types/selectBox..type';
+import { SelectOption } from '@/types/selectBox.type';
 
-import TextareaField from '../InputField/TextareaField';
-import InputField from '../InputField/InputField';
+import TextareaField from '@/components/InputField/TextareaField';
+import InputField from '@/components/InputField/InputField';
 
 /* 꼭 읽어주세요.
     InputField 컴포넌트에서 updateInputValue 함수를 사용할 때,
