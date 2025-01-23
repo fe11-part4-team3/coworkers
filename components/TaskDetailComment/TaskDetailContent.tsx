@@ -1,7 +1,6 @@
 import useUserStore from '@/stores/useUser.store';
-
-import { CardContent } from '../ui/card';
-import DropDown from '../DropDown';
+import { CardContent } from '@/components/ui/card';
+import DropDown from '@/components/DropDown';
 
 /**
  * @param {string} props.commentEditContent - 댓글 내용
