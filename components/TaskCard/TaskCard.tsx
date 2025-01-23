@@ -8,7 +8,7 @@ import type { TaskCardProps } from '@/types/taskCard.type';
 
 import IconText from '../IconLabel';
 import TaskCheckbox from './TaskCheckbox';
-import TaskCardDropDown from './TaskCardDropDown';
+import KebabDropDown from '../KebabDropDown';
 
 const frequencyList: Record<
   'ONCE' | 'DAILY' | 'WEEKLY' | 'MONTHLY' | string,
@@ -52,13 +52,19 @@ function TaskCard({ type, taskData }: TaskCardProps) {
         {isTaskList && (
           <>
             <IconText type="commentCount" text={commentCount} />
-            <TaskCardDropDown taskId={id} />
+
+            <div className="leading-[0]">
+              <KebabDropDown
+                onEdit={() => alert('수정')}
+                onDelete={() => alert('삭제')}
+              />
+            </div>
           </>
         )}
       </CardContent>
 
       {isTaskList && (
-        <CardFooter className="flex gap-pr-20 p-0">
+        <CardFooter className="flex p-0">
           <IconText type="calendar" text={newDate(date)} hasBar />
           <IconText type="time" text={newTime(date)} hasBar />
           <IconText type="repeat" text={frequencyText} />
