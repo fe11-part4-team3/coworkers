@@ -37,7 +37,7 @@ type ProfileProps = {
   profileSize?: number;
   isEdit?: boolean;
   editSize?: number;
-  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+  onSelectFile?: (file: File) => void;
   selectTheme?: Theme;
 };
 
@@ -57,7 +57,7 @@ export default function Profile({
   profileSize = 64,
   isEdit = false,
   editSize = 24,
-  onChange,
+  onSelectFile,
   selectTheme,
 }: ProfileProps) {
   const { theme, systemTheme } = useTheme();
@@ -65,14 +65,17 @@ export default function Profile({
   const [preview, setPreview] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
 
-  const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
-    if (files && files[0]) {
-      setFile(files[0]);
-    }
-
-    if (onChange) onChange(event);
-  }, []);
+  // 파일 선택 시 프리뷰 및 파일 상태 변경
+  const handleChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      const files = event.target.files;
+      if (files && files[0]) {
+        setFile(files[0]);
+        onSelectFile?.(files[0]);
+      }
+    },
+    [onSelectFile],
+  );
 
   useEffect(() => {
     if (selectTheme) {
