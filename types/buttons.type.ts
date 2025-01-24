@@ -32,7 +32,7 @@ type ButtonsLinkProps = ButtonsBaseProps &
 // onClick 속성이 있는 경우 (클릭 버튼)
 type ButtonsClickProps = ButtonsBaseProps &
   (LoadingTrueProps | LoadingFalseProps) & {
-    onClick: () => void;
+    onClick?: () => void;
     href?: never;
   };
 
