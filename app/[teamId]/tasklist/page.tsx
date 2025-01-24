@@ -8,8 +8,11 @@ import { format, subDays, addDays } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { useState } from 'react';
 import TaskDetail from '@/components/TaskDetail/TaskDetail';
+import { taskMockData, commentMockData } from './mockData';
+import useModalStore from '@/stores/modalStore';
 
 export default function TaskListPage() {
+  const { isOpen, openModal, closeModal } = useModalStore();
   const [date, setDate] = useState(new Date());
 
   // const isoDate = date.toISOString();
@@ -20,6 +23,10 @@ export default function TaskListPage() {
 
   const handleNextDate = () => {
     setDate(addDays(date, 1));
+  };
+
+  const handlePostCommentTest = () => {
+    console.log('댓글 등록');
   };
 
   const formattedDate = format(date, 'M월 d일 (E)', { locale: ko });
@@ -46,15 +53,17 @@ export default function TaskListPage() {
         </div>
         <ul className="mt-pr-24">
           <li>목록 이름</li>
+          <button onClick={isOpen === false ? openModal : closeModal}>
+            테스트용 상세 버튼
+          </button>
         </ul>
-        <TaskDetail
-          title="제목"
-          writer="작성자"
-          createAt="2025-01-23T22:21:57.295Z"
-          date="2025-01-23T22:21:57.295Z"
-          frequency="DAILY"
-          description="설명"
-        />
+        {isOpen && (
+          <TaskDetail
+            value={taskMockData}
+            commentData={commentMockData}
+            postComment={handlePostCommentTest}
+          />
+        )}
       </Container>
     </>
   );

@@ -7,39 +7,38 @@ import RepeatIcon from '@/public/images/icon-repeat.svg';
 import useModalStore from '@/stores/modalStore';
 import { format } from 'date-fns';
 import TaskDetailComment from '@/components/TaskDetailComment/TaskDetailComment';
+import { ITaskComment } from '@/types/comment.type';
+import { ITask } from '@/types/task.type';
+import TaskDetailCommentInput from '@/components/TaskDetailComment/TaskDetailCommentInput';
 
 export default function TaskDetail({
-  title,
-  writer,
-  createAt,
-  date,
-  frequency,
-  description,
+  value,
+  commentData,
+  postComment,
 }: {
-  title: string;
-  writer: string;
-  createAt: string;
-  date: string;
-  frequency: 'ONCE' | 'DAILY' | 'WEEKLY' | 'MONTHLY';
-  description: string;
+  value: ITask;
+  commentData: ITaskComment[];
+  postComment: () => void;
 }) {
-  const { closeModal } = useModalStore();
+  const { isOpen, closeModal } = useModalStore();
 
-  const formattedCreateAt = format(new Date(createAt), 'yyyy.MM.dd');
-  const formattedDate = format(new Date(date), 'yyyy년 M월 dd일');
-  const formattedDateTime = format(new Date(date), '오후 h:mm');
+  const formattedCreateAt = format(new Date(value.updatedAt), 'yyyy.MM.dd');
+  const formattedDate = format(new Date(value.date), 'yyyy년 M월 dd일');
+  const formattedDateTime = format(new Date(value.date), '오후 h:mm');
   const formattedRepeat = () => {
-    switch (frequency) {
+    switch (value.frequency) {
       case 'ONCE':
         return '반복 없음';
-      case 'DAILY':
-        return '매일 반복';
       case 'WEEKLY':
         return '매주 반복';
       case 'MONTHLY':
         return '매월 반복';
+      case 'DAILY':
+        return '매일 반복';
     }
   };
+
+  if (!isOpen) return null;
 
   // 커스텀 달력, 시계 병합 후 base.css에 있는 scrollbar 사용 예정
   return (
@@ -48,13 +47,13 @@ export default function TaskDetail({
         <div className="fixed right-0 top-pr-60 h-full w-pr-780 overflow-y-auto bg-b-secondary p-pr-40 pb-pr-120">
           <CloseIcon className="cursor-pointer" onClick={closeModal} />
           <div className="my-pr-16 flex items-center justify-between">
-            <h1 className="text-20b text-t-primary">{title}</h1>
+            <h1 className="text-20b text-t-primary">{value.name}</h1>
             <KebabIcon className="scale-150 transform cursor-pointer" />
           </div>
           <div className="flex items-center justify-between text-t-secondary">
             <div className="flex items-center gap-pr-12">
               <ProfileIcon width={32} height={32} />
-              <span className="text-14m">{writer}</span>
+              <span className="text-14m">{value.writer?.nickname}</span>
             </div>
             <span className="text-14">{formattedCreateAt}</span>
           </div>
@@ -74,70 +73,13 @@ export default function TaskDetail({
               <span>{formattedRepeat()}</span>
             </div>
           </div>
-          <p className="mb-pr-180 text-14 text-t-primary">{description}</p>
-          <TaskDetailComment
-            commentData={{
-              content: '댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글',
-              updatedAt: '2025-01-23T22:21:57.295Z',
-              createdAt: '2025-01-23T22:21:57.295Z',
-              id: 1,
-              user: { image: null, nickname: '닉네임', id: 1 },
-            }}
-          />
-          {/* <TaskDetailComment
-            commentData={{
-              content: '댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글',
-              updatedAt: '2025-01-23T22:21:57.295Z',
-              createdAt: '2025-01-23T22:21:57.295Z',
-              id: 1,
-              user: { image: null, nickname: '닉네임', id: 1 },
-            }}
-          />
-          <TaskDetailComment
-            commentData={{
-              content: '댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글',
-              updatedAt: '2025-01-23T22:21:57.295Z',
-              createdAt: '2025-01-23T22:21:57.295Z',
-              id: 1,
-              user: { image: null, nickname: '닉네임', id: 1 },
-            }}
-          />
-          <TaskDetailComment
-            commentData={{
-              content: '댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글',
-              updatedAt: '2025-01-23T22:21:57.295Z',
-              createdAt: '2025-01-23T22:21:57.295Z',
-              id: 1,
-              user: { image: null, nickname: '닉네임', id: 1 },
-            }}
-          />
-          <TaskDetailComment
-            commentData={{
-              content: '댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글',
-              updatedAt: '2025-01-23T22:21:57.295Z',
-              createdAt: '2025-01-23T22:21:57.295Z',
-              id: 1,
-              user: { image: null, nickname: '닉네임', id: 1 },
-            }}
-          />
-          <TaskDetailComment
-            commentData={{
-              content: '댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글',
-              updatedAt: '2025-01-23T22:21:57.295Z',
-              createdAt: '2025-01-23T22:21:57.295Z',
-              id: 1,
-              user: { image: null, nickname: '닉네임', id: 1 },
-            }}
-          />
-          <TaskDetailComment
-            commentData={{
-              content: '댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글',
-              updatedAt: '2025-01-23T22:21:57.295Z',
-              createdAt: '2025-01-23T22:21:57.295Z',
-              id: 1,
-              user: { image: null, nickname: '닉네임', id: 1 },
-            }}
-          /> */}
+          <p className="mb-pr-180 text-14 text-t-primary">
+            {value.description}
+          </p>
+          <TaskDetailCommentInput postComment={postComment} />
+          {commentData.map((comment) => {
+            return <TaskDetailComment key={comment.id} commentData={comment} />;
+          })}
         </div>
       </div>
     </>
