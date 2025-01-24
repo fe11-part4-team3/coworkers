@@ -9,6 +9,7 @@ import useUser from '@/hooks/useUser';
 import useGroup from '@/hooks/useGroup';
 
 import GroupHeader from './GroupHeader';
+import GroupMemberList from './GroupMemberList';
 
 export default function TeamPage() {
   const { teamId } = useParams();
@@ -28,9 +29,7 @@ export default function TeamPage() {
       <Container>
         <div className="flex flex-col gap-pr-24 pt-pr-24">
           <GroupHeader name={group.name} />
-          {members?.map((member) => (
-            <GroupMemberCard key={member.userId} member={member} />
-          ))}
+          <GroupMemberList groupId={group.id} members={members} />
         </div>
       </Container>
     </>

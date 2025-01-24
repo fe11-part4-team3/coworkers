@@ -20,7 +20,7 @@ const SIZE = {
 };
 
 const GRID_COLRS = {
-  desktop: 'grid-cols-4',
+  desktop: 'grid-cols-3',
   tablet: 'grid-cols-3',
   mobile: 'grid-cols-2',
 };
