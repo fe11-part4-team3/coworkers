@@ -12,6 +12,7 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import CommentTextarea from '@/components/CommentTextarea/CommentTextarea';
 import IconLabel from '@/components/IconLabel';
 import CheckIcon from '@/public/images/icon-task-check.svg';
+import WriterProfile from '../WriterProfile';
 
 /**
  * 할 일 상세 컴포넌트
@@ -85,19 +86,7 @@ export default function TaskDetail({
             />
           </div>
           <div className="flex items-center justify-between text-t-secondary">
-            <div className="flex items-center gap-pr-12">
-              {value.writer?.image ? (
-                <Image
-                  src={value.writer.image}
-                  alt="프로필 이미지"
-                  width={32}
-                  height={32}
-                />
-              ) : (
-                <ProfileIcon width={32} height={32} />
-              )}
-              <span className="text-14m">{value.writer?.nickname}</span>
-            </div>
+            {value.writer && <WriterProfile writer={value.writer} />}
             <span className="text-14">{formattedCreateAt}</span>
           </div>
           <div className="mb-pr-24 mt-pr-16 flex items-center text-t-default">
