@@ -48,7 +48,7 @@ type ProfileProps = {
  * @param profileSize 프로필 이미지 사이즈
  * @param isEdit 수정 버튼 표기 여부
  * @param editSize 수정 버튼 사이즈
- * @param onChange Change 핸들러
+ * @param onSelectFile 파일 선택 시 실행할 함수
  * @param selectTheme 원하는 테마 선택
  */
 export default function Profile({
