@@ -1,17 +1,16 @@
 import { format } from 'date-fns';
-import Image from 'next/image';
+import { ChangeEvent, FormEvent, useState } from 'react';
 
 import CloseIcon from '@/public/images/icon-close.svg';
-import ProfileIcon from '@/public/images/icon-profile-member.svg';
 import useModalStore from '@/stores/modalStore';
 import ArticleDetailComment from '@/components/Comment/Comment';
 import { ITaskComment } from '@/types/comment.type';
 import { ITask } from '@/types/task.type';
 import KebabDropDown from '@/components/KebabDropDown';
-import { ChangeEvent, FormEvent, useState } from 'react';
 import CommentTextarea from '@/components/CommentTextarea/CommentTextarea';
 import IconLabel from '@/components/IconLabel';
 import CheckIcon from '@/public/images/icon-task-check.svg';
+
 import WriterProfile from '../WriterProfile';
 
 /**
