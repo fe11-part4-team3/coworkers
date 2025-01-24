@@ -17,7 +17,7 @@ interface ArticleCommentTextareaProps {
  * @returns {JSX.Element} - 자유게시판 게시글 상세 댓글 입력 컴포넌트
  */
 function ArticleCommentTextarea({
-  commentValue,
+  commentValue = '',
   handleCommentChange,
   handleCommentSubmit,
 }: ArticleCommentTextareaProps) {
