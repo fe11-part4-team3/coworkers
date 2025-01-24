@@ -7,7 +7,6 @@ import { useMutation } from '@tanstack/react-query';
 import { updateUser } from '@/service/user.api';
 import useForm from '@/hooks/useForm';
 import useUser from '@/hooks/useUser';
-
 import Container from '@/components/layout/Container';
 import { Button } from '@/components/ui/button';
 import Profile from '@/components/Profile/Profile';
@@ -50,7 +49,7 @@ export default function MyPage() {
       setNicknameChanged(false);
       reload();
     },
-    onError: (err) => {
+    onError: () => {
       alert('사용자 정보 수정에 실패했습니다.');
     },
   });
@@ -75,6 +74,7 @@ export default function MyPage() {
 
         payload.image = uploadedUrl;
       } catch (err) {
+        console.log('이미지 업로드 실패', err);
         alert('이미지 업로드에 실패했습니다.');
         return;
       }
