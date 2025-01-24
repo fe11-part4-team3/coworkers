@@ -24,15 +24,12 @@ const getUser = async (): Promise<IUserDetail | null> => {
  *
  * 계정 생성 시 image의 초기값은 `null`이미지만 한 번 변경한 이후 다시 null로는 변경할 수 없습니다.
  */
-const updateUser = async ({
-  nickname,
-  image,
-}: UpdateUserParams): Promise<string> => {
+const updateUser = async (params: UpdateUserParams): Promise<boolean> => {
   const response = await instance.patch('/user', {
-    nickname,
-    image,
+    image: params.image,
+    nickname: params.nickname,
   });
-  return response.data.message;
+  return response.status === 200;
 };
 
 /**
