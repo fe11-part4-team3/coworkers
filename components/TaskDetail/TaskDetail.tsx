@@ -2,7 +2,6 @@ import { format } from 'date-fns';
 import Image from 'next/image';
 
 import CloseIcon from '@/public/images/icon-close.svg';
-import KebabIcon from '@/public/images/icon-kebab.svg';
 import ProfileIcon from '@/public/images/icon-profile-member.svg';
 import CalendarIcon from '@/public/images/icon-calendar.svg';
 import TimeIcon from '@/public/images/icon-time.svg';
@@ -11,7 +10,7 @@ import useModalStore from '@/stores/modalStore';
 import ArticleDetailComment from '@/components/Comment/Comment';
 import { ITaskComment } from '@/types/comment.type';
 import { ITask } from '@/types/task.type';
-import DropDown from '@/components/DropDown';
+import KebabDropDown from '@/components/KebabDropDown';
 
 /**
  * 할 일 상세 컴포넌트
@@ -24,13 +23,17 @@ import DropDown from '@/components/DropDown';
 export default function TaskDetail({
   value,
   commentData,
-  postComment,
+  deleteTask,
+  updateTask,
+  // postComment,
   deleteComment,
   updateComment,
 }: {
   value: ITask;
   commentData?: ITaskComment[];
-  postComment: (id: number) => void;
+  deleteTask: (id: number) => void;
+  updateTask: (id: number) => void;
+  // postComment: (id: number) => void;
   deleteComment: (id: number) => void;
   updateComment: (id: number) => void;
 }) {
@@ -62,12 +65,9 @@ export default function TaskDetail({
           <CloseIcon className="cursor-pointer" onClick={closeModal} />
           <div className="my-pr-16 flex items-center justify-between">
             <h1 className="text-20b text-t-primary">{value.name}</h1>
-            <DropDown
-              trigger={<KebabIcon className="scale-150 cursor-pointer" />}
-              items={[
-                { text: '수정하기', onClick: () => alert('수정하기') },
-                { text: '삭제하기', onClick: () => alert('삭제하기') },
-              ]}
+            <KebabDropDown
+              onEdit={() => updateTask}
+              onDelete={() => deleteTask}
             />
           </div>
           <div className="flex items-center justify-between text-t-secondary">
