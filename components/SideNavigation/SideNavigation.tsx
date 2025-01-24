@@ -19,10 +19,10 @@ import GroupList from './GroupList';
 import SideNavigationTrigger from './SideNavigationTrigger';
 
 interface SNBProps {
-  loading?: boolean | undefined;
-  groups?: IGroup[] | undefined;
-  showSkeleton?: boolean | undefined;
-  skeletonLength?: number | undefined;
+  isPending: boolean;
+  groups: IGroup[] | null;
+  showSkeleton?: boolean;
+  skeletonLength?: number;
 }
 
 /**
@@ -34,7 +34,7 @@ interface SNBProps {
  * @param props.skeletonLength 표기 스켈레톤 요소 수
  */
 export default function SideNavigation({
-  loading,
+  isPending,
   groups,
   showSkeleton,
   skeletonLength,
@@ -62,7 +62,7 @@ export default function SideNavigation({
             <SidebarGroupContent>
               <GroupList
                 groups={groups}
-                loading={loading}
+                isPending={isPending}
                 showSkeleton={showSkeleton}
                 skeletonLength={skeletonLength}
                 onClick={handleClick}

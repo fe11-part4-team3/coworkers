@@ -3,6 +3,7 @@
 import Container from '@/components/layout/Container';
 import GroupMemberCard from '@/components/GroupMemberCard/GroupMemberCard';
 import { IMember } from '@/types/group.type';
+import useUser from '@/hooks/useUser';
 
 const MOCK_MEMBER: IMember = {
   role: 'ADMIN',
@@ -14,6 +15,8 @@ const MOCK_MEMBER: IMember = {
 };
 
 export default function TeamPage() {
+  useUser(true);
+
   return (
     <>
       <Container>
