@@ -4,7 +4,6 @@ import { useParams } from 'next/navigation';
 import { useEffect } from 'react';
 
 import Container from '@/components/layout/Container';
-import GroupMemberCard from '@/app/[teamId]/(index)/GroupMemberCard';
 import useUser from '@/hooks/useUser';
 import useGroup from '@/hooks/useGroup';
 
