@@ -1,6 +1,8 @@
 import { ChangeEvent } from 'react';
+
 import TextareaField from '@/components/InputField/TextareaField';
-import Buttons from '../Buttons';
+import Buttons from '@/components/Buttons';
+import { useDeviceType } from '@/contexts/DeviceTypeContext';
 
 interface ArticleCommentTextareaProps {
   commentValue: string;
@@ -19,6 +21,9 @@ function ArticleCommentTextarea({
   handleCommentChange,
   handleCommentSubmit,
 }: ArticleCommentTextareaProps) {
+  const deviceType = useDeviceType();
+  const mobile = deviceType === 'mobile';
+
   return (
     <>
       <TextareaField
@@ -36,7 +41,7 @@ function ArticleCommentTextarea({
           disabled={commentValue === ''}
           onClick={handleCommentSubmit}
           bg="default"
-          size="S"
+          size={!mobile ? 'XL' : 'S'}
           loading={false}
           rounded={false}
           width="w-pr-184 mo:w-pr-74"
