@@ -65,7 +65,7 @@ function ImageUpload({
             onClick={handleClearClick}
           >
             <Image
-              src="/images/icon-imageUploadPlus.svg"
+              src="/images/icon-cancel.svg"
               alt="이미지 업로드"
               className="duration-300 group-hover:rotate-90"
               width={!mobile ? 48 : 24}
