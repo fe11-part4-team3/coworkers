@@ -10,7 +10,7 @@ export interface CommentTextareaProps {
  * @param {Function} props.onChange - textarea 입력 값 변경 이벤트
  * @returns
  */
-function CommentTextarea({ value, onChange }: CommentTextareaProps) {
+function TaskCommentTextarea({ value, onChange }: CommentTextareaProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
@@ -41,4 +41,4 @@ function CommentTextarea({ value, onChange }: CommentTextareaProps) {
   );
 }
 
-export default CommentTextarea;
+export default TaskCommentTextarea;
