@@ -27,9 +27,9 @@ export default function TaskListPage() {
     setDate(addDays(date, 1));
   };
 
-  // const handlePostCommentTest = () => {
-  //   console.log('댓글 등록');
-  // };
+  const handlePostCommentTest = () => {
+    console.log('댓글 등록');
+  };
 
   const handleDeleteTask = () => {
     console.log('할 일 삭제');
@@ -79,7 +79,7 @@ export default function TaskListPage() {
           <TaskDetail
             value={taskMockData}
             commentData={commentMockData}
-            // postComment={handlePostCommentTest}
+            postComment={handlePostCommentTest}
             deleteTask={handleDeleteTask}
             updateTask={handleUpdateTask}
             deleteComment={handleDeleteComment}

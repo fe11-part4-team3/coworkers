@@ -11,6 +11,8 @@ import ArticleDetailComment from '@/components/Comment/Comment';
 import { ITaskComment } from '@/types/comment.type';
 import { ITask } from '@/types/task.type';
 import KebabDropDown from '@/components/KebabDropDown';
+import { ChangeEvent, FormEvent, useState } from 'react';
+import CommentTextarea from '../CommentTextarea/CommentTextarea';
 
 /**
  * 할 일 상세 컴포넌트
@@ -25,7 +27,7 @@ export default function TaskDetail({
   commentData,
   deleteTask,
   updateTask,
-  // postComment,
+  postComment,
   deleteComment,
   updateComment,
 }: {
@@ -33,11 +35,12 @@ export default function TaskDetail({
   commentData?: ITaskComment[];
   deleteTask: (id: number) => void;
   updateTask: (id: number) => void;
-  // postComment: (id: number) => void;
+  postComment: () => void;
   deleteComment: (id: number) => void;
   updateComment: (id: number) => void;
 }) {
   const { isOpen, closeModal } = useModalStore();
+  const [comment, setComment] = useState<string>('');
 
   const formattedCreateAt = format(new Date(value.updatedAt), 'yyyy.MM.dd');
   const formattedDate = format(new Date(value.date), 'yyyy년 M월 dd일');
@@ -53,6 +56,12 @@ export default function TaskDetail({
       case 'DAILY':
         return '매일 반복';
     }
+  };
+
+  const handleSubmitComment = (e: FormEvent) => {
+    e.preventDefault();
+    postComment();
+    setComment('');
   };
 
   if (!isOpen) return null;
@@ -105,7 +114,14 @@ export default function TaskDetail({
           <p className="mb-pr-180 text-14 text-t-primary">
             {value.description}
           </p>
-          {/* 휘철님 컴포넌트 사용해서 다시 올릴게용 */}
+          <form onSubmit={handleSubmitComment}>
+            <CommentTextarea
+              value={comment}
+              onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
+                setComment(e.target.value)
+              }
+            />
+          </form>
           {commentData &&
             commentData.map((comment) => {
               return (
