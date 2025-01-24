@@ -1,15 +1,17 @@
 'use client';
 
+import { format, subDays, addDays } from 'date-fns';
+import { ko } from 'date-fns/locale';
+import { useState } from 'react';
+
 import Container from '@/components/layout/Container';
 import PrevButtonIcon from '@/public/images/icon-prev-button.svg';
 import NextButtonIcon from '@/public/images/icon-next-button.svg';
 import CalendarButtonIcon from '@/public/images/icon-calendar-button.svg';
-import { format, subDays, addDays } from 'date-fns';
-import { ko } from 'date-fns/locale';
-import { useState } from 'react';
 import TaskDetail from '@/components/TaskDetail/TaskDetail';
-import { taskMockData, commentMockData } from './mockData';
 import useModalStore from '@/stores/modalStore';
+
+import { taskMockData, commentMockData } from './mockData';
 
 export default function TaskListPage() {
   const { isOpen, openModal, closeModal } = useModalStore();

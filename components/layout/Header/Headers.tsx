@@ -42,27 +42,27 @@ function Headers() {
     console.log('토큰', accessToken);
   }, [user]);
 
-  // useEffect(() => {
-  //   if (!groupId || !groups || isPending) {
-  //     setSelected(null);
-  //     return;
-  //   }
+  useEffect(() => {
+    if (!groupId || !groups || isPending) {
+      setSelected(null);
+      return;
+    }
 
-  //   /**
-  //    * NOTE
-  //    * 선택된 그룹을 찾는 로직
-  //    * 선택된 그룹이 없으면 리다이렉트
-  //    */
-  //   const isSelected = groups.some((group) => {
-  //     if (group.id === groupId) {
-  //       setSelected(group.name);
-  //       return true;
-  //     }
-  //     return false;
-  //   });
+    /**
+     * NOTE
+     * 선택된 그룹을 찾는 로직
+     * 선택된 그룹이 없으면 리다이렉트
+     */
+    const isSelected = groups.some((group) => {
+      if (group.id === groupId) {
+        setSelected(group.name);
+        return true;
+      }
+      return false;
+    });
 
-  //   if (!isSelected) router.push('/');
-  // }, [groupId, groups]);
+    if (!isSelected) router.push('/');
+  }, [groupId, groups]);
 
   return (
     <header className="fixed flex w-full items-center border-b bg-b-secondary transition-all">

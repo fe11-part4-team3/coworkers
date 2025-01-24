@@ -1,5 +1,6 @@
-import UploadIcon from '@/public/images/icon-upload.svg';
 import { useState } from 'react';
+
+import UploadIcon from '@/public/images/icon-upload.svg';
 
 /**
  * 댓글 입력 컴포넌트
