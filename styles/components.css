@@ -16,4 +16,8 @@
   .article_title {
     @apply text-18m leading-7 text-t-secondary mo:text-14m mo:leading-6;
   }
+
+  .line-col {
+    @apply mx-pr-16 h-pr-12 w-pr-1 bg-b-tertiary;
+  }
 }
