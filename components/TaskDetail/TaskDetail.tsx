@@ -11,6 +11,7 @@ import { ITaskComment } from '@/types/comment.type';
 import { ITask } from '@/types/task.type';
 import TaskDetailCommentInput from '@/components/TaskDetailComment/TaskDetailCommentInput';
 import Image from 'next/image';
+import DropDown from '@/components/DropDown';
 
 /**
  * 할 일 상세 컴포넌트
@@ -26,7 +27,7 @@ export default function TaskDetail({
   postComment,
 }: {
   value: ITask;
-  commentData: ITaskComment[];
+  commentData?: ITaskComment[];
   postComment: () => void;
 }) {
   const { isOpen, closeModal } = useModalStore();
@@ -57,7 +58,15 @@ export default function TaskDetail({
           <CloseIcon className="cursor-pointer" onClick={closeModal} />
           <div className="my-pr-16 flex items-center justify-between">
             <h1 className="text-20b text-t-primary">{value.name}</h1>
-            <KebabIcon className="scale-150 transform cursor-pointer" />
+            <DropDown
+              trigger={
+                <KebabIcon className="scale-150 transform cursor-pointer" />
+              }
+              items={[
+                { text: '수정하기', onClick: () => alert('수정하기') },
+                { text: '삭제하기', onClick: () => alert('삭제하기') },
+              ]}
+            />
           </div>
           <div className="flex items-center justify-between text-t-secondary">
             <div className="flex items-center gap-pr-12">
@@ -95,9 +104,12 @@ export default function TaskDetail({
             {value.description}
           </p>
           <TaskDetailCommentInput postComment={postComment} />
-          {commentData.map((comment) => {
-            return <TaskDetailComment key={comment.id} commentData={comment} />;
-          })}
+          {commentData &&
+            commentData.map((comment) => {
+              return (
+                <TaskDetailComment key={comment.id} commentData={comment} />
+              );
+            })}
         </div>
       </div>
     </>
