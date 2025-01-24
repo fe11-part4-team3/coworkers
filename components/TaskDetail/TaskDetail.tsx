@@ -70,7 +70,7 @@ export default function TaskDetail({
   return (
     <>
       <div className="relative">
-        <div className="fixed right-0 top-pr-60 h-full w-pr-780 overflow-y-auto bg-b-secondary p-pr-40 pb-pr-120">
+        <div className="fixed right-0 top-pr-60 h-full w-pr-780 overflow-y-auto bg-b-secondary p-pr-40 pb-pr-120 mo:w-full ta:w-pr-435">
           <CloseIcon className="cursor-pointer" onClick={closeModal} />
           <div className="my-pr-16 flex items-center justify-between">
             <h1 className="text-20b text-t-primary">{value.name}</h1>
