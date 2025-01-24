@@ -10,10 +10,24 @@ import InputField from '@/components/InputField/InputField';
  * @returns {JSX.Element} TimePicker 컴포넌트를 반환합니다.
  */
 
-export default function TimePicker({ width = 'full' }: { width?: string }) {
+export default function TimePicker({ width }: { width?: string }) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [time, setTime] = useState<string>('');
   const [amPm, setAmPm] = useState<'am' | 'pm'>('am');
+
+  const widthStyle = width ? `w-pr-${width}` : 'w-full';
+  const timeButtonStyle = {
+    default: 'h-pr-40 w-pr-78 rounded-xl bg-b-primary text-14m text-t-default',
+    active: 'bg-brand-primary text-t-primary',
+  };
+  const selectTimeButtonStyle = (timeSlot: string) => {
+    const isSelected = time === timeSlot;
+    return isSelected ? 'text-brand-primary' : '';
+  };
+
+  const getButtonClass = (period: 'am' | 'pm') => {
+    return `${timeButtonStyle.default} ${amPm === period ? timeButtonStyle.active : timeButtonStyle.default}`;
+  };
 
   const timeSlots = useCallback(() => {
     const slots: string[] = [];
@@ -24,11 +38,14 @@ export default function TimePicker({ width = 'full' }: { width?: string }) {
     return slots;
   }, []);
 
+  const handleTimeClick = (timeSlot: string) => {
+    setTime(timeSlot);
+    setIsOpen(false);
+  };
+
   return (
     <>
-      <div
-        className={`flex flex-col gap-pr-8 ${width !== 'full' ? `w-pr-${width}` : 'w-full'}`}
-      >
+      <div className={`flex flex-col gap-pr-8 ${widthStyle}`}>
         <div className="relative">
           <InputField
             value={
@@ -49,13 +66,13 @@ export default function TimePicker({ width = 'full' }: { width?: string }) {
             <div className="flex flex-col gap-pr-8">
               <button
                 onClick={() => setAmPm('am')}
-                className={`h-pr-40 w-pr-78 rounded-xl bg-b-primary text-14m text-t-default ${amPm === 'am' ? 'bg-brand-primary text-white' : ''}`}
+                className={getButtonClass('am')}
               >
                 오전
               </button>
               <button
                 onClick={() => setAmPm('pm')}
-                className={`h-pr-40 w-pr-78 rounded-xl bg-b-primary text-14m text-t-default ${amPm === 'pm' ? 'bg-brand-primary text-white' : ''}`}
+                className={getButtonClass('pm')}
               >
                 오후
               </button>
@@ -66,8 +83,8 @@ export default function TimePicker({ width = 'full' }: { width?: string }) {
                 return (
                   <button
                     key={index}
-                    onClick={() => setTime(timeSlot)}
-                    className={`text-left ${isSelected ? 'text-brand-primary' : ''}`}
+                    onClick={() => handleTimeClick(timeSlot)}
+                    className={`text-left ${selectTimeButtonStyle(timeSlot)}`}
                   >
                     <li>{timeSlot}</li>
                   </button>

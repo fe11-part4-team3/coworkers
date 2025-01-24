@@ -38,12 +38,14 @@ export default function DatePicker({ width }: { width?: string }) {
           />
         </div>
         {isOpen && (
-          <Calendar
-            mode="single"
-            selected={date}
-            onSelect={setdate}
-            className="flex w-full items-center justify-center rounded-2xl border border-brand-primary bg-b-secondary p-pr-16"
-          />
+          <div onClick={() => setIsOpen(false)}>
+            <Calendar
+              mode="single"
+              selected={date}
+              onSelect={setdate}
+              className="flex w-full items-center justify-center rounded-2xl border border-brand-primary bg-b-secondary p-pr-16"
+            />
+          </div>
         )}
       </div>
     </>
