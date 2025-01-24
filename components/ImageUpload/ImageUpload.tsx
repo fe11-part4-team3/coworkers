@@ -94,6 +94,7 @@ function ImageUpload({
             id="imageUpload"
             type="file"
             ref={ref}
+            accept="image/png, image/jpeg, image/jpg"
             onChange={handleChange}
             className="hidden"
           />
