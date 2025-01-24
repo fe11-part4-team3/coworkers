@@ -17,7 +17,12 @@ import WriterProfile from '../WriterProfile';
  * 할 일 상세 컴포넌트
  * @param {object} props.value - 할 일 데이터
  * @param {object[]} props.commentData - 댓글 데이터
+ * @param {function} props.deleteTask - 할 일 삭제 함수
+ * @param {function} props.updateTask - 할 일 수정 함수
+ * @param {function} props.updateTaskStatus - 할 일 상태 수정 함수
  * @param {function} props.postComment - 댓글 등록 함수
+ * @param {function} props.deleteComment - 댓글 삭제 함수
+ * @param {function} props.updateComment - 댓글 수정 함수
  * @returns {JSX.Element} 할 일 상세 컴포넌트
  */
 
