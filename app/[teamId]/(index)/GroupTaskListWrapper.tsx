@@ -1,10 +1,12 @@
 import { ITaskListSummary } from '@/types/group.type';
 import IconPlus from '@/public/images/icon-plus.svg';
+
 import GroupTaskList from './GroupTaskList';
 
 interface GroupTaskListWrapperProps {
   taskLists: ITaskListSummary[] | null;
   onCreate: (name: string) => void;
+  onDelete: (id: number) => void;
 }
 
 export type PointColorType =
@@ -29,10 +31,16 @@ const POINT_COLOR: PointColorType[] = [
 export default function GroupTaskListWrapper({
   taskLists,
   onCreate,
+  onDelete,
 }: GroupTaskListWrapperProps) {
   const handleClickCreate = () => {
     const name = prompt('목록 명을 입력해주세요', '직박구리');
     if (name) onCreate(name);
+  };
+
+  const handleClickDelete = (name: string, id: number) => {
+    const flag = confirm(`${name}을(를) 삭제 하시겠습니다?`);
+    if (flag) onDelete(id);
   };
 
   return (
@@ -57,6 +65,7 @@ export default function GroupTaskListWrapper({
           key={taskList.id}
           taskList={taskList}
           pointColor={POINT_COLOR[i % POINT_COLOR.length]}
+          onDelete={handleClickDelete}
         />
       ))}
     </div>

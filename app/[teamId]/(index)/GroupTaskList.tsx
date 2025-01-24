@@ -1,11 +1,7 @@
 import { ITaskListSummary } from '@/types/group.type';
-import { PointColorType } from './GroupTaskListWrapper';
 import KebabDropDown from '@/components/KebabDropDown';
 
-interface GroupTaskListProps {
-  taskList: ITaskListSummary;
-  pointColor: PointColorType;
-}
+import { PointColorType } from './GroupTaskListWrapper';
 
 type IPointColorClasses = {
   [key in PointColorType]: string;
@@ -21,17 +17,28 @@ const POINT_COLOR_CLASSES: IPointColorClasses = {
   yellow: 'bg-p-yellow',
 };
 
+interface GroupTaskListProps {
+  taskList: ITaskListSummary;
+  pointColor: PointColorType;
+  onDelete: (name: string, id: number) => void;
+}
+
 export default function GroupTaskList({
   taskList,
   pointColor,
+  onDelete,
 }: GroupTaskListProps) {
+  const handleClickDelete = () => {
+    onDelete(taskList.name, taskList.id);
+  };
+
   return (
     <div className="flex overflow-hidden rounded-pr-12 transition-all duration-300 hover:scale-[103%] hover:drop-shadow-lg">
       <div className={`w-pr-12 ${POINT_COLOR_CLASSES[pointColor]}`}></div>
       <div className="flex grow items-center justify-between bg-b-secondary px-pr-12 py-pr-10">
         <div>{taskList.name}</div>
         <div>
-          <KebabDropDown onEdit={() => {}} onDelete={() => {}} />
+          <KebabDropDown onEdit={() => {}} onDelete={handleClickDelete} />
         </div>
       </div>
     </div>
