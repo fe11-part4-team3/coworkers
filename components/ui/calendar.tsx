@@ -12,6 +12,7 @@ import ChevronRightIcon from '@/public/images/icon-chevron-right.svg';
 export type CalendarProps = React.ComponentProps<typeof DayPicker>;
 
 function Calendar({
+  onDayClick,
   className,
   classNames,
   showOutsideDays = true,
@@ -32,6 +33,7 @@ function Calendar({
 
   return (
     <DayPicker
+      onDayClick={onDayClick}
       showOutsideDays={showOutsideDays}
       className={cn('p-3', className)}
       classNames={{

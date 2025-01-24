@@ -19,7 +19,7 @@ export default function DatePicker({ width }: { width?: string }) {
   const widthStyle = width ? `w-pr-${width}` : 'w-full';
   const buttonStyle = isOpen ? 'border border-brand-primary' : '';
 
-  const formattedDate = date ? format(date, 'yyyy년 mm월 dd일') : '';
+  const formattedDate = date ? format(date, 'yyyy년 MM월 dd일') : '';
 
   return (
     <>
@@ -38,14 +38,13 @@ export default function DatePicker({ width }: { width?: string }) {
           />
         </div>
         {isOpen && (
-          <div onClick={() => setIsOpen(false)}>
-            <Calendar
-              mode="single"
-              selected={date}
-              onSelect={setdate}
-              className="flex w-full items-center justify-center rounded-2xl border border-brand-primary bg-b-secondary p-pr-16"
-            />
-          </div>
+          <Calendar
+            mode="single"
+            selected={date}
+            onSelect={setdate}
+            onDayClick={() => setIsOpen(false)}
+            className="flex w-full items-center justify-center rounded-2xl border border-brand-primary bg-b-secondary p-pr-16"
+          />
         )}
       </div>
     </>
