@@ -10,6 +10,15 @@ import TaskDetailComment from '@/components/TaskDetailComment/TaskDetailComment'
 import { ITaskComment } from '@/types/comment.type';
 import { ITask } from '@/types/task.type';
 import TaskDetailCommentInput from '@/components/TaskDetailComment/TaskDetailCommentInput';
+import Image from 'next/image';
+
+/**
+ * 할 일 상세 컴포넌트
+ * @param {object} props.value - 할 일 데이터
+ * @param {object[]} props.commentData - 댓글 데이터
+ * @param {function} props.postComment - 댓글 등록 함수
+ * @returns {JSX.Element} 할 일 상세 컴포넌트
+ */
 
 export default function TaskDetail({
   value,
@@ -52,7 +61,16 @@ export default function TaskDetail({
           </div>
           <div className="flex items-center justify-between text-t-secondary">
             <div className="flex items-center gap-pr-12">
-              <ProfileIcon width={32} height={32} />
+              {value.writer?.image ? (
+                <Image
+                  src={value.writer.image}
+                  alt="프로필 이미지"
+                  width={32}
+                  height={32}
+                />
+              ) : (
+                <ProfileIcon width={32} height={32} />
+              )}
               <span className="text-14m">{value.writer?.nickname}</span>
             </div>
             <span className="text-14">{formattedCreateAt}</span>
