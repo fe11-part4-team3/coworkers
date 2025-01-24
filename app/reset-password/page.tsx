@@ -6,7 +6,7 @@ import { useMutation } from '@tanstack/react-query';
 
 import { resetPassword } from '@/service/user.api';
 import useForm from '@/hooks/useForm';
-import useUser from '@/hooks/useUser';
+// import useUser from '@/hooks/useUser';
 import InputField from '@/components/InputField/InputField';
 import Container from '@/components/layout/Container';
 import Buttons from '@/components/Buttons';
@@ -15,8 +15,6 @@ import Buttons from '@/components/Buttons';
  * STUB 비밀번호 초기화 페이지
  */
 export default function ResetPasswordPage() {
-  useUser(false);
-
   // STUB 비밀번호 초기화 토큰 가져오기
   const searchParams = useSearchParams();
   const resetToken = searchParams.get('token');
