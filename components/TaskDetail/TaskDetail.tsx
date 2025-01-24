@@ -8,10 +8,10 @@ import CalendarIcon from '@/public/images/icon-calendar.svg';
 import TimeIcon from '@/public/images/icon-time.svg';
 import RepeatIcon from '@/public/images/icon-repeat.svg';
 import useModalStore from '@/stores/modalStore';
-import TaskDetailComment from '@/components/TaskDetailComment/TaskDetailComment';
+import ArticleDetailComment from '@/components/Comment/Comment';
 import { ITaskComment } from '@/types/comment.type';
 import { ITask } from '@/types/task.type';
-import TaskDetailCommentInput from '@/components/TaskDetailComment/TaskDetailCommentInput';
+import TaskDetailCommentInput from '@/components/TaskDetail/TaskDetailCommentInput';
 import DropDown from '@/components/DropDown';
 
 /**
@@ -26,10 +26,14 @@ export default function TaskDetail({
   value,
   commentData,
   postComment,
+  deleteComment,
+  updateComment,
 }: {
   value: ITask;
   commentData?: ITaskComment[];
-  postComment: () => void;
+  postComment: (id: number) => void;
+  deleteComment: (id: number) => void;
+  updateComment: (id: number) => void;
 }) {
   const { isOpen, closeModal } = useModalStore();
 
@@ -102,11 +106,17 @@ export default function TaskDetail({
           <p className="mb-pr-180 text-14 text-t-primary">
             {value.description}
           </p>
-          <TaskDetailCommentInput postComment={postComment} />
+          <TaskDetailCommentInput postComment={() => postComment} />
           {commentData &&
             commentData.map((comment) => {
               return (
-                <TaskDetailComment key={comment.id} commentData={comment} />
+                <ArticleDetailComment
+                  key={comment.id}
+                  type="task"
+                  commentData={comment}
+                  handleDeleteClick={() => deleteComment}
+                  handleUpdateSubmit={() => updateComment}
+                />
               );
             })}
         </div>

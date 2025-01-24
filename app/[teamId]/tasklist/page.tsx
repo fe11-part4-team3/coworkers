@@ -31,6 +31,14 @@ export default function TaskListPage() {
     console.log('댓글 등록');
   };
 
+  const handleDeleteComment = () => {
+    console.log('댓글 삭제');
+  };
+
+  const handleUpdateComment = () => {
+    console.log('댓글 수정');
+  };
+
   const formattedDate = format(date, 'M월 d일 (E)', { locale: ko });
 
   return (
@@ -64,6 +72,8 @@ export default function TaskListPage() {
             value={taskMockData}
             commentData={commentMockData}
             postComment={handlePostCommentTest}
+            deleteComment={handleDeleteComment}
+            updateComment={handleUpdateComment}
           />
         )}
       </Container>
