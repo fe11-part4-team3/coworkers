@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
-import Plus from '@/public/images/icon-imageUploadPlus.svg';
-import Cancel from '@/public/images/icon-cancel.svg';
+import { useDeviceType } from '@/contexts/DeviceTypeContext';
 
 /**
  * @param {File | null} props.fileValue - 현재 선택된 파일
@@ -16,8 +15,10 @@ function ImageUpload({
   setFileValue: React.Dispatch<React.SetStateAction<File | null>>;
 }) {
   const [preview, setPreview] = useState<string | null>(null);
-
   const ref = useRef<HTMLInputElement>(null);
+
+  const deviceType = useDeviceType();
+  const mobile = deviceType === 'mobile';
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -50,7 +51,7 @@ function ImageUpload({
     <>
       {preview ? (
         <div
-          className={`group relative size-pr-240 cursor-pointer overflow-hidden rounded-pr-12`}
+          className={`group relative size-pr-240 cursor-pointer overflow-hidden rounded-pr-12 mo:size-pr-160`}
         >
           <Image
             src={preview}
@@ -59,27 +60,33 @@ function ImageUpload({
             fill
           />
 
-          <div
+          <button
             className={`group absolute inset-0 flex items-center justify-center bg-black bg-opacity-40`}
+            onClick={handleClearClick}
           >
-            <button
-              className="duration-300 group-hover:-rotate-90"
-              onClick={handleClearClick}
-            >
-              <Cancel />
-            </button>
-          </div>
+            <Image
+              src="/images/icon-imageUploadPlus.svg"
+              alt="이미지 업로드"
+              className="duration-300 group-hover:rotate-90"
+              width={!mobile ? 48 : 24}
+              height={!mobile ? 48 : 24}
+            />
+          </button>
         </div>
       ) : (
         <label
           htmlFor="imageUpload"
-          className={`group relative flex size-pr-240 cursor-pointer items-center justify-center overflow-hidden rounded-pr-12 border bg-b-secondary`}
+          className={`group relative flex size-pr-240 cursor-pointer items-center justify-center overflow-hidden rounded-pr-12 border bg-b-secondary mo:size-pr-160`}
         >
           <div className="flex flex-col items-center">
-            <div className="duration-300 group-hover:rotate-90">
-              <Plus />
-            </div>
-            <span className="mt-pr-12 text-16 text-t-disabled">
+            <Image
+              src="/images/icon-imageUploadPlus.svg"
+              alt="이미지 업로드"
+              className="duration-300 group-hover:-rotate-90"
+              width={!mobile ? 48 : 24}
+              height={!mobile ? 48 : 24}
+            />
+            <span className="mt-pr-12 text-16 text-t-disabled mo:text-14">
               이미지 등록
             </span>
           </div>
