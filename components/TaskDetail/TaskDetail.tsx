@@ -11,7 +11,6 @@ import useModalStore from '@/stores/modalStore';
 import ArticleDetailComment from '@/components/Comment/Comment';
 import { ITaskComment } from '@/types/comment.type';
 import { ITask } from '@/types/task.type';
-import TaskDetailCommentInput from '@/components/TaskDetail/TaskDetailCommentInput';
 import DropDown from '@/components/DropDown';
 
 /**
@@ -106,7 +105,7 @@ export default function TaskDetail({
           <p className="mb-pr-180 text-14 text-t-primary">
             {value.description}
           </p>
-          <TaskDetailCommentInput postComment={() => postComment} />
+          {/* 휘철님 컴포넌트 사용해서 다시 올릴게용 */}
           {commentData &&
             commentData.map((comment) => {
               return (
