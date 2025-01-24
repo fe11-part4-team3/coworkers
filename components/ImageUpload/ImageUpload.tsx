@@ -2,7 +2,6 @@ import Image from 'next/image';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 
 import { useDeviceType } from '@/contexts/DeviceTypeContext';
-
 import ICON_PLUS from '@/public/images/icon-plus.svg';
 
 /**
