@@ -19,7 +19,7 @@ export default function HideToggle({
     <button
       type="button"
       onClick={togglePassword}
-      className="absolute right-pr-16 top-1/2 -translate-y-1/2"
+      className="absolute right-pr-16 top-pr-15.5"
     >
       {showPassword ? (
         <ICON_VISIBILITY_ON width={24} height={24} />
