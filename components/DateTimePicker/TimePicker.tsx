@@ -79,7 +79,6 @@ export default function TimePicker({ width }: { width?: string }) {
             </div>
             <ol className="scrollbar flex h-pr-152 w-full list-none flex-col gap-pr-16 overflow-y-auto rounded-xl bg-b-primary p-pr-16 text-16 text-t-default">
               {timeSlots().map((timeSlot, index) => {
-                const isSelected = time === timeSlot;
                 return (
                   <button
                     key={index}
