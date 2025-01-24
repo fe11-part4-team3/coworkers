@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useRef } from 'react';
 
-export interface CommentTextareaProps {
+export interface TaskCommentTextareaProps {
   value: string;
   onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
 }
@@ -8,9 +8,9 @@ export interface CommentTextareaProps {
 /**
  * @param {string} props.value - textarea 입력 값
  * @param {Function} props.onChange - textarea 입력 값 변경 이벤트
- * @returns
+ * @returns {JSX.Element} - 할 일 상세 댓글 입력 컴포넌트
  */
-function TaskCommentTextarea({ value, onChange }: CommentTextareaProps) {
+function TaskCommentTextarea({ value, onChange }: TaskCommentTextareaProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
