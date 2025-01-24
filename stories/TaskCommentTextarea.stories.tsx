@@ -1,5 +1,5 @@
 import TaskCommentTextarea, {
-  CommentTextareaProps,
+  TaskCommentTextareaProps,
 } from '@/components/TaskCommentTextarea/TaskCommentTextarea';
 import { Meta, StoryFn } from '@storybook/react';
 
@@ -8,7 +8,7 @@ export default {
   component: TaskCommentTextarea,
 } as Meta;
 
-const Template: StoryFn<CommentTextareaProps> = (args) => (
+const Template: StoryFn<TaskCommentTextareaProps> = (args) => (
   <TaskCommentTextarea {...args} />
 );
 
