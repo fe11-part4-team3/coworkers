@@ -12,16 +12,18 @@ import InputField from '@/components/InputField/InputField';
  * @returns {JSX.Element} DatePicker 컴포넌트를 반환합니다.
  */
 
-export default function DatePicker({ width = 'full' }: { width?: string }) {
+export default function DatePicker({ width }: { width?: string }) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [date, setdate] = useState<Date | undefined>(undefined);
+
+  const widthStyle = width ? `w-pr-${width}` : 'w-full';
+  const buttonStyle = isOpen ? 'border border-brand-primary' : '';
+
   const formattedDate = date ? format(date, 'yyyy년 mm월 dd일') : '';
 
   return (
     <>
-      <div
-        className={`${`${width !== 'full' ? `w-pr-${width}` : 'w-full'}`} flex flex-col gap-pr-8`}
-      >
+      <div className={`${widthStyle} flex flex-col gap-pr-8`}>
         <div className="relative">
           <InputField
             value={formattedDate}
@@ -31,7 +33,7 @@ export default function DatePicker({ width = 'full' }: { width?: string }) {
             name="date"
           />
           <button
-            className={`absolute left-0 top-0 z-20 size-full rounded-xl ${isOpen ? 'border border-brand-primary' : ''}`}
+            className={`absolute left-0 top-0 z-20 size-full rounded-xl ${buttonStyle}`}
             onClick={() => setIsOpen(!isOpen)}
           />
         </div>
