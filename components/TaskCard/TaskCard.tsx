@@ -52,7 +52,7 @@ function TaskCard({ type, taskData }: TaskCardProps) {
           <>
             <IconText type="commentCount" text={commentCount} />
 
-            <div className="ml-auto leading-[0] mo:ml-0">
+            <div className="ml-auto mo:ml-0">
               <KebabDropDown
                 onEdit={() => alert('수정')}
                 onDelete={() => alert('삭제')}
