@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
+
 import { useDeviceType } from '@/contexts/DeviceTypeContext';
 
 /**
