@@ -3,6 +3,8 @@ import { ChangeEvent, useEffect, useRef, useState } from 'react';
 
 import { useDeviceType } from '@/contexts/DeviceTypeContext';
 
+import ICON_PLUS from '@/public/images/icon-plus.svg';
+
 /**
  * @param {File | null} props.fileValue - 현재 선택된 파일
  * @param {React.Dispatch<React.SetStateAction<File | null>>} props.setFileValue - 파일 상태를 업데이트하는 함수
@@ -80,12 +82,11 @@ function ImageUpload({
           className={`group relative flex size-pr-240 cursor-pointer items-center justify-center overflow-hidden rounded-pr-12 border bg-b-secondary mo:size-pr-160`}
         >
           <div className="flex flex-col items-center">
-            <Image
-              src="/images/icon-imageUploadPlus.svg"
-              alt="이미지 업로드"
+            <ICON_PLUS
               className="duration-300 group-hover:-rotate-90"
-              width={!mobile ? 48 : 24}
-              height={!mobile ? 48 : 24}
+              width={!mobile ? 55 : 24}
+              height={!mobile ? 55 : 24}
+              stroke="#9CA3AF"
             />
             <span className="mt-pr-12 text-16 text-t-disabled mo:text-14">
               이미지 등록
