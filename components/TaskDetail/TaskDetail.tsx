@@ -3,16 +3,15 @@ import Image from 'next/image';
 
 import CloseIcon from '@/public/images/icon-close.svg';
 import ProfileIcon from '@/public/images/icon-profile-member.svg';
-import CalendarIcon from '@/public/images/icon-calendar.svg';
-import TimeIcon from '@/public/images/icon-time.svg';
-import RepeatIcon from '@/public/images/icon-repeat.svg';
 import useModalStore from '@/stores/modalStore';
 import ArticleDetailComment from '@/components/Comment/Comment';
 import { ITaskComment } from '@/types/comment.type';
 import { ITask } from '@/types/task.type';
 import KebabDropDown from '@/components/KebabDropDown';
 import { ChangeEvent, FormEvent, useState } from 'react';
-import CommentTextarea from '../CommentTextarea/CommentTextarea';
+import CommentTextarea from '@/components/CommentTextarea/CommentTextarea';
+import IconLabel from '@/components/IconLabel';
+import CheckIcon from '@/public/images/icon-task-check.svg';
 
 /**
  * 할 일 상세 컴포넌트
@@ -27,6 +26,7 @@ export default function TaskDetail({
   commentData,
   deleteTask,
   updateTask,
+  updateTaskStatus,
   postComment,
   deleteComment,
   updateComment,
@@ -35,6 +35,7 @@ export default function TaskDetail({
   commentData?: ITaskComment[];
   deleteTask: (id: number) => void;
   updateTask: (id: number) => void;
+  updateTaskStatus: (id: number) => void;
   postComment: () => void;
   deleteComment: (id: number) => void;
   updateComment: (id: number) => void;
@@ -42,6 +43,10 @@ export default function TaskDetail({
   const { isOpen, closeModal } = useModalStore();
   const [comment, setComment] = useState<string>('');
 
+  const taskDoneButtonStyle =
+    value.doneBy?.user === null
+      ? 'bg-brand-primary text-t-primary'
+      : 'bg-b-inverse text-brand-primary border border-brand-primary';
   const formattedCreateAt = format(new Date(value.updatedAt), 'yyyy.MM.dd');
   const formattedDate = format(new Date(value.date), 'yyyy년 M월 dd일');
   const formattedDateTime = format(new Date(value.date), '오후 h:mm');
@@ -96,20 +101,9 @@ export default function TaskDetail({
             <span className="text-14">{formattedCreateAt}</span>
           </div>
           <div className="mb-pr-24 mt-pr-16 flex items-center text-t-default">
-            <div className="flex items-center gap-pr-6">
-              <CalendarIcon />
-              <span>{formattedDate}</span>
-            </div>
-            <div className="mx-pr-10 h-pr-8 w-pr-1 bg-b-tertiary" />
-            <div className="flex items-center gap-pr-6">
-              <TimeIcon />
-              <span>{formattedDateTime}</span>
-            </div>
-            <div className="mx-pr-10 h-pr-8 w-pr-1 bg-b-tertiary" />
-            <div className="flex items-center gap-pr-6">
-              <RepeatIcon />
-              <span>{formattedRepeat()}</span>
-            </div>
+            <IconLabel text={formattedDate} type="calendar" hasBar />
+            <IconLabel text={formattedDateTime} type="time" hasBar />
+            <IconLabel text={formattedRepeat()} type="repeat" />
           </div>
           <p className="mb-pr-180 text-14 text-t-primary">
             {value.description}
@@ -135,6 +129,19 @@ export default function TaskDetail({
               );
             })}
         </div>
+        <button
+          className={`fixed bottom-pr-60 right-pr-40 flex h-pr-40 items-center justify-center gap-pr-4 rounded-full px-pr-20 text-14sb ${taskDoneButtonStyle}`}
+          onClick={() => updateTaskStatus(value.id)}
+        >
+          <CheckIcon
+            stroke={
+              value.doneBy?.user === null
+                ? 'border-t-primary'
+                : 'border-brand-primary'
+            }
+          />
+          {value.doneBy?.user === null ? '완료하기' : '완료 취소하기'}
+        </button>
       </div>
     </>
   );

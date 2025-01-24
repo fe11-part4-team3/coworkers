@@ -39,6 +39,10 @@ export default function TaskListPage() {
     console.log('할 일 수정');
   };
 
+  const handleUpdateTaskStatus = () => {
+    console.log('할 일 상태 수정');
+  };
+
   const handleDeleteComment = () => {
     console.log('댓글 삭제');
   };
@@ -82,6 +86,7 @@ export default function TaskListPage() {
             postComment={handlePostCommentTest}
             deleteTask={handleDeleteTask}
             updateTask={handleUpdateTask}
+            updateTaskStatus={handleUpdateTaskStatus}
             deleteComment={handleDeleteComment}
             updateComment={handleUpdateComment}
           />
