@@ -85,3 +85,10 @@
     --t-tertiary-dark: var(--t-tertiary-dark);
   }
 }
+
+* {
+  @apply border-border;
+}
+body {
+  @apply bg-background text-foreground;
+}

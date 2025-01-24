@@ -4,10 +4,10 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { signUp } from '@/service/auth.api';
-import { useAuth } from '@/hooks/useAuth';
 import useForm from '@/hooks/useForm';
 import Container from '@/components/layout/Container';
 import { Button } from '@/components/ui/button';
+import useUser from '@/hooks/useUser';
 
 function SignupPage() {
   const { formData, handleChange } = useForm({
@@ -22,7 +22,7 @@ function SignupPage() {
   const route = useRouter();
 
   // 인증된 사용자인지 확인
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated } = useUser();
 
   // 회원가입 버튼 클릭 시
   const handleSubmit = async (e: React.FormEvent) => {

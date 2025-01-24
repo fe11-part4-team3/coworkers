@@ -11,4 +11,13 @@
   .icon-kebab {
     @apply size-pr-16 rounded-full bg-[url('/images/icon-kebab.svg')] duration-300 hover:bg-primary/10 active:bg-primary/20;
   }
+
+  /* 게시글  */
+  .article_title {
+    @apply text-18m leading-7 text-t-secondary mo:text-14m mo:leading-6;
+  }
+
+  .line-col {
+    @apply mx-pr-16 h-pr-12 w-pr-1 bg-b-tertiary;
+  }
 }
