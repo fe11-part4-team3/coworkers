@@ -6,6 +6,7 @@ import { Input } from '../ui/input';
 import ErrorMessage from './ErrorMessage';
 import InputLabel from './InputLabel';
 import HideToggle from './HideToggle';
+import Buttons from '../Buttons';
 
 // input 공통 스타일
 export const inputStyled =
@@ -63,13 +64,15 @@ export default function InputField({
         />
         {type === 'password' &&
           (disabled ? (
-            <button
-              type="button"
-              className="absolute right-pr-16 top-1/2 -translate-y-1/2"
-              onClick={onClickButton}
-            >
-              변경하기
-            </button>
+            <div className="absolute right-pr-16 top-1/2 -translate-y-1/2">
+              <Buttons
+                text="변경하기"
+                bg="default"
+                size="S"
+                width="w-pr-74"
+                onClick={onClickButton}
+              />
+            </div>
           ) : (
             <HideToggle
               togglePassword={togglePassword}
