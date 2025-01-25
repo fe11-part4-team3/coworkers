@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { validateField } from '@/utils/validation';
+import { useCallback, useState } from 'react';
 
 /**
  * useForm 커스텀 훅
  *
- * @param initialValues
+ * @param initialValues 초기 입력값
  * @remarks
  * - useForm은 입력값을 관리하는 커스텀 훅입니다.
  * - 입력값을 관리할 때 사용합니다.
@@ -12,97 +13,92 @@ import { useState } from 'react';
  * @returns
  * - formData: 입력값을 관리하는 상태
  * - changedFields: 변경된 필드를 추적하는 상태
- * - setFormData: 입력값을 변경하는 함수
- * - setChangedFields: 변경된 필드를 변경하는 함수
+ * - errorMessage: 입력값에 대한 에러 메시지를 관리하는 상태
  * - handleInputChange: 입력값 Input & TextArea 변경 이벤트 핸들러
  * - handleFileChange: 파일 변경 이벤트 핸들러
+ * - initialValues: 초기 입력값
+ * - resetForm: 초기 입력값으로 폼 리셋
  *
  */
 const useForm = <T extends Record<string, any>>(initialValues: T) => {
+  // STUB 입력값 상태
   const [formData, setFormData] = useState<T>(initialValues);
+
+  // STUB 에러 메시지 상태
   const [errorMessage, setErrorMessage] = useState<
     Partial<Record<keyof T, string>>
   >({});
 
-  const rPASSWORD =
-    /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
-
-  const validateField = (name: keyof T, value: string) => {
-    const errors: Partial<Record<keyof T, string>> = {};
-
-    switch (name) {
-      case 'email':
-        if (!value.includes('@')) {
-          errors[name] = '이메일 형식으로 작성해 주세요';
-        } else if (value.length === 0) {
-          errors[name] = '이메일은 필수 입력입니다.';
-        } else {
-          errors[name] = '';
-        }
-        break;
-      case 'password':
-        if (value.length < 8) {
-          errors[name] = '비밀번호는 최소 8자 이상입니다.';
-        } else if (!rPASSWORD.test(value)) {
-          errors[name] = '비밀번호는 숫자, 영문, 특수문자로만 가능합니다.';
-        } else if (value.length === 0) {
-          errors[name] = '비밀번호는 필수 입력입니다.';
-        } else {
-          errors[name] = '';
-        }
-        break;
-      case 'passwordConfirmation':
-        if (value !== formData.password) {
-          errors[name] = '비밀번호가 일치하지 않습니다.';
-        } else if (value.length === 0) {
-          errors[name] = '비밀번호 확인을 입력해주세요.';
-        } else {
-          errors[name] = '';
-        }
-        break;
-      case 'nickname':
-        if (value.length > 20) {
-          errors[name] = '닉네임은 최대 20자까지 가능합니다.';
-        } else if (value.length === 0) {
-          errors[name] = '닉네임은 필수 입력입니다.';
-        } else {
-          errors[name] = '';
-        }
-        break;
-      default:
-        break;
-    }
-
-    return errors;
-  };
+  // STUB 변경된 필드 상태
   const [changedFields, setChangedFields] = useState<
     Partial<Record<keyof T, boolean>>
   >({});
 
-  // 입력값 Input & TextArea 변경 이벤트 핸들러
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+  // STUB 입력값 Input & TextArea 변경 이벤트 핸들러
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const { name, value } = e.target;
+      const key = name as keyof T;
 
-    const fieldErrors = validateField(name as keyof T, value);
-    setErrorMessage((prev) => ({ ...prev, ...fieldErrors }));
-    setChangedFields((prev) => ({ ...prev, [name]: true }));
-  };
+      // 입력값 업데이트
+      setFormData((prev) => {
+        const updatedFormData = { ...prev, [key]: value };
 
-  // 파일 변경 이벤트 핸들러
-  const handleFileChange = (name: keyof T, file: File) => {
+        // 변경된 필드 업데이트
+        setChangedFields((prevChanged) => ({
+          ...prevChanged,
+          [key]: value !== initialValues[key],
+        }));
+
+        return updatedFormData;
+      });
+
+      // 유효성 검사
+      const fieldErrors = validateField(key, value, formData, initialValues);
+      setErrorMessage((prev) => ({ ...prev, ...fieldErrors }));
+    },
+    [formData, initialValues],
+  );
+
+  // STUB 파일 변경 이벤트 핸들러
+  const handleFileChange = useCallback((name: keyof T, file: File) => {
     setFormData((prev) => ({ ...prev, [name]: file as unknown as T[keyof T] }));
-    setChangedFields((prev) => ({ ...prev, [name]: true }));
-  };
+    setChangedFields((prev) => ({
+      ...prev,
+      [name]: true, // 파일은 변경되었을 때만 true
+    }));
+    // TODO 파일 변경에 대한 유효성 검사 필요
+  }, []);
+
+  // STUB 초기 입력값으로 폼 리셋
+  const resetForm = useCallback(() => {
+    setFormData(initialValues);
+    setChangedFields(
+      Object.keys(initialValues).reduce(
+        (acc, key) => {
+          acc[key as keyof T] = false;
+          return acc;
+        },
+        {} as Partial<Record<keyof T, boolean>>,
+      ),
+    );
+    setErrorMessage(
+      Object.keys(initialValues).reduce(
+        (acc, key) => {
+          acc[key as keyof T] = '';
+          return acc;
+        },
+        {} as Partial<Record<keyof T, string>>,
+      ),
+    );
+  }, [initialValues]);
 
   return {
     formData,
+    initialValues,
     changedFields,
     errorMessage,
-    setFormData,
-    setChangedFields,
+    resetForm,
     handleInputChange,
     handleFileChange,
   };
