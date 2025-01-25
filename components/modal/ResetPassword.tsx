@@ -14,14 +14,13 @@ import useModalForm from '@/hooks/useModalForm';
  */
 
 export default function ResetPassword({
-  onClick,
+  onClick: fetchData,
 }: {
-  onClick: (body: object) => void;
+  onClick: (bodyData: object) => void;
 }) {
   const { closeModal } = useModalStore();
   const { value, handleOnClick, updateInputValue } = useModalForm({
-    onClick,
-    closeModal,
+    onClick: fetchData,
   });
 
   {

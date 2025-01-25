@@ -12,9 +12,9 @@ import DangerIcon from '@/public/images/icon-danger.svg';
  */
 
 export default function DeleteAccount({
-  onClick,
+  onClick: fetchData,
 }: {
-  onClick: (body: object) => void;
+  onClick: (bodyData: object) => void;
 }) {
   const { closeModal } = useModalStore();
 
@@ -25,7 +25,7 @@ export default function DeleteAccount({
 
   const handleOnClick = () => {
     const body = { key: true };
-    onClick(body);
+    fetchData(body);
     closeModal();
   };
 

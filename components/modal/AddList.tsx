@@ -18,10 +18,8 @@ export default function AddList({
 }: {
   onClick: (bodyData: object) => void;
 }) {
-  const { closeModal } = useModalStore();
   const { value, handleOnClick, updateInputValue } = useModalForm({
     onClick: fetchData,
-    closeModal,
   });
 
   {

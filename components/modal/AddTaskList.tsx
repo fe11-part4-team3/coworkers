@@ -21,7 +21,6 @@ export default function AddTaskList({
   const { closeModal } = useModalStore();
   const { value, handleOnClick, updateInputValue } = useModalForm({
     onClick: fetchData,
-    closeModal,
   });
 
   {

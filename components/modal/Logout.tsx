@@ -11,9 +11,9 @@ import Buttons from '@/components/Buttons';
  */
 
 export default function Logout({
-  onClick,
+  onClick: fetchData,
 }: {
-  onClick: (body: object) => void;
+  onClick: (bodyData: object) => void;
 }) {
   const { closeModal } = useModalStore();
 
@@ -24,7 +24,7 @@ export default function Logout({
 
   const handleOnClick = () => {
     const body = { key: true };
-    onClick(body);
+    fetchData(body);
     closeModal();
   };
 

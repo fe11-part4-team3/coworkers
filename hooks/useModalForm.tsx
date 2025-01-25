@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import useModalStore from '@/stores/modalStore';
 
 /**
  * @description useModalForm 커스텀 훅
@@ -20,17 +21,16 @@ import { useState } from 'react';
 
 export default function useModalForm({
   onClick,
-  closeModal,
   initialLength = 1,
   body,
 }: {
   onClick: (body: object) => void;
-  closeModal: () => void;
   initialLength?: number;
   body?: string[];
 }) {
   const [value, setValue] = useState<string[]>(Array(initialLength).fill(''));
   const [bodyData, setBodyData] = useState<string[]>(body || []);
+  const { closeModal } = useModalStore();
 
   const updateInputValue = (index: number, name: string, newValue: string) => {
     const updatedValue = [...value];

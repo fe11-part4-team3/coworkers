@@ -43,11 +43,8 @@ export default function AddTask({
     { label: '월 반복', value: 'MONTHLY' },
   ]);
 
-  const { closeModal } = useModalStore();
-
   const { value, handleOnClick, updateInputValue } = useModalForm({
     onClick: fetchData,
-    closeModal,
     initialLength: 3,
   });
 
