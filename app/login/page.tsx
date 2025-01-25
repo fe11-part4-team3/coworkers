@@ -58,11 +58,14 @@ function LoginPage() {
   const [isForgotPassword, setIsForgotPassword] = useState(false);
 
   // 비밀번호 찾기 폼
-  const { formData: createResetUrl, handleInputChange: handleEailChange } =
-    useForm<ResetPasswordEmailParams>({
-      email: '',
-      redirectUrl: 'http://localhost:3000',
-    });
+  const {
+    formData: createResetUrl,
+    handleInputChange: handleEailChange,
+    errorMessage: errorEmail,
+  } = useForm<ResetPasswordEmailParams>({
+    email: '',
+    redirectUrl: 'http://localhost:3000',
+  });
 
   // 비밀번호 찾기 요청
   const { mutate: resetPasswordMutate, isPending } = useMutation({
@@ -70,6 +73,7 @@ function LoginPage() {
     onSuccess: (message) => {
       alert(message);
       setIsForgotPassword(false);
+      createResetUrl.email = '';
     },
     onError: (error) => console.error('비밀번호 재설정 실패:', error),
   });
@@ -126,6 +130,7 @@ function LoginPage() {
               type="email"
               name="email"
               value={createResetUrl.email}
+              errorMessage={errorEmail.email}
               onChange={handleEailChange}
               placeholder="이메일을 입력하세요"
             />
@@ -134,7 +139,8 @@ function LoginPage() {
               bg="default"
               size="XL"
               onClick={() => resetPasswordMutate(createResetUrl)}
-              disabled={isPending}
+              disabled={isPending || !(errorEmail.email === '')}
+              loading={isPending}
             />
           </div>
         )}
