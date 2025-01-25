@@ -47,7 +47,7 @@ export default function InputField({
   };
 
   return (
-    <fieldset className={width}>
+    <fieldset className={width ? width : 'w-full'}>
       {label && <InputLabel label={label} essential={essential} />}
       <div className="relative">
         <Input

@@ -1,6 +1,7 @@
 interface ModalStore {
   isOpen: boolean;
-  openModal: () => void;
+  modalContent: React.ReactNode | null;
+  openModal: (content: React.ReactNode) => void;
   closeModal: () => void;
 }
 
