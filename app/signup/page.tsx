@@ -11,7 +11,7 @@ import InputField from '@/components/InputField/InputField';
 import Buttons from '@/components/Buttons';
 
 function SignupPage() {
-  const { formData, handleChange, errorMessage } = useForm({
+  const { formData, handleInputChange, errorMessage } = useForm({
     email: '',
     nickname: '',
     password: '',
@@ -60,7 +60,7 @@ function SignupPage() {
           type="text"
           name="nickname"
           value={formData.nickname}
-          onChange={handleChange}
+          onChange={handleInputChange}
           errorMessage={errorMessage.nickname}
           placeholder="이름을 입력해주세요."
           required
@@ -71,7 +71,7 @@ function SignupPage() {
           type="email"
           name="email"
           value={formData.email}
-          onChange={handleChange}
+          onChange={handleInputChange}
           errorMessage={errorMessage.email}
           placeholder="이메일을 입력해주세요."
           required
@@ -82,7 +82,7 @@ function SignupPage() {
           type="password"
           name="password"
           value={formData.password}
-          onChange={handleChange}
+          onChange={handleInputChange}
           errorMessage={errorMessage.password}
           placeholder="비밀번호를 입력해주세요."
           required
@@ -93,7 +93,7 @@ function SignupPage() {
           type="password"
           name="passwordConfirmation"
           value={formData.passwordConfirmation}
-          onChange={handleChange}
+          onChange={handleInputChange}
           errorMessage={errorMessage.passwordConfirmation}
           placeholder="비밀번호를 다시 한 번 입력해주세요."
           required
