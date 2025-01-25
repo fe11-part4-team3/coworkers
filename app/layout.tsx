@@ -14,6 +14,7 @@ import DarkmodeToggle from '@/components/DarkmodeToggle';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import Headers from '@/components/layout/Header/Headers';
 import { DeviceTypeProvider } from '@/contexts/DeviceTypeContext';
+import Modal from '@/components/modal/Modal';
 
 const queryClient = new QueryClient();
 export default function RootLayout({
@@ -35,6 +36,7 @@ export default function RootLayout({
               <SidebarProvider defaultOpen={false}>
                 <Headers />
                 <DarkmodeToggle />
+                <Modal />
                 {children}
               </SidebarProvider>
               <ReactQueryDevtools initialIsOpen={false} />
