@@ -15,19 +15,11 @@ import {
 import GroupHeader from './GroupHeader';
 import GroupMemberList from './GroupMemberList';
 import GroupTaskListWrapper from './GroupTaskListWrapper';
-
-export interface _CreateTaskListParams {
-  name: string;
-}
-
-export interface _UpdateTaskListParams {
-  id: number;
-  name: string;
-}
-
-export interface _DeleteTaskListParams {
-  id: number;
-}
+import {
+  _CreateTaskListParams,
+  _DeleteTaskListParams,
+  _UpdateTaskListParams,
+} from './TeamPage.type';
 
 export default function TeamPage() {
   useUser(true);

@@ -6,14 +6,7 @@ import {
   _CreateTaskListParams,
   _DeleteTaskListParams,
   _UpdateTaskListParams,
-} from './page';
-
-interface GroupTaskListWrapperProps {
-  taskLists: ITaskListSummary[] | null;
-  onCreate: (params: _CreateTaskListParams) => void;
-  onEdit: (params: _UpdateTaskListParams) => void;
-  onDelete: (params: _DeleteTaskListParams) => void;
-}
+} from './TeamPage.type';
 
 export type PointColorType =
   | 'purple'
@@ -23,6 +16,13 @@ export type PointColorType =
   | 'rose'
   | 'orange'
   | 'yellow';
+
+interface GroupTaskListWrapperProps {
+  taskLists: ITaskListSummary[] | null;
+  onCreate: (params: _CreateTaskListParams) => void;
+  onEdit: (params: _UpdateTaskListParams) => void;
+  onDelete: (params: _DeleteTaskListParams) => void;
+}
 
 const POINT_COLOR: PointColorType[] = [
   'purple',
