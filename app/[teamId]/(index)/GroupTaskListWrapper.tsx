@@ -2,10 +2,12 @@ import { ITaskListSummary } from '@/types/group.type';
 import IconPlus from '@/public/images/icon-plus.svg';
 
 import GroupTaskList from './GroupTaskList';
+import { _UpdateTaskListParams } from './page';
 
 interface GroupTaskListWrapperProps {
   taskLists: ITaskListSummary[] | null;
   onCreate: (name: string) => void;
+  onEdit: ({ id, name }: _UpdateTaskListParams) => void;
   onDelete: (id: number) => void;
 }
 
@@ -31,6 +33,7 @@ const POINT_COLOR: PointColorType[] = [
 export default function GroupTaskListWrapper({
   taskLists,
   onCreate,
+  onEdit,
   onDelete,
 }: GroupTaskListWrapperProps) {
   const handleClickCreate = () => {
@@ -42,6 +45,8 @@ export default function GroupTaskListWrapper({
     const flag = confirm(`${name}을(를) 삭제 하시겠습니다?`);
     if (flag) onDelete(id);
   };
+
+  //TODO 수정하기 핸들러
 
   return (
     <div className="flex flex-col gap-pr-16">
@@ -65,6 +70,7 @@ export default function GroupTaskListWrapper({
           key={taskList.id}
           taskList={taskList}
           pointColor={POINT_COLOR[i % POINT_COLOR.length]}
+          onEdit={onEdit}
           onDelete={handleClickDelete}
         />
       ))}
