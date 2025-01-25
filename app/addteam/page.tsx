@@ -1,9 +1,8 @@
 'use client';
 
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useMutation } from '@tanstack/react-query';
 
-import { uploadImage } from '@/service/image.api';
 import useForm from '@/hooks/useForm';
 import InputField from '@/components/InputField/InputField';
 import Container from '@/components/layout/Container';
@@ -11,58 +10,57 @@ import { Button } from '@/components/ui/button';
 import { createGroup } from '@/service/group.api';
 import Profile from '@/components/Profile/Profile';
 import useUser from '@/hooks/useUser';
+import updatePayloadSubmit from '@/utils/updatePayload';
 
 export default function AddTeamPage() {
-  const { formData, handleInputChange, setFormData } = useForm({
+  const initaialValues = {
     name: '',
     image: '',
-  });
-  const [preview, setPreview] = useState<File | null>(null);
-  const { user, reload } = useUser();
+  };
+
+  const {
+    formData,
+    changedFields,
+    handleInputChange,
+    handleFileChange,
+    initialValues: initialTeamValues,
+  } = useForm(initaialValues);
+
+  const { user, isPending, reload } = useUser(true);
 
   const route = useRouter();
 
-  // STUB 이미지 업로드
-  const handleFileChange = (file: File) => {
-    console.log('[handleFileChange] 파일 변경 감지:', file);
-
-    setPreview(file);
-  };
+  const { mutate: creatTeamMutate } = useMutation({
+    mutationFn: createGroup,
+    onSuccess: (response) => {
+      alert('팀 생성이 완료되었습니다');
+      console.log('팀 생성이 완료되었습니다', response);
+      route.push(`/${response.id}`);
+      reload();
+    },
+    onError: () => {
+      alert('팀 생성에 실패했습니다');
+    },
+  });
 
   // STUB 폼 제출
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    try {
-      if (!preview) {
-        alert('이미지를 업로드해주세요.');
-        return;
-      }
-
-      // STUB 새로운 FormData 인스턴스를 생성하고 이미지를 추가합니다.
-      const url = await uploadImage(preview);
-
-      // STUB 이미지 업로드가 완료되면 formData에 이미지 URL을 추가합니다.
-      const newFormData = { ...formData, image: url };
-      setFormData(newFormData);
-      console.log('이미지 업로드가 완료되었습니다', url);
-
-      // STUB 팀을 생성합니다.
-      const response = await createGroup(newFormData);
-      response.teamId = '11-3';
-      console.log('팀 생성이 완료되었습니다', response);
-      reload();
-
-      if (!user) {
-        console.error('사용자 정보가 없습니다.');
-        return;
-      }
-
-      route.push(`/${response.id}`);
-    } catch (error) {
-      console.error(error);
-    }
+    await updatePayloadSubmit({
+      changedFields: changedFields as Record<string, boolean>,
+      formData,
+      mutate: creatTeamMutate,
+    });
   };
+
+  if (isPending && !user) {
+    return <div>사용자 정보를 불러오는 중입니다...</div>;
+  }
+
+  if (!user) {
+    return <div>로그인 상태가 아닙니다.</div>;
+  }
 
   return (
     <Container>
@@ -70,8 +68,9 @@ export default function AddTeamPage() {
       <form onSubmit={handleSubmit}>
         <Profile
           variant="group"
-          onSelectFile={handleFileChange}
+          onSelectFile={(file) => handleFileChange('image', file)}
           isEdit={true}
+          defaultProfile={initialTeamValues.image}
         />
 
         <InputField
