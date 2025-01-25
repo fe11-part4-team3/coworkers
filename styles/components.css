@@ -20,4 +20,21 @@
   .line-col {
     @apply mx-pr-16 h-pr-12 w-pr-1 bg-b-tertiary;
   }
+
+  /* modal */
+
+  .modal-title-wrapper {
+    @apply mb-pr-16 flex flex-col items-center justify-center gap-pr-8 text-center;
+  }
+  .modal-title {
+    @apply text-16m text-t-primary;
+  }
+
+  .modal-subTitle {
+    @apply text-14m text-t-default;
+  }
+
+  .modal-button-wrapper {
+    @apply mt-pr-24 flex items-center justify-between gap-pr-8;
+  }
 }

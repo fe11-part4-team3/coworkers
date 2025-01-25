@@ -6,7 +6,7 @@ import useModalStore from '@/stores/modalStore';
 import ArticleDetailComment from '@/components/Comment/Comment';
 import { TaskDetailProps } from '@/types/task.type';
 import KebabDropDown from '@/components/KebabDropDown';
-import CommentTextarea from '@/components/CommentTextarea/CommentTextarea';
+import CommentTextarea from '@/components/TaskCommentTextarea/TaskCommentTextarea';
 import IconLabel from '@/components/IconLabel';
 import CheckIcon from '@/public/images/icon-task-check.svg';
 

@@ -44,7 +44,7 @@ function ArticleDetailContent({
       </p>
 
       {userData?.id === (writer?.id ?? user?.id) && (
-        <div className="ml-pr-16 leading-[0]">
+        <div className="ml-pr-16">
           <KebabDropDown onEdit={handleEditClick} onDelete={commentDelete} />
         </div>
       )}

@@ -53,7 +53,7 @@ function ArticleCardFooter({
             <LikeCount type="readOnly" likeCount={likeCount} />
 
             {userData?.id === writer.id && (
-              <div className="hidden leading-[0] mo:block">
+              <div className="hidden mo:block">
                 <KebabDropDown
                   onEdit={() => alert('수정')}
                   onDelete={() => alert('삭제')}

@@ -75,7 +75,7 @@ export default function TaskListPage() {
         </div>
         <ul className="mt-pr-24">
           <li>목록 이름</li>
-          <button onClick={isOpen === false ? openModal : closeModal}>
+          <button onClick={() => (isOpen === false ? openModal : closeModal)}>
             테스트용 상세 버튼
           </button>
         </ul>

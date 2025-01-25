@@ -12,13 +12,13 @@ type ButtonsBaseProps = {
 
 // Loading이 true인 경우
 type LoadingTrueProps = {
-  loading: true;
-  disabled: true;
+  loading: boolean;
+  disabled: boolean;
 };
 
 // Loading이 false이거나 없는 경우
 type LoadingFalseProps = {
-  loading?: false;
+  loading?: boolean;
   disabled?: boolean;
 };
 
@@ -32,7 +32,7 @@ type ButtonsLinkProps = ButtonsBaseProps &
 // onClick 속성이 있는 경우 (클릭 버튼)
 type ButtonsClickProps = ButtonsBaseProps &
   (LoadingTrueProps | LoadingFalseProps) & {
-    onClick: () => void;
+    onClick?: () => void;
     href?: never;
   };
 
