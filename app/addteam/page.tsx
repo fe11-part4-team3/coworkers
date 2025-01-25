@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
+import { useEffect, useState, useCallback } from 'react';
 
 import useForm from '@/hooks/useForm';
 import InputField from '@/components/InputField/InputField';
@@ -11,7 +12,6 @@ import Profile from '@/components/Profile/Profile';
 import useUser from '@/hooks/useUser';
 import updatePayloadSubmit from '@/utils/updatePayload';
 import Buttons from '@/components/Buttons';
-import { useEffect, useState, useCallback } from 'react';
 
 export default function AddTeamPage() {
   const { user, isPending, reload, memberships } = useUser(true);
