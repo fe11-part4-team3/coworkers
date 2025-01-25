@@ -33,7 +33,7 @@ export default function GroupTaskList({
   };
 
   return (
-    <div className="flex overflow-hidden rounded-pr-12 transition-all duration-300 hover:scale-[103%] hover:drop-shadow-lg">
+    <div className="flex overflow-hidden rounded-pr-12 transition-all duration-300 hover:scale-[101%] hover:drop-shadow-lg">
       <div className={`w-pr-12 ${POINT_COLOR_CLASSES[pointColor]}`}></div>
       <div className="flex grow items-center justify-between bg-b-secondary px-pr-12 py-pr-10">
         <div>{taskList.name}</div>
