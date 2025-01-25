@@ -6,53 +6,80 @@ import { useMutation } from '@tanstack/react-query';
 import useForm from '@/hooks/useForm';
 import InputField from '@/components/InputField/InputField';
 import Container from '@/components/layout/Container';
-import { Button } from '@/components/ui/button';
 import { createGroup } from '@/service/group.api';
 import Profile from '@/components/Profile/Profile';
 import useUser from '@/hooks/useUser';
 import updatePayloadSubmit from '@/utils/updatePayload';
+import Buttons from '@/components/Buttons';
+import { useEffect, useState, useCallback } from 'react';
 
 export default function AddTeamPage() {
-  const initaialValues = {
+  const { user, isPending, reload, memberships } = useUser(true);
+
+  const route = useRouter();
+
+  const initialValues = {
     name: '',
     image: '',
   };
 
+  // STUB 팀 생성 폼 상태
   const {
     formData,
     changedFields,
     handleInputChange,
     handleFileChange,
+    errorMessage,
     initialValues: initialTeamValues,
-  } = useForm(initaialValues);
+    resetForm,
+  } = useForm(initialValues);
 
-  const { user, isPending, reload } = useUser(true);
+  // STUB 중복 팀 이름 체크
+  const overlap = memberships?.some(
+    (membership) =>
+      membership.group.name.toLowerCase() === formData.name.toLowerCase(),
+  );
 
-  const route = useRouter();
+  const [updateValidation, setUpdateValidation] = useState<boolean>(false);
 
-  const { mutate: creatTeamMutate } = useMutation({
-    mutationFn: createGroup,
-    onSuccess: (response) => {
-      alert('팀 생성이 완료되었습니다');
-      console.log('팀 생성이 완료되었습니다', response);
-      route.push(`/${response.id}`);
-      reload();
-    },
-    onError: () => {
-      alert('팀 생성에 실패했습니다');
-    },
-  });
+  // STUB 변경사항에 따른 유효성 검사
+  useEffect(() => {
+    const isNameValid = !errorMessage.name;
+    const hasNameChanged = !!changedFields.name && formData.name.trim() !== '';
+    const isNotOverlapping = !overlap;
 
-  // STUB 폼 제출
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    setUpdateValidation(isNameValid && hasNameChanged && isNotOverlapping);
+  }, [errorMessage, changedFields, formData, overlap]);
 
-    await updatePayloadSubmit({
-      changedFields: changedFields as Record<string, boolean>,
-      formData,
-      mutate: creatTeamMutate,
+  // STUB 팀 생성 mutation
+  const { mutate: createTeamMutate, isPending: isCreatTeamPending } =
+    useMutation({
+      mutationFn: createGroup,
+      onSuccess: (response) => {
+        alert('팀 생성이 완료되었습니다');
+        console.log('팀 생성이 완료되었습니다', response);
+        route.push(`/${response.id}`);
+        resetForm();
+        reload();
+      },
+      onError: () => {
+        alert('팀 생성에 실패했습니다');
+      },
     });
-  };
+
+  // STUB 생성하기 버튼 클릭 시
+  const handleSubmit = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault();
+
+      await updatePayloadSubmit({
+        changedFields: changedFields as Record<string, boolean>,
+        formData,
+        mutate: createTeamMutate,
+      });
+    },
+    [changedFields, formData, createTeamMutate, overlap],
+  );
 
   if (isPending && !user) {
     return <div>사용자 정보를 불러오는 중입니다...</div>;
@@ -74,12 +101,19 @@ export default function AddTeamPage() {
         />
 
         <InputField
+          label="팀 이름"
           value={formData.name}
           onChange={(e) => handleInputChange(e)}
           name="name"
           placeholder="팀 이름을 입력해주세요."
+          errorMessage={overlap ? '중복된 팀 이름입니다.' : errorMessage.name}
         />
-        <Button type="submit">생성하기</Button>
+        <Buttons
+          type="submit"
+          text="생성하기"
+          disabled={!updateValidation || isCreatTeamPending}
+          loading={isCreatTeamPending}
+        />
       </form>
     </Container>
   );
