@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { IMember } from '@/types/group.type';
 import { useDeviceType } from '@/contexts/DeviceTypeContext';
-import IconPlus from '@/public/images/icon-plus.svg';
+import Plus from '@/public/images/icon-plus.svg';
 import { getInvitation } from '@/service/group.api';
 import ArrowDown from '@/public/images/icon-arrow-down.svg';
 
@@ -60,7 +60,7 @@ export default function GroupMemberList({
           className="flex bg-inherit text-brand-primary underline-offset-2 hover:underline"
           onClick={handleClickInvitation}
         >
-          <IconPlus />
+          <Plus width={17} height={17} />
           <span className="text-14">새로운 멤버 초대하기</span>
         </button>
       </div>
