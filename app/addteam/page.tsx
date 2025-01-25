@@ -13,7 +13,7 @@ import Profile from '@/components/Profile/Profile';
 import useUser from '@/hooks/useUser';
 
 export default function AddTeamPage() {
-  const { formData, handleChange, setFormData } = useForm({
+  const { formData, handleInputChange, setFormData } = useForm({
     name: '',
     image: '',
   });
@@ -76,7 +76,7 @@ export default function AddTeamPage() {
 
         <InputField
           value={formData.name}
-          onChange={handleChange}
+          onChange={(e) => handleInputChange(e)}
           name="name"
           placeholder="팀 이름을 입력해주세요."
         />

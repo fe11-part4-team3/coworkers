@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import useUser from '@/hooks/useUser';
 
 function LoginPage() {
-  const { formData, handleChange } = useForm({
+  const { formData, handleInputChange } = useForm({
     email: '',
     password: '',
   });
@@ -62,7 +62,7 @@ function LoginPage() {
               type="email"
               name="email"
               value={formData.email}
-              onChange={handleChange}
+              onChange={(e) => handleInputChange(e)}
               required
             />
           </label>
@@ -74,7 +74,7 @@ function LoginPage() {
               type="password"
               name="password"
               value={formData.password}
-              onChange={handleChange}
+              onChange={(e) => handleInputChange(e)}
               required
             />
           </label>
