@@ -1,6 +1,5 @@
 'use client';
 
-import useModalStore from '@/stores/modalStore';
 import InputField from '@/components/InputField/InputField';
 import useModalForm from '@/hooks/useModalForm';
 import Buttons from '@/components/Buttons';
@@ -18,7 +17,6 @@ export default function AddTaskList({
 }: {
   onClick: (bodyData: object) => void;
 }) {
-  const { closeModal } = useModalStore();
   const { value, handleOnClick, updateInputValue } = useModalForm({
     onClick: fetchData,
   });

@@ -1,6 +1,5 @@
 'use client';
 
-import useModalStore from '@/stores/modalStore';
 import Buttons from '@/components/Buttons';
 import CloseButton from '@/components/modal/ModalCloseButton';
 import InputField from '@/components/InputField/InputField';

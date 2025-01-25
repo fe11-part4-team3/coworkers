@@ -4,7 +4,6 @@ import SelectBox from '@/components/SelectBox';
 import Buttons from '@/components/Buttons';
 
 import CloseButton from '@/components/modal/ModalCloseButton';
-import useModalStore from '@/stores/modalStore';
 import useModalForm from '@/hooks/useModalForm';
 import { SelectOption } from '@/types/selectBox.type';
 

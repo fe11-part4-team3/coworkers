@@ -1,6 +1,5 @@
 'use client';
 
-import useModalStore from '@/stores/modalStore';
 import Buttons from '@/components/Buttons';
 import CloseButton from '@/components/modal/ModalCloseButton';
 import InputField from '@/components/InputField/InputField';
@@ -18,10 +17,8 @@ export default function AddTeam({
 }: {
   onClick: (bodyData: object) => void;
 }) {
-  const { closeModal } = useModalStore();
   const { value, handleOnClick, updateInputValue } = useModalForm({
     onClick: fetchData,
-    closeModal,
   });
 
   {
