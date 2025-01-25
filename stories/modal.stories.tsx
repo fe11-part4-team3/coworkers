@@ -5,6 +5,16 @@ import AddTask from '@/components/modal/AddTask';
 import Modal from '@/components/modal/Modal';
 import Buttons from '@/components/Buttons';
 import Container from '@/components/layout/Container';
+import ResetPassword from '@/components/modal/ResetPassword';
+import MemberProfile from '@/components/modal/MemberProfile';
+import Logout from '@/components/modal/Logout';
+import InviteMember from '@/components/modal/InviteMember';
+import DeleteTask from '@/components/modal/DeleteTask';
+import DeleteAccount from '@/components/modal/DeleteAccount';
+import ChangePassword from '@/components/modal/ChangePassword';
+import AddTeam from '@/components/modal/AddTeam';
+import AddTaskList from '@/components/modal/AddTaskList';
+import AddList from '@/components/modal/AddList';
 
 // Meta 정보 설정
 const meta: Meta = {
@@ -20,9 +30,48 @@ const Template: StoryFn = () => {
   const { openModal, closeModal } = useModalStore();
 
   // 모달 열기 핸들러
-  const handleOpenModalAddTask = () => {
-    // AddTask 컴포넌트를 모달 콘텐츠로 설정
-    openModal(<AddTask onClick={handleAddTask} />);
+  const handleOpenModalResetPassword = () => {
+    openModal(<ResetPassword onClick={handleAddTask} />);
+  };
+  const handleOpenModalMemberProfile = () => {
+    openModal(
+      <MemberProfile
+        onClick={() => handleAddTask}
+        image=""
+        name="이름"
+        email="이메일"
+      />,
+    );
+  };
+
+  const handleOpenLogout = () => {
+    openModal(<Logout onClick={handleAddTask} />);
+  };
+
+  const handleOpenInviteMember = () => {
+    openModal(<InviteMember onClick={() => handleAddTask} />);
+  };
+
+  const handleOpenDeleteTask = () => {
+    openModal(<DeleteTask title="dd" onClick={() => handleAddTask} />);
+  };
+  const handleOpenDeleteAccount = () => {
+    openModal(<DeleteAccount onClick={() => handleAddTask} />);
+  };
+  const handleOpenChangePassword = () => {
+    openModal(<ChangePassword onClick={() => handleAddTask} />);
+  };
+  const handleOpenAddTeam = () => {
+    openModal(<AddTeam onClick={() => handleAddTask} />);
+  };
+  const handleOpenAddTask = () => {
+    openModal(<AddTask onClick={() => handleAddTask} />);
+  };
+  const handleOpenAddTaskList = () => {
+    openModal(<AddTaskList onClick={() => handleAddTask} />);
+  };
+  const handleOpenAddList = () => {
+    openModal(<AddList onClick={() => handleAddTask} />);
   };
 
   // AddTask의 onClick 핸들러 (테스트용)
@@ -37,12 +86,30 @@ const Template: StoryFn = () => {
     <Container>
       {/* 모달 열기 버튼 */}
       <div className="flex flex-col justify-center gap-pr-20">
-        <Buttons onClick={handleOpenModalAddTask} text="할 일 추가 모달 열기" />
-
-        {/* TODO 모달을 추가해주세요 */}
         <Buttons
-          onClick={() => alert('모달을 추가 해주세요')}
-          text="모달 추가"
+          onClick={handleOpenModalResetPassword}
+          text="비밀번호 재설정 모달 열기"
+        />
+
+        <Buttons
+          onClick={handleOpenModalMemberProfile}
+          text="멤버 프로필 모달 열기"
+        />
+
+        <Buttons onClick={handleOpenLogout} text="로그아웃 모달 열기" />
+        <Buttons onClick={handleOpenInviteMember} text="멤버 초대 모달 열기" />
+        <Buttons onClick={handleOpenDeleteTask} text="할일 삭제 모달 열기" />
+        <Buttons onClick={handleOpenDeleteAccount} text="회원 탈퇴 모달 열기" />
+        <Buttons
+          onClick={handleOpenChangePassword}
+          text="패스워드 변경 모달 열기"
+        />
+        <Buttons onClick={handleOpenAddTeam} text="팀 추가 모달 열기" />
+        <Buttons onClick={handleOpenAddTask} text="할 일 만들기 모달 열기" />
+        <Buttons onClick={handleOpenAddTaskList} text="할 일 목록 모달 열기" />
+        <Buttons
+          onClick={handleOpenAddList}
+          text="새로운 목록 추가 모달 열기"
         />
       </div>
 
