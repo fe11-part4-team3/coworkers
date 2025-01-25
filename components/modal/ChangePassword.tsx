@@ -2,7 +2,6 @@
 
 import useModalStore from '@/stores/modalStore';
 import Buttons from '@/components/Buttons';
-import CloseButton from '@/components/modal/ModalCloseButton';
 import useModalForm from '@/hooks/useModalForm';
 import InputField from '@/components/InputField/InputField';
 
