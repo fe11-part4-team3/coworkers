@@ -7,7 +7,6 @@ export interface InputFieldProps
   extends InputFieldBaseProps,
     React.InputHTMLAttributes<HTMLInputElement> {
   type?: 'text' | 'password' | 'email';
-  label?: string;
   errorMessage?: string;
   width?: string;
   onClickButton?: () => void;
