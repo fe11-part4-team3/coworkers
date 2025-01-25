@@ -50,6 +50,15 @@ export const validateField = <T extends FormDataType>(
         errors[name] = '';
       }
       break;
+    case 'name':
+      if (value.length === 0) {
+        errors[name] = '팀 이름은 필수 입력입니다.';
+      } else if (value.length > 20) {
+        errors[name] = '팀 이름은 최대 20자까지 가능합니다.';
+      } else {
+        errors[name] = '';
+      }
+      break;
     default:
       break;
   }
