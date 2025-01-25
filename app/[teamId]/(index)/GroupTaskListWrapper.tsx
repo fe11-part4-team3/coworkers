@@ -41,7 +41,7 @@ export default function GroupTaskListWrapper({
   onDelete,
 }: GroupTaskListWrapperProps) {
   const handleClickCreate = () => {
-    const name = prompt('목록 명을 입력해주세요', '직박구리');
+    const name = prompt('목록 명을 입력해주세요');
     if (name) onCreate({ name });
   };
 
