@@ -16,6 +16,10 @@ import GroupHeader from './GroupHeader';
 import GroupMemberList from './GroupMemberList';
 import GroupTaskListWrapper from './GroupTaskListWrapper';
 
+export interface _CreateTaskListParams {
+  name: string;
+}
+
 export interface _UpdateTaskListParams {
   id: number;
   name: string;
@@ -26,7 +30,7 @@ export default function TeamPage() {
   const { teamId } = useParams();
   const { group, members, taskLists, reload } = useGroup(Number(teamId));
   const { mutate: onCreate } = useMutation({
-    mutationFn: (name: string) => _createTaskList(name),
+    mutationFn: (params: _CreateTaskListParams) => _createTaskList(params),
     onSuccess: () => reload(),
     onError: (error) => alert(error),
   });
@@ -42,7 +46,7 @@ export default function TeamPage() {
     onError: (error) => alert(error),
   });
 
-  const _createTaskList = (name: string) => {
+  const _createTaskList = ({ name }: _CreateTaskListParams) => {
     if (!group) throw new Error('목록을 생성할 팀이 없습니다');
     return createTaskList({ groupId: group.id, name });
   };

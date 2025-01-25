@@ -2,11 +2,11 @@ import { ITaskListSummary } from '@/types/group.type';
 import IconPlus from '@/public/images/icon-plus.svg';
 
 import GroupTaskList from './GroupTaskList';
-import { _UpdateTaskListParams } from './page';
+import { _CreateTaskListParams, _UpdateTaskListParams } from './page';
 
 interface GroupTaskListWrapperProps {
   taskLists: ITaskListSummary[] | null;
-  onCreate: (name: string) => void;
+  onCreate: (params: _CreateTaskListParams) => void;
   onEdit: ({ id, name }: _UpdateTaskListParams) => void;
   onDelete: (id: number) => void;
 }
@@ -38,7 +38,7 @@ export default function GroupTaskListWrapper({
 }: GroupTaskListWrapperProps) {
   const handleClickCreate = () => {
     const name = prompt('목록 명을 입력해주세요', '직박구리');
-    if (name) onCreate(name);
+    if (name) onCreate({ name });
   };
 
   const handleClickDelete = (name: string, id: number) => {
