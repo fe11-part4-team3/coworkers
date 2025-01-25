@@ -25,6 +25,10 @@ export interface _UpdateTaskListParams {
   name: string;
 }
 
+export interface _DeleteTaskListParams {
+  id: number;
+}
+
 export default function TeamPage() {
   useUser(true);
   const { teamId } = useParams();
@@ -35,30 +39,29 @@ export default function TeamPage() {
     onError: (error) => alert(error),
   });
   const { mutate: onEdit } = useMutation({
-    mutationFn: ({ id, name }: _UpdateTaskListParams) =>
-      _updateTaskList({ id, name }),
+    mutationFn: (params: _UpdateTaskListParams) => _updateTaskList(params),
     onSuccess: () => reload(),
     onError: (error) => alert(error),
   });
   const { mutate: onDelete } = useMutation({
-    mutationFn: (id: number) => _deleteTaskList(id),
+    mutationFn: (params: _DeleteTaskListParams) => _deleteTaskList(params),
     onSuccess: () => reload(),
     onError: (error) => alert(error),
   });
 
-  const _createTaskList = ({ name }: _CreateTaskListParams) => {
+  const _createTaskList = (params: _CreateTaskListParams) => {
     if (!group) throw new Error('목록을 생성할 팀이 없습니다');
-    return createTaskList({ groupId: group.id, name });
+    return createTaskList({ groupId: group.id, ...params });
   };
 
-  const _updateTaskList = ({ id, name }: _UpdateTaskListParams) => {
+  const _updateTaskList = (params: _UpdateTaskListParams) => {
     if (!group) throw new Error('수정할 목록의 팀이 없습니다');
-    return updateTaskList({ groupId: group.id, id, name });
+    return updateTaskList({ groupId: group.id, ...params });
   };
 
-  const _deleteTaskList = (taskListId: number) => {
+  const _deleteTaskList = (params: _DeleteTaskListParams) => {
     if (!group) throw new Error('삭제할 목록의 팀이 없습니다');
-    return deleteTaskList({ groupId: group.id, id: taskListId });
+    return deleteTaskList({ groupId: group.id, ...params });
   };
 
   if (!group) return null;

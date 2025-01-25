@@ -2,7 +2,7 @@ import { ITaskListSummary } from '@/types/group.type';
 import KebabDropDown from '@/components/KebabDropDown';
 
 import { PointColorType } from './GroupTaskListWrapper';
-import { _UpdateTaskListParams } from './page';
+import { _DeleteTaskListParams, _UpdateTaskListParams } from './page';
 
 type IPointColorClasses = {
   [key in PointColorType]: string;
@@ -21,8 +21,8 @@ const POINT_COLOR_CLASSES: IPointColorClasses = {
 interface GroupTaskListProps {
   taskList: ITaskListSummary;
   pointColor: PointColorType;
-  onEdit: ({ id, name }: _UpdateTaskListParams) => void;
-  onDelete: (name: string, id: number) => void;
+  onEdit: (params: _UpdateTaskListParams) => void;
+  onDelete: (params: _DeleteTaskListParams) => void;
 }
 
 export default function GroupTaskList({
@@ -37,7 +37,8 @@ export default function GroupTaskList({
   };
 
   const handleClickDelete = () => {
-    onDelete(taskList.name, taskList.id);
+    const flag = confirm(`${taskList.name}을(를) 삭제 하시겠습니다?`);
+    if (flag) onDelete({ id: taskList.id });
   };
 
   return (
