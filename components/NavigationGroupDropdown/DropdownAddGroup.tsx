@@ -1,6 +1,6 @@
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
-import IconPlus from '@/public/images/icon-plus.svg';
+import Plus from '@/public/images/icon-plus.svg';
 
 /**
  * 그룹 추가 버튼
@@ -10,7 +10,7 @@ export default function DropdownAddGroup() {
   return (
     <DropdownMenuItem asChild>
       <Button className="mt-pr-16 w-full rounded-lg border border-slate-50 bg-inherit">
-        <IconPlus className="text-t-primary" />
+        <Plus width={17} height={17} stroke="#F8FAFC" />
         <span className="text-t-primary">팀 추가하기</span>
       </Button>
     </DropdownMenuItem>
