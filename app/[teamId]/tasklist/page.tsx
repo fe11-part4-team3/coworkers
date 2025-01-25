@@ -60,7 +60,7 @@ export default function TaskListPage() {
           <h1 className="text-20b">할 일</h1>
           <div className="mt-pr-24 flex items-center gap-pr-12">
             <span className="text-16m">{formattedDate}</span>
-            <div className="flex items-center gap-pr-4">
+            <div className="flex items-center gap-pr-4 text-b-secondary">
               <PrevButtonIcon
                 className="cursor-pointer"
                 onClick={handlePrevDate}

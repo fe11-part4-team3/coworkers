@@ -4,8 +4,7 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import CloseIcon from '@/public/images/icon-close.svg';
 import useModalStore from '@/stores/modalStore';
 import ArticleDetailComment from '@/components/Comment/Comment';
-import { ITaskComment } from '@/types/comment.type';
-import { ITask } from '@/types/task.type';
+import { TaskDetailProps } from '@/types/task.type';
 import KebabDropDown from '@/components/KebabDropDown';
 import CommentTextarea from '@/components/CommentTextarea/CommentTextarea';
 import IconLabel from '@/components/IconLabel';
@@ -35,16 +34,7 @@ export default function TaskDetail({
   postComment,
   deleteComment,
   updateComment,
-}: {
-  value: ITask;
-  commentData?: ITaskComment[];
-  deleteTask: (id: number) => void;
-  updateTask: (id: number) => void;
-  updateTaskStatus: (id: number) => void;
-  postComment: () => void;
-  deleteComment: (id: number) => void;
-  updateComment: (id: number) => void;
-}) {
+}: TaskDetailProps) {
   const { isOpen, closeModal } = useModalStore();
   const [comment, setComment] = useState<string>('');
 

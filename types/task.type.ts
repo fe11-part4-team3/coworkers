@@ -1,4 +1,5 @@
 import { IUserProfile } from './user.type';
+import { ITaskComment } from './comment.type';
 
 type FrequencyType = 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'ONCE';
 
@@ -102,6 +103,17 @@ interface DeleteRecurringParams {
   recurringId: number;
 }
 
+interface TaskDetailProps {
+  value: ITask;
+  commentData?: ITaskComment[];
+  deleteTask: (id: number) => void;
+  updateTask: (id: number) => void;
+  updateTaskStatus: (id: number) => void;
+  postComment: () => void;
+  deleteComment: (id: number) => void;
+  updateComment: (id: number) => void;
+}
+
 export type {
   FrequencyType,
   ITaskMetadata,
@@ -118,4 +130,5 @@ export type {
   DeleteTaskParams,
   OrderTaskParams,
   DeleteRecurringParams,
+  TaskDetailProps,
 };
