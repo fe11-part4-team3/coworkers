@@ -59,7 +59,7 @@ function LoginPage() {
   const [isForgotPassword, setIsForgotPassword] = useState(false);
 
   // 비밀번호 찾기 폼
-  const { formData: createResetUrl, handleChange: handleEailChange } =
+  const { formData: createResetUrl, handleInputChange: handleEailChange } =
     useForm<ResetPasswordEmailParams>({
       email: '',
       redirectUrl: 'http://localhost:3000',
