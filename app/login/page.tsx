@@ -2,12 +2,17 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useMutation } from '@tanstack/react-query';
 
 import { signIn } from '@/service/auth.api';
 import useForm from '@/hooks/useForm';
 import Container from '@/components/layout/Container';
 import { Button } from '@/components/ui/button';
 import useUser from '@/hooks/useUser';
+import InputField from '@/components/InputField/InputField';
+import Buttons from '@/components/Buttons';
+import { resetPasswordEmail } from '@/service/user.api';
+import { ResetPasswordEmailParams } from '@/types/user.type';
 
 function LoginPage() {
   const { formData, handleInputChange } = useForm({
@@ -50,6 +55,26 @@ function LoginPage() {
     }
   }, [user, route, isAuthenticated]);
 
+  // 비밀번호 찾기 클릭 상태
+  const [isForgotPassword, setIsForgotPassword] = useState(false);
+
+  // 비밀번호 찾기 폼
+  const { formData: createResetUrl, handleChange: handleEailChange } =
+    useForm<ResetPasswordEmailParams>({
+      email: '',
+      redirectUrl: 'http://localhost:3000',
+    });
+
+  // 비밀번호 찾기 요청
+  const { mutate: resetPasswordMutate, isPending } = useMutation({
+    mutationFn: resetPasswordEmail,
+    onSuccess: (message) => {
+      alert(message);
+      setIsForgotPassword(false);
+    },
+    onError: (error) => console.error('비밀번호 재설정 실패:', error),
+  });
+
   // 로그인 상태가 아닐 때
   return (
     <Container>
@@ -80,7 +105,39 @@ function LoginPage() {
           </label>
         </div>
         {error && <p style={{ color: 'red' }}>{error}</p>}
+
         <Button type="submit">로그인</Button>
+
+        {/* 비밀번호 찾기 모달 오픈 버튼 */}
+        <button
+          className="text-16m text-brand-primary underline"
+          onClick={() => setIsForgotPassword(true)}
+        >
+          비밀번호를 잊으셨나요?
+        </button>
+
+        {/* TODO 임의 비밀번호 재설정 모달 */}
+        {isForgotPassword && (
+          <div>
+            <h2>비밀번호 재설정</h2>
+            <p>비밀번호 재설정 링크를 보내드립니다.</p>
+            <InputField
+              label="이메일"
+              type="email"
+              name="email"
+              value={createResetUrl.email}
+              onChange={handleEailChange}
+              placeholder="이메일을 입력하세요"
+            />
+            <Buttons
+              text="링크 보내기"
+              bg="default"
+              size="XL"
+              onClick={() => resetPasswordMutate(createResetUrl)}
+              disabled={isPending}
+            />
+          </div>
+        )}
       </form>
     </Container>
   );

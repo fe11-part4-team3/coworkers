@@ -1,22 +1,21 @@
 export interface InputFieldBaseProps {
-  value: string;
-  placeholder: string;
-  disabled?: boolean;
   label?: string;
   essential?: boolean;
-  name: string;
 }
 
-export interface InputFieldProps extends InputFieldBaseProps {
+export interface InputFieldProps
+  extends InputFieldBaseProps,
+    React.InputHTMLAttributes<HTMLInputElement> {
   type?: 'text' | 'password' | 'email';
-  label?: string;
   errorMessage?: string;
   width?: string;
   onClickButton?: () => void;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export interface TextareaFieldProps extends InputFieldBaseProps {
+export interface TextareaFieldProps
+  extends InputFieldBaseProps,
+    React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   size?: 'md' | 'lg';
   height?: string;
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
