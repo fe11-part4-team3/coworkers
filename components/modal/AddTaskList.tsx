@@ -42,24 +42,22 @@ export default function AddTaskList({
   return (
     <>
       <CloseButton />
-      <div className="w-full">
-        <div className="text-center">
-          <h2 className="text-18 text-t-primary">할 일 목록</h2>
-        </div>
-        <form className="mt-pr-16" onSubmit={handleOnClick}>
-          <InputField
-            value={value[0]}
-            placeholder="목록 명을 입력해주세요."
-            name="task-list-title"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              updateInputValue(0, 'title', e.target.value)
-            }
-          />
-          <div className="mt-pr-24">
-            <Buttons text="만들기" size="XL" onClick={() => {}} type="submit" />
-          </div>
-        </form>
+      <div className="modal-title-wrapper">
+        <h2 className="modal-title">할 일 목록</h2>
       </div>
+      <form onSubmit={handleOnClick}>
+        <InputField
+          value={value[0]}
+          placeholder="목록 명을 입력해주세요."
+          name="task-list-title"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            updateInputValue(0, 'title', e.target.value)
+          }
+        />
+        <div className="modal-button-wrapper">
+          <Buttons text="만들기" size="XL" onClick={() => {}} type="submit" />
+        </div>
+      </form>
     </>
   );
 }

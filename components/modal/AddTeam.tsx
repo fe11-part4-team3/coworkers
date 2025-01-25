@@ -42,29 +42,22 @@ export default function AddTeam({
   return (
     <>
       <CloseButton />
-      <div className="w-full">
-        <div className="text-center">
-          <h2 className="text-18 text-t-primary">팀 이름</h2>
-        </div>
-        <form className="mt-pr-16" onSubmit={handleOnClick}>
-          <InputField
-            value={value[0]}
-            placeholder="팀 이름을 입력해주세요."
-            name="team-name"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              updateInputValue(0, 'name', e.target.value)
-            }
-          />
-          <div className="mt-pr-24">
-            <Buttons
-              text="추가하기"
-              size="XL"
-              onClick={() => {}}
-              type="submit"
-            />
-          </div>
-        </form>
+      <div className="modal-title-wrapper">
+        <h2 className="modal-title">팀 이름</h2>
       </div>
+      <form onSubmit={handleOnClick}>
+        <InputField
+          value={value[0]}
+          placeholder="팀 이름을 입력해주세요."
+          name="team-name"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            updateInputValue(0, 'name', e.target.value)
+          }
+        />
+        <div className="modal-button-wrapper">
+          <Buttons text="추가하기" size="XL" onClick={() => {}} type="submit" />
+        </div>
+      </form>
     </>
   );
 }

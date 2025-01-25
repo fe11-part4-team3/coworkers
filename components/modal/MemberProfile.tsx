@@ -36,28 +36,26 @@ export default function MemberProfile({
 
   return (
     <>
-      <div className="w-full">
-        <CloseIcon
-          width={20}
-          height={20}
-          className="absolute right-pr-16 top-pr-16 cursor-pointer"
-          onClick={closeModal}
+      <CloseIcon
+        width={20}
+        height={20}
+        className="absolute right-pr-16 top-pr-16 cursor-pointer"
+        onClick={closeModal}
+      />
+      <div className="relative mx-auto mb-pr-24 size-pr-52 overflow-hidden rounded-full">
+        <Image
+          fill
+          src={image || '/images/icon-profile-member.svg'}
+          alt="멤버 이미지"
+          objectFit="cover"
+          sizes="52px"
         />
-        <div className="mb-pr-24 text-center">
-          <div className="relative mx-auto mb-pr-24 size-pr-52 overflow-hidden rounded-full">
-            <Image
-              fill
-              src={image || '/images/icon-profile-member.svg'}
-              alt="멤버 이미지"
-              objectFit="cover"
-              sizes="52px"
-            />
-          </div>
-          <h2 className="mb-pr-8 text-18 text-t-primary">{name}</h2>
-          <p className="text-14 text-t-secondary">{email}</p>
-        </div>
       </div>
-      <Buttons text="이메일 복사하기" size="XL" onClick={handleOnClick} />
+      <h2 className="mb-pr-8 text-center text-14m text-t-primary">{name}</h2>
+      <p className="text-center text-12 text-t-secondary">{email}</p>
+      <div className="modal-button-wrapper">
+        <Buttons text="이메일 복사하기" size="XL" onClick={handleOnClick} />
+      </div>
     </>
   );
 }

@@ -48,15 +48,16 @@ export default function AddTask({
   return (
     <>
       <CloseButton />
-      <div className="text-center">
-        <h2 className="modal-title">새로운 목록 추가</h2>
+      <div className="modal-title-wrapper">
+        <h2 className="modal-title">할 일 만들기</h2>
         <p className="modal-subTitle">
-          할 일에 대한 목록을 추가하고 <br />
-          목록별 할 일을 만들 수 있습니다.
+          할 일은 실제로 행동 가능한 작업 중심으로
+          <br />
+          작성해주시면 좋습니다.
         </p>
       </div>
       <form
-        className="mt-pr-24 flex w-full flex-col gap-pr-24"
+        className="mt-pr-18 flex w-full flex-col gap-pr-24"
         onSubmit={handleOnClick}
       >
         <InputField
@@ -95,7 +96,7 @@ export default function AddTask({
             updateInputValue(2, 'description', e.target.value)
           }
         />
-        <div className="mt-pr-8">
+        <div className="modal-button-wrapper">
           <Buttons text="만들기" size="XL" rounded={false} type="submit" />
         </div>
       </form>

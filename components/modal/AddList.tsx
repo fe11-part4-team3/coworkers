@@ -42,29 +42,27 @@ export default function AddList({
   return (
     <>
       <CloseButton />
-      <div className="w-full">
-        <div className="text-center">
-          <h2 className="mb-pr-8 text-18 text-t-primary">새로운 목록 추가</h2>
-          <p className="text-14 text-t-secondary">
-            할 일에 대한 목록을 추가하고 <br />
-            목록별 할 일을 만들 수 있습니다.
-          </p>
-        </div>
-        <form className="mt-pr-16" onSubmit={handleOnClick}>
-          <InputField
-            value={value[0]}
-            placeholder="목록 이름을 입력해주세요."
-            label="목록 이름"
-            name="list-name"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              updateInputValue(0, 'name', e.target.value)
-            }
-          />
-          <div className="mt-pr-24">
-            <Buttons text="만들기" size="XL" onClick={() => {}} type="submit" />
-          </div>
-        </form>
+      <div className="modal-title-wrapper">
+        <h2 className="modal-title">새로운 목록 추가</h2>
+        <p className="modal-subTitle">
+          할 일에 대한 목록을 추가하고 <br />
+          목록별 할 일을 만들 수 있습니다.
+        </p>
       </div>
+      <form onSubmit={handleOnClick}>
+        <InputField
+          value={value[0]}
+          placeholder="목록 이름을 입력해주세요."
+          label="목록 이름"
+          name="list-name"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            updateInputValue(0, 'name', e.target.value)
+          }
+        />
+        <div className="modal-button-wrapper">
+          <Buttons text="만들기" size="XL" onClick={() => {}} type="submit" />
+        </div>
+      </form>
     </>
   );
 }

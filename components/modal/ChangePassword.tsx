@@ -44,50 +44,42 @@ export default function ChangePassword({
 
   return (
     <>
-      <CloseButton />
-      <div className="w-full">
-        <div className="text-center">
-          <h2 className="mb-pr-8 text-18 text-t-primary">비밀번호 변경하기</h2>
-        </div>
-        <form className="mt-pr-16" onSubmit={handleOnClick}>
-          <div className="flex flex-col gap-pr-16">
-            <InputField
-              value={value[0]}
-              placeholder="새 비밀번호를 입력해주세요."
-              label="새 비밀번호"
-              name="new-password"
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                updateInputValue(0, 'password', e.target.value)
-              }
-            />
-            <InputField
-              value={value[1]}
-              placeholder="새 비밀번호를 다시 한 번 입력해주세요."
-              label="새 비밀번호 확인"
-              name="ckeck-new-password"
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                updateInputValue(1, 'checkPassword', e.target.value)
-              }
-            />
-          </div>
-
-          <div className="mt-pr-24 flex items-center justify-between gap-pr-8">
-            <Buttons
-              text="닫기"
-              size="XL"
-              onClick={closeModal}
-              variant="outline"
-              bg="white"
-            />
-            <Buttons
-              text="변경하기"
-              size="XL"
-              onClick={() => {}}
-              type="submit"
-            />
-          </div>
-        </form>
+      <div className="modal-title-wrapper">
+        <h2 className="modal-title">비밀번호 변경하기</h2>
       </div>
+      <form className="w-full" onSubmit={handleOnClick}>
+        <div className="flex flex-col gap-pr-16">
+          <InputField
+            value={value[0]}
+            placeholder="새 비밀번호를 입력해주세요."
+            label="새 비밀번호"
+            name="new-password"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              updateInputValue(0, 'password', e.target.value)
+            }
+          />
+          <InputField
+            value={value[1]}
+            placeholder="새 비밀번호를 다시 한 번 입력해주세요."
+            label="새 비밀번호 확인"
+            name="ckeck-new-password"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              updateInputValue(1, 'checkPassword', e.target.value)
+            }
+          />
+        </div>
+
+        <div className="modal-button-wrapper">
+          <Buttons
+            text="닫기"
+            size="XL"
+            onClick={closeModal}
+            variant="outline"
+            bg="white"
+          />
+          <Buttons text="변경하기" size="XL" onClick={() => {}} type="submit" />
+        </div>
+      </form>
     </>
   );
 }

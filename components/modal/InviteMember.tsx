@@ -22,15 +22,15 @@ export default function InviteMember({ onClick }: { onClick: () => void }) {
   return (
     <>
       <CloseButton />
-      <div className="w-full">
-        <div className="mb-pr-40 text-center">
-          <h2 className="mb-pr-8 text-18 text-t-primary">멤버 초대</h2>
-          <p className="text-14 text-t-secondary">
-            그룹에 참여할 수 있는 링크를 복사합니다.
-          </p>
-        </div>
+      <div className="modal-title-wrapper">
+        <h2 className="modal-title">멤버 초대</h2>
+        <p className="modal-subTitle">
+          그룹에 참여할 수 있는 링크를 복사합니다.
+        </p>
       </div>
-      <Buttons text="링크 복사하기" size="XL" onClick={handleOnClick} />
+      <div className="modal-button-wrapper">
+        <Buttons text="링크 복사하기" size="XL" onClick={handleOnClick} />
+      </div>
     </>
   );
 }

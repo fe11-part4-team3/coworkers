@@ -30,25 +30,23 @@ export default function Logout({
 
   return (
     <>
-      <div className="w-full">
-        <div className="mb-pr-24 text-center">
-          <h2 className="text-18 text-t-primary">로그아웃 하시겠어요?</h2>
-        </div>
-        <div className="flex items-center justify-between gap-pr-8">
-          <Buttons
-            text="닫기"
-            size="XL"
-            onClick={closeModal}
-            variant="secondary"
-            bg="white"
-          />
-          <Buttons
-            text="로그아웃"
-            size="XL"
-            onClick={handleOnClick}
-            variant="destructive"
-          />
-        </div>
+      <div className="modal-title-wrapper">
+        <h2 className="modal-title">로그아웃 하시겠어요?</h2>
+      </div>
+      <div className="modal-button-wrapper">
+        <Buttons
+          text="닫기"
+          size="XL"
+          onClick={closeModal}
+          variant="secondary"
+          bg="white"
+        />
+        <Buttons
+          text="로그아웃"
+          size="XL"
+          onClick={handleOnClick}
+          variant="destructive"
+        />
       </div>
     </>
   );

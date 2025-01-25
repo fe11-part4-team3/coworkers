@@ -34,31 +34,27 @@ export default function DeleteTask({
 
   return (
     <>
-      <div className="w-full">
-        <DangerIcon width={24} height={24} className="mx-auto mb-pr-16" />
-        <div className="mb-pr-24 text-center">
-          <h2 className="mb-pr-8 text-18 text-t-primary">
-            &apos;{title}&apos; <br />할 일을 정말 삭제하시겠어요?
-          </h2>
-          <p className="text-14 text-t-secondary">
-            삭제 후에는 되돌릴 수 없습니다.
-          </p>
-        </div>
-        <div className="flex items-center justify-between gap-pr-8">
-          <Buttons
-            text="닫기"
-            size="XL"
-            onClick={closeModal}
-            variant="secondary"
-            bg="white"
-          />
-          <Buttons
-            text="삭제하기"
-            size="XL"
-            onClick={handleOnClick}
-            variant="destructive"
-          />
-        </div>
+      <DangerIcon width={24} height={24} className="mx-auto mb-pr-16" />
+      <div className="modal-title-wrapper">
+        <h2 className="modal-title">
+          &apos;{title}&apos; <br />할 일을 정말 삭제하시겠어요?
+        </h2>
+        <p className="modal-subTitle">삭제 후에는 되돌릴 수 없습니다.</p>
+      </div>
+      <div className="modal-button-wrapper">
+        <Buttons
+          text="닫기"
+          size="XL"
+          onClick={closeModal}
+          variant="secondary"
+          bg="white"
+        />
+        <Buttons
+          text="삭제하기"
+          size="XL"
+          onClick={handleOnClick}
+          variant="destructive"
+        />
       </div>
     </>
   );
