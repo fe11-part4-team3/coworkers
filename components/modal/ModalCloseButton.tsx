@@ -1,4 +1,5 @@
 import Image from 'next/image';
+
 import useModalStore from '@/stores/modalStore';
 
 export default function CloseButton({

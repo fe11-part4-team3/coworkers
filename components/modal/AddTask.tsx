@@ -2,11 +2,9 @@ import { useState } from 'react';
 
 import SelectBox from '@/components/SelectBox';
 import Buttons from '@/components/Buttons';
-
 import CloseButton from '@/components/modal/ModalCloseButton';
 import useModalForm from '@/hooks/useModalForm';
 import { SelectOption } from '@/types/selectBox.type';
-
 import TextareaField from '@/components/InputField/TextareaField';
 import InputField from '@/components/InputField/InputField';
 
