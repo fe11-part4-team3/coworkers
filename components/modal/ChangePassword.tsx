@@ -2,7 +2,7 @@
 
 import useModalStore from '@/stores/modalStore';
 import Buttons from '@/components/Buttons';
-import ModalBase from '@/components/modal/ModalBase';
+import CloseButton from '@/components/modal/ModalCloseButton';
 import useModalForm from '@/hooks/useModalForm';
 import InputField from '@/components/InputField/InputField';
 
@@ -14,13 +14,13 @@ import InputField from '@/components/InputField/InputField';
  */
 
 export default function ChangePassword({
-  onClick,
+  onClick: fetchData,
 }: {
-  onClick: (body: object) => void;
+  onClick: (bodyData: object) => void;
 }) {
   const { closeModal } = useModalStore();
   const { value, handleOnClick, updateInputValue } = useModalForm({
-    onClick,
+    onClick: fetchData,
     closeModal,
     initialLength: 2,
   });
@@ -45,53 +45,50 @@ export default function ChangePassword({
 
   return (
     <>
-      <ModalBase className="px-pr-52 pt-pr-48">
-        <div className="w-full">
-          <div className="text-center">
-            <h2 className="mb-pr-8 text-18 text-t-primary">
-              비밀번호 변경하기
-            </h2>
-          </div>
-          <form className="mt-pr-16" onSubmit={handleOnClick}>
-            <div className="flex flex-col gap-pr-16">
-              <InputField
-                value={value[0]}
-                placeholder="새 비밀번호를 입력해주세요."
-                label="새 비밀번호"
-                name="new-password"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  updateInputValue(0, 'password', e.target.value)
-                }
-              />
-              <InputField
-                value={value[1]}
-                placeholder="새 비밀번호를 다시 한 번 입력해주세요."
-                label="새 비밀번호 확인"
-                name="ckeck-new-password"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  updateInputValue(1, 'checkPassword', e.target.value)
-                }
-              />
-            </div>
-
-            <div className="mt-pr-24 flex items-center justify-between gap-pr-8">
-              <Buttons
-                text="닫기"
-                size="XL"
-                onClick={closeModal}
-                variant="outline"
-                bg="white"
-              />
-              <Buttons
-                text="변경하기"
-                size="XL"
-                onClick={() => {}}
-                type="submit"
-              />
-            </div>
-          </form>
+      <CloseButton />
+      <div className="w-full">
+        <div className="text-center">
+          <h2 className="mb-pr-8 text-18 text-t-primary">비밀번호 변경하기</h2>
         </div>
-      </ModalBase>
+        <form className="mt-pr-16" onSubmit={handleOnClick}>
+          <div className="flex flex-col gap-pr-16">
+            <InputField
+              value={value[0]}
+              placeholder="새 비밀번호를 입력해주세요."
+              label="새 비밀번호"
+              name="new-password"
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                updateInputValue(0, 'password', e.target.value)
+              }
+            />
+            <InputField
+              value={value[1]}
+              placeholder="새 비밀번호를 다시 한 번 입력해주세요."
+              label="새 비밀번호 확인"
+              name="ckeck-new-password"
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                updateInputValue(1, 'checkPassword', e.target.value)
+              }
+            />
+          </div>
+
+          <div className="mt-pr-24 flex items-center justify-between gap-pr-8">
+            <Buttons
+              text="닫기"
+              size="XL"
+              onClick={closeModal}
+              variant="outline"
+              bg="white"
+            />
+            <Buttons
+              text="변경하기"
+              size="XL"
+              onClick={() => {}}
+              type="submit"
+            />
+          </div>
+        </form>
+      </div>
     </>
   );
 }

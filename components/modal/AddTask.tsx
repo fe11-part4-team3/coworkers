@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import { useState } from 'react';
 
 import SelectBox from '@/components/SelectBox';
 import Buttons from '@/components/Buttons';
 
-// import CloseButton from './ModalCloseButton';
+import CloseButton from '@/components/modal/ModalCloseButton';
 import useModalStore from '@/stores/modalStore';
 import useModalForm from '@/hooks/useModalForm';
 import { SelectOption } from '@/types/selectBox.type';
@@ -36,7 +36,7 @@ export default function AddTask({
 }: {
   onClick: (bodyData: object) => void;
 }) {
-  const [frequencyOptions] = React.useState<SelectOption[]>([
+  const [frequencyOptions] = useState<SelectOption[]>([
     { label: '한 번', value: 'ONCE' },
     { label: '매일', value: 'DAILY' },
     { label: '주 반복', value: 'WEEKLY' },
@@ -51,17 +51,9 @@ export default function AddTask({
     initialLength: 3,
   });
 
-  // 반복 설정이 없을 경우, 한 번을 기본값으로 설정
-  useEffect(() => {
-    if (!value[1] && frequencyOptions.length > 0) {
-      updateInputValue(1, 'repeatType', frequencyOptions[0].value);
-    }
-  }, [value, frequencyOptions, updateInputValue]);
-
   return (
     <>
-      {/* NOTE 버튼이 필요한 컴포넌트에서 아래와 같이 사용 */}
-      {/* <CloseButton onClick={closeModal} /> */}
+      <CloseButton />
       <div className="text-center">
         <h2 className="modal-title">새로운 목록 추가</h2>
         <p className="modal-subTitle">
@@ -93,8 +85,8 @@ export default function AddTask({
             options={frequencyOptions}
             width="w-pr-110"
             bgType="modal"
-            placeholder="반복 안함"
-            defaultValue={value[1] || ''}
+            placeholder="선택"
+            defaultValue={value[1]}
             onValueChange={(selectedValue: string) => {
               updateInputValue(1, 'repeatType', selectedValue);
             }}

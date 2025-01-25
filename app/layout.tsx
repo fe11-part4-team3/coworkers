@@ -36,7 +36,6 @@ export default function RootLayout({
               <SidebarProvider defaultOpen={false}>
                 <Headers />
                 <DarkmodeToggle />
-                <Modal />
                 {children}
               </SidebarProvider>
               <ReactQueryDevtools initialIsOpen={false} />

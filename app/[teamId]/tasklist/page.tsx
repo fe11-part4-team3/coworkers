@@ -12,9 +12,10 @@ import ResetPassword from '@/components/modal/ResetPassword';
 // import AddTask from '@/components/modal/AddTask';
 // import AddList from '@/components/modal/AddList';
 import useModalStore from '@/stores/modalStore';
+import Modal from '@/components/modal/Modal';
 
 export default function TaskListPage() {
-  const { openModal } = useModalStore();
+  const { isOpen, openModal } = useModalStore();
 
   const fetchData = async (body: object) => {
     console.log('fetchData', body);
@@ -23,9 +24,12 @@ export default function TaskListPage() {
   return (
     <>
       <div className="flex h-screen w-full items-center justify-center">
-        {/* REVIEW 리팩토링 후 에러 발생하여, 주석처리함 */}
-        {/* <button onClick={openModal}>팝업</button> */}
-        <ResetPassword onClick={fetchData} />
+        <button
+          onClick={() => openModal(<ResetPassword onClick={fetchData} />)}
+        >
+          팝업
+        </button>
+        {isOpen && <Modal closeOutsideClick={false} />}
       </div>
     </>
   );

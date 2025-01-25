@@ -1,8 +1,7 @@
 'use client';
 
 import useModalStore from '@/stores/modalStore';
-import CloseIcon from '@/public/images/icon-close.svg';
-import ModalBase from '@/components/modal/ModalBase';
+import CloseButton from '@/components/modal/ModalCloseButton';
 import Buttons from '@/components/Buttons';
 
 /**
@@ -22,23 +21,16 @@ export default function InviteMember({ onClick }: { onClick: () => void }) {
 
   return (
     <>
-      <ModalBase className="px-pr-52 pt-pr-48">
-        <div className="w-full">
-          <CloseIcon
-            width={20}
-            height={20}
-            className="absolute right-pr-16 top-pr-16 cursor-pointer"
-            onClick={closeModal}
-          />
-          <div className="mb-pr-40 text-center">
-            <h2 className="mb-pr-8 text-18 text-t-primary">멤버 초대</h2>
-            <p className="text-14 text-t-secondary">
-              그룹에 참여할 수 있는 링크를 복사합니다.
-            </p>
-          </div>
+      <CloseButton />
+      <div className="w-full">
+        <div className="mb-pr-40 text-center">
+          <h2 className="mb-pr-8 text-18 text-t-primary">멤버 초대</h2>
+          <p className="text-14 text-t-secondary">
+            그룹에 참여할 수 있는 링크를 복사합니다.
+          </p>
         </div>
-        <Buttons text="링크 복사하기" size="XL" onClick={handleOnClick} />
-      </ModalBase>
+      </div>
+      <Buttons text="링크 복사하기" size="XL" onClick={handleOnClick} />
     </>
   );
 }

@@ -5,7 +5,6 @@ import Image from 'next/image';
 import useModalStore from '@/stores/modalStore';
 import Buttons from '@/components/Buttons';
 import CloseIcon from '@/public/images/icon-close.svg';
-import ModalBase from '@/components/modal/ModalBase';
 
 /**
  * 멤버 프로필 모달 컴포넌트.
@@ -37,30 +36,28 @@ export default function MemberProfile({
 
   return (
     <>
-      <ModalBase className="px-pr-32 pt-pr-48">
-        <div className="w-full">
-          <CloseIcon
-            width={20}
-            height={20}
-            className="absolute right-pr-16 top-pr-16 cursor-pointer"
-            onClick={closeModal}
-          />
-          <div className="mb-pr-24 text-center">
-            <div className="relative mx-auto mb-pr-24 size-pr-52 overflow-hidden rounded-full">
-              <Image
-                fill
-                src={image || '/images/icon-profile-member.svg'}
-                alt="멤버 이미지"
-                objectFit="cover"
-                sizes="52px"
-              />
-            </div>
-            <h2 className="mb-pr-8 text-18 text-t-primary">{name}</h2>
-            <p className="text-14 text-t-secondary">{email}</p>
+      <div className="w-full">
+        <CloseIcon
+          width={20}
+          height={20}
+          className="absolute right-pr-16 top-pr-16 cursor-pointer"
+          onClick={closeModal}
+        />
+        <div className="mb-pr-24 text-center">
+          <div className="relative mx-auto mb-pr-24 size-pr-52 overflow-hidden rounded-full">
+            <Image
+              fill
+              src={image || '/images/icon-profile-member.svg'}
+              alt="멤버 이미지"
+              objectFit="cover"
+              sizes="52px"
+            />
           </div>
+          <h2 className="mb-pr-8 text-18 text-t-primary">{name}</h2>
+          <p className="text-14 text-t-secondary">{email}</p>
         </div>
-        <Buttons text="이메일 복사하기" size="XL" onClick={handleOnClick} />
-      </ModalBase>
+      </div>
+      <Buttons text="이메일 복사하기" size="XL" onClick={handleOnClick} />
     </>
   );
 }
