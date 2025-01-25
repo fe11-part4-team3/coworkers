@@ -1,24 +1,99 @@
 'use client';
 
-import Container from '@/components/layout/Container';
+import { useCallback, useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useMutation } from '@tanstack/react-query';
+
+import { deleteUser, updateUser } from '@/service/user.api';
+import updatePayloadSubmit from '@/utils/updatePayload';
+import useUser from '@/hooks/useUser';
+import useForm from '@/hooks/useForm';
+import Buttons from '@/components/Buttons';
 import { Button } from '@/components/ui/button';
 import Profile from '@/components/Profile/Profile';
+import Container from '@/components/layout/Container';
 import InputField from '@/components/InputField/InputField';
-import Buttons from '@/components/Buttons';
-import { useUserLogic } from '@/hooks/useUserLogic';
+
+interface initialValues {
+  image: string | File;
+  nickname: string;
+}
 
 export default function MyPage() {
+  const { user, isPending: isUserLoading } = useUser(true);
+  const route = useRouter();
+
+  // STUB 유저 정보 초기값
+  const initialValues = {
+    image: user?.image || '',
+    nickname: user?.nickname || '',
+  };
+
+  // STUB 유저 수정 폼 상태
   const {
-    user,
-    isUserLoading,
-    isUpdateUserPending,
     formData,
     changedFields,
     handleInputChange,
     handleFileChange,
-    handleSubmit,
-    handleUserDelete,
-  } = useUserLogic();
+    errorMessage,
+    initialValues: initialUserValues,
+    resetForm,
+  } = useForm<initialValues>(initialValues);
+
+  // STUB 유효성 검사에 따라 버튼 활성화 여부 상태
+  const [updateValidation, setUpdateValidation] = useState<boolean>(false);
+
+  // STUB 초기값을 이용한 변경사항 검사
+  useEffect(() => {
+    // 닉네임 에러메세지 노출 여부
+    const isNicknameValid = !errorMessage.nickname;
+    // 이미지 변경 여부
+    const hasImageChanged = !!changedFields.image;
+    // 닉네임이 변경되고, 초기값과 같지 않을때
+    const hasNicknameChanged =
+      !!changedFields.nickname &&
+      formData.nickname !== initialUserValues.nickname;
+
+    // 최종 유효성 검사에 따른 버튼 활성화 상태 담기
+    setUpdateValidation(
+      isNicknameValid && (hasImageChanged || hasNicknameChanged),
+    );
+  }, [errorMessage, changedFields, formData, initialUserValues]);
+
+  // STUB 사용자 정보 수정 api 호출
+  const { mutate: updateUserMutate, isPending: isUpdateUserPending } =
+    useMutation({
+      mutationFn: updateUser,
+      onSuccess: () => alert('사용자 정보 수정에 성공했습니다.'),
+      onError: () => alert('사용자 정보 수정에 실패했습니다.'),
+      onSettled: () => resetForm(),
+    });
+
+  // STUB 회원 탈퇴 api 호출
+  const { mutate: deleteUserMutate } = useMutation({
+    mutationFn: deleteUser,
+    onSuccess: () => {
+      alert('회원탈퇴가 완료되었습니다.');
+      route.push('/');
+    },
+    onError: () => alert('회원탈퇴에 실패했습니다.'),
+  });
+
+  // STUB 회원탈퇴 버튼 클릭 시
+  const handleSubmitUserDelete = async () => {
+    const confirm = window.confirm('정말로 회원탈퇴를 진행하시겠습니까?');
+    if (!confirm) return;
+    deleteUserMutate();
+  };
+
+  // STUB 수정 버튼 클릭 시
+  const handleSubmit = useCallback(async () => {
+    await updatePayloadSubmit({
+      changedFields: changedFields as Record<string, boolean>,
+      formData,
+      mutate: updateUserMutate,
+    });
+  }, [changedFields, formData, updateUserMutate]);
 
   if (isUserLoading && !user) {
     return <div>사용자 정보를 불러오는 중입니다...</div>;
@@ -27,6 +102,12 @@ export default function MyPage() {
   if (!user) {
     return <div>로그인 상태가 아닙니다.</div>;
   }
+
+  // 프로필 이미지 또는 닉네임의 변경사항이 있을 경우 해당 버튼 노출
+  // const updateValidation =
+  //   (changedFields.image || changedFields.nickname) &&
+  //   (formData.nickname !== initialValues.nickname || changedFields.image) &&
+  //   !errorMessage.nickname;
 
   /*   TODO mypage 비밀번호 변경 기능 해야함 - 모달에서 진행
   - 비밀번호 변경 버튼 클릭 시 기능
@@ -78,6 +159,7 @@ export default function MyPage() {
         onChange={(e) => {
           handleInputChange(e);
         }}
+        errorMessage={errorMessage.nickname}
         label="이름"
       />
 
@@ -104,12 +186,12 @@ export default function MyPage() {
 
       {/* 회원탈퇴, 저장하기 버튼 */}
       <div className="flex gap-pr-10">
-        <Button type="button" onClick={handleUserDelete}>
+        <Button type="button" onClick={handleSubmitUserDelete}>
           회원탈퇴
         </Button>
 
         {/* 프로필 이미지 또는 닉네임의 변경사항이 있을 경우 해당 버튼 노출 */}
-        {(changedFields.image || changedFields.nickname) && (
+        {updateValidation && (
           <Buttons
             type="submit"
             text="저장하기"
@@ -117,7 +199,7 @@ export default function MyPage() {
             size="S"
             width="w-pr-100"
             onClick={handleSubmit}
-            disabled={isUpdateUserPending}
+            disabled={!updateValidation || isUpdateUserPending}
           />
         )}
       </div>
