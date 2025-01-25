@@ -56,7 +56,7 @@ export default function GroupTaskListWrapper({
           className="flex bg-inherit text-brand-primary underline-offset-2 hover:underline"
           onClick={handleClickCreate}
         >
-          <IconPlus />
+          <IconPlus width={17} height={17} />
           <span className="text-14">새로운 목록 추가하기</span>
         </button>
       </div>
