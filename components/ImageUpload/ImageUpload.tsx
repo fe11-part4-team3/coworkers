@@ -82,10 +82,9 @@ function ImageUpload({
         >
           <div className="flex flex-col items-center">
             <ICON_PLUS
-              className="duration-300 group-hover:-rotate-90"
+              className="text-t-disabled duration-300 group-hover:-rotate-90"
               width={!mobile ? 55 : 24}
               height={!mobile ? 55 : 24}
-              stroke="#9CA3AF"
             />
             <span className="mt-pr-12 text-16 text-t-disabled mo:text-14">
               이미지 등록
