@@ -10,7 +10,7 @@ export interface InputFieldProps
   errorMessage?: string;
   width?: string;
   onClickButton?: () => void;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export interface TextareaFieldProps
@@ -18,5 +18,5 @@ export interface TextareaFieldProps
     React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   size?: 'md' | 'lg';
   height?: string;
-  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }

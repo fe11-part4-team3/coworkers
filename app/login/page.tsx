@@ -15,7 +15,7 @@ import { resetPasswordEmail } from '@/service/user.api';
 import { ResetPasswordEmailParams } from '@/types/user.type';
 
 function LoginPage() {
-  const { formData, handleChange } = useForm({
+  const { formData, handleInputChange } = useForm({
     email: '',
     password: '',
   });
@@ -59,7 +59,7 @@ function LoginPage() {
   const [isForgotPassword, setIsForgotPassword] = useState(false);
 
   // 비밀번호 찾기 폼
-  const { formData: createResetUrl, handleChange: handleEailChange } =
+  const { formData: createResetUrl, handleInputChange: handleEailChange } =
     useForm<ResetPasswordEmailParams>({
       email: '',
       redirectUrl: 'http://localhost:3000',
@@ -87,7 +87,7 @@ function LoginPage() {
               type="email"
               name="email"
               value={formData.email}
-              onChange={handleChange}
+              onChange={(e) => handleInputChange(e)}
               required
             />
           </label>
@@ -99,7 +99,7 @@ function LoginPage() {
               type="password"
               name="password"
               value={formData.password}
-              onChange={handleChange}
+              onChange={(e) => handleInputChange(e)}
               required
             />
           </label>

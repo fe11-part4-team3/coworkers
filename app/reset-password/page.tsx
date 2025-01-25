@@ -20,12 +20,14 @@ export default function ResetPasswordPage() {
   const resetToken = searchParams.get('token');
 
   // STUB 비밀번호 초기화 폼
-  const { formData: updatePasswordData, handleChange: handlePasswordChange } =
-    useForm({
-      password: '',
-      passwordConfirmation: '',
-      token: '',
-    });
+  const {
+    formData: updatePasswordData,
+    handleInputChange: handlePasswordChange,
+  } = useForm({
+    password: '',
+    passwordConfirmation: '',
+    token: '',
+  });
 
   const route = useRouter();
 

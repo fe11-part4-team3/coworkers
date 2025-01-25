@@ -82,13 +82,12 @@ export default function Buttons(props: ButtonsProps) {
     disabled = false,
     onClick,
     bg = 'default',
-    loading = false,
     width = '',
     type = 'button',
   } = props;
 
   // loading이 true이면 disabled을 true로 설정
-  const isDisabled = loading || disabled;
+  const isDisabled = disabled;
 
   // 렌더링할 콘텐츠 정의
   const renderContent = () => (
@@ -98,7 +97,7 @@ export default function Buttons(props: ButtonsProps) {
           {icon}
         </span>
       )}
-      {loading && <Loader2 className="mr-2 animate-spin" />}
+      {disabled && <Loader2 className="animate-spin" />}
       {text}
     </>
   );
