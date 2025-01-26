@@ -84,6 +84,28 @@
     --t-secondary-dark: var(--t-secondary-light);
     --t-tertiary-dark: var(--t-tertiary-dark);
   }
+
+  .scrollbar {
+    border-right: 0.5rem solid transparent;
+  }
+
+  .scrollbar::-webkit-scrollbar {
+    width: 0.25rem;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb {
+    height: 1.875rem;
+    background-color: var(--b-tertiary-dark);
+    border-radius: 99rem;
+  }
+
+  .scrollbar::-webkit-scrollbar-track {
+    margin: 1rem;
+  }
+
+  .scrollbar::-webkit-scrollbar-button {
+    display: none;
+  }
 }
 
 * {
