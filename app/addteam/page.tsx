@@ -13,15 +13,16 @@ import useUser from '@/hooks/useUser';
 import updatePayloadSubmit from '@/utils/updatePayload';
 import Buttons from '@/components/Buttons';
 
+// STUB 초기값
+const INITIAL_VALUES = {
+  name: '',
+  image: '',
+};
+
 export default function AddTeamPage() {
-  const { user, isPending, reload, memberships } = useUser(true);
+  const { user, isPending, reload, groups } = useUser(true);
 
   const route = useRouter();
-
-  const initialValues = {
-    name: '',
-    image: '',
-  };
 
   // STUB 팀 생성 폼 상태
   const {
@@ -30,14 +31,13 @@ export default function AddTeamPage() {
     handleInputChange,
     handleFileChange,
     errorMessage,
-    initialValues: initialTeamValues,
+    initialValues,
     resetForm,
-  } = useForm(initialValues);
+  } = useForm(INITIAL_VALUES);
 
   // STUB 중복 팀 이름 체크
-  const overlap = memberships?.some(
-    (membership) =>
-      membership.group.name.toLowerCase() === formData.name.toLowerCase(),
+  const overlap = groups?.some(
+    (group) => group.name.toLowerCase() === formData.name.toLowerCase(),
   );
 
   const [updateValidation, setUpdateValidation] = useState<boolean>(false);
@@ -97,7 +97,7 @@ export default function AddTeamPage() {
           variant="group"
           onSelectFile={(file) => handleFileChange('image', file)}
           isEdit={true}
-          defaultProfile={initialTeamValues.image}
+          defaultProfile={initialValues.image}
         />
 
         <InputField
