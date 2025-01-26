@@ -2,6 +2,8 @@
 
 import Image from 'next/image';
 
+import IconGear from '@/public/images/icon-gear.svg';
+
 interface GroupHeaderProps {
   name: string;
   // onClick: () => void;
@@ -25,12 +27,7 @@ export default function GroupHeader({
           height={64}
         />
         <button onClick={() => {}}>
-          <Image
-            src="/images/icon-gear.svg"
-            alt="팀 편집"
-            width={24}
-            height={24}
-          />
+          <IconGear className="transition-all hover:rotate-90 hover:scale-110" />
         </button>
       </div>
     </header>
