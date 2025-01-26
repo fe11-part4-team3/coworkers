@@ -20,7 +20,7 @@ interface initialValues {
 }
 
 export default function MyPage() {
-  const { user, isPending: isUserLoading } = useUser(true);
+  const { user, isPending: isUserLoading, clear } = useUser(true);
   const route = useRouter();
 
   // STUB 유저 정보 초기값
@@ -74,7 +74,7 @@ export default function MyPage() {
     mutationFn: deleteUser,
     onSuccess: () => {
       alert('회원탈퇴가 완료되었습니다.');
-      route.push('/');
+      clear();
     },
     onError: () => alert('회원탈퇴에 실패했습니다.'),
   });
@@ -82,8 +82,7 @@ export default function MyPage() {
   // STUB 회원탈퇴 버튼 클릭 시
   const handleSubmitUserDelete = async () => {
     const confirm = window.confirm('정말로 회원탈퇴를 진행하시겠습니까?');
-    if (!confirm) return;
-    deleteUserMutate();
+    if (confirm) deleteUserMutate();
   };
 
   // STUB 수정 버튼 클릭 시

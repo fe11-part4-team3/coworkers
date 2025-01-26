@@ -57,6 +57,12 @@ function LoginPage() {
   // 비밀번호 찾기 클릭 상태
   const [isForgotPassword, setIsForgotPassword] = useState(false);
 
+  // 현재 페이지의 origin
+  const origin =
+    typeof window !== 'undefined'
+      ? window.location.origin
+      : 'http://localhost:3000';
+
   // 비밀번호 찾기 폼
   const {
     formData: createResetUrl,
@@ -64,7 +70,7 @@ function LoginPage() {
     errorMessage: errorEmail,
   } = useForm<ResetPasswordEmailParams>({
     email: '',
-    redirectUrl: 'http://localhost:3000',
+    redirectUrl: origin,
   });
 
   // 비밀번호 찾기 요청
