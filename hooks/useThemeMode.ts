@@ -5,7 +5,7 @@ const DEFAULT_THEME = 'dark';
 
 export type Theme = 'dark' | 'light';
 
-export default function useThemeMode(selectTheme: Theme | undefined): Theme {
+export default function useThemeMode(selectTheme?: Theme): Theme {
   const [currentTheme, setCurrentTheme] = useState<Theme>(DEFAULT_THEME);
   const { theme, systemTheme } = useTheme();
 
