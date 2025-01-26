@@ -3,6 +3,7 @@
 import { useState, useCallback } from 'react';
 
 import InputField from '@/components/InputField/InputField';
+import { widthStyledSliceWPr } from '@/utils/filterClass';
 
 /**
  * TimePicker 컴포넌트는 시간을 선택할 수 있는 기능을 제공합니다.
@@ -15,7 +16,6 @@ export default function TimePicker({ width }: { width?: string }) {
   const [time, setTime] = useState<string>('');
   const [amPm, setAmPm] = useState<'am' | 'pm'>('am');
 
-  const widthStyle = width ? `w-pr-${width}` : 'w-full';
   const timeButtonStyle = {
     default: 'h-pr-40 w-pr-78 rounded-xl bg-b-primary text-14m text-t-default',
     active: 'bg-brand-primary text-t-primary',
@@ -45,7 +45,9 @@ export default function TimePicker({ width }: { width?: string }) {
 
   return (
     <>
-      <div className={`flex flex-col gap-pr-8 ${widthStyle}`}>
+      <div
+        className={`flex flex-col gap-pr-8 ${width ? widthStyledSliceWPr(width) : 'w-full'}`}
+      >
         <div className="relative">
           <InputField
             value={

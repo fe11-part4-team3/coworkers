@@ -5,6 +5,7 @@ import { format } from 'date-fns';
 
 import { Calendar } from '@/components/ui/calendar';
 import InputField from '@/components/InputField/InputField';
+import { widthStyledSliceWPr } from '@/utils/filterClass';
 
 /**
  * DatePicker 컴포넌트는 달력을 표시하고 선택한 날짜를 반환합니다.
@@ -16,14 +17,15 @@ export default function DatePicker({ width }: { width?: string }) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [date, setdate] = useState<Date | undefined>(undefined);
 
-  const widthStyle = width ? `w-pr-${width}` : 'w-full';
   const buttonStyle = isOpen ? 'border border-brand-primary' : '';
 
   const formattedDate = date ? format(date, 'yyyy년 MM월 dd일') : '';
 
   return (
     <>
-      <div className={`${widthStyle} flex flex-col gap-pr-8`}>
+      <div
+        className={`${width ? widthStyledSliceWPr(width) : 'w-full'} flex flex-col gap-pr-8`}
+      >
         <div className="relative">
           <InputField
             value={formattedDate}

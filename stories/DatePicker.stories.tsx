@@ -11,5 +11,5 @@ type Story = StoryObj<typeof DatePicker>;
 export default meta;
 
 export const Default: Story = {
-  args: { width: '300' },
+  args: { width: 'w-pr-300' },
 };
