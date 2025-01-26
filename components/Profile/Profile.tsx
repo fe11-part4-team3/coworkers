@@ -1,11 +1,9 @@
 import Image from 'next/image';
-import { useTheme } from 'next-themes';
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 
-type Variant = 'member' | 'group';
+import useThemeMode, { Theme } from '@/hooks/useThemeMode';
 
-type Theme = 'dark' | 'light';
-const DEFAULT_THEME = 'dark';
+type Variant = 'member' | 'group';
 
 type ProfileImageType = {
   [key in Variant]: {
@@ -60,10 +58,9 @@ export default function Profile({
   onSelectFile,
   selectTheme,
 }: ProfileProps) {
-  const { theme, systemTheme } = useTheme();
-  const [currentTheme, setCurrentTheme] = useState<Theme>(DEFAULT_THEME);
   const [preview, setPreview] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
+  const theme = useThemeMode(selectTheme);
 
   // 파일 선택 시 프리뷰 및 파일 상태 변경
   const handleChange = useCallback(
@@ -78,26 +75,6 @@ export default function Profile({
   );
 
   useEffect(() => {
-    if (selectTheme) {
-      setCurrentTheme(selectTheme);
-      return;
-    }
-
-    if (theme === 'system') {
-      const next = systemTheme || DEFAULT_THEME;
-      setCurrentTheme(next);
-      return;
-    }
-
-    if (theme === 'dark' || theme === 'light') {
-      setCurrentTheme(theme);
-      return;
-    }
-
-    setCurrentTheme(DEFAULT_THEME);
-  }, [theme, systemTheme, selectTheme]);
-
-  useEffect(() => {
     if (file) {
       const next = URL.createObjectURL(file);
       setPreview(next);
@@ -106,7 +83,7 @@ export default function Profile({
     return () => {
       if (preview) URL.revokeObjectURL(preview);
     };
-  }, [file]);
+  }, [file, preview]);
 
   return (
     <fieldset className="relative size-fit select-none">
@@ -123,9 +100,7 @@ export default function Profile({
             className="size-full object-cover"
             width={profileSize}
             height={profileSize}
-            src={
-              preview || defaultProfile || PROFILE_IMAGE[variant][currentTheme]
-            }
+            src={preview || defaultProfile || PROFILE_IMAGE[variant][theme]}
             alt={`${variant} 프로필 이미지`}
           />
         </div>
@@ -135,7 +110,7 @@ export default function Profile({
             className="absolute -bottom-pr-4 -right-pr-4"
             width={editSize}
             height={editSize}
-            src={EDIT_BUTTON[currentTheme]}
+            src={EDIT_BUTTON[theme]}
             alt="수정"
           />
         )}
