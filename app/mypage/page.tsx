@@ -19,7 +19,7 @@ interface initialValues {
 }
 
 export default function MyPage() {
-  const { user, isPending: isUserLoading, clear } = useUser(true);
+  const { user, isPending: isUserLoading, clear, reload } = useUser(true);
 
   // STUB 유저 정보 초기값
   const initialValues = {
@@ -35,7 +35,6 @@ export default function MyPage() {
     handleFileChange,
     errorMessage,
     initialValues: initialUserValues,
-    resetForm,
   } = useForm<initialValues>(initialValues);
 
   // STUB 유효성 검사에 따라 버튼 활성화 여부 상태
@@ -62,9 +61,11 @@ export default function MyPage() {
   const { mutate: updateUserMutate, isPending: isUpdateUserPending } =
     useMutation({
       mutationFn: updateUser,
-      onSuccess: () => alert('사용자 정보 수정에 성공했습니다.'),
+      onSuccess: () => {
+        alert('사용자 정보 수정에 성공했습니다.');
+        reload();
+      },
       onError: () => alert('사용자 정보 수정에 실패했습니다.'),
-      onSettled: () => resetForm(),
     });
 
   // STUB 회원 탈퇴 api 호출
@@ -197,6 +198,7 @@ export default function MyPage() {
             width="w-pr-100"
             onClick={handleSubmit}
             disabled={!updateValidation || isUpdateUserPending}
+            loading={isUpdateUserPending}
           />
         )}
       </div>
