@@ -14,13 +14,13 @@
     --brand-gradient: linear-gradient(90deg, #10b981 0%, #a3e635 100%);
 
     /* point */
-    --p-purple: #a855f7;
-    --p-blue: #3b82f6;
-    --p-cyan: #06b6d4;
-    --p-pink: #ec4899;
-    --p-rose: #f43f5e;
-    --p-orange: #f97316;
-    --p-yellow: #eab308;
+    --point-purple: #a855f7;
+    --point-blue: #3b82f6;
+    --point-cyan: #06b6d4;
+    --point-pink: #ec4899;
+    --point-rose: #f43f5e;
+    --point-orange: #f97316;
+    --point-yellow: #eab308;
 
     /* background */
     --b-primary-dark: #0f172a;
