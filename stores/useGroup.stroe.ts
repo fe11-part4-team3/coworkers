@@ -1,14 +1,14 @@
-import { IGroupDetail, IMember, TaskListSummary } from '@/types/group.type';
+import { IGroupDetail, IMember, ITaskListSummary } from '@/types/group.type';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 interface IUseGroupStore {
   group: IGroupDetail | null;
   members: IMember[] | null;
-  taskLists: TaskListSummary[] | null;
+  taskLists: ITaskListSummary[] | null;
   setGroup: (group: IGroupDetail | null) => void;
   setMembers: (members: IMember[] | null) => void;
-  setTaskLists: (taskLists: TaskListSummary[] | null) => void;
+  setTaskLists: (taskLists: ITaskListSummary[] | null) => void;
   clearStore: () => void;
 }
 

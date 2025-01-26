@@ -1,7 +1,6 @@
 'use client';
 
 import { format, subDays, addDays } from 'date-fns';
-import { ko } from 'date-fns/locale';
 import { useState } from 'react';
 
 import Container from '@/components/layout/Container';
@@ -51,7 +50,7 @@ export default function TaskListPage() {
     console.log('댓글 수정');
   };
 
-  const formattedDate = format(date, 'M월 d일 (E)', { locale: ko });
+  const formattedDate = format(date, 'M월 d일 (E)');
 
   return (
     <>

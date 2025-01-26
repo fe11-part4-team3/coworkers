@@ -21,7 +21,7 @@ interface IMember {
   userId: number;
 }
 
-interface TaskListSummary {
+interface ITaskListSummary {
   displayIndex: number;
   groupId: number;
   updatedAt: string;
@@ -33,7 +33,7 @@ interface TaskListSummary {
 
 interface IGroupDetail extends IGroup {
   members: IMember[];
-  taskLists: TaskListSummary[];
+  taskLists: ITaskListSummary[];
 }
 
 interface GetGroupParams {
@@ -97,7 +97,7 @@ interface GetTasksInGroupParams {
 export type {
   IMember,
   IGroup,
-  TaskListSummary,
+  ITaskListSummary,
   IGroupDetail,
   GetGroupParams,
   UpdateGroupParams,
