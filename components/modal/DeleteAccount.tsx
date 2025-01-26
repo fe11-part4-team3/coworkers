@@ -2,7 +2,6 @@
 
 import useModalStore from '@/stores/modalStore';
 import Buttons from '@/components/Buttons';
-import ModalBase from '@/components/modal/ModalBase';
 import DangerIcon from '@/public/images/icon-danger.svg';
 
 /**
@@ -13,9 +12,9 @@ import DangerIcon from '@/public/images/icon-danger.svg';
  */
 
 export default function DeleteAccount({
-  onClick,
+  onClick: fetchData,
 }: {
-  onClick: (body: object) => void;
+  onClick: (bodyData: object) => void;
 }) {
   const { closeModal } = useModalStore();
 
@@ -26,48 +25,40 @@ export default function DeleteAccount({
 
   const handleOnClick = () => {
     const body = { key: true };
-    onClick(body);
+    fetchData(body);
     closeModal();
   };
 
   return (
     <>
-      <ModalBase className="px-pr-52 pt-pr-40">
-        <div className="w-full">
-          <DangerIcon
-            width={24}
-            height={24}
-            className="mx-auto mb-pr-16"
-            onClick={closeModal}
-          />
-          <div className="mb-pr-24 text-center">
-            <h2 className="mb-pr-8 text-18 text-t-primary">
-              회원 탈퇴를 진행하시겠어요?
-            </h2>
-            <p className="text-14 text-t-secondary">
-              그룹장으로 있는 그룹은 자동으로 삭제되고, <br />
-              모든 그룹에서 나가집니다.
-            </p>
-          </div>
-          <div className="flex items-center justify-between gap-pr-8">
-            <Buttons
-              text="닫기"
-              size="XL"
-              rounded={false}
-              onClick={closeModal}
-              variant="secondary"
-              bg="white"
-            />
-            <Buttons
-              text="회원 탈퇴"
-              size="XL"
-              rounded={false}
-              onClick={handleOnClick}
-              variant="destructive"
-            />
-          </div>
-        </div>
-      </ModalBase>
+      <DangerIcon
+        width={24}
+        height={24}
+        className="mx-auto mb-pr-16"
+        onClick={closeModal}
+      />
+      <div className="modal-title-wrapper">
+        <h2 className="modal-title">회원 탈퇴를 진행하시겠어요?</h2>
+        <p className="modal-subTitle">
+          그룹장으로 있는 그룹은 자동으로 삭제되고, <br />
+          모든 그룹에서 나가집니다.
+        </p>
+      </div>
+      <div className="modal-button-wrapper">
+        <Buttons
+          text="닫기"
+          size="XL"
+          onClick={closeModal}
+          variant="secondary"
+          bg="white"
+        />
+        <Buttons
+          text="회원 탈퇴"
+          size="XL"
+          onClick={handleOnClick}
+          variant="destructive"
+        />
+      </div>
     </>
   );
 }

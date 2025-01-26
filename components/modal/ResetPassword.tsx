@@ -2,7 +2,6 @@
 
 import useModalStore from '@/stores/modalStore';
 import Buttons from '@/components/Buttons';
-import ModalBase from '@/components/modal/ModalBase';
 import InputField from '@/components/InputField/InputField';
 import useModalForm from '@/hooks/useModalForm';
 
@@ -14,14 +13,13 @@ import useModalForm from '@/hooks/useModalForm';
  */
 
 export default function ResetPassword({
-  onClick,
+  onClick: fetchData,
 }: {
-  onClick: (body: object) => void;
+  onClick: (bodyData: object) => void;
 }) {
   const { closeModal } = useModalStore();
   const { value, handleOnClick, updateInputValue } = useModalForm({
-    onClick,
-    closeModal,
+    onClick: fetchData,
   });
 
   {
@@ -44,43 +42,35 @@ export default function ResetPassword({
 
   return (
     <>
-      <ModalBase className="px-pr-52 pt-pr-48">
-        <div className="w-full">
-          <div className="text-center">
-            <h2 className="mb-pr-8 text-18 text-t-primary">비밀번호 재설정</h2>
-            <p className="text-14 text-t-secondary">
-              비밀번호 재설정 링크를 보내드립니다.
-            </p>
-          </div>
-          <form className="mt-pr-16" onSubmit={handleOnClick}>
-            <InputField
-              value={value[0]}
-              placeholder="이메일을 입력하세요."
-              name="reset-password"
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                updateInputValue(0, 'email', e.target.value)
-              }
-            />
-            <div className="mt-pr-24 flex items-center justify-between gap-pr-8">
-              <Buttons
-                text="닫기"
-                size="XL"
-                rounded={false}
-                onClick={closeModal}
-                variant="outline"
-                bg="white"
-              />
-              <Buttons
-                text="링크 보내기"
-                size="XL"
-                rounded={false}
-                onClick={() => {}}
-                type="submit"
-              />
-            </div>
-          </form>
+      <div className="modal-title-wrapper">
+        <h2 className="modal-title">비밀번호 재설정</h2>
+        <p className="modal-subTitle">비밀번호 재설정 링크를 보내드립니다.</p>
+      </div>
+      <form onSubmit={handleOnClick}>
+        <InputField
+          value={value[0]}
+          placeholder="이메일을 입력하세요."
+          name="reset-password"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            updateInputValue(0, 'email', e.target.value)
+          }
+        />
+        <div className="modal-button-wrapper">
+          <Buttons
+            text="닫기"
+            size="XL"
+            onClick={closeModal}
+            variant="outline"
+            bg="white"
+          />
+          <Buttons
+            text="링크 보내기"
+            size="XL"
+            onClick={() => {}}
+            type="submit"
+          />
         </div>
-      </ModalBase>
+      </form>
     </>
   );
 }

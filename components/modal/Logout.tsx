@@ -2,7 +2,6 @@
 
 import useModalStore from '@/stores/modalStore';
 import Buttons from '@/components/Buttons';
-import ModalBase from '@/components/modal/ModalBase';
 
 /**
  * 로그아웃 모달 컴포넌트.
@@ -12,9 +11,9 @@ import ModalBase from '@/components/modal/ModalBase';
  */
 
 export default function Logout({
-  onClick,
+  onClick: fetchData,
 }: {
-  onClick: (body: object) => void;
+  onClick: (bodyData: object) => void;
 }) {
   const { closeModal } = useModalStore();
 
@@ -25,36 +24,30 @@ export default function Logout({
 
   const handleOnClick = () => {
     const body = { key: true };
-    onClick(body);
+    fetchData(body);
     closeModal();
   };
 
   return (
     <>
-      <ModalBase className="px-pr-52 pt-pr-48">
-        <div className="w-full">
-          <div className="mb-pr-24 text-center">
-            <h2 className="text-18 text-t-primary">로그아웃 하시겠어요?</h2>
-          </div>
-          <div className="flex items-center justify-between gap-pr-8">
-            <Buttons
-              text="닫기"
-              size="XL"
-              rounded={false}
-              onClick={closeModal}
-              variant="secondary"
-              bg="white"
-            />
-            <Buttons
-              text="로그아웃"
-              size="XL"
-              rounded={false}
-              onClick={handleOnClick}
-              variant="destructive"
-            />
-          </div>
-        </div>
-      </ModalBase>
+      <div className="modal-title-wrapper">
+        <h2 className="modal-title">로그아웃 하시겠어요?</h2>
+      </div>
+      <div className="modal-button-wrapper">
+        <Buttons
+          text="닫기"
+          size="XL"
+          onClick={closeModal}
+          variant="secondary"
+          bg="white"
+        />
+        <Buttons
+          text="로그아웃"
+          size="XL"
+          onClick={handleOnClick}
+          variant="destructive"
+        />
+      </div>
     </>
   );
 }

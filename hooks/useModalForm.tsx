@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import useModalStore from '@/stores/modalStore';
 
 /**
  * @description useModalForm 커스텀 훅
@@ -19,18 +20,17 @@ import { useState } from 'react';
  */
 
 export default function useModalForm({
-  onClick,
-  closeModal,
+  onClick: fetchData,
   initialLength = 1,
   body,
 }: {
-  onClick: (body: object) => void;
-  closeModal: () => void;
+  onClick: (bodyData: object) => void;
   initialLength?: number;
-  body?: string[];
+  body?: object;
 }) {
   const [value, setValue] = useState<string[]>(Array(initialLength).fill(''));
-  const [bodyData, setBodyData] = useState<string[]>(body || []);
+  const [bodyData, setBodyData] = useState<object>(body || {});
+  const { closeModal } = useModalStore();
 
   const updateInputValue = (index: number, name: string, newValue: string) => {
     const updatedValue = [...value];
@@ -55,7 +55,7 @@ export default function useModalForm({
       return alert('항목을 입력해주세요.');
     }
 
-    onClick(bodyData);
+    fetchData(bodyData);
     closeModal();
   };
 

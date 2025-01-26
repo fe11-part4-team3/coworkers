@@ -13,14 +13,16 @@ function KebabDropDown({
   onDelete: () => void;
 }) {
   return (
-    <DropDown
-      trigger={<button className="icon-kebab" />}
-      items={[
-        { text: '수정하기', onClick: onEdit },
-        { text: '삭제하기', onClick: onDelete },
-      ]}
-      width="w-pr-120"
-    />
+    <div className="size-pr-16">
+      <DropDown
+        trigger={<button className="icon-kebab absolute" />}
+        items={[
+          { text: '수정하기', onClick: onEdit },
+          { text: '삭제하기', onClick: onDelete },
+        ]}
+        width="w-pr-120"
+      />
+    </div>
   );
 }
 

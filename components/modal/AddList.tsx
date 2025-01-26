@@ -1,8 +1,7 @@
 'use client';
 
-import useModalStore from '@/stores/modalStore';
 import Buttons from '@/components/Buttons';
-import ModalBase from '@/components/modal/ModalBase';
+import CloseButton from '@/components/modal/ModalCloseButton';
 import InputField from '@/components/InputField/InputField';
 import useModalForm from '@/hooks/useModalForm';
 
@@ -14,14 +13,12 @@ import useModalForm from '@/hooks/useModalForm';
  */
 
 export default function AddList({
-  onClick,
+  onClick: fetchData,
 }: {
-  onClick: (body: object) => void;
+  onClick: (bodyData: object) => void;
 }) {
-  const { closeModal } = useModalStore();
   const { value, handleOnClick, updateInputValue } = useModalForm({
-    onClick,
-    closeModal,
+    onClick: fetchData,
   });
 
   {
@@ -44,37 +41,28 @@ export default function AddList({
 
   return (
     <>
-      <ModalBase className="px-pr-52 pt-pr-48">
-        <div className="w-full">
-          <div className="text-center">
-            <h2 className="mb-pr-8 text-18 text-t-primary">새로운 목록 추가</h2>
-            <p className="text-14 text-t-secondary">
-              할 일에 대한 목록을 추가하고 <br />
-              목록별 할 일을 만들 수 있습니다.
-            </p>
-          </div>
-          <form className="mt-pr-16" onSubmit={handleOnClick}>
-            <InputField
-              value={value[0]}
-              placeholder="목록 이름을 입력해주세요."
-              label="목록 이름"
-              name="list-name"
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                updateInputValue(0, 'name', e.target.value)
-              }
-            />
-            <div className="mt-pr-24">
-              <Buttons
-                text="만들기"
-                size="XL"
-                rounded={false}
-                onClick={() => {}}
-                type="submit"
-              />
-            </div>
-          </form>
+      <CloseButton />
+      <div className="modal-title-wrapper">
+        <h2 className="modal-title">새로운 목록 추가</h2>
+        <p className="modal-subTitle">
+          할 일에 대한 목록을 추가하고 <br />
+          목록별 할 일을 만들 수 있습니다.
+        </p>
+      </div>
+      <form onSubmit={handleOnClick}>
+        <InputField
+          value={value[0]}
+          placeholder="목록 이름을 입력해주세요."
+          label="목록 이름"
+          name="list-name"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            updateInputValue(0, 'name', e.target.value)
+          }
+        />
+        <div className="modal-button-wrapper">
+          <Buttons text="만들기" size="XL" onClick={() => {}} type="submit" />
         </div>
-      </ModalBase>
+      </form>
     </>
   );
 }

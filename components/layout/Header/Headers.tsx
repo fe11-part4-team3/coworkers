@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 
@@ -11,6 +11,7 @@ import SideNavigationTrigger from '@/components/SideNavigation/SideNavigationTri
 import SideNavigation from '@/components/SideNavigation/SideNavigation';
 import useUser from '@/hooks/useUser';
 import { IGroup } from '@/types/group.type';
+import DropDown from '@/components/DropDown';
 
 import Profile from './Profile';
 import Logo from './Logo';
@@ -20,8 +21,29 @@ function Headers() {
   const router = useRouter();
   const { teamId } = useParams();
   const groupId = teamId ? Number(teamId) : null;
-  const { user, groups, isPending } = useUser();
+  const { user, groups, isPending, clear } = useUser();
   const [currentGroup, setCurrentGroup] = useState<IGroup | null>(null);
+
+  const logout = useCallback(() => {
+    const flag = confirm('로그아웃 하시겠습니까?');
+    if (flag) {
+      clear();
+      alert('로그아웃 되었습니다.');
+    }
+  }, [clear]);
+
+  const dropdownItems = useMemo(
+    () => [
+      { text: '마이 히스토리', href: '/myhistory' },
+      { text: '계정 설정', href: '/mypage' },
+      { text: '팀 참여', href: '/addteam' },
+      {
+        text: '로그아웃',
+        onClick: logout,
+      },
+    ],
+    [clear],
+  );
 
   useEffect(() => {
     if (!groupId || !groups || isPending) {
@@ -34,7 +56,7 @@ function Headers() {
   }, [groupId, groups, isPending]);
 
   return (
-    <header className="fixed flex w-full items-center border-b bg-b-secondary transition-all">
+    <header className="fixed z-40 flex w-full items-center border-b bg-b-secondary transition-all">
       <nav className="mx-auto flex h-pr-60 w-pr-1200 items-center justify-between px-pr-40 mo:px-pr-16 ta:px-pr-25">
         <div className="flex items-center gap-pr-40 ta:gap-pr-24">
           {deviceType === 'mobile' && groups && (
@@ -74,11 +96,14 @@ function Headers() {
           )}
         </div>
         {user ? (
-          <Link href="/mypage">
-            <Button variant="link">
-              <Profile userName={user.nickname} profileImage={user.image} />
-            </Button>
-          </Link>
+          <DropDown
+            trigger={
+              <Button variant="link">
+                <Profile userName={user.nickname} profileImage={user.image} />
+              </Button>
+            }
+            items={dropdownItems}
+          />
         ) : (
           <div className="flex gap-pr-16">
             <Link href="/login">로그인</Link>

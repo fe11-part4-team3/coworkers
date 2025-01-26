@@ -1,9 +1,7 @@
 'use client';
 
-import useModalStore from '@/stores/modalStore';
 import Buttons from '@/components/Buttons';
-import CloseIcon from '@/public/images/icon-close.svg';
-import ModalBase from '@/components/modal/ModalBase';
+import CloseButton from '@/components/modal/ModalCloseButton';
 import InputField from '@/components/InputField/InputField';
 import useModalForm from '@/hooks/useModalForm';
 
@@ -15,14 +13,12 @@ import useModalForm from '@/hooks/useModalForm';
  */
 
 export default function AddTeam({
-  onClick,
+  onClick: fetchData,
 }: {
-  onClick: (body: object) => void;
+  onClick: (bodyData: object) => void;
 }) {
-  const { closeModal } = useModalStore();
   const { value, handleOnClick, updateInputValue } = useModalForm({
-    onClick,
-    closeModal,
+    onClick: fetchData,
   });
 
   {
@@ -45,38 +41,23 @@ export default function AddTeam({
 
   return (
     <>
-      <ModalBase className="px-pr-52 pt-pr-48">
-        <div className="w-full">
-          <CloseIcon
-            width={20}
-            height={20}
-            className="absolute right-pr-16 top-pr-16 cursor-pointer"
-            onClick={closeModal}
-          />
-          <div className="text-center">
-            <h2 className="text-18 text-t-primary">팀 이름</h2>
-          </div>
-          <form className="mt-pr-16" onSubmit={handleOnClick}>
-            <InputField
-              value={value[0]}
-              placeholder="팀 이름을 입력해주세요."
-              name="team-name"
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                updateInputValue(0, 'name', e.target.value)
-              }
-            />
-            <div className="mt-pr-24">
-              <Buttons
-                text="추가하기"
-                size="XL"
-                rounded={false}
-                onClick={() => {}}
-                type="submit"
-              />
-            </div>
-          </form>
+      <CloseButton />
+      <div className="modal-title-wrapper">
+        <h2 className="modal-title">팀 이름</h2>
+      </div>
+      <form onSubmit={handleOnClick}>
+        <InputField
+          value={value[0]}
+          placeholder="팀 이름을 입력해주세요."
+          name="team-name"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            updateInputValue(0, 'name', e.target.value)
+          }
+        />
+        <div className="modal-button-wrapper">
+          <Buttons text="추가하기" size="XL" onClick={() => {}} type="submit" />
         </div>
-      </ModalBase>
+      </form>
     </>
   );
 }
