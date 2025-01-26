@@ -74,53 +74,6 @@ export default function AddTask({
             className="mb-pr-12 flex text-16m text-t-primary"
             aria-label="반복 설정"
           >
-<<<<<<< HEAD
-            <InputField
-              value={value[0]}
-              placeholder="할 일 제목을 입력해주세요."
-              label="할 일 제목"
-              name="task-title"
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                updateInputValue(0, 'title', e.target.value)
-              }
-            />
-            <div className="flex flex-col gap-pr-4">
-              <InputLabel label="반복 설정" />
-              <SelectBox
-                options={[
-                  { label: '한 번', value: 'ONCE' },
-                  { label: '매일', value: 'DAILY' },
-                  { label: '주 반복', value: 'WEEKLY' },
-                  { label: '월 반복', value: 'MONTHLY' },
-                ]}
-                defaultValue="반복 안함"
-                width="w-pr-110"
-                height="w-pr-44"
-                onValueChange={(value: string) =>
-                  updateInputValue(1, 'repeatType', value)
-                }
-              />
-            </div>
-            <TextareaField
-              value={value[2]}
-              placeholder="메모를 입력해주세요."
-              label="할 일 메모"
-              name="task-memo"
-              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                updateInputValue(2, 'description', e.target.value)
-              }
-            />
-            <div className="mt-pr-8">
-              <Buttons
-                text="만들기"
-                size="XL"
-                rounded={false}
-                onClick={() => {}}
-                type="submit"
-              />
-            </div>
-          </form>
-=======
             반복 설정
           </label>
           <SelectBox
@@ -133,7 +86,6 @@ export default function AddTask({
               updateInputValue(1, 'repeatType', selectedValue);
             }}
           />
->>>>>>> 970e7268e4e4571e2c5264c7ef15f97decdceaf6
         </div>
         <TextareaField
           value={value[2]}
