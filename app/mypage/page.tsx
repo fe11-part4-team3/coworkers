@@ -1,7 +1,6 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 
 import { deleteUser, updateUser } from '@/service/user.api';
@@ -21,7 +20,6 @@ interface initialValues {
 
 export default function MyPage() {
   const { user, isPending: isUserLoading, clear } = useUser(true);
-  const route = useRouter();
 
   // STUB 유저 정보 초기값
   const initialValues = {
