@@ -14,8 +14,8 @@ import Container from '@/components/layout/Container';
 import InputField from '@/components/InputField/InputField';
 
 interface initialValues {
-  image: string | File;
   nickname: string;
+  [key: string]: string | File;
 }
 
 export default function MyPage() {
@@ -29,11 +29,13 @@ export default function MyPage() {
 
   // STUB 유저 수정 폼 상태
   const {
+    preview,
     formData,
+    errorMessage,
     changedFields,
     handleInputChange,
     handleFileChange,
-    errorMessage,
+    setChangedFields,
     initialValues: initialUserValues,
   } = useForm<initialValues>(initialValues);
 
@@ -48,12 +50,12 @@ export default function MyPage() {
     const hasImageChanged = !!changedFields.image;
     // 닉네임이 변경되고, 초기값과 같지 않을때
     const hasNicknameChanged =
-      !!changedFields.nickname &&
+      changedFields.nickname &&
       formData.nickname !== initialUserValues.nickname;
 
     // 최종 유효성 검사에 따른 버튼 활성화 상태 담기
     setUpdateValidation(
-      isNicknameValid && (hasImageChanged || hasNicknameChanged),
+      !!(isNicknameValid && (hasImageChanged || hasNicknameChanged)),
     );
   }, [errorMessage, changedFields, formData, initialUserValues]);
 
@@ -64,6 +66,7 @@ export default function MyPage() {
       onSuccess: () => {
         alert('사용자 정보 수정에 성공했습니다.');
         reload();
+        setChangedFields({ image: false, nickname: false });
       },
       onError: () => alert('사용자 정보 수정에 실패했습니다.'),
     });
@@ -101,12 +104,6 @@ export default function MyPage() {
     return <div>로그인 상태가 아닙니다.</div>;
   }
 
-  // 프로필 이미지 또는 닉네임의 변경사항이 있을 경우 해당 버튼 노출
-  // const updateValidation =
-  //   (changedFields.image || changedFields.nickname) &&
-  //   (formData.nickname !== initialValues.nickname || changedFields.image) &&
-  //   !errorMessage.nickname;
-
   /*   TODO mypage 비밀번호 변경 기능 해야함 - 모달에서 진행
   - 비밀번호 변경 버튼 클릭 시 기능
 
@@ -143,22 +140,20 @@ export default function MyPage() {
     <Container>
       {/* 프로필 이미지 */}
       <Profile
-        variant="member"
         isEdit={true}
-        onSelectFile={(file) => handleFileChange('image', file)}
-        defaultProfile={user.image}
+        variant="member"
+        image={preview || user.image}
+        onSelectFile={handleFileChange}
       />
 
       {/* 닉네임 */}
       <InputField
+        label="이름"
+        name="nickname"
         value={formData.nickname}
         placeholder={user.nickname}
-        name="nickname"
-        onChange={(e) => {
-          handleInputChange(e);
-        }}
         errorMessage={errorMessage.nickname}
-        label="이름"
+        onChange={handleInputChange}
       />
 
       {/* 이메일 */}

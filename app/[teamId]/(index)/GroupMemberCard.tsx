@@ -35,11 +35,7 @@ const EMAIL_CLASSNME = 'truncate text-12 text-t-secondary';
 function DefaultContent({ member }: ContentProps) {
   return (
     <>
-      <Profile
-        variant="member"
-        defaultProfile={member.userImage}
-        profileSize={32}
-      />
+      <Profile variant="member" image={member.userImage} profileSize={32} />
       <div className="grow overflow-hidden text-t-primary">
         <p className={NAME_CLASSNAME}>{member.userName}</p>
         <p className={EMAIL_CLASSNME}>{member.userEmail}</p>
@@ -52,11 +48,7 @@ function MobileContent({ member }: ContentProps) {
   return (
     <div className="flex grow flex-col overflow-hidden">
       <div className="flex items-center gap-pr-8">
-        <Profile
-          variant="member"
-          defaultProfile={member.userImage}
-          profileSize={24}
-        />
+        <Profile variant="member" image={member.userImage} profileSize={24} />
         <p className={NAME_CLASSNAME}>{member.userName}</p>
       </div>
       <p className={EMAIL_CLASSNME}>{member.userEmail}</p>
