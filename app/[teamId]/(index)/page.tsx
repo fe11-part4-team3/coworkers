@@ -25,11 +25,11 @@ import useTaskLists from '@/hooks/useTaskLists';
 export default function TeamPage() {
   useUser(true);
   const { teamId } = useParams();
-  const { group, members, taskLists } = useGroup(Number(teamId));
-  const { data: _taskLists, refetchById, refetchAll } = useTaskLists(taskLists);
+  const { group, members, taskLists, reload } = useGroup(Number(teamId));
+  const { data: _taskLists, refetchById } = useTaskLists(taskLists);
   const { mutate: onCreate } = useMutation({
     mutationFn: (params: _CreateTaskListParams) => _createTaskList(params),
-    onSuccess: () => refetchAll(),
+    onSuccess: () => reload(),
     onError: (error) => alert(error),
   });
   const { mutate: onEdit } = useMutation({
@@ -39,7 +39,7 @@ export default function TeamPage() {
   });
   const { mutate: onDelete } = useMutation({
     mutationFn: (params: _DeleteTaskListParams) => _deleteTaskList(params),
-    onSuccess: () => refetchAll(),
+    onSuccess: () => reload(),
     onError: (error) => alert(error),
   });
 
