@@ -50,7 +50,7 @@ interface updatePayloadSubmitProps<T> {
  * // 사용 예시
  * <Profile
  *  onSelectFile={(file) => handleFileChange('image', file)}
- *  defaultProfile={user.image}
+ *  image={user.image}
  * />
  *
  * <InputField
