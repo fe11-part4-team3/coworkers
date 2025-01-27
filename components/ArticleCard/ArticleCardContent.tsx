@@ -50,7 +50,12 @@ function ArticleCardContent({
           </div>
         )}
         {!isBestCard && userData?.id === writer.id && (
-          <div className="ml-pr-16 mo:hidden">
+          <div
+            className="ml-pr-16 mo:hidden"
+            onClick={(e: React.MouseEvent) => {
+              e.stopPropagation();
+            }}
+          >
             <KebabDropDown
               onEdit={() => alert('수정')}
               onDelete={() => alert('삭제')}
