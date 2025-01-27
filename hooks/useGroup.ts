@@ -20,7 +20,7 @@ import { useCallback, useEffect } from 'react';
  * - `taskLists` : 그룹에 속한 할 일 목록 배열. `group`에서 파싱
  * - `isPending` : `getGroup` 요청 및 갱신 중
  * - `clear` : `group`과 `group`에서 파싱된 데이터를 `null`로 초기화
- * - `reload` : `getGroup` 강제 리페칭
+ * - `refetch` : `getGroup` 리페칭
  */
 const useGroup = (groupId: number | null) => {
   const {
@@ -32,7 +32,8 @@ const useGroup = (groupId: number | null) => {
     setTaskLists,
     clearStore,
   } = useGroupStore();
-  const { data, isPending, refetch } = useQuery({
+  const queryClient = useQueryClient();
+  const { data, isPending } = useQuery({
     queryKey: ['group'],
     queryFn: () => {
       return groupId ? getGroup({ id: groupId }) : null;
@@ -56,7 +57,8 @@ const useGroup = (groupId: number | null) => {
   }, [data, setTaskLists]);
 
   const clear = () => clearStore();
-  const reload = () => refetch();
+  const refetch = async () =>
+    await queryClient.refetchQueries({ queryKey: ['group'] });
 
   useEffect(() => {
     storeGroup();
@@ -70,7 +72,7 @@ const useGroup = (groupId: number | null) => {
     taskLists,
     isPending: !!groupId && isPending,
     clear,
-    reload,
+    refetch,
   };
 };
 
