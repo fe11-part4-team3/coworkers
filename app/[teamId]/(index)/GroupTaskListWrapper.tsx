@@ -1,4 +1,3 @@
-import { ITaskListSummary } from '@/types/group.type';
 import IconPlus from '@/public/images/icon-plus.svg';
 
 import GroupTaskList from './GroupTaskList';
@@ -7,6 +6,7 @@ import {
   _DeleteTaskListParams,
   _UpdateTaskListParams,
 } from './TeamPage.type';
+import { ITaskList } from '@/types/taskList.type';
 
 export type PointColorType =
   | 'purple'
@@ -18,7 +18,7 @@ export type PointColorType =
   | 'yellow';
 
 interface GroupTaskListWrapperProps {
-  taskLists: ITaskListSummary[] | null;
+  taskLists: ITaskList[] | null;
   onCreate: (params: _CreateTaskListParams) => void;
   onEdit: (params: _UpdateTaskListParams) => void;
   onDelete: (params: _DeleteTaskListParams) => void;

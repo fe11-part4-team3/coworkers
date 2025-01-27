@@ -20,24 +20,26 @@ import {
   _DeleteTaskListParams,
   _UpdateTaskListParams,
 } from './TeamPage.type';
+import useTaskLists from '@/hooks/useTaskLists';
 
 export default function TeamPage() {
   useUser(true);
   const { teamId } = useParams();
-  const { group, members, taskLists, reload } = useGroup(Number(teamId));
+  const { group, members, taskLists } = useGroup(Number(teamId));
+  const { data: _taskLists, refetchById, refetchAll } = useTaskLists(taskLists);
   const { mutate: onCreate } = useMutation({
     mutationFn: (params: _CreateTaskListParams) => _createTaskList(params),
-    onSuccess: () => reload(),
+    onSuccess: () => refetchAll(),
     onError: (error) => alert(error),
   });
   const { mutate: onEdit } = useMutation({
     mutationFn: (params: _UpdateTaskListParams) => _updateTaskList(params),
-    onSuccess: () => reload(),
+    onSuccess: ({ id }) => refetchById(id),
     onError: (error) => alert(error),
   });
   const { mutate: onDelete } = useMutation({
     mutationFn: (params: _DeleteTaskListParams) => _deleteTaskList(params),
-    onSuccess: () => reload(),
+    onSuccess: () => refetchAll(),
     onError: (error) => alert(error),
   });
 
@@ -63,7 +65,7 @@ export default function TeamPage() {
       <div className="flex flex-col gap-pr-24 pt-pr-24">
         <GroupHeader name={group.name} />
         <GroupTaskListWrapper
-          taskLists={taskLists}
+          taskLists={_taskLists}
           onCreate={onCreate}
           onEdit={onEdit}
           onDelete={onDelete}
