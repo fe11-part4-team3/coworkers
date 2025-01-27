@@ -6,11 +6,12 @@ import { useRouter } from 'next/navigation';
 import { signUp } from '@/service/auth.api';
 import useForm from '@/hooks/useForm';
 import Container from '@/components/layout/Container';
-import { Button } from '@/components/ui/button';
 import useUser from '@/hooks/useUser';
+import InputField from '@/components/InputField/InputField';
+import Buttons from '@/components/Buttons';
 
 function SignupPage() {
-  const { formData, handleInputChange } = useForm({
+  const { formData, handleInputChange, errorMessage } = useForm({
     email: '',
     nickname: '',
     password: '',
@@ -52,58 +53,64 @@ function SignupPage() {
 
   return (
     <Container>
+      <h1>회원가입</h1>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>
-            이름:
-            <input
-              type="text"
-              name="nickname"
-              value={formData.nickname}
-              onChange={(e) => handleInputChange(e)}
-              required
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-            이메일:
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={(e) => handleInputChange(e)}
-              required
-            />
-          </label>
-        </div>
+        <InputField
+          label="이름"
+          type="text"
+          name="nickname"
+          value={formData.nickname}
+          onChange={handleInputChange}
+          errorMessage={errorMessage.nickname}
+          placeholder="이름을 입력해주세요."
+          required
+        />
 
-        <div>
-          <label>
-            비밀번호:
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={(e) => handleInputChange(e)}
-              required
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-            비밀번호 확인:
-            <input
-              type="password"
-              name="passwordConfirmation"
-              value={formData.passwordConfirmation}
-              onChange={(e) => handleInputChange(e)}
-              required
-            />
-          </label>
-        </div>
+        <InputField
+          label="이메일"
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleInputChange}
+          errorMessage={errorMessage.email}
+          placeholder="이메일을 입력해주세요."
+          required
+        />
+
+        <InputField
+          label="비밀번호"
+          type="password"
+          name="password"
+          value={formData.password}
+          onChange={handleInputChange}
+          errorMessage={errorMessage.password}
+          placeholder="비밀번호를 입력해주세요."
+          required
+        />
+
+        <InputField
+          label="비밀번호 확인"
+          type="password"
+          name="passwordConfirmation"
+          value={formData.passwordConfirmation}
+          onChange={handleInputChange}
+          errorMessage={errorMessage.passwordConfirmation}
+          placeholder="비밀번호를 다시 한 번 입력해주세요."
+          required
+        />
         {error && <p style={{ color: 'red' }}>{error}</p>}
-        <Button type="submit">회원가입</Button>
+        <Buttons
+          text="회원가입"
+          type="submit"
+          disabled={
+            !(
+              errorMessage.email === '' &&
+              errorMessage.nickname === '' &&
+              errorMessage.password === '' &&
+              errorMessage.passwordConfirmation === ''
+            )
+          }
+        />
       </form>
     </Container>
   );

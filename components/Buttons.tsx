@@ -80,7 +80,9 @@ export default function Buttons(props: ButtonsProps) {
     rounded = false,
     size = 'M',
     disabled = false,
+    loading = false,
     onClick,
+    onSubmit,
     bg = 'default',
     width = '',
     type = 'button',
@@ -97,7 +99,7 @@ export default function Buttons(props: ButtonsProps) {
           {icon}
         </span>
       )}
-      {disabled && <Loader2 className="animate-spin" />}
+      {loading && <Loader2 className="animate-spin" />}
       {text}
     </>
   );
@@ -157,6 +159,7 @@ export default function Buttons(props: ButtonsProps) {
     <Button
       className={buttonClasses}
       onClick={onClick}
+      onSubmit={onSubmit}
       disabled={isDisabled}
       type={type}
     >
