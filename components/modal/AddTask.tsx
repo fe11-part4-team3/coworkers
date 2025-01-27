@@ -97,7 +97,7 @@ export default function AddTask({
           }
         />
         <div className="modal-button-wrapper">
-          <Buttons text="만들기" size="XL" rounded={false} type="submit" />
+          <Buttons text="만들기" type="submit" />
         </div>
       </form>
     </>

@@ -10,7 +10,7 @@ import Buttons from '../Buttons';
 
 // input 공통 스타일
 export const inputStyled =
-  'focuse:border-i-focus disabled:border-b-disabled visited:border-i-focus target:border-i-focus focus:border-i-focus active:border-i-focus rounded-xl w-full border bg-b-secondary text-t-default disabled:bg-b-tertiary disabled:text-t-disabled text-16 mo:text-14 h-auto';
+  'focuse:border-i-focus disabled:border-b-disabled visited:border-i-focus target:border-i-focus focus:border-i-focus active:border-i-focus rounded-xl w-full border bg-b-secondary text-t-default disabled:bg-b-tertiary disabled:text-t-disabled text-16 mo:text-14 h-auto shadow-none';
 
 /**
  * @description InputField 컴포넌트

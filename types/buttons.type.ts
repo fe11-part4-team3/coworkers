@@ -15,6 +15,7 @@ type ButtonsBaseProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 type ButtonsLinkProps = ButtonsBaseProps & {
   href?: string;
   onClick?: never;
+  onSubmit?: never;
 };
 
 // onClick 속성이 있는 경우 (클릭 버튼)

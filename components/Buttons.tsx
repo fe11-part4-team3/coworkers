@@ -22,24 +22,22 @@ import { ButtonsProps } from '@/types/buttons.type';
  * @param props.onClick 버튼 클릭 이벤트
  * @param props.onSubmit 버튼 제출 이벤트
  */
-export default function Buttons(props: ButtonsProps) {
-  const {
-    text,
-    href,
-    width,
-    size = 'XL',
-    textColor = 'white',
-    backgroundColor = 'default',
-    icon = false,
-    rounded = false,
-    disabled = false,
-    loading = false,
-    border = false,
-    onClick,
-    onSubmit,
-    ...rest
-  } = props;
-
+export default function Buttons({
+  text,
+  href,
+  width,
+  size = 'XL',
+  textColor = 'white',
+  backgroundColor = 'default',
+  icon = false,
+  rounded = false,
+  disabled = false,
+  loading = false,
+  border = false,
+  onClick,
+  onSubmit,
+  ...rest
+}: ButtonsProps) {
   const SIZES = {
     S: 'py-pr-6 !text-14sb',
     M: 'py-pr-12 !text-16sb',
@@ -83,7 +81,7 @@ export default function Buttons(props: ButtonsProps) {
   const hasBorderDisabled = disabled && border === 'primary' && BORDER.disabled;
 
   const buttonClasses = classNames(
-    'flex items-center justify-center transition-all duration-200 rounded-xl w-full h-auto disabled:opacity-100',
+    'flex items-center justify-center transition-all duration-200 rounded-xl w-full h-auto disabled:opacity-100 shadow-none',
     SIZES[size],
     BACKGROUND[backgroundColor],
     TEXT_COLOR[textColor],
@@ -110,7 +108,7 @@ export default function Buttons(props: ButtonsProps) {
     </>
   );
 
-  if ('href' in props) {
+  if (href) {
     return (
       <Button className={buttonClasses} disabled={disabled} {...rest}>
         <Link href={href!}>{renderContent()}</Link>

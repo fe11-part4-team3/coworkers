@@ -55,7 +55,7 @@ export default function AddTaskList({
           }
         />
         <div className="modal-button-wrapper">
-          <Buttons text="만들기" size="XL" onClick={() => {}} type="submit" />
+          <Buttons text="만들기" onClick={() => {}} type="submit" />
         </div>
       </form>
     </>

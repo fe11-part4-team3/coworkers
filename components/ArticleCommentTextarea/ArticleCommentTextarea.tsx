@@ -40,10 +40,7 @@ function ArticleCommentTextarea({
           text="등록"
           disabled={commentValue === ''}
           onClick={handleCommentSubmit}
-          bg="default"
           size={!mobile ? 'XL' : 'S'}
-          loading={false}
-          rounded={false}
           width="w-pr-184 mo:w-pr-74"
         />
       </div>

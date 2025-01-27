@@ -107,7 +107,7 @@ export const Size = () => (
     <Buttons text="Small" size="S" />
     <Buttons text="Medium" size="M" />
     <Buttons text="Large" size="L" />
-    <Buttons text="Extra Large" size="XL" />
+    <Buttons text="Extra Large" />
   </div>
 );
 

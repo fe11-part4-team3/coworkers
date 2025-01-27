@@ -78,9 +78,9 @@ function ArticleDetailFooter({
           <Buttons
             disabled={commentEditContent === content}
             text="수정하기"
-            variant="outline"
+            border="primary"
             onClick={updateSubmit}
-            bg="none"
+            backgroundColor="none"
             size="S"
             width="w-pr-74"
           />
