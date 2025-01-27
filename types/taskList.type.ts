@@ -36,6 +36,11 @@ interface DeleteTaskListParams {
   id: number;
 }
 
+interface DeleteTaskListResponse {
+  success: boolean;
+  id: number;
+}
+
 interface CreateTaskListParams {
   groupId: number;
   name: string;
@@ -62,6 +67,7 @@ export type {
   UpdateTaskListParams,
   UpdateTaskListResponse,
   DeleteTaskListParams,
+  DeleteTaskListResponse,
   CreateTaskListParams,
   CreateTaskListResponse,
   OrderTaskListParams,
