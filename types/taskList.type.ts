@@ -13,7 +13,7 @@ interface ITaskList {
 interface GetTaskListParams {
   groupId: number;
   id: number;
-  date: string;
+  date?: string;
 }
 
 interface UpdateTaskListParams {
