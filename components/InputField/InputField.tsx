@@ -10,7 +10,7 @@ import Buttons from '../Buttons';
 
 // input 공통 스타일
 export const inputStyled =
-  'focuse:border-i-focus disabled:border-b-disabled visited:border-i-focus target:border-i-focus focus:border-i-focus active:border-i-focus rounded-xl w-full border bg-b-secondary text-t-default disabled:bg-b-tertiary disabled:text-t-disabled text-16 mo:text-14 h-auto';
+  'focuse:border-i-focus disabled:border-b-disabled visited:border-i-focus target:border-i-focus focus:border-i-focus active:border-i-focus rounded-xl w-full border bg-b-secondary text-t-default disabled:bg-b-tertiary disabled:text-t-disabled text-16 mo:text-14 h-auto shadow-none';
 
 /**
  * @description InputField 컴포넌트
@@ -67,7 +67,6 @@ export default function InputField({
             <div className="absolute right-pr-16 top-1/2 -translate-y-1/2">
               <Buttons
                 text="변경하기"
-                bg="default"
                 size="S"
                 width="w-pr-74"
                 onClick={onClickButton}

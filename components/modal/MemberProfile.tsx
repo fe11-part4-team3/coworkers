@@ -43,7 +43,7 @@ export default function MemberProfile({
           <p className="text-14 text-t-secondary">{email}</p>
         </div>
       </div>
-      <Buttons text="이메일 복사하기" size="XL" onClick={handleOnClick} />
+      <Buttons text="이메일 복사하기" onClick={handleOnClick} />
     </>
   );
 }

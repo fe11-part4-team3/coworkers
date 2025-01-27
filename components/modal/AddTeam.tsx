@@ -55,7 +55,7 @@ export default function AddTeam({
           }
         />
         <div className="modal-button-wrapper">
-          <Buttons text="추가하기" size="XL" onClick={() => {}} type="submit" />
+          <Buttons text="추가하기" onClick={() => {}} type="submit" />
         </div>
       </form>
     </>
