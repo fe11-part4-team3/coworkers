@@ -28,7 +28,7 @@
     --b-secondary-dark: #1e293b;
     --b-secondary-light: #f1f5f9;
     --b-secondary-2-dark: #18212f;
-    --b-secondary-2-light: #f1f5f9;
+    --b-secondary-2-light: #e2e8f0;
     --b-tertiary-dark: #334155;
     --b-tertiary-light: #e2e8f0;
     --b-inverse: #ffffff;
@@ -44,6 +44,8 @@
     /* text */
     --t-primary-dark: #f8fafc;
     --t-primary-light: #1e293b;
+    --t-primary-dark-10: #f8fafc1b;
+    --t-primary-light-10: #1e293b1b;
     --t-secondary-dark: #cbd5e1;
     --t-secondary-light: #334155;
     --t-tertiary-dark: #e2e8f0;
@@ -81,6 +83,7 @@
     --b-secondary-2-dark: var(--b-secondary-2-light);
     --b-tertiary-dark: var(--b-tertiary-light);
     --t-primary-dark: var(--t-primary-light);
+    --t-primary-dark-10: var(--t-primary-light-10);
     --t-secondary-dark: var(--t-secondary-light);
     --t-tertiary-dark: var(--t-tertiary-dark);
   }
