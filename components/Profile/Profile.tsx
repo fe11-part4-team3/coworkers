@@ -1,152 +1,89 @@
 import Image from 'next/image';
-import { useTheme } from 'next-themes';
-import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import classNames from 'classnames';
 
+import IconProfile from './IconProfile';
+import IconEdit from './IconEdit';
+
+// 타입 정의
 type Variant = 'member' | 'group';
 
-type Theme = 'dark' | 'light';
-const DEFAULT_THEME = 'dark';
-
-type ProfileImageType = {
-  [key in Variant]: {
-    [key in Theme]: string;
-  };
-};
-const PROFILE_IMAGE: ProfileImageType = {
-  member: {
-    dark: '/images/icon-profile-member.svg',
-    light: '/images/icon-profile-member-light.svg',
-  },
-  group: {
-    dark: '/images/icon-profile-image.svg',
-    light: '/images/icon-profile-image-light.svg',
-  },
-};
-
-type EditButtonType = {
-  [key in Theme]: string;
-};
-const EDIT_BUTTON: EditButtonType = {
-  dark: '/images/icon-edit-small.svg',
-  light: '/images/icon-edit-small-light.svg',
-};
-
-type ProfileProps = {
-  defaultProfile?: string | undefined | null;
+interface ProfileProps {
+  image?: string | null;
   variant: Variant;
-  profileSize?: number;
   isEdit?: boolean;
   editSize?: number;
-  onSelectFile?: (file: File) => void;
-  selectTheme?: Theme;
-};
+  profileSize?: number;
+  onSelectFile?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
 
 /**
  * 프로필 컴포넌트
- * @param defaultProfile 기본 사진의 경로
- * @param variant 표기할 기본 사진의 종류
- * @param profileSize 프로필 이미지 사이즈
- * @param isEdit 수정 버튼 표기 여부
- * @param editSize 수정 버튼 사이즈
- * @param onSelectFile 파일 선택 시 실행할 함수
- * @param selectTheme 원하는 테마 선택
+ * @param variant 프로필 타입 (member, group)
+ * @param preview 미리보기 이미지 URL
+ * @param image 프로필 이미지 URL
+ * @param profileSize 프로필 이미지 크기 (기본값: 64)
+ * @param isEdit 수정 버튼 표시 여부
+ * @param editSize 수정 버튼 크기 클래스 (기본값: 24)
+ * @param onSelectFile 파일 선택 시 호출될 콜백 함수
  */
 export default function Profile({
-  defaultProfile,
+  image,
   variant,
   profileSize = 64,
-  isEdit = false,
   editSize = 24,
+  isEdit = false,
   onSelectFile,
-  selectTheme,
 }: ProfileProps) {
-  const { theme, systemTheme } = useTheme();
-  const [currentTheme, setCurrentTheme] = useState<Theme>(DEFAULT_THEME);
-  const [preview, setPreview] = useState<string | null>(null);
-  const [file, setFile] = useState<File | null>(null);
-
-  // 파일 선택 시 프리뷰 및 파일 상태 변경
-  const handleChange = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
-      const files = event.target.files;
-      if (files && files[0]) {
-        setFile(files[0]);
-        onSelectFile?.(files[0]);
-      }
-    },
-    [onSelectFile],
-  );
-
-  useEffect(() => {
-    if (selectTheme) {
-      setCurrentTheme(selectTheme);
-      return;
-    }
-
-    if (theme === 'system') {
-      const next = systemTheme || DEFAULT_THEME;
-      setCurrentTheme(next);
-      return;
-    }
-
-    if (theme === 'dark' || theme === 'light') {
-      setCurrentTheme(theme);
-      return;
-    }
-
-    setCurrentTheme(DEFAULT_THEME);
-  }, [theme, systemTheme, selectTheme]);
-
-  useEffect(() => {
-    if (file) {
-      const next = URL.createObjectURL(file);
-      setPreview(next);
-    }
-
-    return () => {
-      if (preview) URL.revokeObjectURL(preview);
-    };
-  }, [file]);
+  // 프로필 이미지 또는 기본 아이콘
+  const renderProfileImage = () =>
+    image ? (
+      <Image
+        width={profileSize || 64}
+        height={profileSize || 64}
+        src={image || ''}
+        alt={`${variant} 프로필 이미지`}
+        className="h-full w-auto"
+      />
+    ) : (
+      <IconProfile variant={variant} size={profileSize} />
+    );
 
   return (
     <fieldset className="relative size-fit select-none">
       <label
-        htmlFor={isEdit ? 'edit' : undefined}
-        className={`relative ${isEdit && 'cursor-pointer hover:opacity-70'}`}
-        aria-label={`${variant} 프로필 이미지${isEdit ? ' 수정' : ''}`}
+        htmlFor={isEdit ? 'edit' : ''}
+        aria-label={`${variant} 프로필 이미지${isEdit && ' 수정'}`}
+        className={classNames(
+          'relative',
+          isEdit && 'cursor-pointer hover:opacity-70',
+        )}
       >
         <div
-          className={`relative overflow-hidden rounded-full ${profileSize > 32 ? 'border-2' : 'border'}`}
+          className={classNames(
+            'relative overflow-hidden rounded-full',
+            profileSize > 32 ? 'border-2' : 'border',
+          )}
           style={{ width: profileSize, height: profileSize }}
         >
-          <Image
-            className="size-full object-cover"
-            width={profileSize}
-            height={profileSize}
-            src={
-              preview || defaultProfile || PROFILE_IMAGE[variant][currentTheme]
-            }
-            alt={`${variant} 프로필 이미지`}
-          />
+          {renderProfileImage()}
         </div>
 
         {isEdit && (
-          <Image
+          <IconEdit
             className="absolute -bottom-pr-4 -right-pr-4"
-            width={editSize}
-            height={editSize}
-            src={EDIT_BUTTON[currentTheme]}
-            alt="수정"
+            size={editSize}
           />
         )}
       </label>
-      <input
-        id="edit"
-        type="file"
-        className="hidden"
-        onChange={handleChange}
-        accept="image/jpeg, image/png, image/webp, image/jpg"
-      />
+      {isEdit && (
+        <input
+          id="edit"
+          type="file"
+          className="hidden"
+          onChange={onSelectFile}
+          accept="image/jpeg, image/png, image/webp, image/jpg"
+        />
+      )}
     </fieldset>
   );
 }
