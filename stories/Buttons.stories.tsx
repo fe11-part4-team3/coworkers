@@ -1,302 +1,203 @@
-import { Meta, StoryObj } from '@storybook/react';
-import Buttons from '@/components/Buttons';
-import ICON_COMPLETE from '@/public/images/icon-complete.svg';
-import ICON_PLUS from '@/public/images/icon-plus.svg';
+// src/components/ui/button/Buttons.stories.tsx
 
-const meta: Meta<typeof Buttons> = {
+import React from 'react';
+import type { Meta, StoryFn } from '@storybook/react';
+
+import { ButtonsProps } from '@/types/buttons.type';
+import Buttons from '@/components/Buttons';
+
+// Mock icon component for demonstration
+const MockIcon = () => (
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <circle cx="12" cy="12" r="10" />
+  </svg>
+);
+
+export default {
   title: 'Components/Buttons',
   component: Buttons,
   argTypes: {
-    variant: {
-      control: 'select',
-      options: ['outline', 'secondary', 'destructive', ''],
-    },
-    bg: {
-      control: 'select',
-      options: ['white', 'gradient', 'none', 'default'],
-    },
+    text: { control: 'text' },
+    href: { control: 'text' },
+    width: { control: 'text' },
     size: {
-      control: 'select',
-      options: ['S', 'M', 'L', 'XL'],
+      control: {
+        type: 'select',
+        options: ['S', 'M', 'L', 'XL'],
+      },
+      defaultValue: 'XL',
     },
-    icon: {
-      control: 'object',
+    textColor: {
+      control: {
+        type: 'select',
+        options: ['default', 'white', 'primary'],
+      },
+      defaultValue: 'white',
     },
-    rounded: {
-      control: 'boolean',
+    backgroundColor: {
+      control: {
+        type: 'select',
+        options: ['default', 'white', 'gradient', 'danger', 'none'],
+      },
+      defaultValue: 'default',
     },
-    disabled: {
-      control: 'boolean',
+    icon: { control: 'boolean' },
+    rounded: { control: 'boolean' },
+    disabled: { control: 'boolean' },
+    loading: { control: 'boolean' },
+    border: {
+      control: {
+        type: 'select',
+        options: ['default', 'primary', 'secondary', 'disabled'],
+      },
     },
-    loading: {
-      control: 'boolean',
-    },
-    href: {
-      control: 'text',
+    type: {
+      control: {
+        type: 'select',
+        options: ['button', 'submit'],
+      },
     },
     onClick: { action: 'clicked' },
-    width: {
-      control: 'text',
-    },
+    onSubmit: { action: 'submitted' },
   },
+} as Meta;
+
+const Template: StoryFn<ButtonsProps> = (args) => <Buttons {...args} />;
+
+// 기본 버튼
+export const Default = Template.bind({});
+Default.args = {
+  text: 'Default Button',
+  onClick: () => {},
 };
 
-export default meta;
-type Story = StoryObj<typeof Buttons>;
-
-// onClick을 사용하는 기본 버튼
-export const Default: Story = {
-  args: {
-    text: '기본 버튼',
-    onClick: () => alert('기본 버튼 클릭됨'),
-    variant: '',
-    bg: 'default',
-    size: 'XL',
-    loading: false,
-    rounded: false,
-  },
+// 아이콘이 포함된 버튼
+export const WithIcon = Template.bind({});
+WithIcon.args = {
+  text: 'Button with Icon',
+  icon: <MockIcon />,
+  onClick: () => {},
 };
 
-// 아웃라인 버튼
-export const Outline: Story = {
-  args: {
-    text: '아웃라인 버튼',
-    variant: 'outline',
-    onClick: () => alert('아웃라인 버튼 클릭됨'),
-    bg: 'white',
-    size: 'XL',
-    loading: false,
-    rounded: false,
-  },
+// 로딩 상태 버튼
+export const Loading = Template.bind({});
+Loading.args = {
+  text: 'Loading Button',
+  loading: true,
+  onClick: () => {},
 };
 
-// 세컨더리 버튼
-export const Secondary: Story = {
-  args: {
-    text: '세컨더리 버튼',
-    variant: 'secondary',
-    onClick: () => alert('세컨더리 버튼 클릭됨'),
-    bg: 'white',
-    size: 'XL',
-    loading: false,
-    rounded: false,
-  },
+// 비활성화된 버튼
+export const Disabled = Template.bind({});
+Disabled.args = {
+  text: 'Disabled Button',
+  disabled: true,
+  onClick: () => {},
 };
 
-// 경고 및 강조 버튼
-export const Destructive: Story = {
-  args: {
-    text: '경고 및 강조 버튼',
-    variant: 'destructive',
-    onClick: () => alert('경고 및 강조 버튼 클릭됨'),
-    bg: 'default',
-    size: 'XL',
-    loading: false,
-    rounded: false,
-  },
-};
+// 다양한 크기의 버튼
+export const Size = () => (
+  <div className="space-y-4">
+    <Buttons text="Small" size="S" />
+    <Buttons text="Medium" size="M" />
+    <Buttons text="Large" size="L" />
+    <Buttons text="Extra Large" size="XL" />
+  </div>
+);
 
-// 비활성화 버튼
-export const Disabled: Story = {
-  args: {
-    text: '비활성화 버튼',
-    disabled: true,
-    onClick: () => alert('비활성화 버튼 클릭됨'), // disabled일 때 onClick은 무시됩니다.
-    variant: '',
-    bg: 'default',
-    size: 'XL',
-    loading: false,
-    rounded: false,
-  },
-};
-
-// 로딩 버튼 (disabled가 true로 설정됨)
-export const Loading: Story = {
-  args: {
-    text: '로딩 버튼',
-    onClick: () => alert('로딩 버튼 클릭됨'),
-    variant: '',
-    bg: 'default',
-    size: 'XL',
-    loading: true,
-    rounded: false,
-  },
-};
+// 다양한 배경 색상의 버튼
+export const Backgrounds = () => (
+  <div className="space-y-4">
+    <Buttons text="Default" backgroundColor="default" />
+    <Buttons text="White" backgroundColor="white" textColor="primary" />
+    <Buttons text="Gradient" backgroundColor="gradient" />
+    <Buttons text="Danger" backgroundColor="danger" />
+    <Buttons text="None" backgroundColor="none" />
+  </div>
+);
 
 // 링크 버튼
-export const WithLink: Story = {
-  args: {
-    text: '링크 버튼',
-    href: '/destination',
-    variant: '',
-    bg: 'default',
-    size: 'XL',
-    loading: false,
-    rounded: false,
-  },
+export const LinkButton = Template.bind({});
+LinkButton.args = {
+  text: 'Go to Home',
+  href: '/',
 };
 
-// 아이콘 버튼
-export const IconButton: Story = {
-  args: {
-    text: '아이콘 버튼',
-    icon: <ICON_PLUS />,
-    onClick: () => alert('아이콘 버튼 클릭됨'),
-    variant: '',
-    bg: 'default',
-    size: 'L',
-    loading: false,
-    rounded: true,
-  },
+// 원형 버튼
+export const Rounded = Template.bind({});
+Rounded.args = {
+  text: 'Rounded Button',
+  rounded: true,
+  onClick: () => {},
 };
 
-// 그라데이션 배경 버튼
-export const GradientBackground: Story = {
-  args: {
-    text: '그라데이션 배경 버튼',
-    onClick: () => alert('그라데이션 배경 버튼 클릭됨'),
-    variant: '',
-    bg: 'gradient',
-    size: 'XL',
-    loading: false,
-    rounded: false,
-  },
-};
+// 버튼 테두리 변형
+export const BorderVariants = () => (
+  <div className="space-y-4">
+    <Buttons text="Default Border" border="default" />
+    <Buttons text="Primary Border" border="primary" />
+    <Buttons text="Secondary Border" border="secondary" />
+    <Buttons text="Disabled Border" border="default" disabled={true} />
+  </div>
+);
 
-// 배경색 없음 버튼
-export const NoBackground: Story = {
-  args: {
-    text: '배경색 없음 버튼',
-    onClick: () => alert('배경색 없음 버튼 클릭됨'),
-    variant: '',
-    bg: 'none',
-    size: 'XL',
-    loading: false,
-    rounded: false,
-  },
-};
-
-// 배경색 없음 + 아웃라인 버튼
-export const transparentOutline: Story = {
-  args: {
-    text: '배경색 없음 + 아웃라인 버튼',
-    onClick: () => alert('배경색 없음 + 아웃라인 버튼 클릭됨'),
-    variant: 'outline',
-    bg: 'none',
-    size: 'XL',
-    loading: false,
-    rounded: false,
-  },
-};
-
-export const customButton1: Story = {
-  args: {
-    text: '생성하기',
-    onClick: () => alert('생성하기 클릭됨'),
-    bg: 'default',
-    size: 'S',
-    loading: false,
-    rounded: false,
-    width: 'w-pr-74',
-  },
-};
-
-export const customButton2: Story = {
-  args: {
-    text: '생성하기',
-    onClick: () => alert('생성하기 클릭됨'),
-    variant: 'outline',
-    bg: 'none',
-    size: 'S',
-    loading: false,
-    rounded: false,
-    width: 'w-pr-74',
-  },
-};
-
-export const customButton3: Story = {
-  args: {
-    text: '생성하기',
-    onClick: () => alert('생성하기 클릭됨'),
-    bg: 'default',
-    size: 'XL',
-    loading: false,
-    rounded: false,
-  },
-};
-
-export const customButton4: Story = {
-  args: {
-    text: '생성하기',
-    onClick: () => alert('생성하기 클릭됨'),
-    variant: 'outline',
-    bg: 'none',
-    size: 'XL',
-    loading: false,
-    rounded: false,
-  },
-};
-
-export const customButton5: Story = {
-  args: {
-    text: '닫기',
-    onClick: () => alert('닫기 클릭됨'),
-    variant: 'secondary',
-    bg: 'white',
-    size: 'XL',
-    loading: false,
-    rounded: false,
-  },
-};
-
-export const customButton6: Story = {
-  args: {
-    text: '회원탈퇴',
-    onClick: () => alert('회원탈퇴 클릭됨'),
-    variant: 'destructive',
-    bg: 'default',
-    size: 'XL',
-    loading: false,
-    rounded: false,
-  },
-};
-
-export const customButton7: Story = {
-  args: {
-    text: '할일 추가',
-    icon: <ICON_PLUS />,
-    onClick: () => alert('할일 추가 클릭됨'),
-    bg: 'default',
-    size: 'XL',
-    loading: false,
-    rounded: true,
-    width: 'w-pr-125',
-  },
-};
-
-export const customButton8: Story = {
-  args: {
-    text: '완료 하기',
-    icon: <ICON_COMPLETE className="text-icon-inverse" />,
-    onClick: () => alert('완료 하기 클릭됨'),
-    bg: 'default',
-    size: 'L',
-    loading: false,
-    rounded: true,
-    width: 'w-pr-111',
-  },
-};
-
-export const customButton9: Story = {
-  args: {
-    text: '완료 취소하기',
-    icon: <ICON_COMPLETE className="text-icon-brand" />,
-    onClick: () => alert('완료 취소하기 클릭됨'),
-    bg: 'white',
-    size: 'L',
-    loading: false,
-    rounded: true,
-    width: 'w-pr-138',
-    variant: 'outline',
-  },
-};
+export const ProjectButtons = () => (
+  <div className="space-y-4">
+    <Buttons text="생성하기" />
+    <Buttons text="생성하기" disabled />
+    <Buttons
+      text="생성하기"
+      backgroundColor="white"
+      textColor="primary"
+      border="primary"
+    />
+    <Buttons
+      text="생성하기"
+      backgroundColor="white"
+      textColor="primary"
+      border="primary"
+      disabled
+    />
+    <Buttons
+      text="생성하기"
+      backgroundColor="white"
+      textColor="default"
+      border="secondary"
+    />
+    <Buttons text="생성하기" backgroundColor="danger" textColor="white" />
+    <Buttons
+      text="생성하기"
+      backgroundColor="none"
+      textColor="primary"
+      border="primary"
+    />
+    <Buttons
+      text="생성하기"
+      backgroundColor="none"
+      textColor="primary"
+      border="primary"
+      disabled
+    />
+    <Buttons text="할일 추가" icon={<MockIcon />} rounded />
+    <Buttons
+      text="완료 취소하기"
+      icon={<MockIcon />}
+      rounded
+      backgroundColor="white"
+      border="primary"
+      textColor="primary"
+    />
+    <Buttons text="그냥 텍스트만 있는 버튼" backgroundColor="none" />
+    <Buttons
+      text="그냥 텍스트만 있는 버튼"
+      backgroundColor="none"
+      textColor="primary"
+    />
+  </div>
+);
