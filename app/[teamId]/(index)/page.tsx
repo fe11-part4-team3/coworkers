@@ -25,11 +25,17 @@ import useTaskLists from '@/hooks/useTaskLists';
 export default function TeamPage() {
   useUser(true);
   const { teamId } = useParams();
-  const { group, members, taskLists, reload } = useGroup(Number(teamId));
-  const { data: _taskLists, refetchById } = useTaskLists(taskLists);
+  const { group, members, refetch } = useGroup(Number(teamId));
+  const { data: _taskLists, refetchById, removeById } = useTaskLists();
+  /**
+   * TODO
+   * refetch 대신 createTaskList 응답 데이터를
+   * useGroupStore의 taskLists에 push해서
+   * useTaskList만 reftchAll하면 요청을 조금 줄일 수 있을 거 같습니다.
+   */
   const { mutate: onCreate } = useMutation({
     mutationFn: (params: _CreateTaskListParams) => _createTaskList(params),
-    onSuccess: () => reload(),
+    onSuccess: () => refetch(),
     onError: (error) => alert(error),
   });
   const { mutate: onEdit } = useMutation({
@@ -39,7 +45,7 @@ export default function TeamPage() {
   });
   const { mutate: onDelete } = useMutation({
     mutationFn: (params: _DeleteTaskListParams) => _deleteTaskList(params),
-    onSuccess: () => reload(),
+    onSuccess: ({ id }) => removeById(id),
     onError: (error) => alert(error),
   });
 
@@ -53,7 +59,7 @@ export default function TeamPage() {
     return updateTaskList({ groupId: group.id, ...params });
   };
 
-  const _deleteTaskList = (params: _DeleteTaskListParams) => {
+  const _deleteTaskList = async (params: _DeleteTaskListParams) => {
     if (!group) throw new Error('삭제할 목록의 팀이 없습니다');
     return deleteTaskList({ groupId: group.id, ...params });
   };
