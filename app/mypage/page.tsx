@@ -188,7 +188,6 @@ export default function MyPage() {
           <Buttons
             type="submit"
             text="저장하기"
-            bg="default"
             size="S"
             width="w-pr-100"
             onClick={handleSubmit}

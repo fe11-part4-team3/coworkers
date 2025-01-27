@@ -36,16 +36,15 @@ export default function Logout({
       <div className="modal-button-wrapper">
         <Buttons
           text="닫기"
-          size="XL"
           onClick={closeModal}
-          variant="secondary"
-          bg="white"
+          border="secondary"
+          textColor="default"
+          backgroundColor="white"
         />
         <Buttons
           text="로그아웃"
-          size="XL"
           onClick={handleOnClick}
-          variant="destructive"
+          backgroundColor="danger"
         />
       </div>
     </>

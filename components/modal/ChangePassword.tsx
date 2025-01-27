@@ -71,12 +71,12 @@ export default function ChangePassword({
         <div className="modal-button-wrapper">
           <Buttons
             text="닫기"
-            size="XL"
             onClick={closeModal}
-            variant="outline"
-            bg="white"
+            border="primary"
+            backgroundColor="white"
+            textColor="primary"
           />
-          <Buttons text="변경하기" size="XL" onClick={() => {}} type="submit" />
+          <Buttons text="변경하기" onClick={() => {}} type="submit" />
         </div>
       </form>
     </>

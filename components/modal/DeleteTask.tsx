@@ -44,16 +44,15 @@ export default function DeleteTask({
       <div className="modal-button-wrapper">
         <Buttons
           text="닫기"
-          size="XL"
           onClick={closeModal}
-          variant="secondary"
-          bg="white"
+          border="secondary"
+          backgroundColor="white"
+          textColor="default"
         />
         <Buttons
           text="삭제하기"
-          size="XL"
           onClick={handleOnClick}
-          variant="destructive"
+          backgroundColor="danger"
         />
       </div>
     </>
