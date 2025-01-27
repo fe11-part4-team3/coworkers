@@ -1,13 +1,14 @@
+import { FormValue } from '@/hooks/useForm';
 import { uploadImage } from '@/service/image.api';
 
 export type UpdatePayloadParams = {
-  [key: string]: string | number | boolean | undefined;
+  [key: string]: string | number | boolean | undefined | File;
   image?: string;
 };
 
 interface updatePayloadSubmitProps<T> {
   changedFields: Record<string, boolean>;
-  formData: Record<string, any>;
+  formData: Record<string, FormValue>;
   mutate: (payload: T) => void;
 }
 
@@ -83,6 +84,7 @@ const updatePayloadSubmit = async <T>({
       if (!hasChanged) return;
 
       const value = formData[key];
+
       if (key === 'image' && value instanceof File) {
         try {
           payload.image = await uploadImage(value);
