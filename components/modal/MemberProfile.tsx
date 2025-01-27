@@ -38,7 +38,7 @@ export default function MemberProfile({
       <CloseButton />
       <div className="w-full">
         <div className="mb-pr-24 flex flex-col items-center">
-          <Profile defaultProfile={image} variant="member" />
+          <Profile image={image} variant="member" />
           <h2 className="mb-pr-8 mt-pr-24 text-18 text-t-primary">{name}</h2>
           <p className="text-14 text-t-secondary">{email}</p>
         </div>
