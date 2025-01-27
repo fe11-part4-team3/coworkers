@@ -81,7 +81,7 @@ export default function Buttons({
   const hasBorderDisabled = disabled && border === 'primary' && BORDER.disabled;
 
   const buttonClasses = classNames(
-    'flex items-center justify-center transition-all duration-200 rounded-xl w-full h-auto disabled:opacity-100',
+    'flex items-center justify-center transition-all duration-200 rounded-xl w-full h-auto disabled:opacity-100 shadow-none',
     SIZES[size],
     BACKGROUND[backgroundColor],
     TEXT_COLOR[textColor],
