@@ -95,7 +95,6 @@ function Headers() {
             </>
           )}
         </div>
-
         {user ? (
           <DropDown
             trigger={

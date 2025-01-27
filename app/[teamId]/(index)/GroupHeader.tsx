@@ -7,16 +7,9 @@ interface GroupHeaderProps {
   // onClick: () => void;
 }
 
-/**
- * @todo
- * ```
- * 헤더의 border 컬러는  `border-primary` 에 `border-opacity-10`입니다. 하지만 `border-primary`는 `hsl`으로 `opacity`를 적용할 수 없는 컬러 값 입니다. 
- 
-그래서 일단 시안과 디자인을 맞추기 위해 `border-[#F8FAFC1A]`를 하드하게 입력했습니다.
-
-차후 커스텀 테마가 추가된다면 수정 하겠습니다.
- * ```
- */
+//TODO 썸네일 이미지 추가
+//TODO 헤더 배경 반응형 색상으로 수정
+//TODO 드롭 다운 컴포넌트 삽입
 export default function GroupHeader({
   name,
   // onClick,
