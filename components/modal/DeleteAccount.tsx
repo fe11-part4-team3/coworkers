@@ -47,16 +47,15 @@ export default function DeleteAccount({
       <div className="modal-button-wrapper">
         <Buttons
           text="닫기"
-          size="XL"
           onClick={closeModal}
-          variant="secondary"
-          bg="white"
+          border="secondary"
+          backgroundColor="white"
+          textColor="default"
         />
         <Buttons
           text="회원 탈퇴"
-          size="XL"
           onClick={handleOnClick}
-          variant="destructive"
+          backgroundColor="danger"
         />
       </div>
     </>

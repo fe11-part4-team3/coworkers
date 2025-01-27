@@ -81,13 +81,7 @@ export default function ResetPasswordPage() {
           value={updatePasswordData.passwordConfirmation}
           placeholder="새 비밀번호를 다시 한번 입력해주세요."
         />
-        <Buttons
-          type="submit"
-          text="재설정"
-          bg="default"
-          size="XL"
-          disabled={isReset}
-        />
+        <Buttons type="submit" text="재설정" disabled={isReset} />
       </form>
     </Container>
   );
