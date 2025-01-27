@@ -142,8 +142,6 @@ function LoginPage() {
             />
             <Buttons
               text="링크 보내기"
-              bg="default"
-              size="XL"
               onClick={() => resetPasswordMutate(createResetUrl)}
               disabled={isPending || !(errorEmail.email === '')}
               loading={isPending}

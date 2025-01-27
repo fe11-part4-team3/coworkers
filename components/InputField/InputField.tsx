@@ -67,7 +67,6 @@ export default function InputField({
             <div className="absolute right-pr-16 top-1/2 -translate-y-1/2">
               <Buttons
                 text="변경하기"
-                bg="default"
                 size="S"
                 width="w-pr-74"
                 onClick={onClickButton}
