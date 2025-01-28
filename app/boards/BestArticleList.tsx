@@ -34,7 +34,7 @@ function BestArticleList({ keyword }: { keyword: string | undefined }) {
   return (
     <>
       {!keyword ? (
-        <section className="border-b-1 mt-pr-40 border border-x-0 border-t-0 pb-pr-40">
+        <section className="mt-pr-40 border border-x-0 border-t-0 pb-pr-40">
           <h3 className="text-20b">베스트 게시글</h3>
 
           <div className="mt-pr-32 flex gap-x-pr-20 ta:gap-pr-16">
