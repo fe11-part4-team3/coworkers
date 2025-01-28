@@ -43,7 +43,7 @@ export default function BoardsPage() {
       />
       <BestArticleList keyword={keyword} />
       <ArticleList keyword={keyword} />
-      <AddArticleButton />
+      {!keyword && <AddArticleButton />}
     </Container>
   );
 }
