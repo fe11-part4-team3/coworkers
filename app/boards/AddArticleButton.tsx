@@ -11,14 +11,16 @@ function AddArticleButton() {
 
   return (
     <div className="sticky bottom-pr-90 right-0 h-0 text-right">
-      <Buttons
-        text="글쓰기"
-        icon={<ICON_PLUS width={16} height={16} strokeWidth={2} />}
-        onClick={() => router.push('/boards/addarticle')}
-        size="XL"
-        rounded={true}
-        width="w-pr-104"
-      />
+      <div className="inline-block">
+        <Buttons
+          text="글쓰기"
+          icon={<ICON_PLUS width={16} height={16} strokeWidth={2} />}
+          onClick={() => router.push('/boards/addarticle')}
+          size="XL"
+          rounded={true}
+          width="w-pr-104"
+        />
+      </div>
     </div>
   );
 }
