@@ -1,11 +1,12 @@
-import { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
+
 import Profile from '@/components/Profile/Profile';
 
 const meta: Meta<typeof Profile> = {
   title: 'Components/Profile',
   component: Profile,
   argTypes: {
-    defaultProfile: {
+    image: {
       control: 'text',
       description: '프로필 이미지 경로',
       defaultValue: '',
@@ -31,12 +32,6 @@ const meta: Meta<typeof Profile> = {
       description: '수정 버튼 아이콘 사이즈',
       defaultValue: 24,
     },
-    selectTheme: {
-      control: 'radio',
-      options: ['dark', 'light', undefined],
-      description: '원하는 테마 선택 가능',
-      defaultValue: undefined,
-    },
   },
 };
 
@@ -55,6 +50,5 @@ export const EditableProfile: Story = {
     isEdit: true,
     profileSize: 80,
     editSize: 30,
-    selectTheme: undefined,
   },
 };

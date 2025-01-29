@@ -78,7 +78,7 @@ export default function AddTeamPage() {
         mutate: createTeamMutate,
       });
     },
-    [changedFields, formData, createTeamMutate, overlap],
+    [changedFields, formData, createTeamMutate],
   );
 
   if (isPending && !user) {
@@ -95,9 +95,9 @@ export default function AddTeamPage() {
       <form onSubmit={handleSubmit}>
         <Profile
           variant="group"
-          onSelectFile={(file) => handleFileChange('image', file)}
+          onSelectFile={handleFileChange}
           isEdit={true}
-          defaultProfile={initialValues.image}
+          image={initialValues.image}
         />
 
         <InputField
