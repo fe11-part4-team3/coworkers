@@ -1,6 +1,6 @@
 import { getGroup } from '@/service/group.api';
-import useGroupStore from '@/stores/useGroup.stroe';
-import { useQuery } from '@tanstack/react-query';
+import useGroupStore from '@/stores/useGroup.store';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useEffect } from 'react';
 
 /**
