@@ -1,6 +1,15 @@
 import { getTaskList } from '@/service/taskList.api';
-import useGroupStore from '@/stores/useGroup.stroe';
+import useGroupStore from '@/stores/useGroup.store';
+import { ITask } from '@/types/task.type';
+import { ITaskList } from '@/types/taskList.type';
 import { useQueries, useQueryClient } from '@tanstack/react-query';
+import { useCallback, useMemo } from 'react';
+
+export interface IParsedTasks {
+  length: number;
+  todo: ITask[];
+  done: ITask[];
+}
 
 export default function useTaskLists() {
   const queryClient = useQueryClient();
@@ -13,13 +22,46 @@ export default function useTaskLists() {
       })) || [],
   });
 
-  const data = queries
-    .map((query) => query.data)
-    .filter((el) => el !== undefined);
+  const data = useMemo(
+    () => queries.map((query) => query.data).filter((el) => el !== undefined),
+    [queries],
+  );
 
   const isPending = queries.some((query) => query.isPending);
 
   const error = queries.find((query) => query.error)?.error;
+
+  const parseTasks = useCallback((taskList: ITaskList) => {
+    const prasedTasks: IParsedTasks = {
+      length: 0,
+      todo: [],
+      done: [],
+    };
+    taskList.tasks.forEach((task) => {
+      if (task.deletedAt) return;
+      if (task.doneAt) prasedTasks.done.push(task);
+      else prasedTasks.todo.push(task);
+      prasedTasks.length++;
+    });
+    return prasedTasks;
+  }, []);
+
+  const parseAllTasks = useCallback(() => {
+    const prasedTasks: IParsedTasks = {
+      length: 0,
+      todo: [],
+      done: [],
+    };
+    data?.forEach(({ tasks }) => {
+      tasks.forEach((task) => {
+        if (task.deletedAt) return;
+        if (task.doneAt) prasedTasks.done.push(task);
+        else prasedTasks.todo.push(task);
+        prasedTasks.length++;
+      });
+    });
+    return prasedTasks;
+  }, [data]);
 
   const refetchById = async (id: number) =>
     await queryClient.refetchQueries({ queryKey: ['taskList', id] });
@@ -36,9 +78,11 @@ export default function useTaskLists() {
     await queryClient.refetchQueries({ queryKey: ['taskList'] });
 
   return {
-    data,
+    taskLists: data,
     isPending: !!taskLists && isPending,
     error,
+    parseTasks,
+    parseAllTasks,
     refetchById,
     removeById,
     refetchAll,
