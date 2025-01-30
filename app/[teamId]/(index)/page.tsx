@@ -26,7 +26,7 @@ export default function TeamPage() {
   useUser(true);
   const { teamId } = useParams();
   const { group, members, refetch } = useGroup(Number(teamId));
-  const { data: _taskLists, refetchById, removeById } = useTaskLists();
+  const { taskLists, refetchById, removeById } = useTaskLists();
   /**
    * TODO
    * refetch 대신 createTaskList 응답 데이터를
@@ -71,7 +71,7 @@ export default function TeamPage() {
       <div className="flex flex-col gap-pr-24 pt-pr-24">
         <GroupHeader name={group.name} />
         <GroupTaskListWrapper
-          taskLists={_taskLists}
+          taskLists={taskLists}
           onCreate={onCreate}
           onEdit={onEdit}
           onDelete={onDelete}
