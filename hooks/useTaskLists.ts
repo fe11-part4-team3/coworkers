@@ -3,7 +3,7 @@ import useGroupStore from '@/stores/useGroup.store';
 import { ITask } from '@/types/task.type';
 import { ITaskList } from '@/types/taskList.type';
 import { useQueries, useQueryClient } from '@tanstack/react-query';
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 
 export interface IParsedTasks {
   length: number;
@@ -14,18 +14,19 @@ export interface IParsedTasks {
 export default function useTaskLists() {
   const queryClient = useQueryClient();
   const { taskLists, setTaskLists } = useGroupStore();
+
   const queries = useQueries({
     queries:
       taskLists?.map(({ id, groupId }) => ({
         queryKey: ['taskList', id],
         queryFn: () => getTaskList({ groupId, id }),
+        initialData: null,
       })) || [],
   });
 
-  const data = useMemo(
-    () => queries.map((query) => query.data).filter((el) => el !== undefined),
-    [queries],
-  );
+  const data = queries
+    .map((query) => query.data)
+    .filter((el) => el !== null && el !== undefined);
 
   const isPending = queries.some((query) => query.isPending);
 
@@ -78,7 +79,7 @@ export default function useTaskLists() {
     await queryClient.refetchQueries({ queryKey: ['taskList'] });
 
   return {
-    taskLists: data,
+    taskLists: data.length > 0 ? data : null,
     isPending: !!taskLists && isPending,
     error,
     parseTasks,

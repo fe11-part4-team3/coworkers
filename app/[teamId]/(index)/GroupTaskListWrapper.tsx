@@ -62,15 +62,16 @@ export default function GroupTaskListWrapper({
           <span className="text-14">새로운 목록 추가하기</span>
         </button>
       </div>
-      {taskLists?.map((taskList, i) => (
-        <GroupTaskList
-          key={taskList.id}
-          taskList={taskList}
-          pointColor={POINT_COLOR[i % POINT_COLOR.length]}
-          onEdit={onEdit}
-          onDelete={onDelete}
-        />
-      ))}
+      {taskLists &&
+        taskLists.map((taskList, i) => (
+          <GroupTaskList
+            key={taskList.id}
+            taskList={taskList}
+            pointColor={POINT_COLOR[i % POINT_COLOR.length]}
+            onEdit={onEdit}
+            onDelete={onDelete}
+          />
+        ))}
     </div>
   );
 }
