@@ -1,4 +1,5 @@
 import IconPlus from '@/public/images/icon-plus.svg';
+import { ITaskList } from '@/types/taskList.type';
 
 import GroupTaskList from './GroupTaskList';
 import {
@@ -6,7 +7,6 @@ import {
   _DeleteTaskListParams,
   _UpdateTaskListParams,
 } from './TeamPage.type';
-import { ITaskList } from '@/types/taskList.type';
 
 export type PointColorType =
   | 'purple'

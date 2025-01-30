@@ -1,8 +1,8 @@
 import KebabDropDown from '@/components/KebabDropDown';
+import { ITaskList } from '@/types/taskList.type';
 
 import { _DeleteTaskListParams, _UpdateTaskListParams } from './TeamPage.type';
 import { PointColorType } from './GroupTaskListWrapper';
-import { ITaskList } from '@/types/taskList.type';
 
 type IPointColorClasses = {
   [key in PointColorType]: string;

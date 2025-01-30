@@ -11,6 +11,7 @@ import {
   deleteTaskList,
   updateTaskList,
 } from '@/service/taskList.api';
+import useTaskLists from '@/hooks/useTaskLists';
 
 import GroupHeader from './GroupHeader';
 import GroupMemberList from './GroupMemberList';
@@ -20,7 +21,6 @@ import {
   _DeleteTaskListParams,
   _UpdateTaskListParams,
 } from './TeamPage.type';
-import useTaskLists from '@/hooks/useTaskLists';
 
 export default function TeamPage() {
   useUser(true);
