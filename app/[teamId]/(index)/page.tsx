@@ -27,12 +27,7 @@ export default function TeamPage() {
   const { teamId } = useParams();
   const { group, members, refetch } = useGroup(Number(teamId));
   const { taskLists, refetchById, removeById } = useTaskLists();
-  /**
-   * TODO
-   * refetch 대신 createTaskList 응답 데이터를
-   * useGroupStore의 taskLists에 push해서
-   * useTaskList만 reftchAll하면 요청을 조금 줄일 수 있을 거 같습니다.
-   */
+
   const { mutate: onCreate } = useMutation({
     mutationFn: (params: _CreateTaskListParams) => _createTaskList(params),
     onSuccess: () => refetch(),
