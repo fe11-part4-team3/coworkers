@@ -2,18 +2,19 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
+import Image from 'next/image';
 
-import { deleteUser, updateUser } from '@/service/user.api';
+import { updateUser } from '@/service/user.api';
 import updatePayloadSubmit from '@/utils/updatePayload';
 import useUser from '@/hooks/useUser';
 import useForm from '@/hooks/useForm';
 import Buttons from '@/components/Buttons';
-import { Button } from '@/components/ui/button';
 import Profile from '@/components/Profile/Profile';
 import Container from '@/components/layout/Container';
 import InputField from '@/components/InputField/InputField';
 import useModalStore from '@/stores/modalStore';
 import ChangePassword from '@/components/modal/ChangePassword';
+import DeleteAccount from '@/components/modal/DeleteAccount';
 
 interface initialValues {
   nickname: string;
@@ -21,7 +22,7 @@ interface initialValues {
 }
 
 export default function MyPage() {
-  const { user, isPending: isUserLoading, clear, reload } = useUser(true);
+  const { user, isPending: isUserLoading, reload } = useUser(true);
   const { openModal } = useModalStore();
 
   // STUB 유저 정보 초기값
@@ -74,22 +75,6 @@ export default function MyPage() {
       onError: () => alert('사용자 정보 수정에 실패했습니다.'),
     });
 
-  // STUB 회원 탈퇴 api 호출
-  const { mutate: deleteUserMutate } = useMutation({
-    mutationFn: deleteUser,
-    onSuccess: () => {
-      alert('회원탈퇴가 완료되었습니다.');
-      clear();
-    },
-    onError: () => alert('회원탈퇴에 실패했습니다.'),
-  });
-
-  // STUB 회원탈퇴 버튼 클릭 시
-  const handleSubmitUserDelete = async () => {
-    const confirm = window.confirm('정말로 회원탈퇴를 진행하시겠습니까?');
-    if (confirm) deleteUserMutate();
-  };
-
   // STUB 수정 버튼 클릭 시
   const handleSubmit = useCallback(async () => {
     await updatePayloadSubmit({
@@ -105,6 +90,12 @@ export default function MyPage() {
     openModal(<ChangePassword />);
   };
 
+  // STUB 회원탈퇴 모달 열기
+  const handleUserDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    openModal(<DeleteAccount />);
+  };
+
   if (isUserLoading && !user) {
     return <div>사용자 정보를 불러오는 중입니다...</div>;
   }
@@ -115,59 +106,75 @@ export default function MyPage() {
 
   // 로그인 상태일 때
   return (
-    <Container>
-      {/* 프로필 이미지 */}
-      <Profile
-        isEdit={true}
-        variant="member"
-        image={preview || user.image}
-        onSelectFile={handleFileChange}
-      />
+    <Container className="w-pr-842 pt-pr-40 tamo:pt-pr-24">
+      <h1 className="mb-pr-24 text-20b">계정 설정</h1>
+      <div className="auth_input-list">
+        {/* 프로필 이미지 */}
+        <Profile
+          isEdit={true}
+          variant="member"
+          image={preview || user.image}
+          onSelectFile={handleFileChange}
+        />
 
-      {/* 닉네임 */}
-      <InputField
-        label="이름"
-        name="nickname"
-        value={formData.nickname}
-        placeholder={user.nickname}
-        errorMessage={errorMessage.nickname}
-        onChange={handleInputChange}
-      />
+        {/* 닉네임 */}
+        <InputField
+          label="이름"
+          name="nickname"
+          value={formData.nickname}
+          placeholder={user.nickname}
+          errorMessage={errorMessage.nickname}
+          onChange={handleInputChange}
+        />
 
-      {/* 이메일 */}
-      <InputField
-        type="email"
-        value={user.email}
-        placeholder={user.email}
-        name="email"
-        disabled={true}
-        label="이메일"
-      />
+        {/* 이메일 */}
+        <InputField
+          type="email"
+          value={user.email}
+          placeholder={user.email}
+          name="email"
+          disabled={true}
+          label="이메일"
+        />
 
-      {/* 비밀번호 */}
-      <InputField
-        type="password"
-        value="password"
-        name="password"
-        placeholder="******"
-        onClickButton={(e) => handleOpenResetPassword(e)}
-        disabled={true}
-        label="비밀번호"
-      />
+        {/* 비밀번호 */}
+        <InputField
+          type="password"
+          value="password"
+          name="password"
+          placeholder="******"
+          onClickButton={(e) => handleOpenResetPassword(e)}
+          disabled={true}
+          label="비밀번호"
+        />
+      </div>
 
       {/* 회원탈퇴, 저장하기 버튼 */}
-      <div className="flex gap-pr-10">
-        <Button type="button" onClick={handleSubmitUserDelete}>
-          회원탈퇴
-        </Button>
+      <div className="mt-pr-24 flex items-center justify-between">
+        <button
+          type="button"
+          onClick={(e) => handleUserDelete(e)}
+          className="flex items-center justify-center gap-pr-8 text-16m text-s-danger"
+        >
+          <Image
+            src="/images/icon-secession.svg"
+            alt="회원탈퇴"
+            width={24}
+            height={24}
+          />
+          회원 탈퇴하기
+        </button>
 
         {/* 프로필 이미지 또는 닉네임의 변경사항이 있을 경우 해당 버튼 노출 */}
         {updateValidation && (
           <Buttons
             type="submit"
             text="저장하기"
-            size="S"
-            width="w-pr-100"
+            className="w-pr-100"
+            backgroundColor="none"
+            textColor="primary"
+            border="primary"
+            size="M"
             onClick={handleSubmit}
             disabled={!updateValidation || isUpdateUserPending}
             loading={isUpdateUserPending}
