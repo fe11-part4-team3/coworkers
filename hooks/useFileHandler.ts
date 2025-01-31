@@ -20,6 +20,7 @@ export function useFileHandler({ onFileChange }: UseFileHandlerProps) {
         // 파일 크기 검증
         if (file.size > MAX_SIZE_BYTES) {
           setError('파일 크기는 10MB 이하여야 합니다.');
+          setPreview(undefined);
           return;
         }
 

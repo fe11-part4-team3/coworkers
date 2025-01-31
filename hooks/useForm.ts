@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { validateField } from '@/utils/validation';
 import { useFileHandler } from '@/hooks/useFileHandler';
@@ -65,6 +65,14 @@ const useForm = <T extends Record<string, FormValue>>(initialValues: T) => {
       }));
     },
   });
+
+  // 파일 에러 메시지를 폼 에러 메시지에 추가
+  useEffect(() => {
+    setErrorMessage((prevErr) => ({
+      ...prevErr,
+      image: fileError,
+    }));
+  }, [fileError]);
 
   // 초기화 함수
   const resetForm = useCallback(
