@@ -88,17 +88,23 @@ function CommentContainer({ articleId }: { articleId: number }) {
       />
 
       <div className="mb-pr-56 mt-pr-40 flex flex-col gap-pr-16 border border-x-0 border-b-0 pt-pr-40">
-        {articleComments.list.map((comment) => (
-          <Comment
-            key={comment.id}
-            type="article"
-            commentData={comment}
-            handleDeleteClick={(id) => handleCommentDelete({ commentId: id })}
-            handleUpdateSubmit={(id, content) =>
-              handleUpdateSubmit({ commentId: id, content })
-            }
-          />
-        ))}
+        {articleComments.list.length > 0 ? (
+          articleComments.list.map((comment) => (
+            <Comment
+              key={comment.id}
+              type="article"
+              commentData={comment}
+              handleDeleteClick={(id) => handleCommentDelete({ commentId: id })}
+              handleUpdateSubmit={(id, content) =>
+                handleUpdateSubmit({ commentId: id, content })
+              }
+            />
+          ))
+        ) : (
+          <p className="mt-pr-118 text-center text-16m text-t-default">
+            아직 작성된 댓글이 없습니다.
+          </p>
+        )}
       </div>
     </>
   );

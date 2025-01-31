@@ -9,8 +9,10 @@ import WriterProfile from '@/components/WriterProfile';
 import { dotDate } from '@/utils/dateConversion';
 import { deleteArticle, getArticleDetail } from '@/service/article.api';
 import { GetArticleDetailParams } from '@/types/article.type';
+import useUser from '@/hooks/useUser';
 
 function ArticleDetail({ articleId }: GetArticleDetailParams) {
+  const { user } = useUser();
   const router = useRouter();
   const { data } = useQuery({
     queryKey: ['articleDetail'],
@@ -42,12 +44,14 @@ function ArticleDetail({ articleId }: GetArticleDetailParams) {
       <div className="pb-pr-27.5 pt-pr-24">
         <div className="flex justify-between">
           <p className="text-18m">{title}</p>
-          <div className="ml-pr-16 shrink">
-            <KebabDropDown
-              onEdit={() => alert('수정하기')}
-              onDelete={handleArticleDelete}
-            />
-          </div>
+          {user?.id === writer.id && (
+            <div className="ml-pr-16 shrink">
+              <KebabDropDown
+                onEdit={() => alert('수정하기')}
+                onDelete={handleArticleDelete}
+              />
+            </div>
+          )}
         </div>
 
         <div className="mt-pr-16 flex justify-between border border-x-0 border-b-0 pt-pr-16">
