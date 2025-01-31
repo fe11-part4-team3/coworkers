@@ -3,10 +3,7 @@ import { ITaskList } from '@/types/taskList.type';
 
 import { _DeleteTaskListParams, _UpdateTaskListParams } from './TeamPage.type';
 import { PointColorType } from './GroupTaskListWrapper';
-import useTaskLists from '@/hooks/useTaskLists';
-
-import IconTodo from '@/public/images/icon-state-todo.svg';
-import IconDone from '@/public/images/icon-state-done.svg';
+import TaskProgressBadge from './TaskProgressBadge';
 
 type IPointColorClasses = {
   [key in PointColorType]: string;
@@ -35,9 +32,6 @@ export default function GroupTaskList({
   onEdit,
   onDelete,
 }: GroupTaskListProps) {
-  const { parseTasks } = useTaskLists();
-  const tasks = parseTasks(taskList.tasks);
-
   const handleClickEdit = () => {
     const name = prompt('목록 명을 입력해주세요');
     if (name) onEdit({ id: taskList.id, name });
@@ -54,10 +48,7 @@ export default function GroupTaskList({
       <div className="flex grow items-center justify-between bg-b-secondary px-pr-12 py-pr-10">
         <div>{taskList.name}</div>
         <div className="flex items-center gap-pr-4">
-          <div className="flex items-center gap-pr-8 rounded-pr-12 bg-b-primary px-pr-8 py-pr-4">
-            {tasks.length === tasks.done.length ? <IconDone /> : <IconTodo />}
-            <span className="text-14 text-brand-primary">{`${tasks.done.length}/${tasks.length}`}</span>
-          </div>
+          <TaskProgressBadge tasks={taskList.tasks} />
           <KebabDropDown
             onEdit={handleClickEdit}
             onDelete={handleClickDelete}
