@@ -1,10 +1,11 @@
 import Image from 'next/image';
 import classNames from 'classnames';
 
+import InputLabel from '@/components/InputField/InputLabel';
+import ErrorMessage from '@/components/InputField/ErrorMessage';
+
 import IconProfile from './IconProfile';
 import IconEdit from './IconEdit';
-import InputLabel from '../InputField/InputLabel';
-import ErrorMessage from '../InputField/ErrorMessage';
 
 // 타입 정의
 type Variant = 'member' | 'group';
