@@ -3,10 +3,18 @@ import { IconTextProps } from '@/types/taskCard.type';
 /**
  * @param {string | number} props.text - 텍스트 (날짜, 시간, 반복 일정, 댓글 수)
  * @param {'calendar' | 'time' | 'repeat' | 'commentCount'} props.type - 아이콘 타입
+ * @param {'S' | 'M'} props.fontSize - 텍스트 사이즈 설정
+ * @param {string} props.fontColor - 텍스트 컬러 설정
  * @param {boolean} props.hasBar - 해당 컴포넌트 우측 바 표시 여부
  * @returns {JSX.Element} 아이콘과 텍스트 컴포넌트 (날짜, 시간, 반복 일정, 댓글 수)
  */
-function IconText({ text, type, hasBar }: IconTextProps) {
+function IconText({
+  text,
+  type,
+  fontSize = 'S',
+  fontColor = 'text-slate-500',
+  hasBar,
+}: IconTextProps) {
   const iconClass = {
     calendar: "before:bg-[url('/images/icon-calendar.svg')]",
     time: "before:bg-[url('/images/icon-time.svg')]",
@@ -14,10 +22,15 @@ function IconText({ text, type, hasBar }: IconTextProps) {
     commentCount: "before:bg-[url('/images/icon-comment.svg')]",
   }[type];
 
+  const baseClass =
+    "relative flex items-center leading-none before:inline-block before:size-pr-16 before:flex-1 before:bg-no-repeat before:content-['']";
+  const textSizeClass = fontSize === 'S' ? 'text-12' : 'text-14';
+  const commentCountClass = type === 'commentCount' ? 'gap-pr-4' : 'gap-pr-6';
+
   return (
     <>
       <span
-        className={`relative flex items-center text-xs leading-none text-slate-500 before:inline-block before:size-pr-16 before:flex-1 before:bg-no-repeat before:content-[''] ${iconClass} ${type === 'commentCount' ? 'ml-pr-12 mr-pr-8 gap-pr-2 mo:ml-auto' : 'gap-pr-6'}`}
+        className={`${baseClass} ${iconClass} ${commentCountClass} ${textSizeClass} ${fontColor}`}
       >
         {text}
       </span>

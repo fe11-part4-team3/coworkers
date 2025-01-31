@@ -27,7 +27,7 @@ function LikeCount({
   return (
     <>
       <button
-        className="flex items-center text-14 text-t-disabled mo:text-12"
+        className="flex items-center justify-center text-14 text-t-disabled mo:text-12"
         onClick={handleClick}
         disabled={type === 'readOnly'}
       >
@@ -35,7 +35,7 @@ function LikeCount({
           fill={!isCheck ? 'none' : 'var(--s-danger)'}
           stroke={!isCheck ? 'var(--icon-primary)' : 'none'}
         />
-        <span className="ml-pr-4">
+        <span className="ml-pr-5">
           {currentCount >= 9999 ? '9999+' : currentCount}
         </span>
       </button>
