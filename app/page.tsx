@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import Container from '@/components/layout/Container';
+import Buttons from '@/components/Buttons';
 // import useUser from '@/hooks/useUser';
 
 export default function LandingPage() {
@@ -45,12 +46,12 @@ export default function LandingPage() {
           </div>
 
           <div className="mt-pr-675">
-            <div>임시 버튼입니다.</div>
+            <Buttons text="Gradient" backgroundColor="gradient" />
           </div>
         </div>
       </div>
       <div className="flex flex-col items-center gap-pr-80">
-        <div className="relative h-pr-419 w-pr-966 rounded-pr-40 border border-brand-gradient">
+        <div className="border-pr-2 relative h-pr-419 w-pr-966 rounded-pr-40 border border-brand-gradient">
           <Image
             src="/images/landing/img-mockup1.png"
             alt="mockup1"
@@ -71,8 +72,64 @@ export default function LandingPage() {
             </div>
           </div>
         </div>
-        <div className="h-pr-419 w-pr-966 bg-green-500"></div>
-        <div className="h-pr-419 w-pr-966 bg-blue-500"></div>
+        <div className="relative h-pr-419 w-pr-966 rounded-pr-40 bg-b-secondary">
+          <div className="absolute left-pr-165 top-pr-151 flex h-pr-116 w-pr-172 flex-col items-start justify-between">
+            <Image
+              src="/images/landing/img-messageicon.svg"
+              alt="messageicon"
+              width={48}
+              height={48}
+            />
+            <div className="text-right">
+              간단하게 멤버들을
+              <br />
+              초대해요
+            </div>
+          </div>
+          <Image
+            src="/images/landing/img-mockup2.png"
+            alt="mockup2"
+            width={291}
+            height={338}
+            className="absolute right-pr-174 top-pr-0"
+          />
+        </div>
+        <div className="border-pr-2 relative h-pr-419 w-pr-966 rounded-pr-40 bg-b-secondary-2">
+          <Image
+            src="/images/landing/img-mockup3.png"
+            alt="mockup3"
+            width={291}
+            height={338}
+            className="absolute left-pr-174 top-pr-0"
+          />
+          <div className="absolute right-pr-181 top-pr-155 flex h-pr-120 w-pr-157 flex-col items-start justify-between">
+            <Image
+              src="/images/landing/img-checkicon.svg"
+              alt="foldericon"
+              width={48}
+              height={48}
+            />
+            <div>
+              할 일도 간편하게
+              <br />
+              체크해요
+            </div>
+          </div>
+        </div>
+        <div className="relative flex flex-col">
+          <div className="absolute top-pr-230 w-full text-center">
+            <div>지금 바로 시작해보세요</div>
+            <div>
+              팀원 모두와 같은 방향, 같은 속도로 나아가는 가장 쉬운 방법
+            </div>
+          </div>
+          <Image
+            src="/images/landing/img-landing-bottom.png"
+            alt="landing-bottom"
+            width={1920}
+            height={1080}
+          />
+        </div>
       </div>
     </div>
   );

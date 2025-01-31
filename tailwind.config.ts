@@ -70,6 +70,7 @@ const shadcnConfig: Config = {
           primary: 'var(--brand-primary)',
           secondary: 'var(--brand-secondary)',
           tertiary: 'var(--brand-tertiary)',
+          gradient: 'var(--brand-gradient)',
         },
         b: {
           primary: 'var(--b-primary-light)',
