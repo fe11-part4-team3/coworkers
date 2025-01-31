@@ -57,7 +57,7 @@ function Headers() {
 
   return (
     <header className="fixed z-40 flex w-full items-center border-b bg-b-secondary transition-all">
-      <nav className="mx-auto flex h-pr-60 w-pr-1200 items-center justify-between px-pr-40 mo:px-pr-16 ta:px-pr-25">
+      <nav className="mx-auto flex h-pr-60 w-pr-1280 items-center justify-between px-pr-40 mo:px-pr-16 ta:px-pr-25">
         <div className="flex items-center gap-pr-40 ta:gap-pr-24">
           {deviceType === 'mobile' && groups && (
             <>
