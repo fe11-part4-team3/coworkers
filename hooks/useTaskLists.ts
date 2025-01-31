@@ -1,7 +1,6 @@
 import { getTaskList } from '@/service/taskList.api';
 import useGroupStore from '@/stores/useGroup.store';
 import { ITask } from '@/types/task.type';
-import { ITaskList } from '@/types/taskList.type';
 import { useQueries, useQueryClient } from '@tanstack/react-query';
 import { useCallback } from 'react';
 
@@ -19,7 +18,8 @@ export default function useTaskLists() {
     queries:
       taskLists?.map(({ id, groupId }) => ({
         queryKey: ['taskList', id],
-        queryFn: () => getTaskList({ groupId, id }),
+        queryFn: () =>
+          getTaskList({ groupId, id, date: new Date().toISOString() }),
         initialData: null,
       })) || [],
   });
@@ -32,13 +32,13 @@ export default function useTaskLists() {
 
   const error = queries.find((query) => query.error)?.error;
 
-  const parseTasks = useCallback((taskList: ITaskList) => {
+  const parseTasks = useCallback((tasks: ITask[]) => {
     const prasedTasks: IParsedTasks = {
       length: 0,
       todo: [],
       done: [],
     };
-    taskList.tasks.forEach((task) => {
+    tasks.forEach((task) => {
       if (task.deletedAt) return;
       if (task.doneAt) prasedTasks.done.push(task);
       else prasedTasks.todo.push(task);
@@ -46,23 +46,6 @@ export default function useTaskLists() {
     });
     return prasedTasks;
   }, []);
-
-  const parseAllTasks = useCallback(() => {
-    const prasedTasks: IParsedTasks = {
-      length: 0,
-      todo: [],
-      done: [],
-    };
-    data?.forEach(({ tasks }) => {
-      tasks.forEach((task) => {
-        if (task.deletedAt) return;
-        if (task.doneAt) prasedTasks.done.push(task);
-        else prasedTasks.todo.push(task);
-        prasedTasks.length++;
-      });
-    });
-    return prasedTasks;
-  }, [data]);
 
   const refetchById = async (id: number) =>
     await queryClient.refetchQueries({ queryKey: ['taskList', id] });
@@ -83,7 +66,6 @@ export default function useTaskLists() {
     isPending: !!taskLists && isPending,
     error,
     parseTasks,
-    parseAllTasks,
     refetchById,
     removeById,
     refetchAll,
