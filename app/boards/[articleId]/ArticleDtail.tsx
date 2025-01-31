@@ -61,8 +61,15 @@ function ArticleDetail({ articleId }: GetArticleDetailParams) {
             </span>
           </div>
 
-          <div className="flex">
-            <IconText text={commentCount} type="commentCount" />
+          <div className="flex items-center">
+            <div className="mr-pr-16">
+              <IconText
+                text={commentCount}
+                type="commentCount"
+                fontSize="M"
+                fontColor="text-t-disabled"
+              />
+            </div>
 
             <LikeCount type="interactive" likeCount={likeCount} />
           </div>
