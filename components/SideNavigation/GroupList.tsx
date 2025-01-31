@@ -1,5 +1,3 @@
-import { useRouter } from 'next/navigation';
-
 import { IGroup } from '@/types/group.type';
 
 import {
@@ -10,36 +8,35 @@ import {
 } from '../ui/sidebar';
 
 interface GroupListProps {
-  groups: IGroup[] | undefined;
-  loading: boolean | undefined;
-  showSkeleton?: boolean | undefined;
-  skeletonLength?: number | undefined;
+  groups: IGroup[] | null;
+  isPending: boolean;
+  showSkeleton?: boolean;
+  skeletonLength?: number;
+  onClick: (path: string) => void;
 }
 
-const DEFAULT_GROUPS: IGroup[] = [];
-
 export default function GroupList({
-  groups = DEFAULT_GROUPS,
-  loading,
+  groups,
+  isPending,
   showSkeleton,
   skeletonLength,
+  onClick,
 }: GroupListProps) {
-  const router = useRouter();
-
-  if (loading && showSkeleton) {
+  if (isPending && showSkeleton) {
     return <GroupListSkeleton skeletonLength={skeletonLength} />;
   }
 
   return (
-    <SidebarMenu className="gap-pr-24">
-      {groups.map((group) => (
-        <SidebarMenuButton
-          key={group.id}
-          onClick={() => router.push(`/${group.id}`)}
-        >
-          <span className="text-14m">{group.name}</span>
-        </SidebarMenuButton>
-      ))}
+    <SidebarMenu className="gap-pr-12">
+      {groups &&
+        groups.map((group) => (
+          <SidebarMenuButton
+            key={group.id}
+            onClick={() => onClick(`/${group.id}`)}
+          >
+            <span className="text-14m">{group.name}</span>
+          </SidebarMenuButton>
+        ))}
     </SidebarMenu>
   );
 }

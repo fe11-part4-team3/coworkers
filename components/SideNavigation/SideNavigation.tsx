@@ -13,15 +13,16 @@ import {
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
+  useSidebar,
 } from '../ui/sidebar';
 import GroupList from './GroupList';
 import SideNavigationTrigger from './SideNavigationTrigger';
 
 interface SNBProps {
-  loading?: boolean | undefined;
-  groups?: IGroup[] | undefined;
-  showSkeleton?: boolean | undefined;
-  skeletonLength?: number | undefined;
+  isPending: boolean;
+  groups: IGroup[] | null;
+  showSkeleton?: boolean;
+  skeletonLength?: number;
 }
 
 /**
@@ -33,12 +34,18 @@ interface SNBProps {
  * @param props.skeletonLength 표기 스켈레톤 요소 수
  */
 export default function SideNavigation({
-  loading,
+  isPending,
   groups,
   showSkeleton,
   skeletonLength,
 }: SNBProps) {
   const router = useRouter();
+  const { toggleSidebar } = useSidebar();
+
+  const handleClick = (path: string) => {
+    toggleSidebar();
+    router.push(path);
+  };
 
   return (
     <div className="fixed left-0 top-0 z-10">
@@ -55,9 +62,10 @@ export default function SideNavigation({
             <SidebarGroupContent>
               <GroupList
                 groups={groups}
-                loading={loading}
+                isPending={isPending}
                 showSkeleton={showSkeleton}
                 skeletonLength={skeletonLength}
+                onClick={handleClick}
               />
             </SidebarGroupContent>
           </SidebarGroup>
@@ -67,7 +75,7 @@ export default function SideNavigation({
               <SidebarMenu className="gap-pr-24">
                 <SidebarMenuButton
                   className="text-14m"
-                  onClick={() => router.push('/boards')}
+                  onClick={() => handleClick('/board')}
                 >
                   <span>자유게시판</span>
                 </SidebarMenuButton>

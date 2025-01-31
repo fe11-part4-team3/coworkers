@@ -1,13 +1,18 @@
 import { ChangeEvent } from 'react';
 
-import { inputStyled } from '../InputField/InputField';
-import { Input } from '../ui/input';
+import { inputStyled } from '@/components/InputField/InputField';
+import { Input } from '@/components/ui/input';
 
 interface SearchInputProps {
   value: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
+/**
+ * @param {string} props.value - 검색 입력 현재 값.
+ * @param {Function} props.onChange - 검색어 입력 시 호출되는 함수.
+ * @returns {JSX.Element} 자유게시판 검색 입력 컴포넌트
+ */
 function SearchInput({ value, onChange }: SearchInputProps) {
   return (
     <div className="relative">

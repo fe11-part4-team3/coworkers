@@ -1,5 +1,4 @@
-import { useParams, useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 import { IGroup } from '@/types/group.type';
 import {
@@ -14,42 +13,39 @@ import DropdownTab from './DropdownTab';
 import DropdownAddGroup from './DropdownAddGroup';
 
 interface NavigationGroupDropdownProps {
-  groups: IGroup[];
+  groups: IGroup[] | null;
+  isPending: boolean;
+  currentGroup: IGroup | null;
 }
 
 /**
  * SECTION 글로벌 네비게이션에 사용할 그룹 드롭다운
  * @param props.groups 드롭다운에 사용할 그룹 배열
+ * @param props.isPending 그룹 데이터 페칭 로딩 여부
  */
 export default function NavigationGroupDropdown({
   groups,
+  isPending,
+  currentGroup,
 }: NavigationGroupDropdownProps) {
   const router = useRouter();
-  const { teamId } = useParams();
-  const groupId = teamId ? Number(teamId) : null;
-  const [selected, setSelected] = useState<string | null>(null);
 
   const handleClick = (groupId: number) => router.push(`/${groupId}`);
 
-  useEffect(() => {
-    if (!groupId || !groups) return;
-
-    //SECTION 드롭다운 선택된 그룹 찾는 로직
-    groups.some((group) => {
-      if (group.id === groupId) {
-        setSelected(group.name);
-        return true;
-      }
-      return false;
-    });
-  }, [groupId, groups]);
+  if (!groups) return null;
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         {/* SECTION 트리거. 선택된 그룹 표기 */}
-        <Button className="bg-inherit text-16m text-t-primary hover:bg-primary/10">
-          <span>{selected}</span>
+        <Button variant="link" className="bg-inherit text-t-primary">
+          {/* TODO 펜딩 시 스피너 렌더링 해야함 */}
+          {isPending ? (
+            <span>로딩 중</span>
+          ) : (
+            <span className="text-16m">{currentGroup?.name || '팀 선택'}</span>
+          )}
+          {/* REVIEW 시안에는 없지만 화살표 색도 테마에 따라 변하면 좋겠음*/}
           <ArrowDwon />
         </Button>
       </DropdownMenuTrigger>

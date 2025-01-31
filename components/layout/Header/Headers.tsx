@@ -1,67 +1,116 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
+import { useParams, useRouter } from 'next/navigation';
 
 import NavigationGroupDropdown from '@/components/NavigationGroupDropdown/NavigationGroupDropdown';
-import getMockGroups from '@/components/SideNavigation/mockGroups';
-import { useAuth } from '@/hooks/useAuth';
-import useUserStore from '@/stores/useUser.store';
 import { Button } from '@/components/ui/button';
+import { useDeviceType } from '@/contexts/DeviceTypeContext';
+import SideNavigationTrigger from '@/components/SideNavigation/SideNavigationTrigger';
+import SideNavigation from '@/components/SideNavigation/SideNavigation';
+import useUser from '@/hooks/useUser';
+import { IGroup } from '@/types/group.type';
+import DropDown from '@/components/DropDown';
 
-import Logo from './Logo';
 import Profile from './Profile';
+import Logo from './Logo';
 
 function Headers() {
-  const [teamId, setTeamId] = useState<string | null>('');
-  const { isAuthenticated } = useAuth();
-  const { user } = useUserStore();
+  const deviceType = useDeviceType();
+  const router = useRouter();
+  const { teamId } = useParams();
+  const groupId = teamId ? Number(teamId) : null;
+  const { user, groups, isPending, clear } = useUser();
+  const [currentGroup, setCurrentGroup] = useState<IGroup | null>(null);
 
-  // TODO : 팀 아이디를 가져오는 로직이 필요합니다.
+  const logout = useCallback(() => {
+    const flag = confirm('로그아웃 하시겠습니까?');
+    if (flag) {
+      clear();
+      alert('로그아웃 되었습니다.');
+    }
+  }, [clear]);
+
+  const dropdownItems = useMemo(
+    () => [
+      { text: '마이 히스토리', href: '/myhistory' },
+      { text: '계정 설정', href: '/mypage' },
+      { text: '팀 참여', href: '/addteam' },
+      {
+        text: '로그아웃',
+        onClick: logout,
+      },
+    ],
+    [clear],
+  );
+
   useEffect(() => {
-    setTeamId('경영지원팀');
-  }, []);
+    if (!groupId || !groups || isPending) {
+      setCurrentGroup(null);
+      return;
+    }
+    const group = groups.find((group) => group.id === groupId);
+    if (group) setCurrentGroup(group);
+    else router.push('/');
+  }, [groupId, groups, isPending]);
 
   return (
-    <header className="fixed flex h-pr-60 w-full items-center border-b bg-b-secondary">
-      <div className="mx-auto flex w-pr-1200 items-center gap-pr-40 px-pr-40 mo:px-pr-16 ta:gap-pr-24 ta:px-pr-25">
-        <Logo />
-        <nav className="ml-4 flex items-center space-x-4">
-          <ul className="flex items-center space-x-4 text-16m">
-            {/* TODO : 모바일일때는 안보이게 */}
-            {isAuthenticated && user && user.memberships.length > 0 && (
-              <li>
-                <Link href={`/${teamId}`}>
-                  <p>{teamId}</p>
-                </Link>
-                <Image
-                  src="/images/img-Check.svg"
-                  alt="check"
-                  width={16}
-                  height={16}
-                />
-              </li>
-            )}
-            {/*TODO 테스트용. 나중에 지워야합니다!*/}
-            <li>
-              <NavigationGroupDropdown groups={getMockGroups(10)} />
-            </li>
-            <li>
-              <Link href="/boards">자유게시판</Link>
-            </li>
-          </ul>
-        </nav>
+    <header className="fixed z-40 flex w-full items-center border-b bg-b-secondary transition-all">
+      <nav className="mx-auto flex h-pr-60 w-pr-1200 items-center justify-between px-pr-40 mo:px-pr-16 ta:px-pr-25">
+        <div className="flex items-center gap-pr-40 ta:gap-pr-24">
+          {deviceType === 'mobile' && groups && (
+            <>
+              <SideNavigationTrigger
+                src="/images/icon-gnb-menu.svg"
+                alt="그룹 네비게이션"
+              />
+              <SideNavigation
+                groups={groups}
+                isPending={isPending}
+                showSkeleton={true}
+                skeletonLength={10}
+              />
+            </>
+          )}
 
-        {isAuthenticated && user && (
-          <>
-            <Profile userName={user.nickname} profileImage={user.image} />
-            <Link href="/mypage">
-              <Button variant="link">마이페이지</Button>
-            </Link>
-          </>
+          <Logo />
+
+          {deviceType !== 'mobile' && (
+            <>
+              {groups && (
+                <NavigationGroupDropdown
+                  groups={groups}
+                  isPending={isPending}
+                  currentGroup={currentGroup}
+                />
+              )}
+              {user && (
+                <Link href="/boards">
+                  <Button variant="link">
+                    <span className="text-16m">자유게시판</span>
+                  </Button>
+                </Link>
+              )}
+            </>
+          )}
+        </div>
+        {user ? (
+          <DropDown
+            trigger={
+              <Button variant="link">
+                <Profile userName={user.nickname} profileImage={user.image} />
+              </Button>
+            }
+            items={dropdownItems}
+          />
+        ) : (
+          <div className="flex gap-pr-16">
+            <Link href="/login">로그인</Link>
+            <Link href="/signup">회원가입</Link>
+          </div>
         )}
-      </div>
+      </nav>
     </header>
   );
 }

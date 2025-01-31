@@ -2,28 +2,26 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useMutation } from '@tanstack/react-query';
 
-import useUserStore from '@/stores/useUser.store';
 import { signIn } from '@/service/auth.api';
-import { useAuth } from '@/hooks/useAuth';
-import { testStyled } from '@/styles/test.styles';
 import useForm from '@/hooks/useForm';
 import Container from '@/components/layout/Container';
-import { getUser } from '@/service/user.api';
+import useUser from '@/hooks/useUser';
+import InputField from '@/components/InputField/InputField';
+import Buttons from '@/components/Buttons';
+import { resetPasswordEmail } from '@/service/user.api';
+import { ResetPasswordEmailParams } from '@/types/user.type';
 
 function LoginPage() {
-  const { formData, handleChange } = useForm({
+  const { formData, handleInputChange, errorMessage } = useForm({
     email: '',
     password: '',
   });
 
   const [error, setError] = useState<string | null>(null);
-
   const route = useRouter();
-
-  // 인증된 사용자인지 확인
-  const { setAccessToken, isAuthenticated } = useAuth();
-  const { setUser, initializeUserData, user } = useUserStore();
+  const { user, reload, isAuthenticated } = useUser();
 
   // 로그인 버튼 클릭 시
   const handleSubmit = async (e: React.FormEvent) => {
@@ -31,73 +29,125 @@ function LoginPage() {
     setError(null);
 
     try {
-      const response = await signIn(formData, setAccessToken);
+      const response = await signIn(formData);
       if (!response) return;
-      setAccessToken(response.accessToken);
-
-      const userResponse = await getUser();
-      if (!userResponse) throw new Error('유저 데이터를 불러오지 못했습니다.');
-      setUser(userResponse);
-
-      alert('로그인 되었습니다.');
-      if (user) {
-        if (user.memberships.length > 0) {
-          route.push(`/${user.memberships[0].groupId}`);
-        } else {
-          route.push(`/`);
-        }
-      }
+      reload();
     } catch (err) {
       console.error('로그인 실패:', err);
       setError('이메일 또는 비밀번호가 올바르지 않습니다.');
     }
   };
 
-  // 로그인 상태일 때
   useEffect(() => {
-    if (isAuthenticated && user) {
-      initializeUserData();
-      if (user.memberships.length > 0) {
+    if (user) alert('로그인 성공!');
+  }, [user]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      if (user && user.memberships.length > 0) {
         route.push(`/${user.memberships[0].groupId}`);
       } else {
         route.push(`/`);
       }
+    } else {
+      return;
     }
-  }, [isAuthenticated, initializeUserData]);
+  }, [user, route, isAuthenticated]);
+
+  // 비밀번호 찾기 클릭 상태
+  const [isForgotPassword, setIsForgotPassword] = useState(false);
+
+  // 현재 페이지의 origin
+  const origin =
+    typeof window !== 'undefined'
+      ? window.location.origin
+      : 'http://localhost:3000';
+
+  // 비밀번호 찾기 폼
+  const {
+    formData: createResetUrl,
+    handleInputChange: handleEailChange,
+    errorMessage: errorEmail,
+  } = useForm<ResetPasswordEmailParams>({
+    email: '',
+    redirectUrl: origin,
+  });
+
+  // 비밀번호 찾기 요청
+  const { mutate: resetPasswordMutate, isPending } = useMutation({
+    mutationFn: resetPasswordEmail,
+    onSuccess: (message) => {
+      alert(message);
+      setIsForgotPassword(false);
+      createResetUrl.email = '';
+    },
+    onError: (error) => console.error('비밀번호 재설정 실패:', error),
+  });
 
   // 로그인 상태가 아닐 때
   return (
     <Container>
-      <h1>로그인 페이지</h1>
+      <h1>로그인</h1>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>
-            이메일:
-            <input
+        <InputField
+          label="이메일"
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleInputChange}
+          errorMessage={errorMessage.email}
+          placeholder="이메일을 입력해주세요."
+          required
+        />
+        <InputField
+          label="비밀번호"
+          type="password"
+          name="password"
+          value={formData.password}
+          onChange={handleInputChange}
+          errorMessage={errorMessage.password}
+          placeholder="비밀번호를 입력해주세요."
+          required
+        />
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+        <Buttons
+          text="로그인"
+          type="submit"
+          disabled={
+            !(errorMessage.email === '' && errorMessage.password === '')
+          }
+        />
+
+        {/* 비밀번호 찾기 모달 오픈 버튼 */}
+        <button
+          className="text-16m text-brand-primary underline"
+          onClick={() => setIsForgotPassword(true)}
+        >
+          비밀번호를 잊으셨나요?
+        </button>
+
+        {/* TODO 임의 비밀번호 재설정 모달 */}
+        {isForgotPassword && (
+          <div>
+            <h2>비밀번호 재설정</h2>
+            <p>비밀번호 재설정 링크를 보내드립니다.</p>
+            <InputField
+              label="이메일"
               type="email"
               name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
+              value={createResetUrl.email}
+              errorMessage={errorEmail.email}
+              onChange={handleEailChange}
+              placeholder="이메일을 입력하세요"
             />
-          </label>
-        </div>
-        <div>
-          <label>
-            비밀번호:
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
+            <Buttons
+              text="링크 보내기"
+              onClick={() => resetPasswordMutate(createResetUrl)}
+              disabled={isPending || !(errorEmail.email === '')}
+              loading={isPending}
             />
-          </label>
-        </div>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        <button type="submit" className={testStyled}>
-          로그인
-        </button>
+          </div>
+        )}
       </form>
     </Container>
   );

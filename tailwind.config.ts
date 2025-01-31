@@ -1,6 +1,7 @@
 import type { Config } from 'tailwindcss';
 import tailwindcssAnimate from 'tailwindcss-animate';
-import { customConfig } from './tailwind-custom.config';
+
+import { customConfig } from './tailwind-pxr.config';
 
 const shadcnConfig: Config = {
   darkMode: ['class'],
@@ -46,7 +47,7 @@ const shadcnConfig: Config = {
           DEFAULT: 'hsl(var(--destructive))',
           foreground: 'hsl(var(--destructive-foreground))',
         },
-        input: 'hsl(var(--input))',
+        input: 'var(--input)',
         ring: 'var(--ring)',
         chart: {
           '1': 'hsl(var(--chart-1))',
@@ -69,11 +70,11 @@ const shadcnConfig: Config = {
           primary: 'var(--brand-primary)',
           secondary: 'var(--brand-secondary)',
           tertiary: 'var(--brand-tertiary)',
-          gradient: 'var(--brand-gradient)',
         },
         b: {
           primary: 'var(--b-primary-light)',
           secondary: 'var(--b-secondary-light)',
+          'secondary-2': 'var(--b-secondary-2-light)',
           tertiary: 'var(--b-tertiary-light)',
           inverse: 'var(--b-inverse)',
         },

@@ -5,10 +5,9 @@ import { useState } from 'react';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { newDate, newTime } from '@/utils/dateConversion';
 import type { TaskCardProps } from '@/types/taskCard.type';
-
-import IconText from './IconLabel';
-import KebabButton from './KebabButton';
-import TaskCheckbox from './TaskCheckbox';
+import IconText from '@/components/IconLabel';
+import TaskCheckbox from '@/components/TaskCard/TaskCheckbox';
+import KebabDropDown from '@/components/KebabDropDown';
 
 const frequencyList: Record<
   'ONCE' | 'DAILY' | 'WEEKLY' | 'MONTHLY' | string,
@@ -26,7 +25,7 @@ const frequencyList: Record<
  * @returns {JSX.Element} 할 일 카드 컴포넌트
  */
 function TaskCard({ type, taskData }: TaskCardProps) {
-  const { id, name, date, doneAt, commentCount, frequency } = taskData;
+  const { name, date, doneAt, commentCount, frequency } = taskData;
   const [isChecked, setIsChecked] = useState(Boolean(doneAt));
   const isTaskList = type === 'taskList';
   const frequencyText = frequencyList[frequency];
@@ -52,13 +51,19 @@ function TaskCard({ type, taskData }: TaskCardProps) {
         {isTaskList && (
           <>
             <IconText type="commentCount" text={commentCount} />
-            <KebabButton taskId={id} />
+
+            <div className="ml-auto mo:ml-0">
+              <KebabDropDown
+                onEdit={() => alert('수정')}
+                onDelete={() => alert('삭제')}
+              />
+            </div>
           </>
         )}
       </CardContent>
 
       {isTaskList && (
-        <CardFooter className="flex gap-pr-20 p-0">
+        <CardFooter className="flex p-0">
           <IconText type="calendar" text={newDate(date)} hasBar />
           <IconText type="time" text={newTime(date)} hasBar />
           <IconText type="repeat" text={frequencyText} />

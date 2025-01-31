@@ -1,0 +1,119 @@
+/* 베이스 컬러 정의 */
+@tailwind base;
+
+@layer base {
+  :root {
+    --background: #fff;
+    --border: rgba(248, 250, 252, 1);
+    --input: #e2e8f0;
+
+    /* brand */
+    --brand-primary: #10b981;
+    --brand-secondary: #34d399;
+    --brand-tertiary: #a3e635;
+    --brand-gradient: linear-gradient(90deg, #10b981 0%, #a3e635 100%);
+
+    /* point */
+    --point-purple: #a855f7;
+    --point-blue: #3b82f6;
+    --point-cyan: #06b6d4;
+    --point-pink: #ec4899;
+    --point-rose: #f43f5e;
+    --point-orange: #f97316;
+    --point-yellow: #eab308;
+
+    /* background */
+    --b-primary-dark: #0f172a;
+    --b-primary-light: #ffffff;
+    --b-secondary-dark: #1e293b;
+    --b-secondary-light: #f1f5f9;
+    --b-secondary-2-dark: #18212f;
+    --b-secondary-2-light: #e2e8f0;
+    --b-tertiary-dark: #334155;
+    --b-tertiary-light: #e2e8f0;
+    --b-inverse: #ffffff;
+
+    /* interactive */
+    --i-inactive: #94a3b8;
+    --i-hover: #059669;
+    --i-pressed: #047857;
+    --i-focus: #10b981;
+    --ring: #10b981;
+    --ring-color: #10b981;
+
+    /* text */
+    --t-primary-dark: #f8fafc;
+    --t-primary-light: #1e293b;
+    --t-primary-dark-10: #f8fafc1b;
+    --t-primary-light-10: #1e293b1b;
+    --t-secondary-dark: #cbd5e1;
+    --t-secondary-light: #334155;
+    --t-tertiary-dark: #e2e8f0;
+    --t-tertiary-light: #0f172a;
+    --t-default: #64748b;
+    --t-inverse: #ffffff;
+    --t-disabled: #94a3b8;
+
+    /* status */
+    --s-danger: #dc2626;
+
+    /* icon */
+    --icon-primary: #64748b;
+    --icon-inverse: #f8fafc;
+    --icon-brand: #10b981;
+  }
+  .dark {
+    --background: #0f172a;
+    --b-primary-light: var(--b-primary-dark);
+    --b-secondary-light: var(--b-secondary-dark);
+    --b-secondary-2-light: var(--b-secondary-2-dark);
+    --b-tertiary-light: var(--b-tertiary-dark);
+    --t-primary-light: var(--t-primary-dark);
+    --t-secondary-light: var(--t-secondary-dark);
+    --t-tertiary-light: var(--t-tertiary-dark);
+
+    --ring: #10b981;
+    --ring-color: #10b981;
+    --border: rgba(248, 250, 252, 0.1);
+    --input: #343e4e;
+  }
+  .light {
+    --b-primary-dark: var(--b-primary-light);
+    --b-secondary-dark: var(--b-secondary-light);
+    --b-secondary-2-dark: var(--b-secondary-2-light);
+    --b-tertiary-dark: var(--b-tertiary-light);
+    --t-primary-dark: var(--t-primary-light);
+    --t-primary-dark-10: var(--t-primary-light-10);
+    --t-secondary-dark: var(--t-secondary-light);
+    --t-tertiary-dark: var(--t-tertiary-dark);
+  }
+
+  .scrollbar {
+    border-right: 0.5rem solid transparent;
+  }
+
+  .scrollbar::-webkit-scrollbar {
+    width: 0.25rem;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb {
+    height: 1.875rem;
+    background-color: var(--b-tertiary-dark);
+    border-radius: 99rem;
+  }
+
+  .scrollbar::-webkit-scrollbar-track {
+    margin: 1rem;
+  }
+
+  .scrollbar::-webkit-scrollbar-button {
+    display: none;
+  }
+}
+
+* {
+  @apply border-border;
+}
+body {
+  @apply bg-background text-foreground;
+}

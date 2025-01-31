@@ -6,10 +6,11 @@ import { Input } from '../ui/input';
 import ErrorMessage from './ErrorMessage';
 import InputLabel from './InputLabel';
 import HideToggle from './HideToggle';
+import Buttons from '../Buttons';
 
 // input 공통 스타일
 export const inputStyled =
-  'focuse:border-i-focus disabled:border-b-disabled visited:border-i-focus target:border-i-focus focus:border-i-focus active:border-i-focus rounded-xl w-full border bg-b-secondary text-t-default disabled:bg-b-tertiary disabled:text-t-disabled text-16 mo:text-14 h-auto';
+  'focuse:border-i-focus disabled:border-b-disabled visited:border-i-focus target:border-i-focus focus:border-i-focus active:border-i-focus rounded-xl w-full border bg-b-secondary text-t-default disabled:bg-b-tertiary disabled:text-t-disabled text-16 mo:text-14 h-auto shadow-none';
 
 /**
  * @description InputField 컴포넌트
@@ -46,7 +47,7 @@ export default function InputField({
   };
 
   return (
-    <fieldset className={width}>
+    <fieldset className={width ? width : 'w-full'}>
       {label && <InputLabel label={label} essential={essential} />}
       <div className="relative">
         <Input
@@ -63,13 +64,14 @@ export default function InputField({
         />
         {type === 'password' &&
           (disabled ? (
-            <button
-              type="button"
-              className="absolute right-pr-16 top-1/2 -translate-y-1/2"
-              onClick={onClickButton}
-            >
-              변경하기
-            </button>
+            <div className="absolute right-pr-16 top-1/2 -translate-y-1/2">
+              <Buttons
+                text="변경하기"
+                size="S"
+                width="w-pr-74"
+                onClick={onClickButton}
+              />
+            </div>
           ) : (
             <HideToggle
               togglePassword={togglePassword}

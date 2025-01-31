@@ -1,59 +1,117 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
+import { useCallback, useEffect, useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
 
-import { deleteUser, updatePassword } from '@/service/user.api';
-import useUserStore from '@/stores/useUser.store';
-import { useAuth } from '@/hooks/useAuth';
-import { testStyled } from '@/styles/test.styles';
-import Container from '@/components/layout/Container';
+import { deleteUser, updateUser } from '@/service/user.api';
+import updatePayloadSubmit from '@/utils/updatePayload';
+import useUser from '@/hooks/useUser';
 import useForm from '@/hooks/useForm';
+import Buttons from '@/components/Buttons';
+import { Button } from '@/components/ui/button';
+import Profile from '@/components/Profile/Profile';
+import Container from '@/components/layout/Container';
+import InputField from '@/components/InputField/InputField';
+
+interface initialValues {
+  nickname: string;
+  [key: string]: string | File;
+}
 
 export default function MyPage() {
-  const { formData, handleChange, setFormData } = useForm({
+  const { user, isPending: isUserLoading, clear, reload } = useUser(true);
+
+  // STUB 유저 정보 초기값
+  const initialValues = {
+    image: user?.image || '',
+    nickname: user?.nickname || '',
+  };
+
+  // STUB 유저 수정 폼 상태
+  const {
+    preview,
+    formData,
+    errorMessage,
+    changedFields,
+    handleInputChange,
+    handleFileChange,
+    setChangedFields,
+    initialValues: initialUserValues,
+  } = useForm<initialValues>(initialValues);
+
+  // STUB 유효성 검사에 따라 버튼 활성화 여부 상태
+  const [updateValidation, setUpdateValidation] = useState<boolean>(false);
+
+  // STUB 초기값을 이용한 변경사항 검사
+  useEffect(() => {
+    // 닉네임 에러메세지 노출 여부
+    const isNicknameValid = !errorMessage.nickname;
+    // 이미지 변경 여부
+    const hasImageChanged = !!changedFields.image;
+    // 닉네임이 변경되고, 초기값과 같지 않을때
+    const hasNicknameChanged =
+      changedFields.nickname &&
+      formData.nickname !== initialUserValues.nickname;
+
+    // 최종 유효성 검사에 따른 버튼 활성화 상태 담기
+    setUpdateValidation(
+      !!(isNicknameValid && (hasImageChanged || hasNicknameChanged)),
+    );
+  }, [errorMessage, changedFields, formData, initialUserValues]);
+
+  // STUB 사용자 정보 수정 api 호출
+  const { mutate: updateUserMutate, isPending: isUpdateUserPending } =
+    useMutation({
+      mutationFn: updateUser,
+      onSuccess: () => {
+        alert('사용자 정보 수정에 성공했습니다.');
+        reload();
+        setChangedFields({ image: false, nickname: false });
+      },
+      onError: () => alert('사용자 정보 수정에 실패했습니다.'),
+    });
+
+  // STUB 회원 탈퇴 api 호출
+  const { mutate: deleteUserMutate } = useMutation({
+    mutationFn: deleteUser,
+    onSuccess: () => {
+      alert('회원탈퇴가 완료되었습니다.');
+      clear();
+    },
+    onError: () => alert('회원탈퇴에 실패했습니다.'),
+  });
+
+  // STUB 회원탈퇴 버튼 클릭 시
+  const handleSubmitUserDelete = async () => {
+    const confirm = window.confirm('정말로 회원탈퇴를 진행하시겠습니까?');
+    if (confirm) deleteUserMutate();
+  };
+
+  // STUB 수정 버튼 클릭 시
+  const handleSubmit = useCallback(async () => {
+    await updatePayloadSubmit({
+      changedFields: changedFields as Record<string, boolean>,
+      formData,
+      mutate: updateUserMutate,
+    });
+  }, [changedFields, formData, updateUserMutate]);
+
+  if (isUserLoading && !user) {
+    return <div>사용자 정보를 불러오는 중입니다...</div>;
+  }
+
+  if (!user) {
+    return <div>로그인 상태가 아닙니다.</div>;
+  }
+
+  /*   TODO mypage 비밀번호 변경 기능 해야함 - 모달에서 진행
+  - 비밀번호 변경 버튼 클릭 시 기능
+
+  const { formData: passwordData, setFormData: setPasswordData } = useForm({
     passwordConfirmation: '',
     password: '',
   });
-  // 인증된 사용자인지 확인
-  const { clearToken, isAuthenticated } = useAuth();
 
-  // 사용자 정보 상태 및 초기화 함수
-  const { user, clearUser } = useUserStore();
-
-  const [error, setError] = useState<string | null>(null);
-
-  const route = useRouter();
-
-  // 로그아웃 버튼 클릭 시
-  const handleSubmitLogout = () => {
-    clearToken();
-    clearUser();
-    route.push('/');
-    alert('로그아웃 되었습니다.');
-  };
-
-  // 회원탈퇴 버튼 클릭 시
-  const handleUserDelete = async () => {
-    const confirm = window.confirm('정말로 회원탈퇴를 진행하시겠습니까?');
-    if (confirm) {
-      // 회원탈퇴 요청
-      try {
-        const response = await deleteUser();
-        if (!response) return;
-        alert('회원탈퇴가 완료되었습니다.');
-
-        // 로그아웃 처리
-        route.push('/');
-      } catch (err) {
-        console.error('회원탈퇴 실패:', err);
-        alert('회원탈퇴에 실패했습니다.');
-      }
-    }
-  };
-
-  // 비밀번호 변경 버튼 클릭 시
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
@@ -68,82 +126,106 @@ export default function MyPage() {
         passwordConfirmation: '',
         password: '',
       });
-      clearToken();
+      clear();
 
       route.push('/login');
     } catch (err) {
       console.error('회원탈퇴 실패:', err);
       setError('이메일 또는 비밀번호가 올바르지 않습니다.');
     }
-  };
-
-  if (!isAuthenticated || !user) {
-    return (
-      <Container>
-        <div>로그인이 필요합니다</div>
-        <div className="align-center flex gap-pr-10">
-          <Link href="/" className={testStyled}>
-            메인 페이지로 이동하기
-          </Link>
-          <Link href="/login" className={testStyled}>
-            로그인 하러가기
-          </Link>
-          <Link href="/signup" className={testStyled}>
-            회원가입 하러가기
-          </Link>
-        </div>
-      </Container>
-    );
-  }
+  }; */
 
   // 로그인 상태일 때
   return (
     <Container>
-      <div>환영합니다. {user.nickname} 님!</div>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>
-            변경할 비밀번호:
-            <input
-              type="password"
-              name="password"
-              autoComplete="new-password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-            변경할 비밀번호 확인:
-            <input
-              type="password"
-              name="passwordConfirmation"
-              autoComplete="new-password"
-              value={formData.passwordConfirmation}
-              onChange={handleChange}
-              required
-            />
-          </label>
-        </div>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        <button type="submit" className={testStyled}>
-          비밀번호 변경
-        </button>
-      </form>
+      {/* 프로필 이미지 */}
+      <Profile
+        isEdit={true}
+        variant="member"
+        image={preview || user.image}
+        onSelectFile={handleFileChange}
+      />
+
+      {/* 닉네임 */}
+      <InputField
+        label="이름"
+        name="nickname"
+        value={formData.nickname}
+        placeholder={user.nickname}
+        errorMessage={errorMessage.nickname}
+        onChange={handleInputChange}
+      />
+
+      {/* 이메일 */}
+      <InputField
+        type="email"
+        value={user.email}
+        placeholder={user.email}
+        name="email"
+        disabled={true}
+        label="이메일"
+      />
+
+      {/* 비밀번호 */}
+      <InputField
+        type="password"
+        value="password"
+        name="password"
+        placeholder="******"
+        onClickButton={() => alert('비밀번호 변경 모달이 열립니다.')}
+        disabled={true}
+        label="비밀번호"
+      />
+
+      {/* 회원탈퇴, 저장하기 버튼 */}
       <div className="flex gap-pr-10">
-        <button
-          type="submit"
-          onClick={handleSubmitLogout}
-          className={testStyled}
-        >
-          로그아웃
-        </button>
-        <button type="button" onClick={handleUserDelete} className={testStyled}>
+        <Button type="button" onClick={handleSubmitUserDelete}>
           회원탈퇴
-        </button>
+        </Button>
+
+        {/* 프로필 이미지 또는 닉네임의 변경사항이 있을 경우 해당 버튼 노출 */}
+        {updateValidation && (
+          <Buttons
+            type="submit"
+            text="저장하기"
+            size="S"
+            width="w-pr-100"
+            onClick={handleSubmit}
+            disabled={!updateValidation || isUpdateUserPending}
+            loading={isUpdateUserPending}
+          />
+        )}
       </div>
+
+      {/* TODO mypage 패스워드 변경 해야함 - 모달에서 진행 */}
+      {/* <div>
+        <label>
+          변경할 비밀번호:
+          <input
+            type="password"
+            name="password"
+            autoComplete="new-password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
+        </label>
+      </div>
+      <div>
+        <label>
+          변경할 비밀번호 확인:
+          <input
+            type="password"
+            name="passwordConfirmation"
+            autoComplete="new-password"
+            value={formData.passwordConfirmation}
+            onChange={handleChange}
+            required
+          />
+        </label>
+      </div>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+      <Button type="submit">비밀번호 변경</Button> */}
     </Container>
   );
 }

@@ -1,11 +1,7 @@
 import { IUserProfile } from './user.type';
+import { ITaskComment } from './comment.type';
 
-enum FrequencyType {
-  DAILY,
-  WEEKLY,
-  MONTHLY,
-  ONCE,
-}
+type FrequencyType = 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'ONCE';
 
 interface ITaskMetadata {
   displayIndex: number;
@@ -22,7 +18,8 @@ interface ITaskMetadata {
   id: number;
 }
 
-interface ITask extends ITaskMetadata {
+interface ITask extends Omit<ITaskMetadata, 'writerId' | 'userId'> {
+  commentCount: number;
   doneBy: {
     user: IUserProfile | null;
   } | null;
@@ -36,21 +33,21 @@ interface TaskRecurringCreateBody {
 }
 
 interface MonthlyRecurringCreateBody extends TaskRecurringCreateBody {
-  frequencyType: FrequencyType.MONTHLY;
+  frequencyType: 'MONTHLY';
   monthDay: number;
 }
 
 interface WeeklyRecurringCreateBody extends TaskRecurringCreateBody {
-  frequencyType: FrequencyType.WEEKLY;
+  frequencyType: 'WEEKLY';
   weekDays: number[];
 }
 
 interface DailyRecurringCreateBody extends TaskRecurringCreateBody {
-  frequencyType: FrequencyType.DAILY;
+  frequencyType: 'DAILY';
 }
 
 interface OnceRecurringCreateBody extends TaskRecurringCreateBody {
-  frequencyType: FrequencyType.ONCE;
+  frequencyType: 'ONCE';
 }
 
 type TaskRecurringCreateDto =
@@ -106,8 +103,19 @@ interface DeleteRecurringParams {
   recurringId: number;
 }
 
-export { FrequencyType };
+interface TaskDetailProps {
+  value: ITask;
+  commentData?: ITaskComment[];
+  deleteTask: (id: number) => void;
+  updateTask: (id: number) => void;
+  updateTaskStatus: (id: number) => void;
+  postComment: () => void;
+  deleteComment: (id: number) => void;
+  updateComment: (id: number) => void;
+}
+
 export type {
+  FrequencyType,
   ITaskMetadata,
   ITask,
   TaskRecurringCreateDto,
@@ -122,4 +130,5 @@ export type {
   DeleteTaskParams,
   OrderTaskParams,
   DeleteRecurringParams,
+  TaskDetailProps,
 };
