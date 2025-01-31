@@ -12,6 +12,8 @@ import { Button } from '@/components/ui/button';
 import Profile from '@/components/Profile/Profile';
 import Container from '@/components/layout/Container';
 import InputField from '@/components/InputField/InputField';
+import useModalStore from '@/stores/modalStore';
+import ChangePassword from '@/components/modal/ChangePassword';
 
 interface initialValues {
   nickname: string;
@@ -20,6 +22,7 @@ interface initialValues {
 
 export default function MyPage() {
   const { user, isPending: isUserLoading, clear, reload } = useUser(true);
+  const { openModal } = useModalStore();
 
   // STUB 유저 정보 초기값
   const initialValues = {
@@ -96,6 +99,12 @@ export default function MyPage() {
     });
   }, [changedFields, formData, updateUserMutate]);
 
+  // STUB 비밀번호 변경 모달 열기
+  const handleOpenResetPassword = (e: MouseEvent) => {
+    e.preventDefault();
+    openModal(<ChangePassword />);
+  };
+
   if (isUserLoading && !user) {
     return <div>사용자 정보를 불러오는 중입니다...</div>;
   }
@@ -103,37 +112,6 @@ export default function MyPage() {
   if (!user) {
     return <div>로그인 상태가 아닙니다.</div>;
   }
-
-  /*   TODO mypage 비밀번호 변경 기능 해야함 - 모달에서 진행
-  - 비밀번호 변경 버튼 클릭 시 기능
-
-  const { formData: passwordData, setFormData: setPasswordData } = useForm({
-    passwordConfirmation: '',
-    password: '',
-  });
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-
-    // 비밀번호 변경 요청
-    try {
-      const response = await updatePassword(formData);
-      if (!response) return;
-      alert('패스워드가 변경 되었습니다.');
-
-      setFormData({
-        passwordConfirmation: '',
-        password: '',
-      });
-      clear();
-
-      route.push('/login');
-    } catch (err) {
-      console.error('회원탈퇴 실패:', err);
-      setError('이메일 또는 비밀번호가 올바르지 않습니다.');
-    }
-  }; */
 
   // 로그인 상태일 때
   return (
@@ -172,7 +150,7 @@ export default function MyPage() {
         value="password"
         name="password"
         placeholder="******"
-        onClickButton={() => alert('비밀번호 변경 모달이 열립니다.')}
+        onClickButton={(e) => handleOpenResetPassword(e)}
         disabled={true}
         label="비밀번호"
       />
@@ -196,36 +174,6 @@ export default function MyPage() {
           />
         )}
       </div>
-
-      {/* TODO mypage 패스워드 변경 해야함 - 모달에서 진행 */}
-      {/* <div>
-        <label>
-          변경할 비밀번호:
-          <input
-            type="password"
-            name="password"
-            autoComplete="new-password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-        </label>
-      </div>
-      <div>
-        <label>
-          변경할 비밀번호 확인:
-          <input
-            type="password"
-            name="passwordConfirmation"
-            autoComplete="new-password"
-            value={formData.passwordConfirmation}
-            onChange={handleChange}
-            required
-          />
-        </label>
-      </div>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <Button type="submit">비밀번호 변경</Button> */}
     </Container>
   );
 }
