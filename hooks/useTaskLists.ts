@@ -1,14 +1,6 @@
 import { getTaskList } from '@/service/taskList.api';
 import useGroupStore from '@/stores/useGroup.store';
-import { ITask } from '@/types/task.type';
 import { useQueries, useQueryClient } from '@tanstack/react-query';
-import { useCallback } from 'react';
-
-export interface IParsedTasks {
-  length: number;
-  todo: ITask[];
-  done: ITask[];
-}
 
 export default function useTaskLists() {
   const queryClient = useQueryClient();
@@ -32,21 +24,6 @@ export default function useTaskLists() {
 
   const error = queries.find((query) => query.error)?.error;
 
-  const parseTasks = useCallback((tasks: ITask[]) => {
-    const prasedTasks: IParsedTasks = {
-      length: 0,
-      todo: [],
-      done: [],
-    };
-    tasks.forEach((task) => {
-      if (task.deletedAt) return;
-      if (task.doneAt) prasedTasks.done.push(task);
-      else prasedTasks.todo.push(task);
-      prasedTasks.length++;
-    });
-    return prasedTasks;
-  }, []);
-
   const refetchById = async (id: number) =>
     await queryClient.refetchQueries({ queryKey: ['taskList', id] });
 
@@ -65,7 +42,6 @@ export default function useTaskLists() {
     taskLists: data.length > 0 ? data : null,
     isPending: !!taskLists && isPending,
     error,
-    parseTasks,
     refetchById,
     removeById,
     refetchAll,
