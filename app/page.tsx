@@ -69,7 +69,36 @@ export default function LandingPage() {
           <div className="flex h-pr-76 w-pr-322 items-center justify-center">
             <div className="text-center">Coworkers</div>
           </div>
+
+          <div className="mt-pr-675">
+            <div>임시 버튼입니다.</div>
+          </div>
         </div>
+      </div>
+      <div className="flex flex-col items-center gap-pr-80">
+        <div className="relative h-pr-419 w-pr-966 rounded-pr-40 border border-brand-gradient">
+          <Image
+            src="/images/landing/img-mockup1.png"
+            alt="mockup1"
+            width={291}
+            height={338}
+            className="absolute bottom-pr-0 left-pr-174"
+          />
+          <div className="absolute right-pr-181 top-pr-155 flex h-pr-120 w-pr-157 flex-col items-start justify-between">
+            <Image
+              src="/images/landing/img-foldericon.svg"
+              alt="foldericon"
+              width={48}
+              height={48}
+            />
+            <div>
+              그룹으로
+              <br />할 일을 관리해요
+            </div>
+          </div>
+        </div>
+        <div className="h-pr-419 w-pr-966 bg-green-500"></div>
+        <div className="h-pr-419 w-pr-966 bg-blue-500"></div>
       </div>
     </div>
   );
