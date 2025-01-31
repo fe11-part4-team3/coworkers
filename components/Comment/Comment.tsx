@@ -3,8 +3,8 @@ import { ChangeEvent, useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { IArticleComment } from '@/types/articleComment.type';
 import TextareaField from '@/components/InputField/TextareaField';
-import ArticleDetailContent from '@/components/Comment/CommentContent';
-import ArticleDetailFooter from '@/components/Comment/CommentFooter';
+import CommentContent from '@/components/Comment/CommentContent';
+import CommentFooter from '@/components/Comment/CommentFooter';
 import { ITaskComment } from '@/types/comment.type';
 
 type handlerType = (id: number) => void;
@@ -46,7 +46,7 @@ const TASK_COMMENT_STYLE =
     );
   })}
  */
-function ArticleDetailComment({
+function Comment({
   type = 'article',
   commentData,
   handleDeleteClick,
@@ -104,7 +104,7 @@ function ArticleDetailComment({
       className={`${isArticleComment ? ARTICLE_COMMENT_STYLE : TASK_COMMENT_STYLE} `}
     >
       {!commentEdit ? (
-        <ArticleDetailContent
+        <CommentContent
           type={type}
           commentEditContent={commentEditContent}
           writer={writer}
@@ -124,7 +124,7 @@ function ArticleDetailComment({
         </div>
       )}
 
-      <ArticleDetailFooter
+      <CommentFooter
         type={type}
         writer={writer}
         user={user}
@@ -139,4 +139,4 @@ function ArticleDetailComment({
   );
 }
 
-export default ArticleDetailComment;
+export default Comment;

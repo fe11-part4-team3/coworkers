@@ -16,7 +16,7 @@ import { IUserProfile } from '@/types/user.type';
  * @param {Function} props.updateSubmit - 댓글 수정 완료 함수
  * @returns {JSX.Element} 게시글 상세 페이지 댓글(조회, 수정) 컴포넌트
  */
-function ArticleDetailFooter({
+function CommentFooter({
   type = 'article',
   writer,
   user,
@@ -90,4 +90,4 @@ function ArticleDetailFooter({
   );
 }
 
-export default ArticleDetailFooter;
+export default CommentFooter;

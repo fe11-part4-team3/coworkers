@@ -11,7 +11,7 @@ import KebabDropDown from '@/components/KebabDropDown';
  * @param {Function} props.commentDelete - 댓글 삭제 함수
  * @returns {JSX.Element} 게시글 상세 페이지 댓글(조회, 수정) 컴포넌트
  */
-function ArticleDetailContent({
+function CommentContent({
   type = 'article',
   commentEditContent,
   writer,
@@ -52,4 +52,4 @@ function ArticleDetailContent({
   );
 }
 
-export default ArticleDetailContent;
+export default CommentContent;
