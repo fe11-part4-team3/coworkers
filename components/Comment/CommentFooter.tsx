@@ -22,6 +22,7 @@ function CommentFooter({
   user,
   commentEdit,
   createdAt,
+  updatedAt,
   commentEditContent,
   content,
   cancelEditing,
@@ -32,6 +33,7 @@ function CommentFooter({
   user?: IUserProfile;
   commentEdit: boolean;
   createdAt: string;
+  updatedAt: string;
   commentEditContent: string;
   content: string;
   cancelEditing: () => void;
@@ -43,7 +45,7 @@ function CommentFooter({
     <CardFooter className={`flex justify-between p-0`}>
       <div className="flex items-center">
         <div className="flex items-center">
-          <Profile variant="member" profileSize={32} />
+          <Profile image={writer?.image} variant="member" profileSize={32} />
           <span className="ml-pr-12 text-14m">
             {isArticleComment ? writer?.nickname : user?.nickname}
           </span>
@@ -54,6 +56,9 @@ function CommentFooter({
             <span className="line-col" />
             <div className={`leading-none`}>
               <DateDisplay createdAt={createdAt} className="text-t-disabled" />
+              {createdAt !== updatedAt && (
+                <span className="text-14 text-t-disabled"> (수정됨)</span>
+              )}
             </div>
           </>
         )}

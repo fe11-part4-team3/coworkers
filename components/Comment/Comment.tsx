@@ -7,8 +7,6 @@ import CommentContent from '@/components/Comment/CommentContent';
 import CommentFooter from '@/components/Comment/CommentFooter';
 import { ITaskComment } from '@/types/comment.type';
 
-type handlerType = (id: number) => void;
-
 const ARTICLE_COMMENT_STYLE = 'bg-b-secondary px-pr-24 py-pr-20';
 const TASK_COMMENT_STYLE =
   'rounded-none border-x-0 border-t-0 border-input bg-transparent py-pr-16 shadow-none';
@@ -54,10 +52,10 @@ function Comment({
 }: {
   type?: 'article' | 'task';
   commentData: IArticleComment | ITaskComment;
-  handleDeleteClick: handlerType;
-  handleUpdateSubmit: handlerType;
+  handleDeleteClick: (id: number) => void;
+  handleUpdateSubmit: (id: number, commentEditContent: string) => void;
 }) {
-  const { id, content, createdAt } = commentData;
+  const { id, content, createdAt, updatedAt } = commentData;
   const [commentEditContent, setCommentEditContent] = useState(content);
   const [commentEdit, setCommentEdit] = useState(false);
 
@@ -95,8 +93,7 @@ function Comment({
   const updateSubmit = () => {
     setCommentEdit(false);
 
-    // handleUpdateSubmit 함수로 댓글 id를 넘겨받아 PATCH 데이터 요청 실행
-    handleUpdateSubmit(id);
+    handleUpdateSubmit(id, commentEditContent);
   };
 
   return (
@@ -130,6 +127,7 @@ function Comment({
         user={user}
         commentEdit={commentEdit}
         createdAt={createdAt}
+        updatedAt={updatedAt}
         commentEditContent={commentEditContent}
         content={content}
         cancelEditing={cancelEditing}
