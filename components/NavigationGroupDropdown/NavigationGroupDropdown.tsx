@@ -49,7 +49,7 @@ export default function NavigationGroupDropdown({
           <ArrowDwon />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="mt-pr-16 rounded-pr-12 border-none bg-b-secondary p-pr-16">
+      <DropdownMenuContent className="mt-pr-16 w-pr-218 rounded-pr-12 border-none bg-b-secondary p-pr-16">
         {/* SECTION 드롭다운 그룹 리스트 */}
         {groups.map((group) => (
           <DropdownTab key={group.id} group={group} onClick={handleClick} />

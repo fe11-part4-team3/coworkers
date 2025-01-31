@@ -6,7 +6,6 @@ import { useEffect, useState, useCallback } from 'react';
 
 import useForm from '@/hooks/useForm';
 import InputField from '@/components/InputField/InputField';
-import Container from '@/components/layout/Container';
 import { createGroup } from '@/service/group.api';
 import Profile from '@/components/Profile/Profile';
 import useUser from '@/hooks/useUser';
@@ -26,6 +25,7 @@ export default function AddTeamPage() {
 
   // STUB 팀 생성 폼 상태
   const {
+    preview,
     formData,
     changedFields,
     handleInputChange,
@@ -45,10 +45,13 @@ export default function AddTeamPage() {
   // STUB 변경사항에 따른 유효성 검사
   useEffect(() => {
     const isNameValid = !errorMessage.name;
+    const isImageValid = !errorMessage.image;
     const hasNameChanged = !!changedFields.name && formData.name.trim() !== '';
     const isNotOverlapping = !overlap;
 
-    setUpdateValidation(isNameValid && hasNameChanged && isNotOverlapping);
+    setUpdateValidation(
+      isNameValid && hasNameChanged && isNotOverlapping && isImageValid,
+    );
   }, [errorMessage, changedFields, formData, overlap]);
 
   // STUB 팀 생성 mutation
@@ -90,31 +93,38 @@ export default function AddTeamPage() {
   }
 
   return (
-    <Container>
-      <h1>팀생성</h1>
+    <>
       <form onSubmit={handleSubmit}>
-        <Profile
-          variant="group"
-          onSelectFile={handleFileChange}
-          isEdit={true}
-          image={initialValues.image}
-        />
+        <div className="auth_input-list">
+          <Profile
+            label="팀 프로필"
+            variant="group"
+            onSelectFile={handleFileChange}
+            isEdit={true}
+            image={preview || initialValues.image}
+            errorMessage={errorMessage.image}
+          />
 
-        <InputField
-          label="팀 이름"
-          value={formData.name}
-          onChange={(e) => handleInputChange(e)}
-          name="name"
-          placeholder="팀 이름을 입력해주세요."
-          errorMessage={overlap ? '중복된 팀 이름입니다.' : errorMessage.name}
-        />
+          <InputField
+            label="팀 이름"
+            value={formData.name}
+            onChange={(e) => handleInputChange(e)}
+            name="name"
+            placeholder="팀 이름을 입력해주세요."
+            errorMessage={overlap ? '중복된 팀 이름입니다.' : errorMessage.name}
+          />
+        </div>
         <Buttons
           type="submit"
           text="생성하기"
+          className="mt-pr-40"
           disabled={!updateValidation || isCreatTeamPending}
           loading={isCreatTeamPending}
         />
       </form>
-    </Container>
+      <p className="mt-pr-24 text-center text-16 mo:text-14">
+        팀 이름은 회사명이나 모임 이름 등으로 설정하면 좋아요.
+      </p>
+    </>
   );
 }

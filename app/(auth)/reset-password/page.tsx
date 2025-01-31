@@ -8,7 +8,6 @@ import { resetPassword } from '@/service/user.api';
 import useForm from '@/hooks/useForm';
 // import useUser from '@/hooks/useUser';
 import InputField from '@/components/InputField/InputField';
-import Container from '@/components/layout/Container';
 import Buttons from '@/components/Buttons';
 
 /**
@@ -23,6 +22,7 @@ export default function ResetPasswordPage() {
   const {
     formData: updatePasswordData,
     handleInputChange: handlePasswordChange,
+    errorMessage,
   } = useForm({
     password: '',
     passwordConfirmation: '',
@@ -57,10 +57,8 @@ export default function ResetPasswordPage() {
   };
 
   return (
-    <Container>
-      <h1>비밀번호 재설정</h1>
-
-      <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
+      <div className="auth_input-list">
         <InputField
           type="password"
           label="새 비밀번호"
@@ -69,6 +67,7 @@ export default function ResetPasswordPage() {
           required
           onChange={handlePasswordChange}
           value={updatePasswordData.password}
+          errorMessage={errorMessage.password}
           placeholder="비밀번호 (영문, 숫자 포함, 12자 이내)를 입력해주세요."
         />
         <InputField
@@ -79,10 +78,23 @@ export default function ResetPasswordPage() {
           required
           onChange={handlePasswordChange}
           value={updatePasswordData.passwordConfirmation}
+          errorMessage={errorMessage.passwordConfirmation}
           placeholder="새 비밀번호를 다시 한번 입력해주세요."
         />
-        <Buttons type="submit" text="재설정" disabled={isReset} />
-      </form>
-    </Container>
+      </div>
+      <Buttons
+        type="submit"
+        text="재설정"
+        className="mt-pr-40"
+        disabled={
+          isReset ||
+          !(
+            errorMessage.password === '' &&
+            errorMessage.passwordConfirmation === ''
+          )
+        }
+        loading={isReset}
+      />
+    </form>
   );
 }
