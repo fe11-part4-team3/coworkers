@@ -82,7 +82,7 @@ function ArticleDetailFooter({
             onClick={updateSubmit}
             backgroundColor="none"
             size="S"
-            width="w-pr-74"
+            className="w-pr-74"
           />
         </div>
       )}

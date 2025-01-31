@@ -68,7 +68,7 @@ export default function InputField({
               <Buttons
                 text="변경하기"
                 size="S"
-                width="w-pr-74"
+                className="w-pr-74"
                 onClick={onClickButton}
               />
             </div>

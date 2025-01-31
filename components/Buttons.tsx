@@ -3,14 +3,13 @@ import classNames from 'classnames';
 import { Loader2 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
-import { widthStyledSliceWPr } from '@/utils/filterClass';
 import { ButtonsProps } from '@/types/buttons.type';
 
 /**
  * 버튼 컴포넌트
  * @param props.text 버튼 텍스트
  * @param props.href 버튼 링크
- * @param props.width 버튼 너비
+ * @param props.className 버튼 클래스
  * @param props.size 버튼 크기
  * @param props.textColor 버튼 텍스트 색상
  * @param props.backgroundColor 버튼 배경 색상
@@ -25,7 +24,7 @@ import { ButtonsProps } from '@/types/buttons.type';
 export default function Buttons({
   text,
   href,
-  width,
+  className,
   size = 'XL',
   textColor = 'white',
   backgroundColor = 'default',
@@ -88,18 +87,18 @@ export default function Buttons({
 
     border && BORDER[border],
     rounded && 'rounded-full',
-    width && widthStyledSliceWPr(width),
 
     hasBackgroundDisabled,
     hasTextDisabled,
     hasBorderDisabled,
+    className,
   );
 
   // 렌더링할 콘텐츠 정의
   const renderContent = () => (
     <>
       {icon && typeof icon && (
-        <span className="flex size-pr-16 items-center justify-center">
+        <span className="mr-pr-2 flex size-pr-16 items-center justify-center">
           {icon}
         </span>
       )}
@@ -111,7 +110,9 @@ export default function Buttons({
   if (href) {
     return (
       <Button className={buttonClasses} disabled={disabled} {...rest}>
-        <Link href={href!}>{renderContent()}</Link>
+        <Link href={href!} className="flex items-center justify-center">
+          {renderContent()}
+        </Link>
       </Button>
     );
   }

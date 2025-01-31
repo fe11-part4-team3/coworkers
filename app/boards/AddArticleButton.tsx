@@ -18,7 +18,7 @@ function AddArticleButton() {
           onClick={() => router.push('/boards/addarticle')}
           size="XL"
           rounded={true}
-          width="w-pr-104"
+          className="w-pr-104"
         />
       </div>
     </div>

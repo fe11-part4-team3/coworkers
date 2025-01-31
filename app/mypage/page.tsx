@@ -189,7 +189,7 @@ export default function MyPage() {
             type="submit"
             text="저장하기"
             size="S"
-            width="w-pr-100"
+            className="w-pr-100"
             onClick={handleSubmit}
             disabled={!updateValidation || isUpdateUserPending}
             loading={isUpdateUserPending}
