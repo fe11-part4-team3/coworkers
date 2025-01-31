@@ -37,7 +37,7 @@ const updateArticleComment = async ({
   commentId,
   content,
 }: UpdateArticleCommentParams): Promise<IArticleComment> => {
-  const path = `/comment/${commentId}`;
+  const path = `/comments/${commentId}`;
   const response = await instance.patch(path, {
     content,
   });
@@ -50,7 +50,7 @@ const updateArticleComment = async ({
 const deleteArticleComment = async ({
   commentId,
 }: DeleteArticleCommentParams): Promise<number> => {
-  const path = `/comment/${commentId}`;
+  const path = `/comments/${commentId}`;
   const response = await instance.delete(path);
   return response.data.id;
 };
