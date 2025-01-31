@@ -32,7 +32,11 @@ interface TodayProgressChartProps {
 export default function TodayProgressChart({ tasks }: TodayProgressChartProps) {
   const { length, done, todo } = parseTasks(tasks);
 
-  const chartData = [{ done: done.length, todo: todo.length }];
+  const chartData = [
+    todo.length
+      ? { done: done.length, todo: todo.length }
+      : { done: 1, todo: 0 },
+  ];
   const progress = length ? Math.round((done.length / length) * 100) : 100;
 
   return (
