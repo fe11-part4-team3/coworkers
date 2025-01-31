@@ -98,7 +98,7 @@ export default function Buttons({
   const renderContent = () => (
     <>
       {icon && typeof icon && (
-        <span className="flex size-pr-16 items-center justify-center">
+        <span className="mr-pr-2 flex size-pr-16 items-center justify-center">
           {icon}
         </span>
       )}
@@ -110,7 +110,9 @@ export default function Buttons({
   if (href) {
     return (
       <Button className={buttonClasses} disabled={disabled} {...rest}>
-        <Link href={href!}>{renderContent()}</Link>
+        <Link href={href!} className="flex items-center justify-center">
+          {renderContent()}
+        </Link>
       </Button>
     );
   }
