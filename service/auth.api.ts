@@ -1,9 +1,9 @@
 import {
   SignUpParams,
   AuthResponse,
-  SignInParams,
   SignInProviderParams,
 } from '@/types/auth.type';
+
 import instance from './axios';
 
 const signUp = async ({
@@ -77,12 +77,48 @@ const signInProvider = async ({
   token,
 }: SignInProviderParams): Promise<AuthResponse> => {
   const path = `/auth/signIn/${provider}`;
-  const response = await instance.post(path, {
-    state,
-    redirectUri,
-    token,
-  });
-  return response.data;
+  try {
+    const response = await instance.post(path, {
+      state,
+      redirectUri,
+      token,
+    });
+
+    const { accessToken, refreshToken } = response.data;
+    localStorage.setItem('accessToken', accessToken);
+    localStorage.setItem('refreshToken', refreshToken);
+
+    return response.data;
+  } catch (e) {
+    console.error('간편 로그인 실패:', e);
+    throw e;
+  }
 };
 
-export { signUp, signIn, refreshAccessToken, signInProvider };
+/**
+ * Google Access Token 폐기(탈퇴 시)
+ * @param accessToken Google Access Token
+ */
+const revokeGoogleAccess = async (accessToken: string) => {
+  try {
+    const response = await fetch(
+      `https://accounts.google.com/o/oauth2/revoke?token=${accessToken}`,
+    );
+
+    if (!response.ok) {
+      throw new Error('Google 계정 연동 해제 실패');
+    }
+
+    console.log('Google 계정 연동 해제 완료');
+  } catch (error) {
+    console.error('Google 계정 연동 해제 오류:', error);
+  }
+};
+
+export {
+  signUp,
+  signIn,
+  refreshAccessToken,
+  signInProvider,
+  revokeGoogleAccess,
+};
