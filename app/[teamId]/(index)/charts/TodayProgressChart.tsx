@@ -42,7 +42,7 @@ export default function TodayProgressChart({ tasks }: TodayProgressChartProps) {
   return (
     <ChartContainer
       config={chartConfig}
-      className="mx-auto aspect-square max-h-[250px]"
+      className="aspect-square max-h-pr-250 min-w-pr-250"
     >
       <RadialBarChart
         data={chartData}
