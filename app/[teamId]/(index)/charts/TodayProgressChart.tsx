@@ -9,11 +9,6 @@ import {
   ChartTooltipContent,
 } from '@/components/ui/chart';
 
-const COLOR = {
-  done: 'var(--brand-primary)',
-  todo: 'var(--s-danger)',
-};
-
 const chartConfig = {
   done: {
     label: 'Done',
@@ -24,6 +19,11 @@ const chartConfig = {
     color: 'hsl(var(--s-danger))',
   },
 } satisfies ChartConfig;
+
+const COLOR = {
+  done: 'var(--brand-primary)',
+  todo: 'var(--s-danger)',
+};
 
 interface TodayProgressChartProps {
   tasks: ITask[];
@@ -65,7 +65,7 @@ export default function TodayProgressChart({ tasks }: TodayProgressChartProps) {
 
         <ChartTooltip
           cursor={false}
-          content={<ChartTooltipContent hideLabel />}
+          content={<ChartTooltipContent customColor={COLOR} />}
         />
         <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
           <Label
