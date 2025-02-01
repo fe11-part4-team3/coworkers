@@ -41,7 +41,7 @@ function ArticleCommentTextarea({
           disabled={commentValue === ''}
           onClick={handleCommentSubmit}
           size={!mobile ? 'XL' : 'S'}
-          width="w-pr-184 mo:w-pr-74"
+          className="w-pr-184 mo:w-pr-74"
         />
       </div>
     </>
