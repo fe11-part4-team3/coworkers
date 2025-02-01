@@ -1,5 +1,6 @@
 import React from 'react';
-import { Meta, StoryFn } from '@storybook/react';
+import type { Meta, StoryFn } from '@storybook/react';
+
 import useModalStore from '@/stores/modalStore';
 import AddTask from '@/components/modal/AddTask';
 import Modal from '@/components/modal/Modal';
@@ -31,7 +32,7 @@ const Template: StoryFn = () => {
 
   // 모달 열기 핸들러
   const handleOpenModalResetPassword = () => {
-    openModal(<ResetPassword onClick={handleAddTask} />);
+    openModal(<ResetPassword />);
   };
   const handleOpenModalMemberProfile = () => {
     openModal(
