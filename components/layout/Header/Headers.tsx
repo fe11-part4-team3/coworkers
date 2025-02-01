@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
+import { signOut } from 'next-auth/react';
 
 import NavigationGroupDropdown from '@/components/NavigationGroupDropdown/NavigationGroupDropdown';
 import { Button } from '@/components/ui/button';
@@ -28,6 +29,7 @@ function Headers() {
     const flag = confirm('로그아웃 하시겠습니까?');
     if (flag) {
       clear();
+      signOut({ redirect: false });
       alert('로그아웃 되었습니다.');
     }
   }, [clear]);
