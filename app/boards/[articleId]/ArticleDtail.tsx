@@ -14,12 +14,18 @@ import useUser from '@/hooks/useUser';
 function ArticleDetail({ articleId }: GetArticleDetailParams) {
   const { user } = useUser();
   const router = useRouter();
-  const { data } = useQuery({
-    queryKey: ['articleDetail'],
+  const {
+    data: articleData,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ['articleDetail', articleId],
     queryFn: () => getArticleDetail({ articleId: articleId }),
   });
 
-  if (!data) return;
+  if (!articleData) return;
+  if (isLoading) return '로딩 중입니다.';
+  if (isError) return '에러가 발생했습니다.';
 
   const {
     title,
@@ -29,8 +35,9 @@ function ArticleDetail({ articleId }: GetArticleDetailParams) {
     updatedAt,
     commentCount,
     likeCount,
+    isLiked,
     writer,
-  } = data;
+  } = articleData;
 
   const handleArticleDelete = () => {
     if (confirm('게시글을 삭제하시겠습니까?')) {
@@ -75,7 +82,12 @@ function ArticleDetail({ articleId }: GetArticleDetailParams) {
               />
             </div>
 
-            <LikeCount type="interactive" likeCount={likeCount} />
+            <LikeCount
+              type="interactive"
+              likeCount={likeCount}
+              isLiked={isLiked}
+              articleId={articleId}
+            />
           </div>
         </div>
       </div>
