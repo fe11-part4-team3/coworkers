@@ -36,7 +36,7 @@ function Headers() {
     () => [
       { text: '마이 히스토리', href: '/myhistory' },
       { text: '계정 설정', href: '/mypage' },
-      { text: '팀 참여', href: '/addteam' },
+      { text: '팀 참여', href: '/jointeam' },
       {
         text: '로그아웃',
         onClick: logout,
