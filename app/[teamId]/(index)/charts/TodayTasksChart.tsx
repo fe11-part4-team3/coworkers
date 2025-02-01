@@ -41,7 +41,14 @@ export default function TodayTasksChart({
   state,
   text,
 }: TodayTasksChartProps) {
-  const chartConfig = {} satisfies ChartConfig;
+  const chartConfig = {
+    todo: {
+      label: '할 일',
+    },
+    done: {
+      label: '완료됨',
+    },
+  } satisfies ChartConfig;
 
   let total = 0;
 
