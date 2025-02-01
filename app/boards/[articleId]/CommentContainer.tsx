@@ -21,8 +21,12 @@ function CommentContainer({ articleId }: { articleId: number }) {
   const queryClient = useQueryClient();
 
   // 게시글 댓글 리스트 조회
-  const { data: articleComments } = useQuery({
-    queryKey: ['commentList'],
+  const {
+    data: articleComments,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ['commentList', articleId],
     queryFn: () => getArticleCommentList({ articleId, limit: 100 }),
   });
 
@@ -78,6 +82,8 @@ function CommentContainer({ articleId }: { articleId: number }) {
   };
 
   if (!articleComments) return null;
+  if (isLoading) return '로딩 중입니다.';
+  if (isError) return '에러가 발생했습니다.';
 
   return (
     <>
