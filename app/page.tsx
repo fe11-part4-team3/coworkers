@@ -9,10 +9,10 @@ import { useRouter } from 'next/navigation';
 
 export default function LandingPage() {
   const router = useRouter();
-  const { isAuthenticated } = useUser();
+  const { user } = useUser();
 
   const handleButtonClick = () => {
-    if (isAuthenticated) {
+    if (user) {
       router.push('/team/create');
     } else {
       router.push('/auth/login');
