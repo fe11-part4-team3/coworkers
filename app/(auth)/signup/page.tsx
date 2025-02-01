@@ -1,11 +1,11 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useMutation } from '@tanstack/react-query';
 
 import { signUp } from '@/service/auth.api';
 import useForm from '@/hooks/useForm';
-import Container from '@/components/layout/Container';
 import useUser from '@/hooks/useUser';
 import InputField from '@/components/InputField/InputField';
 import Buttons from '@/components/Buttons';
@@ -18,31 +18,26 @@ function SignupPage() {
     passwordConfirmation: '',
   });
 
-  const [error, setError] = useState<string | null>(null);
-
   const route = useRouter();
 
   // 인증된 사용자인지 확인
   const { isAuthenticated } = useUser();
 
+  const { mutateAsync: postSignup, isPending: isSignup } = useMutation({
+    mutationFn: signUp,
+    onSuccess: () => {
+      alert('회원가입이 완료 되었습니다.');
+      console.log('회원가입 성공');
+      route.push('/login');
+    },
+    onError: () => console.log('회원가입 실패'),
+  });
+
   // 회원가입 버튼 클릭 시
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
 
-    // 회원가입 요청
-    try {
-      const response = await signUp(formData);
-      // TODO : 테스트 코드
-      console.log('회원가입 성공:', response);
-      alert('회원가입이 완료되었습니다!');
-
-      route.push('/login');
-    } catch (err) {
-      // TODO : 테스트 코드
-      console.error('회원가입 실패:', err);
-      setError('회원가입 중 오류가 발생했습니다.');
-    }
+    postSignup(formData);
   };
 
   useEffect(() => {
@@ -52,9 +47,8 @@ function SignupPage() {
   }, [isAuthenticated, route]);
 
   return (
-    <Container>
-      <h1>회원가입</h1>
-      <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
+      <div className="auth_input-list">
         <InputField
           label="이름"
           type="text"
@@ -70,6 +64,7 @@ function SignupPage() {
           label="이메일"
           type="email"
           name="email"
+          autoComplete="username"
           value={formData.email}
           onChange={handleInputChange}
           errorMessage={errorMessage.email}
@@ -81,6 +76,7 @@ function SignupPage() {
           label="비밀번호"
           type="password"
           name="password"
+          autoComplete="new-password"
           value={formData.password}
           onChange={handleInputChange}
           errorMessage={errorMessage.password}
@@ -92,27 +88,30 @@ function SignupPage() {
           label="비밀번호 확인"
           type="password"
           name="passwordConfirmation"
+          autoComplete="new-password"
           value={formData.passwordConfirmation}
           onChange={handleInputChange}
           errorMessage={errorMessage.passwordConfirmation}
           placeholder="비밀번호를 다시 한 번 입력해주세요."
           required
         />
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        <Buttons
-          text="회원가입"
-          type="submit"
-          disabled={
-            !(
-              errorMessage.email === '' &&
-              errorMessage.nickname === '' &&
-              errorMessage.password === '' &&
-              errorMessage.passwordConfirmation === ''
-            )
-          }
-        />
-      </form>
-    </Container>
+      </div>
+      <Buttons
+        text="회원가입"
+        type="submit"
+        className="mt-pr-40"
+        disabled={
+          isSignup ||
+          !(
+            errorMessage.email === '' &&
+            errorMessage.nickname === '' &&
+            errorMessage.password === '' &&
+            errorMessage.passwordConfirmation === ''
+          )
+        }
+        loading={isSignup}
+      />
+    </form>
   );
 }
 
