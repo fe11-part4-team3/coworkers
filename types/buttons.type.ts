@@ -2,7 +2,7 @@
 type ButtonsBaseProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   text: string;
   icon?: React.ReactNode | false;
-  width?: string;
+  className?: string;
   rounded?: boolean;
   loading?: boolean;
   size?: 'S' | 'M' | 'L' | 'XL';

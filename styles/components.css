@@ -37,4 +37,38 @@
   .modal-button-wrapper {
     @apply mt-pr-24 flex items-center justify-between gap-pr-8;
   }
+
+  /* 언더라인 링크 스타일 */
+  .link-underline {
+    @apply text-16m text-brand-primary underline;
+  }
+
+  /* 레이아웃 */
+
+  .inner-460 {
+    @apply mx-auto w-pr-460 mo:w-full;
+  }
+}
+
+/* 로그인,회원가입,팀 생성 등 사용되는 UI 스타일 */
+@layer components {
+  .auto_title-h1 {
+    @apply mb-pr-80 text-center text-40m mo:mb-pr-24 tamo:text-24m;
+  }
+
+  .auth_container-padding {
+    @apply py-pr-140 mo:py-pr-24 ta:py-pr-100;
+  }
+
+  .auth_input-list {
+    @apply flex flex-col gap-pr-24;
+  }
+
+  .icon_oauth-google {
+    @apply size-pr-42 bg-[url('/images/icon-google.svg')] bg-contain bg-center bg-no-repeat;
+  }
+
+  .icon_oauth-kakao {
+    @apply size-pr-42 bg-[url('/images/icon-kakao.svg')] bg-contain bg-center bg-no-repeat;
+  }
 }
