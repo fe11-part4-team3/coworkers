@@ -316,6 +316,28 @@ const shadcnConfig: Config = {
             fontWeight: '500',
           },
         ],
+        '40sb': [
+          '2.5rem',
+          {
+            lineHeight: '2.92rem',
+            fontWeight: '600',
+          },
+        ],
+
+        '48sb': [
+          '3rem',
+          {
+            lineHeight: '3.5rem',
+            fontWeight: '600',
+          },
+        ],
+        '64sb': [
+          '4rem',
+          {
+            lineHeight: '4.67rem',
+            fontWeight: '600',
+          },
+        ],
       },
       screens: {
         mo: {
