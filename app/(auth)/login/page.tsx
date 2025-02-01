@@ -28,10 +28,10 @@ function LoginPage() {
 
   const { mutateAsync: postLogin, isPending: isLogin } = useMutation({
     mutationFn: signIn,
-    onSuccess: () => {
+    onSuccess: (res) => {
       reload();
-      alert('로그인이 완료 되었습니다.');
-      console.log('로그인 완료');
+      alert('(login)로그인이 완료 되었습니다.');
+      console.log('로그인 완료 : ', res);
     },
     onError: () => setHasLoginError('이메일 혹은 비밀번호를 확인해주세요.'),
   });
