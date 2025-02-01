@@ -1,12 +1,7 @@
-enum OauthProvider {
-  GOOGLE,
-  KAKAO,
-}
-
 interface CreateOauthAppsParams {
   appSecret?: string;
   appKey: string;
-  provider: OauthProvider;
+  provider: string;
 }
 
 interface CreateOauthAppsResponse {
@@ -14,10 +9,9 @@ interface CreateOauthAppsResponse {
   updatedAt: string;
   appSecret: string | null;
   appkey: string;
-  provider: OauthProvider;
+  provider: string;
   teamId: string;
   id: number;
 }
 
-export { OauthProvider };
 export type { CreateOauthAppsParams, CreateOauthAppsResponse };
