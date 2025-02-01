@@ -15,6 +15,7 @@ import { SidebarProvider } from '@/components/ui/sidebar';
 import Headers from '@/components/layout/Header/Headers';
 import { DeviceTypeProvider } from '@/contexts/DeviceTypeContext';
 import Modal from '@/components/modal/Modal';
+import AuthProvider from '@/contexts/AuthProvider';
 
 const queryClient = new QueryClient();
 export default function RootLayout({
@@ -33,12 +34,14 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <QueryClientProvider client={queryClient}>
-              <SidebarProvider defaultOpen={false}>
-                <Headers />
-                <DarkmodeToggle />
-                <Modal />
-                {children}
-              </SidebarProvider>
+              <AuthProvider>
+                <SidebarProvider defaultOpen={false}>
+                  <Headers />
+                  <DarkmodeToggle />
+                  <Modal />
+                  {children}
+                </SidebarProvider>
+              </AuthProvider>
               <ReactQueryDevtools initialIsOpen={false} />
             </QueryClientProvider>
           </ThemeProvider>
