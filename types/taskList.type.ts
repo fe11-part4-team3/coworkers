@@ -13,7 +13,7 @@ interface ITaskList {
 interface GetTaskListParams {
   groupId: number;
   id: number;
-  date: string;
+  date?: string;
 }
 
 interface UpdateTaskListParams {
@@ -33,6 +33,11 @@ interface UpdateTaskListResponse {
 
 interface DeleteTaskListParams {
   groupId: number;
+  id: number;
+}
+
+interface DeleteTaskListResponse {
+  success: boolean;
   id: number;
 }
 
@@ -62,6 +67,7 @@ export type {
   UpdateTaskListParams,
   UpdateTaskListResponse,
   DeleteTaskListParams,
+  DeleteTaskListResponse,
   CreateTaskListParams,
   CreateTaskListResponse,
   OrderTaskListParams,

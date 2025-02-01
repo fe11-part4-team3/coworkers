@@ -1,5 +1,5 @@
-import { ITaskListSummary } from '@/types/group.type';
 import IconPlus from '@/public/images/icon-plus.svg';
+import { ITaskList } from '@/types/taskList.type';
 
 import GroupTaskList from './GroupTaskList';
 import {
@@ -18,7 +18,7 @@ export type PointColorType =
   | 'yellow';
 
 interface GroupTaskListWrapperProps {
-  taskLists: ITaskListSummary[] | null;
+  taskLists: ITaskList[] | null;
   onCreate: (params: _CreateTaskListParams) => void;
   onEdit: (params: _UpdateTaskListParams) => void;
   onDelete: (params: _DeleteTaskListParams) => void;
@@ -62,15 +62,16 @@ export default function GroupTaskListWrapper({
           <span className="text-14">새로운 목록 추가하기</span>
         </button>
       </div>
-      {taskLists?.map((taskList, i) => (
-        <GroupTaskList
-          key={taskList.id}
-          taskList={taskList}
-          pointColor={POINT_COLOR[i % POINT_COLOR.length]}
-          onEdit={onEdit}
-          onDelete={onDelete}
-        />
-      ))}
+      {taskLists &&
+        taskLists.map((taskList, i) => (
+          <GroupTaskList
+            key={taskList.id}
+            taskList={taskList}
+            pointColor={POINT_COLOR[i % POINT_COLOR.length]}
+            onEdit={onEdit}
+            onDelete={onDelete}
+          />
+        ))}
     </div>
   );
 }
