@@ -1,6 +1,6 @@
-import { ITaskList } from '@/types/taskList.type';
-import { Bar, BarChart, LabelList, XAxis } from 'recharts';
+import { Pie, PieChart, Label } from 'recharts';
 
+import { ITaskList } from '@/types/taskList.type';
 import {
   ChartConfig,
   ChartContainer,
@@ -8,97 +8,103 @@ import {
   ChartTooltipContent,
 } from '@/components/ui/chart';
 import parseTasks from '@/utils/parseTasks';
-import { useMemo } from 'react';
 
 interface TodayTasksChartProps {
   taskLists: ITaskList[];
-  doneColor?: string;
-  todoColor?: string;
-  label?: boolean;
-  type: 'bar' | 'radial';
+  state: 'todo' | 'done';
+  text: string;
 }
 
-export default function TodayTasksChart(props: TodayTasksChartProps) {
-  if (props.type === 'bar') return <BarTypeChart {...props} />;
-  return null;
-}
+const COLOR = [
+  'var(--point-purple)',
+  'var(--point-blue)',
+  'var(--point-cyan)',
+  'var(--point-pink)',
+  'var(--point-rose)',
+  'var(--point-orange)',
+  'var(--point-yellow)',
+];
 
-function BarTypeChart({
+const ANGLE = {
+  todo: {
+    start: -90,
+    end: 270,
+  },
+  done: {
+    start: 0,
+    end: 360,
+  },
+};
+
+export default function TodayTasksChart({
   taskLists,
-  doneColor,
-  todoColor,
-  label = true,
+  state,
+  text,
 }: TodayTasksChartProps) {
-  const COLOR = useMemo(
-    () => ({
-      done: doneColor || 'var(--brand-primary)',
-      todo: todoColor || 'var(--s-danger)',
-    }),
-    [doneColor, todoColor],
-  );
+  const chartConfig = {} satisfies ChartConfig;
 
-  const chartConfig = useMemo(
-    () =>
-      ({
-        done: {
-          label: 'Done',
-          color: COLOR.done,
-        },
-        todo: {
-          label: 'Todo',
-          color: COLOR.todo,
-        },
-      }) satisfies ChartConfig,
-    [COLOR],
-  );
+  let total = 0;
+
+  const chartData = taskLists.map((taskList, i) => {
+    const parsedTasks = parseTasks(taskList.tasks);
+    total += parsedTasks[state].length;
+    return {
+      name: taskList.name,
+      [state]: parsedTasks[state].length,
+      fill: COLOR[i % COLOR.length],
+    };
+  });
 
   return (
-    <ChartContainer className="min-w-pr-250" config={chartConfig}>
-      <BarChart
-        accessibilityLayer
-        data={taskLists.map((taskList) => {
-          const { done, todo } = parseTasks(taskList.tasks);
-          return {
-            name: taskList.name,
-            done: done.length,
-            todo: todo.length,
-          };
-        })}
-      >
-        <XAxis
-          dataKey="name"
-          tickLine={false}
-          tickMargin={10}
-          axisLine={false}
-          tickFormatter={(value) => value.slice(0, 3)}
-        />
+    <ChartContainer
+      config={chartConfig}
+      className="aspect-square max-h-pr-200 min-w-pr-200"
+    >
+      <PieChart>
         <ChartTooltip
           cursor={false}
-          content={<ChartTooltipContent indicator="dashed" />}
+          content={<ChartTooltipContent hideLabel />}
         />
-        <Bar dataKey="done" fill={COLOR.done} radius={[4, 4, 0, 0]}>
-          {label && (
-            <LabelList
-              dataKey="done"
-              position="top"
-              offset={8}
-              className="text-white"
-              fontSize={12}
-            />
-          )}
-        </Bar>
-        <Bar dataKey="todo" fill={COLOR.todo} radius={[4, 4, 0, 0]}>
-          {label && (
-            <LabelList
-              dataKey="todo"
-              position="top"
-              offset={8}
-              className="text-white"
-              fontSize={12}
-            />
-          )}
-        </Bar>
-      </BarChart>
+        <Pie
+          data={chartData}
+          dataKey={state}
+          nameKey="name"
+          startAngle={ANGLE[state].start}
+          endAngle={ANGLE[state].end}
+          innerRadius={70}
+          outerRadius={90}
+        >
+          <Label
+            content={({ viewBox }) => {
+              if (viewBox && 'cx' in viewBox && 'cy' in viewBox) {
+                return (
+                  <text
+                    x={viewBox.cx}
+                    y={viewBox.cy}
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                  >
+                    <tspan
+                      x={viewBox.cx}
+                      y={viewBox.cy}
+                      className="fill-foreground text-3xl font-bold"
+                    >
+                      {total}
+                    </tspan>
+                    <tspan
+                      x={viewBox.cx}
+                      y={(viewBox.cy || 0) + 24}
+                      className="fill-muted-foreground"
+                    >
+                      {text}
+                    </tspan>
+                  </text>
+                );
+              }
+            }}
+          />
+        </Pie>
+      </PieChart>
     </ChartContainer>
   );
 }
