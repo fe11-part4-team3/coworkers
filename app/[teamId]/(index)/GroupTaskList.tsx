@@ -1,9 +1,10 @@
+import { useRouter } from 'next/navigation';
+
 import KebabDropDown from '@/components/KebabDropDown';
 import { ITaskList } from '@/types/taskList.type';
 
 import { _DeleteTaskListParams, _UpdateTaskListParams } from './TeamPage.type';
 import { PointColorType } from './GroupTaskListWrapper';
-import { useRouter } from 'next/navigation';
 
 type IPointColorClasses = {
   [key in PointColorType]: string;
