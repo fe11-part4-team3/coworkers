@@ -51,6 +51,18 @@ export default function TodayProgressChart({ tasks }: TodayProgressChartProps) {
         innerRadius={80}
         outerRadius={130}
       >
+        <defs>
+          <linearGradient id="doneGradient" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stopColor="#10b981" />
+            <stop offset="100%" stopColor="#a3e635" />
+          </linearGradient>
+          <linearGradient id="todoGradient" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor="#eab308" />
+            <stop offset="60%" stopColor="#f97316" />
+            <stop offset="100%" stopColor="#dc2626" />
+          </linearGradient>
+        </defs>
+
         <ChartTooltip
           cursor={false}
           content={<ChartTooltipContent hideLabel />}
@@ -90,12 +102,12 @@ export default function TodayProgressChart({ tasks }: TodayProgressChartProps) {
           dataKey="done"
           stackId="a"
           cornerRadius={5}
-          fill={COLOR.done}
+          fill="url(#doneGradient)"
           className="stroke-transparent stroke-2"
         />
         <RadialBar
           dataKey="todo"
-          fill={COLOR.todo}
+          fill="url(#todoGradient)"
           stackId="a"
           cornerRadius={5}
           className="stroke-transparent stroke-2"
