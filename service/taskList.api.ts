@@ -2,6 +2,7 @@ import {
   CreateTaskListParams,
   CreateTaskListResponse,
   DeleteTaskListParams,
+  DeleteTaskListResponse,
   GetTaskListParams,
   ITaskList,
   OrderTaskListParams,
@@ -36,10 +37,10 @@ const updateTaskList = async ({
 const deleteTaskList = async ({
   groupId,
   id,
-}: DeleteTaskListParams): Promise<boolean> => {
+}: DeleteTaskListParams): Promise<DeleteTaskListResponse> => {
   const path = `/groups/${groupId}/task-lists/${id}`;
   const response = await instance.delete(path);
-  return response.status === 204;
+  return { success: response.status === 204, id };
 };
 
 const createTaskList = async ({
