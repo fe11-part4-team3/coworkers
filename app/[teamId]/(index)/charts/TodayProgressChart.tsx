@@ -42,7 +42,7 @@ export default function TodayProgressChart({ tasks }: TodayProgressChartProps) {
   return (
     <ChartContainer
       config={chartConfig}
-      className="aspect-square max-h-pr-250 min-w-pr-250"
+      className="aspect-square max-h-pr-200 min-w-pr-200"
     >
       <RadialBarChart
         data={chartData}
@@ -65,7 +65,7 @@ export default function TodayProgressChart({ tasks }: TodayProgressChartProps) {
 
         <ChartTooltip
           cursor={false}
-          content={<ChartTooltipContent customColor={COLOR} />}
+          content={<ChartTooltipContent customColor={COLOR} hideLabel />}
         />
         <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
           <Label
@@ -101,7 +101,7 @@ export default function TodayProgressChart({ tasks }: TodayProgressChartProps) {
         <RadialBar
           dataKey="done"
           stackId="a"
-          cornerRadius={5}
+          cornerRadius={4}
           fill="url(#doneGradient)"
           className="stroke-transparent stroke-2"
         />
@@ -109,7 +109,7 @@ export default function TodayProgressChart({ tasks }: TodayProgressChartProps) {
           dataKey="todo"
           fill="url(#todoGradient)"
           stackId="a"
-          cornerRadius={5}
+          cornerRadius={4}
           className="stroke-transparent stroke-2"
         />
       </RadialBarChart>
