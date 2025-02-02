@@ -4,7 +4,7 @@ import { useParams } from 'next/navigation';
 
 import Container from '@/components/layout/Container';
 
-import ArticleDetail from './ArticleDtail';
+import ArticleDetail from './ArticleDetail';
 import CommentContainer from './CommentContainer';
 
 function ArticleDetailPage() {
