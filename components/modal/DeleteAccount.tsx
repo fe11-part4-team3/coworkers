@@ -1,12 +1,14 @@
 'use client';
 
 import { useMutation } from '@tanstack/react-query';
+import { signOut, useSession } from 'next-auth/react';
 
 import useModalStore from '@/stores/modalStore';
 import Buttons from '@/components/Buttons';
 import DangerIcon from '@/public/images/icon-danger.svg';
 import { deleteUser } from '@/service/user.api';
 import useUser from '@/hooks/useUser';
+import { revokeGoogleAccess } from '@/service/auth.api';
 
 /**
  * 회원 탈퇴 모달 컴포넌트.
@@ -15,17 +17,31 @@ import useUser from '@/hooks/useUser';
 export default function DeleteAccount() {
   const { clear } = useUser();
   const { closeModal } = useModalStore();
+  const session = useSession();
 
   // STUB 회원 탈퇴 api 호출
   const { mutate: deleteUserMutate, isPending } = useMutation({
     mutationFn: deleteUser,
     onSuccess: () => {
       alert('회원탈퇴가 완료되었습니다.');
-      closeModal();
       clear();
     },
     onError: () => alert('회원탈퇴에 실패했습니다.'),
   });
+
+  const handleDeleteAccount = async () => {
+    // 회원 탈퇴 api 호출
+    deleteUserMutate();
+    closeModal();
+
+    // 구글 연동 해제
+    if (session.data?.accessToken) {
+      await revokeGoogleAccess(session.data.accessToken);
+    }
+
+    // 세션 로그아웃
+    await signOut({ redirect: false });
+  };
 
   return (
     <>
@@ -52,7 +68,7 @@ export default function DeleteAccount() {
         />
         <Buttons
           text="회원 탈퇴"
-          onClick={() => deleteUserMutate()}
+          onClick={() => handleDeleteAccount()}
           backgroundColor="danger"
           loading={isPending}
         />
