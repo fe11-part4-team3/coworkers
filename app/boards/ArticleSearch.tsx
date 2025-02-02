@@ -19,7 +19,7 @@ function ArticleSearch({
 }) {
   return (
     <section className="mt-pr-40">
-      <h2 className="mb-pr-40 text-24b">자유게시판</h2>
+      <h2 className="mb-pr-40 text-24b mo:mb-pr-24">자유게시판</h2>
       <form onSubmit={handleSearchFormSubmit}>
         <SearchInput value={search} onChange={handleSearchInputChange} />
       </form>
