@@ -57,10 +57,10 @@ const Template: StoryFn = () => {
     openModal(<DeleteTask title="dd" onClick={() => handleAddTask} />);
   };
   const handleOpenDeleteAccount = () => {
-    openModal(<DeleteAccount onClick={() => handleAddTask} />);
+    openModal(<DeleteAccount />);
   };
   const handleOpenChangePassword = () => {
-    openModal(<ChangePassword onClick={() => handleAddTask} />);
+    openModal(<ChangePassword />);
   };
   const handleOpenAddTeam = () => {
     openModal(<AddTeam onClick={() => handleAddTask} />);
