@@ -95,7 +95,7 @@ function ArticleDetail({ articleId }: GetArticleDetailParams) {
 
       <div>
         {image && (
-          <div className="relative mt-pr-24 h-pr-500 w-full">
+          <div className="relative mt-pr-24 h-pr-500 w-full mo:h-pr-200 ta:h-pr-300">
             <Image
               src={image}
               alt="게시글 이미지"

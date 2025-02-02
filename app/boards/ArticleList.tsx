@@ -32,7 +32,7 @@ function ArticleList({ keyword }: { keyword: string | undefined }) {
   return (
     <>
       {!(articleList?.list.length === 0) ? (
-        <section className="mt-pr-40">
+        <section className="mt-pr-40 mo:mt-pr-32">
           <div className="flex justify-between">
             <h3 className="text-20b">게시글</h3>
             <SelectBox
@@ -47,7 +47,7 @@ function ArticleList({ keyword }: { keyword: string | undefined }) {
               defaultValue="recent"
             />
           </div>
-          <div className="mt-pr-32 flex flex-wrap justify-between gap-y-pr-24">
+          <div className="mt-pr-32 flex flex-wrap justify-between gap-y-pr-24 mo:mt-pr-24 mo:gap-pr-16">
             {!isLoading ? (
               <>
                 {articleList?.list.map((article) => {
