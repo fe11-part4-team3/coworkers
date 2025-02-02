@@ -18,6 +18,7 @@ const TASK_COMMENT_STYLE =
  * @param {IArticleComment | ITaskComment} props.commentData - 댓글 데이터
  * @param {Function} props.handleDeleteClick - 댓글을 삭제하는 함수, 댓글 ID를 인수로 받습니다.
  * @param {Function} props.handleUpdateSubmit - 댓글을 업데이트하는 함수, 댓글 ID를 인수로 받습니다.
+ * @param {boolean} props.isLoading - 댓글 리스트 데이터 로딩 유무
  * @returns {JSX.Element} 게시글 상세 페이지 댓글 컴포넌트
  *
  * @example
@@ -30,6 +31,7 @@ const TASK_COMMENT_STYLE =
         commentData={comment}
         handleDeleteClick={(id) => alert(`${id} 삭제`)}
         handleUpdateSubmit={(id) => alert(`${id} 수정`)}
+        isLoading={isLoading}
       />
     );
  * })}
@@ -49,11 +51,13 @@ function Comment({
   commentData,
   handleDeleteClick,
   handleUpdateSubmit,
+  isLoading,
 }: {
   type?: 'article' | 'task';
   commentData: IArticleComment | ITaskComment;
   handleDeleteClick: (id: number) => void;
   handleUpdateSubmit: (id: number, commentEditContent: string) => void;
+  isLoading: boolean;
 }) {
   const { id, content, createdAt, updatedAt } = commentData;
   const [commentEditContent, setCommentEditContent] = useState(content);
@@ -108,6 +112,7 @@ function Comment({
           user={user}
           handleEditClick={handleEditClick}
           commentDelete={commentDelete}
+          isLoading={isLoading}
         />
       ) : (
         <div className="mb-pr-16">
@@ -132,6 +137,7 @@ function Comment({
         content={content}
         cancelEditing={cancelEditing}
         updateSubmit={updateSubmit}
+        isLoading={isLoading}
       />
     </Card>
   );

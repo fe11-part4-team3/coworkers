@@ -81,8 +81,7 @@ function CommentContainer({ articleId }: { articleId: number }) {
     }
   };
 
-  if (!articleComments) return null;
-  if (isLoading) return '로딩 중입니다.';
+  if (!articleComments) return;
   if (isError) return '에러가 발생했습니다.';
 
   return (
@@ -104,6 +103,7 @@ function CommentContainer({ articleId }: { articleId: number }) {
               handleUpdateSubmit={(id, content) =>
                 handleUpdateSubmit({ commentId: id, content })
               }
+              isLoading={isLoading}
             />
           ))
         ) : (
