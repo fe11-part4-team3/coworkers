@@ -19,7 +19,7 @@ function LikeCount({
 }: {
   type: 'readOnly' | 'interactive';
   likeCount: number;
-  isLiked: boolean;
+  isLiked?: boolean;
   articleId?: number;
 }) {
   const queryClient = useQueryClient();

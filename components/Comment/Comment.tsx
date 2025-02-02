@@ -51,13 +51,13 @@ function Comment({
   commentData,
   handleDeleteClick,
   handleUpdateSubmit,
-  isLoading,
+  isLoading = false,
 }: {
   type?: 'article' | 'task';
   commentData: IArticleComment | ITaskComment;
   handleDeleteClick: (id: number) => void;
   handleUpdateSubmit: (id: number, commentEditContent: string) => void;
-  isLoading: boolean;
+  isLoading?: boolean;
 }) {
   const { id, content, createdAt, updatedAt } = commentData;
   const [commentEditContent, setCommentEditContent] = useState(content);
