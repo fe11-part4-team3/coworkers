@@ -40,18 +40,24 @@ function LikeCount({
     },
 
     onMutate: async (likeState: boolean) => {
-      const prevData = queryClient.getQueryData(['article', articleId]);
+      const prevLikeState = queryClient.getQueryData([
+        'articleDetail',
+        articleId,
+      ]);
 
       // UI 먼저 변경 (낙관적 업데이트)
       setIsCheck(likeState);
       setCurrentCount(likeState ? currentCount + 1 : currentCount - 1);
 
-      return { prevData };
+      return { prevLikeState };
     },
 
-    onError: (context: { prevData?: unknown }) => {
-      if (context?.prevData) {
-        queryClient.setQueryData(['article', articleId], context.prevData);
+    onError: (context: { prevLikeState?: unknown }) => {
+      if (context?.prevLikeState) {
+        queryClient.setQueryData(
+          ['articleDetail', articleId],
+          context.prevLikeState,
+        );
       }
 
       // 실패 시 원래 상태로 롤백
@@ -61,7 +67,7 @@ function LikeCount({
 
     onSettled: () => {
       // 서버 데이터와 동기화
-      queryClient.invalidateQueries({ queryKey: ['article', articleId] });
+      queryClient.invalidateQueries({ queryKey: ['articleDetail', articleId] });
     },
   });
 
