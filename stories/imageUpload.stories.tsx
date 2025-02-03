@@ -1,6 +1,7 @@
-import { useState } from 'react';
 import { Meta, StoryFn } from '@storybook/react';
+
 import ImageUpload from '@/app/boards/addarticle/ImageUpload';
+import useForm from '@/hooks/useForm';
 
 export default {
   title: 'Components/ImageUpload',
@@ -18,13 +19,16 @@ export default {
 } as Meta;
 
 const Template: StoryFn<typeof ImageUpload> = (args) => {
-  const [fileValue, setFileValue] = useState<File | null>(null);
+  const { preview, handleFileChange, handleClearImage } = useForm({});
+
   return (
-    <ImageUpload {...args} fileValue={fileValue} setFileValue={setFileValue} />
+    <ImageUpload
+      {...args}
+      preview={preview ?? null}
+      handleFileChange={handleFileChange}
+      handleClearImage={handleClearImage}
+    />
   );
 };
 
 export const Default = Template.bind({});
-Default.args = {
-  fileValue: null,
-};

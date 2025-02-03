@@ -11,11 +11,11 @@ import ICON_PLUS from '@/public/images/icon-plus.svg';
 function ImageUpload({
   preview,
   handleFileChange,
-  handleClearPreview,
+  handleClearImage,
 }: {
   preview: string | null;
   handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleClearPreview: () => void;
+  handleClearImage: () => void;
 }) {
   const deviceType = useDeviceType();
   const mobile = deviceType === 'mobile';
@@ -43,7 +43,7 @@ function ImageUpload({
           <button
             type="button"
             className={`group absolute inset-0 flex items-center justify-center bg-black/40`}
-            onClick={handleClearPreview}
+            onClick={handleClearImage}
           >
             <Image
               src="/images/icon-cancel.svg"

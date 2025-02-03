@@ -111,7 +111,7 @@ export default function AddArticlePage() {
             <ImageUpload
               preview={preview ?? null}
               handleFileChange={handleFileChange}
-              handleClearPreview={handleClearImage}
+              handleClearImage={handleClearImage}
             />
           </div>
         </div>
