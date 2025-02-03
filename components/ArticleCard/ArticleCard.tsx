@@ -1,14 +1,13 @@
 import Link from 'next/link';
 
 import { IArticle } from '@/types/article.type';
-import { Card } from '@/components/ui/card';
 import { dotDate } from '@/utils/dateConversion';
 import BestMedal from '@/public/images/icon-medal.svg';
 import ArticleCardContent from '@/components/ArticleCard/ArticleCardContent';
 import ArticleCardFooter from '@/components/ArticleCard/ArticleCardFooter';
 
 const CARD_STYLE =
-  'flex flex-col border border-b-tertiary bg-b-secondary text-16sb mo:relative mo:w-full mo:px-pr-16 cursor-pointer';
+  'rounded-pr-12 flex flex-col border border-b-tertiary bg-b-secondary text-16sb mo:relative mo:w-full mo:px-pr-16 cursor-pointer';
 const NORMAL_STYLE =
   'h-pr-176 w-pr-590 px-pr-32 py-pr-24 mo:h-pr-162 mo:pb-pr-16 ta:w-full';
 const BEST_STYLE =
@@ -30,38 +29,37 @@ function ArticleCard({
   const isBestCard = type === 'best';
 
   return (
-    <Link href={`/boards/${id}`}>
-      <Card
-        className={`${CARD_STYLE} ${isBestCard ? BEST_STYLE : NORMAL_STYLE}`}
-      >
-        {isBestCard && (
-          <div className="absolute top-pr-13 flex items-center">
-            <BestMedal />
-            <span className="ml-pr-4 text-16sb mo:text-14sb">Best</span>
-          </div>
-        )}
+    <Link
+      href={`/boards/${id}`}
+      className={`${CARD_STYLE} ${isBestCard ? BEST_STYLE : NORMAL_STYLE}`}
+    >
+      {isBestCard && (
+        <div className="absolute top-pr-13 flex items-center">
+          <BestMedal />
+          <span className="ml-pr-4 text-16sb mo:text-14sb">Best</span>
+        </div>
+      )}
 
-        <ArticleCardContent
-          isBestCard={isBestCard}
-          title={title}
-          image={image}
-          writer={writer}
-        />
-        {isBestCard && (
-          <div className="mt-pr-12 mo:mt-0">
-            <p className="text-14m text-t-disabled mo:text-12m">
-              {dotDate(createdAt)}
-            </p>
-          </div>
-        )}
+      <ArticleCardContent
+        isBestCard={isBestCard}
+        title={title}
+        image={image}
+        writer={writer}
+      />
+      {isBestCard && (
+        <div className="mt-pr-12 mo:mt-0">
+          <p className="text-14m text-t-disabled mo:text-12m">
+            {dotDate(createdAt)}
+          </p>
+        </div>
+      )}
 
-        <ArticleCardFooter
-          isBestCard={isBestCard}
-          writer={writer}
-          createdAt={createdAt}
-          likeCount={likeCount}
-        />
-      </Card>
+      <ArticleCardFooter
+        isBestCard={isBestCard}
+        writer={writer}
+        createdAt={createdAt}
+        likeCount={likeCount}
+      />
     </Link>
   );
 }
