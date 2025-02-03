@@ -3,8 +3,7 @@ import DateDisplay from '@/components/DateDisplay';
 import Profile from '@/components/Profile/Profile';
 import { CardFooter } from '@/components/ui/card';
 import { IUserProfile } from '@/types/user.type';
-
-import { Skeleton } from '../ui/skeleton';
+import { Skeleton } from '@/components/ui/skeleton';
 
 /**
  * @param {'article'|'task'} props.type - 컴포넌트 타입(할 일 상세의 댓글 or 게시글 상세의 댓글)

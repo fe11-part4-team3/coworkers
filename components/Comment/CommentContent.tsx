@@ -1,8 +1,7 @@
 import { CardContent } from '@/components/ui/card';
 import useUserStore from '@/stores/useUser.store';
 import KebabDropDown from '@/components/KebabDropDown';
-
-import { Skeleton } from '../ui/skeleton';
+import { Skeleton } from '@/components/ui/skeleton';
 
 /**
  * @param {'article'|'task'} props.type - 컴포넌트 타입(할 일 상세의 댓글 or 게시글 상세의 댓글)

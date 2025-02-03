@@ -1,6 +1,6 @@
 import { Meta, StoryFn } from '@storybook/react';
 
-import ImageUpload from '@/app/boards/addarticle/ImageUpload';
+import ImageUpload from '@/components/ImageUpload/ImageUpload';
 import useForm from '@/hooks/useForm';
 
 export default {
