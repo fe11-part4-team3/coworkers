@@ -107,7 +107,7 @@ function CommentContainer({ articleId }: { articleId: number }) {
             />
           ))
         ) : (
-          <p className="mt-pr-118 text-center text-16m text-t-default">
+          <p className="my-pr-118 text-center text-16m text-t-default">
             아직 작성된 댓글이 없습니다.
           </p>
         )}
