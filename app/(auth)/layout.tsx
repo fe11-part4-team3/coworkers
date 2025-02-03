@@ -1,6 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
 import Container from '@/components/layout/Container';
 import OauthForm from '@/components/OauthForm';
@@ -12,6 +13,8 @@ interface ILayoutProps {
 export default function Layout({ children }: ILayoutProps) {
   const pathName = usePathname();
   const currentPath = pathName.split('/').pop();
+
+  const { status } = useSession();
 
   const pageTitles: Record<string, string> = {
     login: '로그인',
@@ -33,9 +36,11 @@ export default function Layout({ children }: ILayoutProps) {
       <div className="mx-auto w-pr-460 mo:w-full">
         {children}
         <div className="mt-pr-48 mo:mt-pr-25">
-          {currentPath && ['login', 'signup'].includes(currentPath) && (
-            <OauthForm type={currentPath as 'login' | 'signup'} />
-          )}
+          {currentPath &&
+            ['login', 'signup'].includes(currentPath) &&
+            status !== 'loading' && (
+              <OauthForm type={currentPath as 'login' | 'signup'} />
+            )}
         </div>
       </div>
     </Container>
