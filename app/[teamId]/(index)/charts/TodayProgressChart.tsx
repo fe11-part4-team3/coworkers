@@ -67,7 +67,7 @@ export default function TodayProgressChart({ tasks }: TodayProgressChartProps) {
                       y={viewBox.cy}
                       className="fill-foreground text-4xl font-bold"
                     >
-                      {progress ? `${progress}%` : '할 일 없음'}
+                      {length ? `${progress}%` : '할 일 없음'}
                     </tspan>
                     <tspan
                       x={viewBox.cx}
