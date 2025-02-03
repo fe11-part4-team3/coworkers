@@ -5,11 +5,7 @@ declare module 'next-auth' {
     googleAccessToken?: string;
     googleIdToken?: string;
     kakaoAccessToken?: string;
-    kakao: {
-      accessToken: string;
-      refreshToken: string;
-      id: number;
-    };
+    id?: number;
   }
 
   export interface JWT {
