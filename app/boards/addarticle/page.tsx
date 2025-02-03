@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 
 import Buttons from '@/components/Buttons';
-import ImageUpload from '@/components/ImageUpload/ImageUpload';
+import ImageUpload from '@/app/boards/addarticle/ImageUpload';
 import InputField from '@/components/InputField/InputField';
 import TextareaField from '@/components/InputField/TextareaField';
 import Container from '@/components/layout/Container';
