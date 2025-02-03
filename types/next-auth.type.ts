@@ -1,13 +1,20 @@
 import { DefaultSession } from 'next-auth';
 
 declare module 'next-auth' {
-  interface Session extends DefaultSession {
-    accessToken?: string;
-    idToken?: string;
+  export interface Session extends DefaultSession {
+    googleAccessToken?: string;
+    googleIdToken?: string;
+    kakaoAccessToken?: string;
+    kakao: {
+      accessToken: string;
+      refreshToken: string;
+      id: number;
+    };
   }
 
-  interface JWT {
-    accessToken?: string;
-    idToken?: string;
+  export interface JWT {
+    googleAccessToken?: string;
+    googleIdToken?: string;
+    kakaoAccessToken?: string;
   }
 }
