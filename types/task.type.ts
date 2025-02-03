@@ -7,12 +7,12 @@ interface ITaskMetadata {
   displayIndex: number;
   writerId: number;
   userId: number;
-  deletedAt: string;
+  deletedAt: string | null;
   frequency: FrequencyType;
-  description: string;
+  description: string | null;
   name: string;
   recurringId: number;
-  doneAt: string;
+  doneAt: string | null;
   date: string;
   updatedAt: string;
   id: number;
@@ -22,7 +22,7 @@ interface ITask extends Omit<ITaskMetadata, 'writerId' | 'userId'> {
   commentCount: number;
   doneBy: {
     user: IUserProfile | null;
-  } | null;
+  };
   writer: IUserProfile | null;
 }
 

@@ -5,6 +5,7 @@ import { ITaskList } from '@/types/taskList.type';
 
 import { _DeleteTaskListParams, _UpdateTaskListParams } from './TeamPage.type';
 import { PointColorType } from './GroupTaskListWrapper';
+import TaskProgressBadge from './TaskProgressBadge';
 
 type IPointColorClasses = {
   [key in PointColorType]: string;
@@ -57,7 +58,8 @@ export default function GroupTaskList({
       <div className={`w-pr-12 ${POINT_COLOR_CLASSES[pointColor]}`}></div>
       <div className="flex grow items-center justify-between bg-b-secondary px-pr-12 py-pr-10">
         <div>{taskList.name}</div>
-        <div>
+        <div className="flex items-center gap-pr-4">
+          <TaskProgressBadge tasks={taskList.tasks} />
           <KebabDropDown
             onEdit={handleClickEdit}
             onDelete={handleClickDelete}
