@@ -1,8 +1,11 @@
+import axios from 'axios';
+
 import {
   SignUpParams,
   AuthResponse,
   SignInProviderParams,
 } from '@/types/auth.type';
+import { revokeKakaoAccessStorage } from '@/lib/kakaoStorage';
 
 import instance from './axios';
 
@@ -115,10 +118,32 @@ const revokeGoogleAccess = async (accessToken: string) => {
   }
 };
 
+/**
+ * Kakao Access Token 폐기(탈퇴 시)
+ * @param accessToken Kakao Access Token
+ */
+const revokeKakaoAccess = async (accessToken: string) => {
+  try {
+    await axios.post('https://kapi.kakao.com/v1/user/unlink', null, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    console.log('kakao 계정 연동 해제 완료');
+
+    revokeKakaoAccessStorage();
+  } catch (error) {
+    console.error('kakao 회원 탈퇴 에러:', error);
+    throw error;
+  }
+};
+
 export {
   signUp,
   signIn,
   refreshAccessToken,
   signInProvider,
   revokeGoogleAccess,
+  revokeKakaoAccess,
 };

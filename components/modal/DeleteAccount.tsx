@@ -8,7 +8,8 @@ import Buttons from '@/components/Buttons';
 import DangerIcon from '@/public/images/icon-danger.svg';
 import { deleteUser } from '@/service/user.api';
 import useUser from '@/hooks/useUser';
-import { revokeGoogleAccess } from '@/service/auth.api';
+import { revokeGoogleAccess, revokeKakaoAccess } from '@/service/auth.api';
+import { getKakaoAccessToken } from '@/lib/kakaoStorage';
 
 /**
  * 회원 탈퇴 모달 컴포넌트.
@@ -19,7 +20,7 @@ export default function DeleteAccount() {
   const { closeModal } = useModalStore();
   const session = useSession();
 
-  // STUB 회원 탈퇴 api 호출
+  // STUB 회원 탈퇴 api mutate
   const { mutate: deleteUserMutate, isPending } = useMutation({
     mutationFn: deleteUser,
     onSuccess: () => {
@@ -30,16 +31,22 @@ export default function DeleteAccount() {
   });
 
   const handleDeleteAccount = async () => {
-    // 회원 탈퇴 api 호출
+    // STUB 회원 탈퇴 api 호출
     deleteUserMutate();
     closeModal();
 
-    // 구글 연동 해제
-    if (session.data?.accessToken) {
-      await revokeGoogleAccess(session.data.accessToken);
+    // STUB 구글 연동 해제
+    if (session.data?.googleAccessToken) {
+      await revokeGoogleAccess(session.data.googleAccessToken);
     }
 
-    // 세션 로그아웃
+    // STUB 카카오 연동 해제
+    const kakaoAccessToken = getKakaoAccessToken();
+    if (kakaoAccessToken) {
+      await revokeKakaoAccess(kakaoAccessToken);
+    }
+
+    // STUB 세션 로그아웃
     await signOut({ redirect: false });
   };
 
