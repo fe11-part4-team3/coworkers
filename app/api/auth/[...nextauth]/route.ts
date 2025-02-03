@@ -40,11 +40,8 @@ export const authOptions: NextAuthOptions = {
       }
       // STUB 세션에 카카오 토큰 저장
       if (token.kakaoAccessToken) {
-        session.kakao = {
-          accessToken: token.kakaoAccessToken as string,
-          refreshToken: token.kakaoRefreshToken as string,
-          id: token.id as number,
-        };
+        session.kakaoAccessToken = token.kakaoAccessToken as string;
+        session.id = token.id as number;
       }
 
       return session;
