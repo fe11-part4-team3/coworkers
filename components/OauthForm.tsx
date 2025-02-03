@@ -1,20 +1,21 @@
 import { useMutation } from '@tanstack/react-query';
 import { signIn, useSession } from 'next-auth/react';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import { signInProvider } from '@/service/auth.api';
 import useUser from '@/hooks/useUser';
-import kakaoLogin from '@/hooks/useKakao';
+import useKakaoLogin from '@/hooks/useKakao';
 import randomNumber5 from '@/utils/randomNumber';
-import { getLoginProcessed } from '@/lib/kakaoStorage';
 
 export default function OauthForm({ type }: { type: 'login' | 'signup' }) {
   const { data: session } = useSession();
 
   const { user, reload } = useUser();
 
+  const kakaoLogin = useKakaoLogin();
+
   // TODO 디버그를 위한 로그
-  console.log('🔹 세션 상태:', session);
+  // console.log('🔹 세션 상태:', session);
 
   // STUB 제공된 api 소셜 로그인 mutate
   const { mutateAsync: postOauthLogin } = useMutation({
@@ -29,23 +30,25 @@ export default function OauthForm({ type }: { type: 'login' | 'signup' }) {
   });
 
   // 구글 로그인 클릭 시
-  const handleGoogleSubmit = () => {
+  const handleGoogleSubmit = useCallback(() => {
     signIn('google');
-  };
+  }, []);
 
   // 카카오 로그인 클릭 시
-  const handleKakaoSubmit = () => {
+  const handleKakaoSubmit = useCallback(() => {
     signIn('kakao');
-  };
+  }, []);
 
   // STUB 유저 정보가 없고, 구글 로그인 데이터가 있을 때
   useEffect(() => {
+    if (!session) return;
+
     if (!user && session?.googleIdToken) {
       const googleFormData = {
         provider: 'GOOGLE',
         state: 'authenticated',
         redirectUri: process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URL,
-        token: session?.googleIdToken || '',
+        token: session?.googleIdToken,
       };
 
       postOauthLogin(googleFormData);
@@ -54,21 +57,21 @@ export default function OauthForm({ type }: { type: 'login' | 'signup' }) {
 
   // STUB 유저 정보가 없고, 카카오 로그인 데이터가 있을 때, 로그인 처리가 되지 않았을 때(중복 로그인 방지)
   useEffect(() => {
-    if (!user && session?.kakao?.accessToken && !getLoginProcessed()) {
-      const kakaoFormData = {
-        accessToken: session?.kakao.accessToken,
-        refreshToken: session?.kakao.refreshToken,
-        user: {
-          id: session?.kakao.id,
-          email: session?.user?.email || `${session?.kakao.id}@kakao.com`,
-          nickname: `${session?.user?.name}${randomNumber5()}` || '',
-          image: session?.user?.image || '',
-        },
-      };
+    if (!session) return;
 
+    if (!user && session && session.user && session.kakaoAccessToken) {
+      const kakaoFormData = {
+        id: session.id || 0,
+        user: {
+          email: session.user.email || `${session.id}@kakao.com`,
+          nickname: `${session.user.name}${randomNumber5()}`,
+          image: session.user.image || '',
+        },
+        accessToken: session.kakaoAccessToken, // 세션에 저장된 최신 토큰 사용
+      };
       kakaoLogin(kakaoFormData, reload);
     }
-  }, [session?.kakao?.accessToken, user, reload]);
+  }, [session, user, reload, kakaoLogin]);
 
   return (
     <>
