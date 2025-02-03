@@ -44,5 +44,13 @@ export function useFileHandler({ onFileChange }: UseFileHandlerProps) {
     };
   }, [preview]);
 
-  return { preview, error, handleFileChange };
+  // preview 이미지 삭제
+  const handleClearPreview = () => {
+    if (preview) {
+      URL.revokeObjectURL(preview);
+    }
+    setPreview('');
+  };
+
+  return { preview, error, handleFileChange, handleClearPreview };
 }

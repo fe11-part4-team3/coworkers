@@ -53,6 +53,7 @@ const useForm = <T extends Record<string, FormValue>>(initialValues: T) => {
     preview,
     error: fileError,
     handleFileChange,
+    handleClearPreview,
   } = useFileHandler({
     onFileChange: (file) => {
       setFormData((prev) => {
@@ -65,6 +66,23 @@ const useForm = <T extends Record<string, FormValue>>(initialValues: T) => {
       }));
     },
   });
+
+  // preview 삭제 시 formData의 image key 제거
+  const handleClearImage = () => {
+    handleClearPreview();
+
+    setFormData((prev) => {
+      const updatedFormData = { ...prev };
+      delete updatedFormData.image;
+      return updatedFormData;
+    });
+
+    setChangedFields((prevChanged) => {
+      const updatedChangedFields = { ...prevChanged };
+      delete updatedChangedFields.image;
+      return updatedChangedFields;
+    });
+  };
 
   // 파일 에러 메시지를 폼 에러 메시지에 추가
   useEffect(() => {
@@ -97,6 +115,7 @@ const useForm = <T extends Record<string, FormValue>>(initialValues: T) => {
     setChangedFields,
     handleInputChange,
     handleFileChange,
+    handleClearImage,
   };
 };
 
