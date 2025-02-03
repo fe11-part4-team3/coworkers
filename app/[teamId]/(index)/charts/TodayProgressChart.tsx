@@ -32,12 +32,8 @@ interface TodayProgressChartProps {
 export default function TodayProgressChart({ tasks }: TodayProgressChartProps) {
   const { length, done, todo } = parseTasks(tasks);
 
-  const chartData = [
-    todo.length
-      ? { done: done.length, todo: todo.length }
-      : { done: 1, todo: 0 },
-  ];
-  const progress = length ? Math.round((done.length / length) * 100) : 100;
+  const chartData = [{ done: done.length, todo: todo.length }];
+  const progress = length ? Math.round((done.length / length) * 100) : null;
 
   return (
     <ChartContainer
@@ -71,7 +67,7 @@ export default function TodayProgressChart({ tasks }: TodayProgressChartProps) {
                       y={viewBox.cy}
                       className="fill-foreground text-4xl font-bold"
                     >
-                      {`${progress}%`}
+                      {progress ? `${progress}%` : '할 일 없음'}
                     </tspan>
                     <tspan
                       x={viewBox.cx}
