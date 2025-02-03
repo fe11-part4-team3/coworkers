@@ -4,6 +4,8 @@ import { ITaskList } from '@/types/taskList.type';
 import { _DeleteTaskListParams, _UpdateTaskListParams } from './TeamPage.type';
 import { PointColorType } from './GroupTaskListWrapper';
 
+import Link from 'next/link';
+
 type IPointColorClasses = {
   [key in PointColorType]: string;
 };
@@ -19,6 +21,7 @@ const POINT_COLOR_CLASSES: IPointColorClasses = {
 };
 
 interface GroupTaskListProps {
+  teamId: string | string[] | undefined;
   taskList: ITaskList;
   pointColor: PointColorType;
   onEdit: (params: _UpdateTaskListParams) => void;
@@ -26,6 +29,7 @@ interface GroupTaskListProps {
 }
 
 export default function GroupTaskList({
+  teamId,
   taskList,
   pointColor,
   onEdit,
@@ -42,17 +46,19 @@ export default function GroupTaskList({
   };
 
   return (
-    <div className="flex overflow-hidden rounded-pr-12 transition-all duration-300 hover:scale-[101%] hover:drop-shadow-lg">
-      <div className={`w-pr-12 ${POINT_COLOR_CLASSES[pointColor]}`}></div>
-      <div className="flex grow items-center justify-between bg-b-secondary px-pr-12 py-pr-10">
-        <div>{taskList.name}</div>
-        <div>
-          <KebabDropDown
-            onEdit={handleClickEdit}
-            onDelete={handleClickDelete}
-          />
+    <Link href={`/${teamId}/${taskList.id}`}>
+      <div className="flex overflow-hidden rounded-pr-12 transition-all duration-300 hover:scale-[101%] hover:drop-shadow-lg">
+        <div className={`w-pr-12 ${POINT_COLOR_CLASSES[pointColor]}`}></div>
+        <div className="flex grow items-center justify-between bg-b-secondary px-pr-12 py-pr-10">
+          <div>{taskList.name}</div>
+          <div>
+            <KebabDropDown
+              onEdit={handleClickEdit}
+              onDelete={handleClickDelete}
+            />
+          </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

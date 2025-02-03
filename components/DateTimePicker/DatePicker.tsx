@@ -10,10 +10,17 @@ import { widthStyledSliceWPr } from '@/utils/filterClass';
 /**
  * DatePicker 컴포넌트는 달력을 표시하고 선택한 날짜를 반환합니다.
  * @param {string} width - optional, DatePicker 컴포넌트의 너비를 설정합니다. (기본 값은 w-full입니다.)
+ * @param {boolean} isInput - optional, DatePicker 컴포넌트의 InputField를 표시할지 여부를 설정합니다. (기본 값은 true입니다.)
  * @returns {JSX.Element} DatePicker 컴포넌트를 반환합니다.
  */
 
-export default function DatePicker({ width }: { width?: string }) {
+export default function DatePicker({
+  width,
+  isInput = true,
+}: {
+  width?: string;
+  isInput?: boolean;
+}) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [date, setdate] = useState<Date | undefined>(undefined);
 
@@ -26,20 +33,22 @@ export default function DatePicker({ width }: { width?: string }) {
       <div
         className={`${width ? widthStyledSliceWPr(width) : 'w-full'} flex flex-col gap-pr-8`}
       >
-        <div className="relative">
-          <InputField
-            value={formattedDate}
-            placeholder="날짜를 선택해주세요."
-            disabled={true}
-            onChange={() => {}}
-            name="date"
-          />
-          <button
-            className={`absolute left-0 top-0 z-20 size-full rounded-xl ${buttonStyle}`}
-            onClick={() => setIsOpen(!isOpen)}
-          />
-        </div>
-        {isOpen && (
+        {isInput && (
+          <div className="relative">
+            <InputField
+              value={formattedDate}
+              placeholder="날짜를 선택해주세요."
+              disabled={true}
+              onChange={() => {}}
+              name="date"
+            />
+            <button
+              className={`absolute left-0 top-0 z-20 size-full rounded-xl ${buttonStyle}`}
+              onClick={() => setIsOpen(!isOpen)}
+            />
+          </div>
+        )}
+        {(isOpen || !isInput) && (
           <Calendar
             mode="single"
             selected={date}
