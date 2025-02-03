@@ -18,7 +18,6 @@ export type PointColorType =
   | 'yellow';
 
 interface GroupTaskListWrapperProps {
-  teamId: string | string[] | undefined;
   taskLists: ITaskList[] | null;
   onCreate: (params: _CreateTaskListParams) => void;
   onEdit: (params: _UpdateTaskListParams) => void;
@@ -36,7 +35,6 @@ const POINT_COLOR: PointColorType[] = [
 ];
 
 export default function GroupTaskListWrapper({
-  teamId,
   taskLists,
   onCreate,
   onEdit,
@@ -68,7 +66,6 @@ export default function GroupTaskListWrapper({
         taskLists.map((taskList, i) => (
           <GroupTaskList
             key={taskList.id}
-            teamId={teamId}
             taskList={taskList}
             pointColor={POINT_COLOR[i % POINT_COLOR.length]}
             onEdit={onEdit}

@@ -22,7 +22,6 @@ const POINT_COLOR_CLASSES: IPointColorClasses = {
 };
 
 interface GroupTaskListProps {
-  teamId: string | string[] | undefined;
   taskList: ITaskList;
   pointColor: PointColorType;
   onEdit: (params: _UpdateTaskListParams) => void;
@@ -30,7 +29,6 @@ interface GroupTaskListProps {
 }
 
 export default function GroupTaskList({
-  teamId,
   taskList,
   pointColor,
   onEdit,

@@ -66,7 +66,6 @@ export default function TeamPage() {
       <div className="flex flex-col gap-pr-24 pt-pr-24">
         <GroupHeader name={group.name} />
         <GroupTaskListWrapper
-          teamId={teamId}
           taskLists={taskLists}
           onCreate={onCreate}
           onEdit={onEdit}
