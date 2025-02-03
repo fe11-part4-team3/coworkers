@@ -5,7 +5,7 @@ import {
   AuthResponse,
   SignInProviderParams,
 } from '@/types/auth.type';
-import { revokeKakaoAccessStorage } from '@/lib/kakaoStorage';
+import { removeProfileUpdated } from '@/lib/kakaoStorage';
 
 import instance from './axios';
 
@@ -132,7 +132,7 @@ const revokeKakaoAccess = async (accessToken: string) => {
     });
     console.log('kakao 계정 연동 해제 완료');
 
-    revokeKakaoAccessStorage();
+    removeProfileUpdated();
   } catch (error) {
     console.error('kakao 회원 탈퇴 에러:', error);
     throw error;

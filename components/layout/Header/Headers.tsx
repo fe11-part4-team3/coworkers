@@ -13,7 +13,7 @@ import SideNavigation from '@/components/SideNavigation/SideNavigation';
 import useUser from '@/hooks/useUser';
 import { IGroup } from '@/types/group.type';
 import DropDown from '@/components/DropDown';
-import { logoutKakaoAccessStorage } from '@/lib/kakaoStorage';
+import { removeLoginProcessed } from '@/lib/kakaoStorage';
 
 import Profile from './Profile';
 import Logo from './Logo';
@@ -31,9 +31,9 @@ function Headers() {
     if (flag) {
       clear();
 
-      // STUB 세션 로그아웃
+      // // STUB 세션 로그아웃
       signOut();
-      logoutKakaoAccessStorage();
+      removeLoginProcessed();
 
       alert('로그아웃 되었습니다.');
     }

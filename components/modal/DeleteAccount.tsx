@@ -9,7 +9,7 @@ import DangerIcon from '@/public/images/icon-danger.svg';
 import { deleteUser } from '@/service/user.api';
 import useUser from '@/hooks/useUser';
 import { revokeGoogleAccess, revokeKakaoAccess } from '@/service/auth.api';
-import { getKakaoAccessToken } from '@/lib/kakaoStorage';
+import { removeLoginProcessed, removeProfileUpdated } from '@/lib/kakaoStorage';
 
 /**
  * 회원 탈퇴 모달 컴포넌트.
@@ -24,6 +24,8 @@ export default function DeleteAccount() {
   const { mutate: deleteUserMutate, isPending } = useMutation({
     mutationFn: deleteUser,
     onSuccess: () => {
+      removeProfileUpdated();
+      removeLoginProcessed();
       alert('회원탈퇴가 완료되었습니다.');
       clear();
     },
@@ -41,9 +43,8 @@ export default function DeleteAccount() {
     }
 
     // STUB 카카오 연동 해제
-    const kakaoAccessToken = getKakaoAccessToken();
-    if (kakaoAccessToken) {
-      await revokeKakaoAccess(kakaoAccessToken);
+    if (session.data?.kakaoAccessToken) {
+      await revokeKakaoAccess(session.data?.kakaoAccessToken);
     }
 
     // STUB 세션 로그아웃

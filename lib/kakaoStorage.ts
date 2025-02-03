@@ -3,45 +3,22 @@
  */
 
 // 로컬 스토리지에서 값 가져오기 함수들
-const getLoginProcessed = () => localStorage.getItem('kakaoLoginProcessed');
 const getProfileUpdated = () => localStorage.getItem('profileUpdated');
-const getKakaoAccessToken = () => localStorage.getItem('kakaoAccessToken');
-const getKakaoRefreshToken = () => localStorage.getItem('kakaoRefreshToken');
+const getLoginProcessed = () => localStorage.getItem('loginProcessed');
 
 // 로컬 스토리지에 값 저장하기 함수들
-const setLoginProcessed = () =>
-  localStorage.setItem('kakaoLoginProcessed', 'true');
 const setProfileUpdated = () => localStorage.setItem('profileUpdated', 'true');
+const setLoginProcessed = () => localStorage.setItem('loginProcessed', 'true');
 
 // 로컬 스토리지에서 값 삭제하기 함수들
-const removeLoginProcessed = () =>
-  localStorage.removeItem('kakaoLoginProcessed');
 const removeProfileUpdated = () => localStorage.removeItem('profileUpdated');
-const removeKakaoAccessToken = () =>
-  localStorage.removeItem('kakaoAccessToken');
-const removeKakaoRefreshToken = () =>
-  localStorage.removeItem('kakaoRefreshToken');
-
-// 카카오 회원 탈퇴 시 로컬 스토리지에 저장된 토큰 정보를 삭제하는 함수
-const revokeKakaoAccessStorage = () => {
-  removeKakaoAccessToken();
-  removeKakaoRefreshToken();
-  removeLoginProcessed();
-  removeProfileUpdated();
-};
-
-// 카카오 로그아웃 시 로컬 스토리지에 저장된 토큰 정보를 삭제하는 함수
-const logoutKakaoAccessStorage = () => {
-  removeLoginProcessed();
-};
+const removeLoginProcessed = () => localStorage.removeItem('loginProcessed');
 
 export {
-  getLoginProcessed,
   getProfileUpdated,
-  getKakaoAccessToken,
-  getKakaoRefreshToken,
-  setLoginProcessed,
   setProfileUpdated,
-  revokeKakaoAccessStorage,
-  logoutKakaoAccessStorage,
+  removeProfileUpdated,
+  getLoginProcessed,
+  setLoginProcessed,
+  removeLoginProcessed,
 };
