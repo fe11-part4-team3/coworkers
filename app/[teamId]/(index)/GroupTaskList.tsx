@@ -1,10 +1,11 @@
+import { useRouter } from 'next/navigation';
+
 import KebabDropDown from '@/components/KebabDropDown';
 import { ITaskList } from '@/types/taskList.type';
 
 import { _DeleteTaskListParams, _UpdateTaskListParams } from './TeamPage.type';
 import { PointColorType } from './GroupTaskListWrapper';
-
-import Link from 'next/link';
+import TaskProgressBadge from './TaskProgressBadge';
 
 type IPointColorClasses = {
   [key in PointColorType]: string;
@@ -35,6 +36,12 @@ export default function GroupTaskList({
   onEdit,
   onDelete,
 }: GroupTaskListProps) {
+  const router = useRouter();
+
+  const handleClickTaskList = () => {
+    router.push(`/${taskList.groupId}/${taskList.id}`);
+  };
+
   const handleClickEdit = () => {
     const name = prompt('목록 명을 입력해주세요');
     if (name) onEdit({ id: taskList.id, name });
@@ -46,19 +53,21 @@ export default function GroupTaskList({
   };
 
   return (
-    <Link href={`/${teamId}/${taskList.id}`}>
-      <div className="flex overflow-hidden rounded-pr-12 transition-all duration-300 hover:scale-[101%] hover:drop-shadow-lg">
-        <div className={`w-pr-12 ${POINT_COLOR_CLASSES[pointColor]}`}></div>
-        <div className="flex grow items-center justify-between bg-b-secondary px-pr-12 py-pr-10">
-          <div>{taskList.name}</div>
-          <div>
-            <KebabDropDown
-              onEdit={handleClickEdit}
-              onDelete={handleClickDelete}
-            />
-          </div>
+    <div
+      className="flex overflow-hidden rounded-pr-12 transition-all duration-300 hover:scale-[101%] hover:drop-shadow-lg"
+      onClick={handleClickTaskList}
+    >
+      <div className={`w-pr-12 ${POINT_COLOR_CLASSES[pointColor]}`}></div>
+      <div className="flex grow items-center justify-between bg-b-secondary px-pr-12 py-pr-10">
+        <div>{taskList.name}</div>
+        <div className="flex items-center gap-pr-4">
+          <TaskProgressBadge tasks={taskList.tasks} />
+          <KebabDropDown
+            onEdit={handleClickEdit}
+            onDelete={handleClickDelete}
+          />
         </div>
       </div>
-    </Link>
+    </div>
   );
 }

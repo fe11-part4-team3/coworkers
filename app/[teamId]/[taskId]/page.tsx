@@ -18,6 +18,8 @@ import { getTaskList } from '@/service/taskList.api';
 import { useQuery } from '@tanstack/react-query';
 import { usePathname } from 'next/navigation';
 import TaskCard from '@/components/TaskCard/TaskCard';
+import { createTask } from '@/service/task.api';
+import { TaskRecurringCreateDto } from '@/types/task.type';
 
 export default function TaskListPage() {
   const { isOpen, openModal, closeModal } = useModalStore();
@@ -25,17 +27,39 @@ export default function TaskListPage() {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
   const pathName = usePathname();
-  const teamId = Number(pathName.split('/')[1]);
-  const taskId = Number(pathName.split('/')[2]);
+  const groupId = Number(pathName.split('/')[1]);
+  const taskListId = Number(pathName.split('/')[2]);
 
-  const fetchData = async () => {
-    const response = await getTaskList({ groupId: teamId, id: taskId });
+  const fetchTaskList = async () => {
+    const response = await getTaskList({ groupId, id: taskListId });
     return response;
   };
 
-  const { data, error, isLoading } = useQuery({
-    queryKey: ['taskList', teamId, taskId],
-    queryFn: fetchData,
+  const fetchCreateTask = async (body: TaskRecurringCreateDto) => {
+    const response = await createTask({
+      groupId,
+      taskListId,
+      body,
+    });
+    return response;
+  };
+
+  const {
+    data: taskListData,
+    error: taskListError,
+    isLoading: taskListIsLoading,
+  } = useQuery({
+    queryKey: ['taskList', groupId, taskListId],
+    queryFn: fetchTaskList,
+  });
+
+  const {
+    data: createTaskData,
+    error: createTaskError,
+    isLoading: createTaskIsLoading,
+  } = useQuery({
+    queryKey: ['task', groupId, taskListId],
+    queryFn: fetchTaskList,
   });
 
   // const isoDate = date.toISOString();
@@ -75,9 +99,14 @@ export default function TaskListPage() {
   dayjs.locale('ko');
   const formattedDate = dayjs(date).format('M월 D일 (ddd)');
 
-  if (isLoading) return <div>로딩 중...</div>;
+  if (taskListIsLoading || createTaskIsLoading) return <div>로딩 중...</div>;
 
-  if (error) return <div>에러가 발생했습니다 : {error.message}</div>;
+  if (taskListError || createTaskError) {
+    console.error(taskListError, createTaskError);
+    return <div>에러가 발생했습니다.</div>;
+  }
+
+  console.log(taskListData);
 
   return (
     <>
@@ -113,8 +142,8 @@ export default function TaskListPage() {
             테스트용 상세 버튼
           </button>
         </ul>
-        {data &&
-          data.tasks.map((task) => (
+        {taskListData &&
+          taskListData?.tasks.map((task) => (
             <TaskCard key={task.id} type="taskList" taskData={task} />
           ))}
         {isOpen && (
@@ -129,6 +158,7 @@ export default function TaskListPage() {
             updateComment={handleUpdateComment}
           />
         )}
+        <button onClick={() => openModal}>할 일 추가</button>
       </Container>
     </>
   );
