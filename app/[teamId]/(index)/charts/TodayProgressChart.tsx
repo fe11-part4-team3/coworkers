@@ -47,10 +47,13 @@ export default function TodayProgressChart({ tasks }: TodayProgressChartProps) {
         innerRadius={80}
         outerRadius={130}
       >
-        <ChartTooltip
-          cursor={false}
-          content={<ChartTooltipContent customColor={COLOR} hideLabel />}
-        />
+        {length && (
+          <ChartTooltip
+            cursor={false}
+            content={<ChartTooltipContent customColor={COLOR} hideLabel />}
+          />
+        )}
+
         <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
           <Label
             content={({ viewBox }) => {
