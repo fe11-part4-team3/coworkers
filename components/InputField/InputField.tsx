@@ -1,12 +1,15 @@
 import { useState } from 'react';
+import { useSession } from 'next-auth/react';
 
 import { InputFieldProps } from '@/types/inputField.type';
+import useModalStore from '@/stores/modalStore';
 
 import { Input } from '../ui/input';
 import ErrorMessage from './ErrorMessage';
 import InputLabel from './InputLabel';
 import HideToggle from './HideToggle';
 import Buttons from '../Buttons';
+import ChangePassword from '../modal/ChangePassword';
 
 // input 공통 스타일
 export const inputStyled =
@@ -36,14 +39,20 @@ export default function InputField({
   disabled = false,
   width = '',
   onChange,
-  onClickButton,
   ...props
 }: InputFieldProps) {
   const [showPassword, setShowPassword] = useState(false);
+  const { status } = useSession();
+  const { openModal } = useModalStore();
 
   // 비밀번호 보이기/숨기기 토글
   const togglePassword = () => {
     setShowPassword(!showPassword);
+  };
+
+  // STUB 비밀번호 변경 모달 열기
+  const handleOpenResetPassword = () => {
+    openModal(<ChangePassword />);
   };
 
   return (
@@ -64,14 +73,16 @@ export default function InputField({
         />
         {type === 'password' &&
           (disabled ? (
-            <div className="absolute right-pr-16 top-1/2 -translate-y-1/2">
-              <Buttons
-                text="변경하기"
-                size="S"
-                className="w-pr-74"
-                onClick={() => onClickButton}
-              />
-            </div>
+            status !== 'authenticated' && (
+              <div className="absolute right-pr-16 top-1/2 -translate-y-1/2">
+                <Buttons
+                  text="변경하기"
+                  size="S"
+                  className="w-pr-74"
+                  onClick={handleOpenResetPassword}
+                />
+              </div>
+            )
           ) : (
             <HideToggle
               togglePassword={togglePassword}
