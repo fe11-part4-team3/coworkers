@@ -88,10 +88,10 @@ const useUser = (required?: boolean) => {
 
   useEffect(() => {
     if (!required) return;
-    if (!token || (!user && !isPending)) {
+    if (!token || (!data && !isPending)) {
       router.push('/');
     }
-  }, [required, token, user, isPending, router]);
+  }, [required, token, data, isPending, router]);
 
   return {
     isAuthenticated: !!token,
