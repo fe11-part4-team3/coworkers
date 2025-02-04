@@ -12,7 +12,6 @@ import parseTasks from '@/utils/parseTasks';
 interface TodayTasksChartProps {
   taskLists: ITaskList[];
   state: 'todo' | 'done';
-  text: string;
 }
 
 const COLOR = [
@@ -66,18 +65,26 @@ export default function TodayTasksChart({
     };
   });
 
+  /**
+   * chartDate가 비어있을 경우 파이 차트가 렌더링 되지 않습니다
+   * 그래서 빈 chartData일 때 파이차트를 렌더링 하기 위한 더미데이터입니다
+   */
+  const EmptyChartData = [{ name: 'none', [state]: 1, fill: 'none' }];
+
   return (
     <ChartContainer
       config={chartConfig}
       className="aspect-square max-h-pr-200 min-w-pr-200"
     >
       <PieChart>
-        <ChartTooltip
-          cursor={false}
-          content={<ChartTooltipContent hideLabel />}
-        />
+        {total && (
+          <ChartTooltip
+            cursor={false}
+            content={<ChartTooltipContent hideLabel />}
+          />
+        )}
         <Pie
-          data={chartData}
+          data={total ? chartData : EmptyChartData}
           dataKey={state}
           nameKey="name"
           startAngle={ANGLE[state].start}
