@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
 
 import { useDeviceType } from '@/contexts/DeviceTypeContext';
 import ICON_PLUS from '@/public/images/icon-plus.svg';
@@ -10,47 +9,26 @@ import ICON_PLUS from '@/public/images/icon-plus.svg';
  * @returns {JSX.Element} 이미지 업로드 컴포넌트
  */
 function ImageUpload({
-  fileValue,
-  setFileValue,
+  preview,
+  handleFileChange,
+  handleClearImage,
 }: {
-  fileValue: File | null;
-  setFileValue: React.Dispatch<React.SetStateAction<File | null>>;
+  preview: string | null;
+  handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleClearImage: () => void;
 }) {
-  const [preview, setPreview] = useState<string | null>(null);
-  const ref = useRef<HTMLInputElement>(null);
-
   const deviceType = useDeviceType();
   const mobile = deviceType === 'mobile';
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files) return;
-    setFileValue(files[0]);
-  };
-
-  useEffect(() => {
-    if (!fileValue) {
-      return;
-    }
-
-    const nextPreview = URL.createObjectURL(fileValue);
-    setPreview(nextPreview);
-
-    return () => {
-      setPreview(null);
-      URL.revokeObjectURL(nextPreview);
-    };
-  }, [fileValue]);
-
-  const handleClearClick = () => {
-    if (ref.current) {
-      ref.current.value = '';
-    }
-    setFileValue(null);
-  };
-
   return (
     <>
+      <label
+        htmlFor="imageUpload"
+        className="mb-pr-16 inline-block text-16m mo:text-14m"
+      >
+        이미지
+      </label>
+
       {preview ? (
         <div
           className={`group relative size-pr-240 cursor-pointer overflow-hidden rounded-pr-12 mo:size-pr-160`}
@@ -63,8 +41,9 @@ function ImageUpload({
           />
 
           <button
-            className={`group absolute inset-0 flex items-center justify-center bg-black bg-opacity-40`}
-            onClick={handleClearClick}
+            type="button"
+            className={`group absolute inset-0 flex items-center justify-center bg-black/40`}
+            onClick={handleClearImage}
           >
             <Image
               src="/images/icon-cancel.svg"
@@ -78,7 +57,7 @@ function ImageUpload({
       ) : (
         <label
           htmlFor="imageUpload"
-          className={`group relative flex size-pr-240 cursor-pointer items-center justify-center overflow-hidden rounded-pr-12 border bg-b-secondary mo:size-pr-160`}
+          className={`group relative flex size-pr-240 cursor-pointer items-center justify-center overflow-hidden rounded-pr-12 border bg-b-secondary transition-colors hover:border-i-hover mo:size-pr-160`}
         >
           <div className="flex flex-col items-center">
             <ICON_PLUS
@@ -91,11 +70,11 @@ function ImageUpload({
             </span>
           </div>
           <input
+            name="image"
             id="imageUpload"
             type="file"
-            ref={ref}
             accept="image/png, image/jpeg, image/jpg"
-            onChange={handleChange}
+            onChange={handleFileChange}
             className="hidden"
           />
         </label>
