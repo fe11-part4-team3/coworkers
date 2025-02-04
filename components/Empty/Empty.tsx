@@ -4,6 +4,10 @@ import classNames from 'classnames';
 
 import Buttons from '@/components/Buttons';
 
+import { EmptyButtonsProps } from './Empty.type';
+
+const BUTTON_SIZE = 'w-pr-278';
+
 /**
  * 객체가 없을때 사용하는 컴포넌트
  * @example
@@ -73,11 +77,6 @@ Empty.Text = function EmptyText({ text }: { text: string }) {
   return <p>{text}</p>;
 };
 
-interface IEmptyButtonsProps {
-  text: string;
-  href: string;
-}
-
 /**
  * 버튼 wrapper
  * @example
@@ -100,26 +99,38 @@ Empty.ButtonWrapper = function EmptyButtonWrapper({
 /**
  * 기본 버튼 스타일
  */
-Empty.Buttons = function EmptyButtons({ text, href }: IEmptyButtonsProps) {
-  return <Buttons text={text} className="w-pr-278" href={href} />;
+Empty.Buttons = function EmptyButtons({
+  text,
+  href,
+  onClick,
+}: EmptyButtonsProps) {
+  return href ? (
+    <Buttons text={text} className={BUTTON_SIZE} href={href} />
+  ) : (
+    <Buttons text={text} className={BUTTON_SIZE} onClick={onClick} />
+  );
 };
 
 /**
  * 테두리 버튼 스타일
  */
 Empty.ButtonsBorder = function EmptyButtons({
-  href,
   text,
-}: IEmptyButtonsProps) {
-  return (
-    <Buttons
-      text={text}
-      className="w-pr-278"
-      backgroundColor="none"
-      border="primary"
-      textColor="primary"
-      href={href}
-    />
+  href,
+  onClick,
+}: EmptyButtonsProps) {
+  const stylesProps = {
+    text,
+    className: BUTTON_SIZE,
+    backgroundColor: 'none' as const,
+    border: 'primary' as const,
+    textColor: 'primary' as const,
+  };
+
+  return href ? (
+    <Buttons {...stylesProps} href={href} />
+  ) : (
+    <Buttons {...stylesProps} onClick={onClick} />
   );
 };
 

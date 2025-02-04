@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Meta, StoryFn } from '@storybook/react';
 
-import Empty from '@/components/Empty';
+import Empty from '@/components/Empty/Empty';
 
 export default {
   title: 'Components/Empty',
