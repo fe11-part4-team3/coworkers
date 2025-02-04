@@ -3,7 +3,8 @@ import DateDisplay from '@/components/DateDisplay';
 import Profile from '@/components/Profile/Profile';
 import { CardFooter } from '@/components/ui/card';
 import { IUserProfile } from '@/types/user.type';
-import { Skeleton } from '@/components/ui/skeleton';
+
+import { CommentDateSkeleton, CommentProfileSkeleton } from './CommentSkeleton';
 
 /**
  * @param {'article'|'task'} props.type - 컴포넌트 타입(할 일 상세의 댓글 or 게시글 상세의 댓글)
@@ -61,12 +62,7 @@ function CommentFooter({
               </span>
             </>
           ) : (
-            <>
-              <Skeleton className="size-pr-32 rounded-full" />
-              <div className="ml-pr-12">
-                <Skeleton className="h-pr-17 w-pr-50" />
-              </div>
-            </>
+            <CommentProfileSkeleton />
           )}
         </div>
 
@@ -84,7 +80,7 @@ function CommentFooter({
                 )}
               </div>
             ) : (
-              <Skeleton className="h-pr-17 w-pr-60" />
+              <CommentDateSkeleton />
             )}
           </>
         )}
@@ -99,7 +95,7 @@ function CommentFooter({
                 className={`${isArticleComment && 'text-t-disabled'}`}
               />
             ) : (
-              <Skeleton className="h-pr-17 w-pr-60" />
+              <CommentDateSkeleton />
             )}
           </>
         )

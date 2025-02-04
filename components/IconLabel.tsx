@@ -1,3 +1,5 @@
+import classNames from 'classnames';
+
 import { IconTextProps } from '@/types/taskCard.type';
 
 /**
@@ -12,7 +14,7 @@ function IconText({
   text,
   type,
   fontSize = 'S',
-  fontColor = 'text-slate-500',
+  fontColor,
   hasBar,
 }: IconTextProps) {
   const iconClass = {
@@ -25,12 +27,19 @@ function IconText({
   const baseClass =
     "relative flex items-center leading-none before:inline-block before:size-pr-16 before:flex-1 before:bg-no-repeat before:content-['']";
   const textSizeClass = fontSize === 'S' ? 'text-12' : 'text-14';
+  const fontColorClass = fontColor || 'text-slate-500';
   const commentCountClass = type === 'commentCount' ? 'gap-pr-4' : 'gap-pr-6';
 
   return (
     <>
       <span
-        className={`${baseClass} ${iconClass} ${commentCountClass} ${textSizeClass} ${fontColor}`}
+        className={classNames(
+          ...baseClass,
+          iconClass,
+          textSizeClass,
+          fontColorClass,
+          commentCountClass,
+        )}
       >
         {text}
       </span>

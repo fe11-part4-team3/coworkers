@@ -1,15 +1,17 @@
 import { getTaskList } from '@/service/taskList.api';
 import useGroupStore from '@/stores/useGroup.store';
-import { ITask } from '@/types/task.type';
 import { useQueries, useQueryClient } from '@tanstack/react-query';
-import { useCallback } from 'react';
 
-export interface IParsedTasks {
-  length: number;
-  todo: ITask[];
-  done: ITask[];
-}
-
+/**
+ * 특정 팀에 속한 모든 할 일 목록을 관리하기 위한 커스텀 훅입니다.
+ *
+ * @property taskList 할 일 목록 상세 리스트
+ * @property isPending 할 일 목록 리스트 요청 중 여부
+ * @property error 요청 중 발생한 에러
+ * @property refetchById 특정 할 일 목록 리페칭
+ * @property removeById 특정 할 일 목록 캐싱 삭제
+ * @property refetchAll 모든 할 일 목록 리페칭
+ */
 export default function useTaskLists() {
   const queryClient = useQueryClient();
   const { taskLists, setTaskLists } = useGroupStore();
@@ -32,21 +34,6 @@ export default function useTaskLists() {
 
   const error = queries.find((query) => query.error)?.error;
 
-  const parseTasks = useCallback((tasks: ITask[]) => {
-    const prasedTasks: IParsedTasks = {
-      length: 0,
-      todo: [],
-      done: [],
-    };
-    tasks.forEach((task) => {
-      if (task.deletedAt) return;
-      if (task.doneAt) prasedTasks.done.push(task);
-      else prasedTasks.todo.push(task);
-      prasedTasks.length++;
-    });
-    return prasedTasks;
-  }, []);
-
   const refetchById = async (id: number) =>
     await queryClient.refetchQueries({ queryKey: ['taskList', id] });
 
@@ -65,7 +52,6 @@ export default function useTaskLists() {
     taskLists: data.length > 0 ? data : null,
     isPending: !!taskLists && isPending,
     error,
-    parseTasks,
     refetchById,
     removeById,
     refetchAll,
