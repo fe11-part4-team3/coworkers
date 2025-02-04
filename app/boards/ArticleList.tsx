@@ -38,6 +38,7 @@ function ArticleList({ keyword }: { keyword: string | undefined }) {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['articleList'] });
+      alert('게시글이 삭제되었습니다.');
     },
   });
 
