@@ -17,6 +17,8 @@ interface taskData {
 interface IconTextProps {
   text: string | number;
   type: 'calendar' | 'time' | 'repeat' | 'commentCount';
+  fontSize?: 'S' | 'M';
+  fontColor?: string;
   hasBar?: boolean;
 }
 

@@ -1,3 +1,4 @@
+import { IArticleComment } from './articleComment.type';
 import { IUserProfile } from './user.type';
 
 interface ITaskComment {
@@ -28,10 +29,19 @@ interface DeleteTaskCommentParams {
   commentId: number;
 }
 
+interface CommentProps {
+  type?: 'article' | 'task';
+  commentData: IArticleComment | ITaskComment;
+  handleDeleteClick: (id: number) => void;
+  handleUpdateSubmit: (id: number, commentEditContent: string) => void;
+  isLoading?: boolean;
+}
+
 export type {
   ITaskComment,
   GetTaskCommentParams,
   CreateTaskCommentParams,
   UpdateTaskCommentParams,
   DeleteTaskCommentParams,
+  CommentProps,
 };

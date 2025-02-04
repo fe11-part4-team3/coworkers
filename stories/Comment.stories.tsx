@@ -1,5 +1,6 @@
 import React from 'react';
 import { Meta, StoryObj } from '@storybook/react';
+
 import Comment from '@/components/Comment/Comment';
 import useUserStore from '@/stores/useUser.store';
 
@@ -37,7 +38,7 @@ type Story = StoryObj<typeof Comment>;
 
 const ArticleAuthorData = {
   id: 1773,
-  content: '댓글 작성자가 아닌 경우 (DropDown 미노출)',
+  content: '댓글 작성자가 아닌 경우 (DropDown 미노출), 스켈레톤 확인 가능',
   createdAt: '2025-01-16T21:42:49+09:00',
   updatedAt: '2025-01-16T21:42:49+09:00',
   writer: {
@@ -118,6 +119,7 @@ const TaskLongContentData = {
 export const ArticleAuthor: Story = {
   args: {
     commentData: ArticleAuthorData,
+    isLoading: false,
   },
   decorators: [
     (Story) => {

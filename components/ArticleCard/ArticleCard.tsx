@@ -1,4 +1,4 @@
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 import { IArticle } from '@/types/article.type';
 import { Card } from '@/components/ui/card';
@@ -30,46 +30,44 @@ function ArticleCard({
 }) {
   const { id, title, image, createdAt, writer, likeCount } = articleData;
   const isBestCard = type === 'best';
-  const router = useRouter();
 
   return (
-    <Card
-      className={`${CARD_STYLE} ${isBestCard ? BEST_STYLE : NORMAL_STYLE}`}
-      onClick={() => {
-        router.push(`/boards/${id}`);
-      }}
-    >
-      {isBestCard && (
-        <div className="absolute top-pr-13 flex items-center">
-          <BestMedal />
-          <span className="ml-pr-4 text-16sb mo:text-14sb">Best</span>
-        </div>
-      )}
+    <Link href={`/boards/${id}`}>
+      <Card
+        className={`${CARD_STYLE} ${isBestCard ? BEST_STYLE : NORMAL_STYLE}`}
+      >
+        {isBestCard && (
+          <div className="absolute top-pr-13 flex items-center">
+            <BestMedal />
+            <span className="ml-pr-4 text-16sb mo:text-14sb">Best</span>
+          </div>
+        )}
 
-      <ArticleCardContent
-        isBestCard={isBestCard}
-        id={id}
-        title={title}
-        image={image}
-        writer={writer}
-        handleArticleDelete={handleArticleDelete}
-      />
+        <ArticleCardContent
+          isBestCard={isBestCard}
+          id={id}
+          title={title}
+          image={image}
+          writer={writer}
+          handleArticleDelete={handleArticleDelete}
+        />
 
-      {isBestCard && (
-        <div className="mt-pr-12 mo:mt-0">
-          <p className="text-14m text-t-disabled mo:text-12m">
-            {dotDate(createdAt)}
-          </p>
-        </div>
-      )}
+        {isBestCard && (
+          <div className="mt-pr-12 mo:mt-0">
+            <p className="text-14m text-t-disabled mo:text-12m">
+              {dotDate(createdAt)}
+            </p>
+          </div>
+        )}
 
-      <ArticleCardFooter
-        isBestCard={isBestCard}
-        writer={writer}
-        createdAt={createdAt}
-        likeCount={likeCount}
-      />
-    </Card>
+        <ArticleCardFooter
+          isBestCard={isBestCard}
+          writer={writer}
+          createdAt={createdAt}
+          likeCount={likeCount}
+        />
+      </Card>
+    </Link>
   );
 }
 
