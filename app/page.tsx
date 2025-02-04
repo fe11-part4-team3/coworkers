@@ -2,7 +2,7 @@
 
 import Container from '@/components/layout/Container';
 import useUser from '@/hooks/useUser';
-import Empty from '@/components/Empty';
+import Empty from '@/components/Empty/Empty';
 
 export default function LandingPage() {
   const { user, memberships, isPending } = useUser();
