@@ -1,10 +1,12 @@
 'use client';
 
 import { useState } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import ArticleCard from '@/components/ArticleCard/ArticleCard';
 import SelectBox from '@/components/SelectBox';
 import useGetArticle from '@/hooks/useGetArticle';
+import { deleteArticle } from '@/service/article.api';
 
 import ArticleSkeleton from './ArticleSkeleton';
 import EmptyList from './EmptyList';
@@ -15,16 +17,29 @@ import EmptyList from './EmptyList';
  */
 function ArticleList({ keyword }: { keyword: string | undefined }) {
   const [option, setOption] = useState<'recent' | 'like'>('recent');
+  const queryClient = useQueryClient();
 
   const {
     data: articleList,
     isLoading,
     isError,
   } = useGetArticle({
-    queryKey: 'bestArticleList',
+    queryKey: 'articleList',
     pageSize: 100,
     orderBy: option,
     keyword: keyword ?? '',
+  });
+
+  const deleteArticleMutation = useMutation({
+    mutationFn: async (id: number) => {
+      if (confirm('게시글을 삭제하시겠습니까?')) {
+        await deleteArticle({ articleId: id });
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['articleList'] });
+      alert('게시글이 삭제되었습니다.');
+    },
   });
 
   if (isError) return '에러가 발생했습니다.';
@@ -49,11 +64,15 @@ function ArticleList({ keyword }: { keyword: string | undefined }) {
           </div>
           <div className="mt-pr-32 flex flex-wrap justify-between gap-y-pr-24 mo:mt-pr-24 mo:gap-pr-16">
             {!isLoading ? (
-              <>
-                {articleList?.list.map((article) => {
-                  return <ArticleCard key={article.id} articleData={article} />;
-                })}
-              </>
+              articleList?.list.map((article) => (
+                <ArticleCard
+                  key={article.id}
+                  articleData={article}
+                  handleArticleDelete={() =>
+                    deleteArticleMutation.mutate(article.id)
+                  }
+                />
+              ))
             ) : (
               <ArticleSkeleton count={4} />
             )}

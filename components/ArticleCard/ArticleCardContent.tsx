@@ -12,17 +12,21 @@ import useUserStore from '@/stores/useUser.store';
  * @returns {JSX.Element} 게시글 카드의 제목, 이미지가 포함된 Card Content 컴포넌트
  */
 function ArticleCardContent({
+  id,
   isBestCard,
   title,
   image,
   writer,
+  handleArticleDelete,
 }: {
+  id: number;
   title: string;
   image: string | null;
   isBestCard: boolean;
   writer: {
     id: number;
   };
+  handleArticleDelete?: (id: number) => void;
 }) {
   const { user: userData } = useUserStore();
 
@@ -49,7 +53,7 @@ function ArticleCardContent({
             />
           </div>
         )}
-        {!isBestCard && userData?.id === writer.id && (
+        {!isBestCard && userData?.id === writer.id && handleArticleDelete && (
           <div
             className="ml-pr-16 mo:hidden"
             onClick={(e: React.MouseEvent) => {
@@ -58,7 +62,7 @@ function ArticleCardContent({
           >
             <KebabDropDown
               onEdit={() => alert('수정')}
-              onDelete={() => alert('삭제')}
+              onDelete={() => handleArticleDelete(id)}
             />
           </div>
         )}
