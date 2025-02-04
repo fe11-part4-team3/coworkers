@@ -1,5 +1,6 @@
 import IconPlus from '@/public/images/icon-plus.svg';
 import { ITaskList } from '@/types/taskList.type';
+import { RoleType } from '@/types/group.type';
 
 import GroupTaskList from './GroupTaskList';
 import {
@@ -18,6 +19,7 @@ export type PointColorType =
   | 'yellow';
 
 interface GroupTaskListWrapperProps {
+  role: RoleType;
   taskLists: ITaskList[] | null;
   onCreate: (params: _CreateTaskListParams) => void;
   onEdit: (params: _UpdateTaskListParams) => void;
@@ -35,6 +37,7 @@ const POINT_COLOR: PointColorType[] = [
 ];
 
 export default function GroupTaskListWrapper({
+  role,
   taskLists,
   onCreate,
   onEdit,
@@ -54,18 +57,21 @@ export default function GroupTaskListWrapper({
             &nbsp;({taskLists?.length || 0}개)
           </span>
         </div>
-        <button
-          className="flex bg-inherit text-brand-primary underline-offset-2 hover:underline"
-          onClick={handleClickCreate}
-        >
-          <IconPlus width={17} height={17} />
-          <span className="text-14">새로운 목록 추가하기</span>
-        </button>
+        {role === 'ADMIN' && (
+          <button
+            className="flex bg-inherit text-brand-primary underline-offset-2 hover:underline"
+            onClick={handleClickCreate}
+          >
+            <IconPlus width={17} height={17} />
+            <span className="text-14">새로운 목록 추가하기</span>
+          </button>
+        )}
       </div>
       {taskLists &&
         taskLists.map((taskList, i) => (
           <GroupTaskList
             key={taskList.id}
+            role={role}
             taskList={taskList}
             pointColor={POINT_COLOR[i % POINT_COLOR.length]}
             onEdit={onEdit}
