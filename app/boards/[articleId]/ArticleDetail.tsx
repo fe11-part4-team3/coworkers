@@ -48,7 +48,7 @@ function ArticleDetail({ articleId }: GetArticleDetailParams) {
   };
 
   return (
-    <div className="mt-pr-56">
+    <div className="mt-pr-56 mo:mt-pr-40">
       <div className="pb-pr-27.5 pt-pr-24">
         <div className="flex justify-between">
           <p className="text-18m">{title}</p>
@@ -95,7 +95,7 @@ function ArticleDetail({ articleId }: GetArticleDetailParams) {
 
       <div>
         {image && (
-          <div className="relative mt-pr-24 h-pr-500 w-full mo:h-pr-200 ta:h-pr-300">
+          <div className="relative mt-pr-34 h-pr-500 w-full mo:mt-pr-24 mo:h-pr-200 ta:h-pr-300">
             <Image
               src={image}
               alt="게시글 이미지"
