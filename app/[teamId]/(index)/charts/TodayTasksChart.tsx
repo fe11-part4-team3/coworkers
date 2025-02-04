@@ -36,10 +36,14 @@ const ANGLE = {
   },
 };
 
+const DESCRIPTION = {
+  todo: '오늘 할 일',
+  done: '한 일',
+};
+
 export default function TodayTasksChart({
   taskLists,
   state,
-  text,
 }: TodayTasksChartProps) {
   const chartConfig = {
     todo: {
@@ -103,7 +107,7 @@ export default function TodayTasksChart({
                       y={(viewBox.cy || 0) + 24}
                       className="fill-muted-foreground"
                     >
-                      {text}
+                      {DESCRIPTION[state]}
                     </tspan>
                   </text>
                 );
