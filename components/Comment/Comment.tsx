@@ -7,7 +7,7 @@ import CommentContent from '@/components/Comment/CommentContent';
 import CommentFooter from '@/components/Comment/CommentFooter';
 import { ITaskComment } from '@/types/comment.type';
 
-const ARTICLE_COMMENT_STYLE = 'bg-b-secondary px-pr-24 py-pr-20';
+const ARTICLE_COMMENT_STYLE = 'bg-b-secondary px-pr-24 py-pr-20 border-none';
 const TASK_COMMENT_STYLE =
   'rounded-none border-x-0 border-t-0 border-input bg-transparent py-pr-16 shadow-none';
 
