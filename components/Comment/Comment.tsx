@@ -5,7 +5,7 @@ import { IArticleComment } from '@/types/articleComment.type';
 import TextareaField from '@/components/InputField/TextareaField';
 import CommentContent from '@/components/Comment/CommentContent';
 import CommentFooter from '@/components/Comment/CommentFooter';
-import { ITaskComment } from '@/types/comment.type';
+import { CommentProps, ITaskComment } from '@/types/comment.type';
 
 const ARTICLE_COMMENT_STYLE = 'bg-b-secondary px-pr-24 py-pr-20 border-none';
 const TASK_COMMENT_STYLE =
@@ -52,13 +52,7 @@ function Comment({
   handleDeleteClick,
   handleUpdateSubmit,
   isLoading = false,
-}: {
-  type?: 'article' | 'task';
-  commentData: IArticleComment | ITaskComment;
-  handleDeleteClick: (id: number) => void;
-  handleUpdateSubmit: (id: number, commentEditContent: string) => void;
-  isLoading?: boolean;
-}) {
+}: CommentProps) {
   const { id, content, createdAt, updatedAt } = commentData;
   const [commentEditContent, setCommentEditContent] = useState(content);
   const [commentEdit, setCommentEdit] = useState(false);
