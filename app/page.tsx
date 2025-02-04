@@ -25,24 +25,28 @@ export default function LandingPage() {
   return (
     <div className="flex w-screen flex-col items-center">
       <section className="relative h-pr-1080 w-screen mo:h-pr-640 ta:h-pr-940">
+        {/* 배경 이미지 (PC) */}
         <img
           src="/images/landing/img-Landing-bg.png"
           alt="background"
-          className="absolute inset-0 h-full w-full object-cover mo:hidden ta:hidden"
+          className="absolute inset-0 top-pr-60 h-full w-full object-cover mo:hidden ta:hidden"
         />
+        {/* 배경 이미지 (태블릿) */}
         <img
           src="/images/landing/img-Landing-bg-ta.png"
           alt="background-tablet"
-          className="absolute inset-0 hidden h-full w-full object-cover mo:hidden ta:block"
+          className="absolute inset-0 top-pr-60 hidden h-full w-full object-cover mo:hidden ta:block"
         />
+        {/* 배경 이미지 (모바일) */}
         <div
-          className="absolute inset-0 hidden bg-cover bg-center bg-no-repeat mo:block"
+          className="absolute inset-0 top-pr-60 hidden bg-cover bg-center bg-no-repeat mo:block"
           style={{
             backgroundImage: "url('/images/landing/img-Landing-bg-mo.png')",
           }}
         />
 
-        <div className="absolute left-1/2 top-pr-144 flex -translate-x-1/2 transform flex-col items-center justify-center gap-pr-20 text-center mo:top-pr-115 ta:top-pr-160">
+        {/* 텍스트 박스 */}
+        <div className="absolute left-1/2 top-pr-204 flex -translate-x-1/2 transform flex-col items-center justify-center gap-pr-20 text-center mo:top-pr-175 ta:top-pr-220">
           <h2 className="flex gap-pr-24 whitespace-nowrap text-48sb text-t-primary mo:text-24sb ta:text-40sb">
             함께 만들어가는 투두 리스트
             <Image
@@ -58,6 +62,7 @@ export default function LandingPage() {
           </h2>
         </div>
 
+        {/* 버튼 */}
         <div className="absolute bottom-pr-120 left-1/2 -translate-x-1/2 transform mo:bottom-pr-48 ta:bottom-pr-119">
           <Buttons
             text="지금 시작하기"
