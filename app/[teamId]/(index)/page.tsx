@@ -88,15 +88,16 @@ export default function TeamPage() {
   return (
     <Container>
       <div className="flex flex-col gap-pr-24 pt-pr-24">
-        <GroupHeader name={group.name} />
+        <GroupHeader role={role} name={group.name} />
         <GroupTaskListWrapper
+          role={role}
           taskLists={taskLists}
           onCreate={onCreate}
           onEdit={onEdit}
           onDelete={onDelete}
         />
         <GroupReports tasks={tasks} />
-        <GroupMemberList groupId={group.id} members={members} />
+        <GroupMemberList role={role} groupId={group.id} members={members} />
       </div>
     </Container>
   );
