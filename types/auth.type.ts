@@ -1,4 +1,3 @@
-import { OauthProvider } from './oauth.type';
 import { IUser } from './user.type';
 
 interface SignUpParams {
@@ -14,7 +13,7 @@ interface SignInParams {
 }
 
 interface SignInProviderParams {
-  provider: OauthProvider;
+  provider: string;
   state?: string;
   redirectUri?: string;
   token: string;
