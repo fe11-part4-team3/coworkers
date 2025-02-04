@@ -1,27 +1,22 @@
+import { useState } from 'react';
+
 import { ITask } from '@/types/task.type';
 import { ITaskList } from '@/types/taskList.type';
-
-import TodayProgressChart from './charts/TodayProgressChart';
-import TodayTasksChart from './charts/TodayTasksChart';
 import { Separator } from '@/components/ui/separator';
-
 import { useDeviceType } from '@/contexts/DeviceTypeContext';
-import { useState } from 'react';
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 
+import TodayTasksChart from './charts/TodayTasksChart';
+import TodayProgressChart from './charts/TodayProgressChart';
+
 interface GroupReportsProps {
   tasks: ITask[];
   taskLists: ITaskList[] | null;
 }
-
-const TOOLTIP = {
-  todo: '한 일 차트 보기',
-  done: '할 일 차트 보기',
-};
 
 export default function GroupReports({ tasks, taskLists }: GroupReportsProps) {
   const deviceType = useDeviceType();
@@ -50,13 +45,18 @@ function DefaultContent({ tasks, taskLists }: GroupReportsProps) {
   );
 }
 
+const TOOLTIP = {
+  todo: '한 일 차트 보기',
+  done: '할 일 차트 보기',
+};
+
 function MobileContent({ tasks, taskLists }: GroupReportsProps) {
   const [state, setState] = useState<'todo' | 'done'>('todo');
 
   return (
-    <div className="xmo:flex-col xmo:h-fit flex h-pr-250 items-center justify-around rounded-pr-12 bg-b-secondary p-pr-24">
+    <div className="flex h-pr-250 items-center justify-around rounded-pr-12 bg-b-secondary p-pr-24 xmo:h-fit xmo:flex-col">
       <TodayProgressChart tasks={tasks} />
-      <Separator orientation="horizontal" className="xmo:block my-4 hidden" />
+      <Separator orientation="horizontal" className="my-4 hidden xmo:block" />
       <Separator orientation="vertical" className="xmo:hidden" />
       <div className="relative">
         <Tooltip>
