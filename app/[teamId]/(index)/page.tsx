@@ -1,7 +1,7 @@
 'use client';
 
 import { useParams } from 'next/navigation';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 import Container from '@/components/layout/Container';
 import useUser from '@/hooks/useUser';
@@ -12,6 +12,7 @@ import {
   updateTaskList,
 } from '@/service/taskList.api';
 import useTaskLists from '@/hooks/useTaskLists';
+import { getTasksInGroup } from '@/service/group.api';
 
 import GroupHeader from './GroupHeader';
 import GroupMemberList from './GroupMemberList';
@@ -21,12 +22,23 @@ import {
   _DeleteTaskListParams,
   _UpdateTaskListParams,
 } from './TeamPage.type';
+import GroupReports from './GroupReports';
 
 export default function TeamPage() {
   useUser(true);
   const { teamId } = useParams();
   const { group, members, refetch } = useGroup(Number(teamId));
   const { taskLists, refetchById, removeById } = useTaskLists();
+
+  const { data: tasks } = useQuery({
+    queryKey: ['tasks', group?.id],
+    queryFn: () => {
+      return group
+        ? getTasksInGroup({ id: group.id, date: new Date().toISOString() })
+        : [];
+    },
+    initialData: [],
+  });
 
   const { mutate: onCreate } = useMutation({
     mutationFn: (params: _CreateTaskListParams) => _createTaskList(params),
@@ -71,6 +83,7 @@ export default function TeamPage() {
           onEdit={onEdit}
           onDelete={onDelete}
         />
+        <GroupReports tasks={tasks} />
         <GroupMemberList groupId={group.id} members={members} />
       </div>
     </Container>
