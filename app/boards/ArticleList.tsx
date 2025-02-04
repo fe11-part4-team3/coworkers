@@ -7,7 +7,7 @@ import ArticleCard from '@/components/ArticleCard/ArticleCard';
 import SelectBox from '@/components/SelectBox';
 import useGetArticle from '@/hooks/useGetArticle';
 import { deleteArticle } from '@/service/article.api';
-import Empty from '@/components/Empty';
+import Empty from '@/components/Empty/Empty';
 
 import ArticleSkeleton from './ArticleSkeleton';
 
