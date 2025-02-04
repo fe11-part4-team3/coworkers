@@ -1,5 +1,4 @@
-// import { getProfileUpdated } from '@/lib/kakaoStorage';
-import { useCallback } from 'react';
+import { useCallback, useRef } from 'react';
 
 import {
   getLoginProcessed,
@@ -16,6 +15,9 @@ interface IKakaoLogin {
 }
 
 const useKakaoLogin = () => {
+  // STUB 중복 로그인 방지 플래그
+  const signInExecutedRef = useRef(false);
+
   const kakaoLogin = useCallback(
     async ({ id, user: userData }: IKakaoLogin, reload: () => void) => {
       if (getLoginProcessed()) return;
@@ -26,39 +28,47 @@ const useKakaoLogin = () => {
       // STUB 이메일 없을 경우, 임시 이메일 생성
       const userEmail = email || `${id}@kakao.com`;
       // STUB 비밀번호는 일반 사용자 ID와 동일하게 생성
-      // REVIEW 보안 이슈가 있을 수 있음
-      const userPassword = `kakao${id}!`;
+      const userPassword = `${process.env.NEXT_PUBLIC_KAKAO_PASSWORD}${id}`;
 
-      try {
-        await signUp({
-          email: userEmail,
-          nickname,
-          password: userPassword,
-          passwordConfirmation: userPassword,
-        });
-      } catch {
-        await signIn({
-          email: userEmail,
-          password: userPassword,
-        });
+      const handleSignUpAndSignIn = async () => {
+        try {
+          await signUp({
+            email: userEmail,
+            nickname,
+            password: userPassword,
+            passwordConfirmation: userPassword,
+          });
+        } catch (error) {
+          interface ErrorResponse {
+            response?: {
+              status: number;
+            };
+          }
+          const is400Error = (error as ErrorResponse).response?.status === 400;
 
-        console.log('[카카오] 로그인 완료');
-      }
+          if (is400Error && !signInExecutedRef.current) {
+            signInExecutedRef.current = true;
+            await signIn({
+              email: userEmail,
+              password: userPassword,
+            });
+            console.log('[카카오] 로그인 완료');
+            setLoginProcessed();
 
-      setLoginProcessed();
+            if (!getProfileUpdated()) {
+              await updateUser({
+                image: image || '',
+              });
+              console.log('프로필 업데이트 완료');
+              setProfileUpdated();
+            }
+          }
+        } finally {
+          reload();
+        }
+      };
 
-      // STUB 프로필 업데이트 (한 번만 실행)
-
-      if (!getProfileUpdated()) {
-        await updateUser({
-          image: image || '',
-        });
-        console.log('프로필 업데이트 완료');
-        setProfileUpdated();
-      }
-
-      // STUB 로그인 처리 완료
-      reload();
+      await handleSignUpAndSignIn();
     },
     [],
   );

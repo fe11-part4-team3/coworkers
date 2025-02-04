@@ -5,7 +5,7 @@ import { useCallback, useEffect } from 'react';
 import { signInProvider } from '@/service/auth.api';
 import useUser from '@/hooks/useUser';
 import useKakaoLogin from '@/hooks/useKakao';
-import randomNumber5 from '@/utils/randomNumber';
+import { generateRandomNumber } from '@/utils/randomCode';
 
 export default function OauthForm({ type }: { type: 'login' | 'signup' }) {
   const { data: session } = useSession();
@@ -64,7 +64,7 @@ export default function OauthForm({ type }: { type: 'login' | 'signup' }) {
         id: session.id || 0,
         user: {
           email: session.user.email || `${session.id}@kakao.com`,
-          nickname: `${session.user.name}${randomNumber5()}`,
+          nickname: `${session.user.name}${generateRandomNumber(5)}`,
           image: session.user.image || '',
         },
         accessToken: session.kakaoAccessToken, // 세션에 저장된 최신 토큰 사용
