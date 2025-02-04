@@ -1,9 +1,12 @@
+import axios from 'axios';
+
 import {
   SignUpParams,
   AuthResponse,
-  SignInParams,
   SignInProviderParams,
 } from '@/types/auth.type';
+import { removeProfileUpdated } from '@/lib/kakaoStorage';
+
 import instance from './axios';
 
 const signUp = async ({
@@ -77,12 +80,70 @@ const signInProvider = async ({
   token,
 }: SignInProviderParams): Promise<AuthResponse> => {
   const path = `/auth/signIn/${provider}`;
-  const response = await instance.post(path, {
-    state,
-    redirectUri,
-    token,
-  });
-  return response.data;
+  try {
+    const response = await instance.post(path, {
+      state,
+      redirectUri,
+      token,
+    });
+
+    const { accessToken, refreshToken } = response.data;
+    localStorage.setItem('accessToken', accessToken);
+    localStorage.setItem('refreshToken', refreshToken);
+
+    return response.data;
+  } catch (e) {
+    console.error('간편 로그인 실패:', e);
+    throw e;
+  }
 };
 
-export { signUp, signIn, refreshAccessToken, signInProvider };
+/**
+ * Google Access Token 폐기(탈퇴 시)
+ * @param accessToken Google Access Token
+ */
+const revokeGoogleAccess = async (accessToken: string) => {
+  try {
+    const response = await fetch(
+      `https://accounts.google.com/o/oauth2/revoke?token=${accessToken}`,
+    );
+
+    if (!response.ok) {
+      throw new Error('Google 계정 연동 해제 실패');
+    }
+
+    console.log('Google 계정 연동 해제 완료');
+  } catch (error) {
+    console.error('Google 계정 연동 해제 오류:', error);
+  }
+};
+
+/**
+ * Kakao Access Token 폐기(탈퇴 시)
+ * @param accessToken Kakao Access Token
+ */
+const revokeKakaoAccess = async (accessToken: string) => {
+  try {
+    await axios.post('https://kapi.kakao.com/v1/user/unlink', null, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    console.log('kakao 계정 연동 해제 완료');
+
+    removeProfileUpdated();
+  } catch (error) {
+    console.error('kakao 회원 탈퇴 에러:', error);
+    throw error;
+  }
+};
+
+export {
+  signUp,
+  signIn,
+  refreshAccessToken,
+  signInProvider,
+  revokeGoogleAccess,
+  revokeKakaoAccess,
+};

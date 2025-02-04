@@ -9,7 +9,7 @@ export interface InputFieldProps
   type?: 'text' | 'password' | 'email';
   errorMessage?: string;
   width?: string;
-  onClickButton?: (e: MouseEvent) => void;
+  onClickButton?: () => void;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 

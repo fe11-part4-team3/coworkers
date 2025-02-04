@@ -21,9 +21,11 @@ const BEST_STYLE =
 function ArticleCard({
   type = 'normal',
   articleData,
+  handleArticleDelete,
 }: {
   type?: 'normal' | 'best';
   articleData: IArticle;
+  handleArticleDelete?: (id: number) => void;
 }) {
   const { id, title, image, createdAt, writer, likeCount } = articleData;
   const isBestCard = type === 'best';
@@ -42,10 +44,13 @@ function ArticleCard({
 
       <ArticleCardContent
         isBestCard={isBestCard}
+        id={id}
         title={title}
         image={image}
         writer={writer}
+        handleArticleDelete={handleArticleDelete}
       />
+
       {isBestCard && (
         <div className="mt-pr-12 mo:mt-0">
           <p className="text-14m text-t-disabled mo:text-12m">

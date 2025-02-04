@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
+import { signOut } from 'next-auth/react';
 
 import NavigationGroupDropdown from '@/components/NavigationGroupDropdown/NavigationGroupDropdown';
 import { Button } from '@/components/ui/button';
@@ -12,6 +13,7 @@ import SideNavigation from '@/components/SideNavigation/SideNavigation';
 import useUser from '@/hooks/useUser';
 import { IGroup } from '@/types/group.type';
 import DropDown from '@/components/DropDown';
+import { removeLoginProcessed } from '@/lib/kakaoStorage';
 
 import Profile from './Profile';
 import Logo from './Logo';
@@ -28,6 +30,11 @@ function Headers() {
     const flag = confirm('로그아웃 하시겠습니까?');
     if (flag) {
       clear();
+
+      // // STUB 세션 로그아웃
+      signOut({ redirect: false });
+      removeLoginProcessed();
+
       alert('로그아웃 되었습니다.');
     }
   }, [clear]);
@@ -42,7 +49,7 @@ function Headers() {
         onClick: logout,
       },
     ],
-    [clear],
+    [logout],
   );
 
   useEffect(() => {
@@ -53,7 +60,7 @@ function Headers() {
     const group = groups.find((group) => group.id === groupId);
     if (group) setCurrentGroup(group);
     else router.push('/');
-  }, [groupId, groups, isPending]);
+  }, [groupId, groups, isPending, router]);
 
   return (
     <header className="fixed z-40 flex w-full items-center border-b bg-b-secondary transition-all">
