@@ -26,6 +26,8 @@ import WriterProfile from '../WriterProfile';
  */
 
 export default function TaskDetail({
+  isOpen,
+  setIsOpen,
   value,
   commentData,
   deleteTask,
@@ -35,7 +37,6 @@ export default function TaskDetail({
   deleteComment,
   updateComment,
 }: TaskDetailProps) {
-  const { isOpen, closeModal } = useModalStore();
   const [comment, setComment] = useState<string>('');
 
   const taskDoneButtonStyle =
@@ -71,7 +72,10 @@ export default function TaskDetail({
     <>
       <div className="relative">
         <div className="fixed right-0 top-pr-60 h-full w-pr-780 overflow-y-auto bg-b-secondary p-pr-40 pb-pr-120 mo:w-full ta:w-pr-435">
-          <CloseIcon className="cursor-pointer" onClick={closeModal} />
+          <CloseIcon
+            className="cursor-pointer"
+            onClick={() => setIsOpen(false)}
+          />
           <div className="my-pr-16 flex items-center justify-between">
             <h1 className="text-20b text-t-primary">{value.name}</h1>
             <KebabDropDown

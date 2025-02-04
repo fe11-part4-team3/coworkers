@@ -10,7 +10,6 @@ import PrevButtonIcon from '@/public/images/icon-prev-button.svg';
 import NextButtonIcon from '@/public/images/icon-next-button.svg';
 import CalendarButtonIcon from '@/public/images/icon-calendar-button.svg';
 import TaskDetail from '@/components/TaskDetail/TaskDetail';
-import useModalStore from '@/stores/modalStore';
 import DatePicker from '@/components/DateTimePicker/DatePicker';
 
 import { taskMockData, commentMockData } from './mockData';
@@ -20,15 +19,18 @@ import { usePathname } from 'next/navigation';
 import TaskCard from '@/components/TaskCard/TaskCard';
 import { createTask } from '@/service/task.api';
 import { TaskRecurringCreateDto } from '@/types/task.type';
+import useGroup from '@/hooks/useGroup';
 
 export default function TaskListPage() {
-  const { isOpen, openModal, closeModal } = useModalStore();
+  const [isDetailOpen, setIsDetailOpen] = useState<boolean>(false);
   const [date, setDate] = useState(new Date());
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
   const pathName = usePathname();
   const groupId = Number(pathName.split('/')[1]);
   const taskListId = Number(pathName.split('/')[2]);
+
+  const { taskLists } = useGroup(groupId);
 
   const fetchTaskList = async () => {
     const response = await getTaskList({ groupId, id: taskListId });
@@ -106,7 +108,7 @@ export default function TaskListPage() {
     return <div>에러가 발생했습니다.</div>;
   }
 
-  console.log(taskListData);
+  console.log(taskLists);
 
   return (
     <>
@@ -136,29 +138,31 @@ export default function TaskListPage() {
             </div>
           </div>
         </div>
-        <ul className="mt-pr-24">
-          <li>목록 이름</li>
-          <button onClick={() => (isOpen === false ? openModal : closeModal)}>
+        <ul className="mt-pr-24 flex gap-pr-12 text-16m text-t-default">
+          {taskLists?.map((taskList) => (
+            <li key={taskList.id} className="cursor-pointer">
+              {taskList.name}
+            </li>
+          ))}
+          <button onClick={() => setIsDetailOpen(!isDetailOpen)}>
             테스트용 상세 버튼
           </button>
         </ul>
-        {taskListData &&
-          taskListData?.tasks.map((task) => (
-            <TaskCard key={task.id} type="taskList" taskData={task} />
-          ))}
-        {isOpen && (
-          <TaskDetail
-            value={taskMockData}
-            commentData={commentMockData}
-            postComment={handlePostCommentTest}
-            deleteTask={handleDeleteTask}
-            updateTask={handleUpdateTask}
-            updateTaskStatus={handleUpdateTaskStatus}
-            deleteComment={handleDeleteComment}
-            updateComment={handleUpdateComment}
-          />
-        )}
-        <button onClick={() => openModal}>할 일 추가</button>
+        {taskListData?.tasks.map((task) => (
+          <TaskCard key={task.id} type="taskList" taskData={task} />
+        ))}
+        <TaskDetail
+          isOpen={isDetailOpen}
+          setIsOpen={setIsDetailOpen}
+          value={taskMockData}
+          commentData={commentMockData}
+          postComment={handlePostCommentTest}
+          deleteTask={handleDeleteTask}
+          updateTask={handleUpdateTask}
+          updateTaskStatus={handleUpdateTaskStatus}
+          deleteComment={handleDeleteComment}
+          updateComment={handleUpdateComment}
+        />
       </Container>
     </>
   );
