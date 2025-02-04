@@ -83,7 +83,7 @@ export default function TeamPage() {
           onEdit={onEdit}
           onDelete={onDelete}
         />
-        <GroupReports tasks={tasks} />
+        <GroupReports tasks={tasks} taskLists={taskLists} />
         <GroupMemberList groupId={group.id} members={members} />
       </div>
     </Container>
