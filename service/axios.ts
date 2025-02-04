@@ -22,12 +22,7 @@ const PUBLIC_ENDPOINTS = {
     '/auth/refresh-token',
     '/auth/{provider}',
   ],
-  get: [
-    '/user/reset-password',
-    '/articles',
-    '/articles/*',
-    '/articles/*/comments',
-  ],
+  get: ['/user/reset-password', '/articles', '/articles/*/comments'],
 } as const;
 
 /**
