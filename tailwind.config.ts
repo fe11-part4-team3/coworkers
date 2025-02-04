@@ -317,6 +317,9 @@ const shadcnConfig: Config = {
         ],
       },
       screens: {
+        xmo: {
+          max: '550px',
+        },
         mo: {
           max: '767px',
         },
