@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
       'ifh.cc',
       'lh3.googleusercontent.com',
       'k.kakaocdn.net',
+      'img1.kakaocdn.net',
     ], // 허용할 도메인 추가
   },
   webpack(config) {
