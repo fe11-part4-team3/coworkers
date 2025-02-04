@@ -34,7 +34,7 @@ export default function TeamPage() {
     (membership) => membership.groupId === group?.id,
   );
 
-  const role = currentMembership?.role;
+  const role = currentMembership?.role || 'MEMBER';
 
   const { data: tasks } = useQuery({
     queryKey: ['tasks', group?.id],
