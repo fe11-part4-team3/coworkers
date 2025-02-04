@@ -31,12 +31,12 @@ export default function OauthForm({ type }: { type: 'login' | 'signup' }) {
 
   // 구글 로그인 클릭 시
   const handleGoogleSubmit = useCallback(() => {
-    signIn('google');
+    signIn('google', { redirect: false });
   }, []);
 
   // 카카오 로그인 클릭 시
   const handleKakaoSubmit = useCallback(() => {
-    signIn('kakao');
+    signIn('kakao', { redirect: false });
   }, []);
 
   // STUB 유저 정보가 없고, 구글 로그인 데이터가 있을 때

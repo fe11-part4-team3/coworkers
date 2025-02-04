@@ -32,7 +32,7 @@ function Headers() {
       clear();
 
       // // STUB 세션 로그아웃
-      signOut();
+      signOut({ redirect: false });
       removeLoginProcessed();
 
       alert('로그아웃 되었습니다.');

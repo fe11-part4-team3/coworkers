@@ -54,10 +54,10 @@ function LoginPage() {
     openModal(<ResetPassword />);
   };
 
-  // STUB 로그인 성공 시
+  // // STUB 로그인 성공 시
   useEffect(() => {
-    if (user) alert('로그인 성공!');
-  }, [user]);
+    if (user) reload();
+  }, [user, reload]);
 
   useEffect(() => {
     if (isAuthenticated) {
