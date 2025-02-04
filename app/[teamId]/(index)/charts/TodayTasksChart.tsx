@@ -14,6 +14,15 @@ interface TodayTasksChartProps {
   state: 'todo' | 'done';
 }
 
+const chartConfig = {
+  todo: {
+    label: '할 일',
+  },
+  done: {
+    label: '완료됨',
+  },
+} satisfies ChartConfig;
+
 const COLOR = [
   'var(--point-purple)',
   'var(--point-blue)',
@@ -44,15 +53,11 @@ export default function TodayTasksChart({
   taskLists,
   state,
 }: TodayTasksChartProps) {
-  const chartConfig = {
-    todo: {
-      label: '할 일',
-    },
-    done: {
-      label: '완료됨',
-    },
-  } satisfies ChartConfig;
-
+  /**
+   * 원래 const로 total을 구현하려 했지만
+   * 딱히 중요한 데이터도 아니고, 로직 복잡도 증가와 성능도 감소해
+   * let을 사용해 구현하게 되었습니다
+   */
   let total = 0;
 
   const chartData = taskLists.map((taskList, i) => {
