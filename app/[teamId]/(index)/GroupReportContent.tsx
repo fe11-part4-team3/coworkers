@@ -46,7 +46,7 @@ export default function GroupReportContent({
   return (
     <div className="select-none rounded-pr-12 bg-b-secondary">
       <div
-        className={`team_xmo:h-fit team_xmo:flex-col flex h-pr-250 items-center p-pr-24 transition-opacity duration-300 ${
+        className={`flex h-pr-250 items-center p-pr-24 transition-opacity duration-300 team_xmo:h-fit team_xmo:flex-col ${
           contentType === 'chart' ? 'justify-around' : 'justify-between'
         } ${isVisible ? 'opacity-100' : 'opacity-0'}`}
       >
@@ -76,9 +76,9 @@ function TextContent({ tasks }: TextContentProps) {
     <>
       <Separator
         orientation="horizontal"
-        className="team_xmo:block my-4 hidden"
+        className="my-4 hidden team_xmo:block"
       />
-      <div className="team_xmo:w-full flex flex-col items-center gap-pr-16">
+      <div className="flex flex-col items-center gap-pr-16 team_xmo:w-full">
         <TextContentCard tasks={todo} text="오늘의 할 일" icon={<IconTodo />} />
         <TextContentCard tasks={done} text="한 일" icon={<IconDone />} />
       </div>
@@ -94,7 +94,7 @@ interface TextContentCardProps {
 
 function TextContentCard({ tasks, text, icon }: TextContentCardProps) {
   return (
-    <div className="team_xmo:w-full team_xmo:max-w-pr-320 team_mo:w-pr-182 flex w-pr-400 items-center justify-between rounded-pr-12 bg-b-tertiary p-pr-16 transition-all duration-300 ta:w-pr-280">
+    <div className="flex w-pr-400 items-center justify-between rounded-pr-12 bg-b-tertiary p-pr-16 transition-all duration-300 team_xmo:w-full team_xmo:max-w-pr-320 team_mo:w-pr-182 ta:w-pr-280">
       <div className="flex flex-col gap-pr-4">
         <span className="text-12m text-t-secondary">{text}</span>
         <span className="text-24b text-brand-tertiary">{tasks.length}개</span>
@@ -137,7 +137,7 @@ function MobileChartContent({ taskLists }: ChartContentProps) {
     <>
       <Separator
         orientation="horizontal"
-        className="team_xmo:block my-4 hidden"
+        className="my-4 hidden team_xmo:block"
       />
       <Separator orientation="vertical" className="team_xmo:hidden" />
       <div>
