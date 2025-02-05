@@ -1,40 +1,42 @@
-import { ITask } from '@/types/task.type';
-import { ITaskList } from '@/types/taskList.type';
+import { useEffect, useState } from 'react';
+
 import { Separator } from '@/components/ui/separator';
 import { useDeviceType } from '@/contexts/DeviceTypeContext';
-
-import TodayTasksChart from './charts/TodayTasksChart';
-import TodayProgressChart from './charts/TodayProgressChart';
-
 import {
   Carousel,
   CarouselApi,
   CarouselContent,
   CarouselItem,
 } from '@/components/ui/carousel';
-import { useEffect, useState } from 'react';
+import { ITask } from '@/types/task.type';
+import { ITaskList } from '@/types/taskList.type';
 
-interface GroupReportsProps {
+import TodayTasksChart from './charts/TodayTasksChart';
+import TodayProgressChart from './charts/TodayProgressChart';
+
+interface GroupReportContentProps {
   tasks: ITask[];
   taskLists: ITaskList[] | null;
 }
 
-export default function GroupReports({ tasks, taskLists }: GroupReportsProps) {
+export default function GroupReportContent({
+  tasks,
+  taskLists,
+}: GroupReportContentProps) {
   const deviceType = useDeviceType();
 
   return (
-    <div>
-      <h3 className="mb-pr-16">리포트</h3>
+    <>
       {deviceType !== 'mobile' ? (
         <DefaultContent tasks={tasks} taskLists={taskLists} />
       ) : (
         <MobileContent tasks={tasks} taskLists={taskLists} />
       )}
-    </div>
+    </>
   );
 }
 
-function DefaultContent({ tasks, taskLists }: GroupReportsProps) {
+function DefaultContent({ tasks, taskLists }: GroupReportContentProps) {
   return (
     <div className="flex h-pr-250 items-center justify-around rounded-pr-12 bg-b-secondary p-pr-24">
       <TodayProgressChart tasks={tasks} />
@@ -46,7 +48,7 @@ function DefaultContent({ tasks, taskLists }: GroupReportsProps) {
   );
 }
 
-function MobileContent({ tasks, taskLists }: GroupReportsProps) {
+function MobileContent({ tasks, taskLists }: GroupReportContentProps) {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
 

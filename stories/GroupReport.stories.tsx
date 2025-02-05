@@ -1,14 +1,14 @@
 import React from 'react';
 import { Meta, StoryFn } from '@storybook/react';
-import GroupReports from '@/app/[teamId]/(index)/GroupReports';
+import GroupReport from '@/app/[teamId]/(index)/GroupReport';
 
 export default {
-  title: 'Components/GroupReports',
-  component: GroupReports,
+  title: 'Components/GroupReport',
+  component: GroupReport,
 } as Meta;
 
-const Template: StoryFn<typeof GroupReports> = (args) => (
-  <GroupReports {...args} />
+const Template: StoryFn<typeof GroupReport> = (args) => (
+  <GroupReport {...args} />
 );
 
 export const Default = Template.bind({});
