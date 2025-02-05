@@ -1,6 +1,7 @@
 import React from 'react';
 import { Meta, StoryFn } from '@storybook/react';
 import GroupReport from '@/app/[teamId]/(index)/GroupReport';
+import Container from '@/components/layout/Container';
 
 export default {
   title: 'Components/GroupReport',
@@ -8,7 +9,9 @@ export default {
 } as Meta;
 
 const Template: StoryFn<typeof GroupReport> = (args) => (
-  <GroupReport {...args} />
+  <Container>
+    <GroupReport {...args} />
+  </Container>
 );
 
 export const Default = Template.bind({});
