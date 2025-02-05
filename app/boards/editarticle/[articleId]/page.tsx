@@ -103,7 +103,7 @@ function EditArticlePage() {
               <Buttons
                 text="수정"
                 className="w-pr-184 mo:w-full"
-                disabled={isEditChanged}
+                disabled={isEditChanged || isPending}
                 loading={isPending}
               />
             </div>
