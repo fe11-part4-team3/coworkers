@@ -112,7 +112,7 @@ export default function MyPage() {
 
         {/* 닉네임 */}
         <InputField
-          label="이름"
+          label="닉네임"
           name="nickname"
           value={formData.nickname}
           placeholder={user.nickname}
