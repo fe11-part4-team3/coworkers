@@ -7,9 +7,9 @@ import ArticleCard from '@/components/ArticleCard/ArticleCard';
 import SelectBox from '@/components/SelectBox';
 import useGetArticle from '@/hooks/useGetArticle';
 import { deleteArticle } from '@/service/article.api';
+import Empty from '@/components/Empty/Empty';
 
 import ArticleSkeleton from './ArticleSkeleton';
-import EmptyList from './EmptyList';
 
 /**
  * @param {string | undefined} props.keyword - 입력 검색어
@@ -79,7 +79,14 @@ function ArticleList({ keyword }: { keyword: string | undefined }) {
           </div>
         </section>
       ) : (
-        <EmptyList />
+        <Empty className="mt-pr-180">
+          <Empty.TextWrapper>
+            <Empty.Text text="조회된 게시글이 없습니다." />
+          </Empty.TextWrapper>
+          <Empty.ButtonWrapper>
+            <Empty.Buttons text="게시글 작성하기" href="/addarticle" />
+          </Empty.ButtonWrapper>
+        </Empty>
       )}
     </>
   );
