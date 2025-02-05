@@ -35,6 +35,24 @@ function EditArticlePage() {
   const router = useRouter();
   const { articleId } = useParams();
 
+  useEffect(() => {
+    const fetchArticleData = async () => {
+      if (articleId) {
+        const response = await getArticleDetail({
+          articleId: Number(articleId),
+        });
+        const values = {
+          title: response.title,
+          content: response.content,
+          image: response.image ?? '',
+        };
+        resetForm(values);
+        setPrevValue(values);
+      }
+    };
+    fetchArticleData();
+  }, [articleId]);
+
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
     handleInputChange(e);
   };
@@ -68,24 +86,6 @@ function EditArticlePage() {
     },
     [changedFields, formData, mutate, articleId],
   );
-
-  useEffect(() => {
-    const fetchArticleData = async () => {
-      if (articleId) {
-        const response = await getArticleDetail({
-          articleId: Number(articleId),
-        });
-        const values = {
-          title: response.title,
-          content: response.content,
-          image: response.image ?? '',
-        };
-        resetForm(values);
-        setPrevValue(values);
-      }
-    };
-    fetchArticleData();
-  }, [articleId]);
 
   return (
     <Container>
