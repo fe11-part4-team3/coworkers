@@ -14,6 +14,7 @@ import useUser from '@/hooks/useUser';
 import { IGroup } from '@/types/group.type';
 import DropDown from '@/components/DropDown';
 import { removeLoginProcessed } from '@/lib/kakaoStorage';
+import { useSnackbar } from '@/contexts/SnackBar.context';
 
 import Profile from './Profile';
 import Logo from './Logo';
@@ -25,17 +26,18 @@ function Headers() {
   const groupId = teamId ? Number(teamId) : null;
   const { user, groups, isPending, clear } = useUser();
   const [currentGroup, setCurrentGroup] = useState<IGroup | null>(null);
+  const { showSnackbar } = useSnackbar();
 
   const logout = useCallback(() => {
     const flag = confirm('로그아웃 하시겠습니까?');
     if (flag) {
       clear();
 
-      // // STUB 세션 로그아웃
+      // STUB 세션 로그아웃
       signOut({ redirect: false });
       removeLoginProcessed();
 
-      alert('로그아웃 되었습니다.');
+      showSnackbar('로그아웃 되었습니다.');
     }
   }, [clear]);
 

@@ -1,7 +1,7 @@
 'use client';
 
-import { ChangeEvent, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { useParams, useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 
 import Buttons from '@/components/Buttons';
@@ -10,15 +10,16 @@ import InputField from '@/components/InputField/InputField';
 import TextareaField from '@/components/InputField/TextareaField';
 import Container from '@/components/layout/Container';
 import useForm from '@/hooks/useForm';
-import { createArticle } from '@/service/article.api';
+import { getArticleDetail, updateArticle } from '@/service/article.api';
 import updatePayloadSubmit from '@/utils/updatePayload';
 
 const INITIAL_VALUES = {
   title: '',
   content: '',
+  image: '',
 };
 
-export default function AddArticlePage() {
+function EditArticlePage() {
   const {
     preview,
     formData,
@@ -29,7 +30,33 @@ export default function AddArticlePage() {
     resetForm,
   } = useForm(INITIAL_VALUES);
 
+  const [prevValue, setPrevValue] = useState(INITIAL_VALUES);
+
   const router = useRouter();
+  const { articleId } = useParams();
+
+  const isEditChanged =
+    formData.title === prevValue.title &&
+    formData.content === prevValue.content &&
+    formData.image === prevValue.image;
+
+  useEffect(() => {
+    const fetchArticleData = async () => {
+      if (articleId) {
+        const response = await getArticleDetail({
+          articleId: Number(articleId),
+        });
+        const values = {
+          title: response.title,
+          content: response.content,
+          image: response.image ?? '',
+        };
+        resetForm(values);
+        setPrevValue(values);
+      }
+    };
+    fetchArticleData();
+  }, [articleId]);
 
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
     handleInputChange(e);
@@ -40,14 +67,14 @@ export default function AddArticlePage() {
   };
 
   const { mutate, isPending } = useMutation({
-    mutationFn: createArticle,
+    mutationFn: updateArticle,
     onSuccess: () => {
-      alert('게시글이 생성되었습니다.');
+      alert('게시글이 수정되었습니다.');
       router.push('/boards');
       resetForm();
     },
     onError: () => {
-      alert('게시글 생성에 실패했습니다.');
+      alert('게시글 수정에 실패했습니다.');
     },
   });
 
@@ -56,12 +83,13 @@ export default function AddArticlePage() {
       e.preventDefault();
 
       await updatePayloadSubmit({
+        articleId: Number(articleId),
         changedFields: changedFields as Record<string, boolean>,
         formData,
         mutate: mutate,
       });
     },
-    [changedFields, formData, mutate],
+    [changedFields, formData, mutate, articleId],
   );
 
   return (
@@ -69,15 +97,13 @@ export default function AddArticlePage() {
       <form onSubmit={handleSubmit}>
         <div className="my-pr-56 mo:mb-pr-118">
           <div className="flex items-center justify-between border border-x-0 border-t-0 pb-pr-40 text-18 mo:pb-pr-30 ta:pb-pr-32">
-            <h2 className="text-20b mo:text-18m">게시글 쓰기</h2>
+            <h2 className="text-20b mo:text-18m">게시글 수정</h2>
 
             <div className="z-10 mo:fixed mo:bottom-pr-31 mo:left-0 mo:w-full mo:px-pr-16">
               <Buttons
-                text="등록"
+                text="수정"
                 className="w-pr-184 mo:w-full"
-                disabled={
-                  isPending || formData.title === '' || formData.content === ''
-                }
+                disabled={isEditChanged || isPending}
                 loading={isPending}
               />
             </div>
@@ -110,7 +136,7 @@ export default function AddArticlePage() {
 
           <div className="mt-pr-40 tamo:mt-pr-32">
             <ImageUpload
-              preview={preview ?? null}
+              preview={preview ?? formData.image ?? null}
               handleFileChange={handleFileChange}
               handleClearImage={handleClearImage}
             />
@@ -120,3 +146,5 @@ export default function AddArticlePage() {
     </Container>
   );
 }
+
+export default EditArticlePage;

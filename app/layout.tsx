@@ -18,6 +18,7 @@ import Headers from '@/components/layout/Header/Headers';
 import { DeviceTypeProvider } from '@/contexts/DeviceTypeContext';
 import Modal from '@/components/modal/Modal';
 import { TooltipProvider } from '@/components/ui/tooltip';
+import { SnackbarProvider } from '@/contexts/SnackBar.context';
 
 const queryClient = new QueryClient();
 export default function RootLayout({
@@ -41,10 +42,12 @@ export default function RootLayout({
               <SessionProvider session={session}>
                 <TooltipProvider>
                   <SidebarProvider defaultOpen={false}>
-                    <Headers />
-                    <DarkmodeToggle />
-                    <Modal />
-                    {children}
+                    <SnackbarProvider>
+                      <Headers />
+                      <DarkmodeToggle />
+                      <Modal />
+                      {children}
+                    </SnackbarProvider>
                   </SidebarProvider>
                 </TooltipProvider>
               </SessionProvider>
