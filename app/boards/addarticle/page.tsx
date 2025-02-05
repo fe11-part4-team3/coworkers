@@ -42,6 +42,7 @@ export default function AddArticlePage() {
   const { mutate, isPending } = useMutation({
     mutationFn: createArticle,
     onSuccess: () => {
+      alert('게시글이 생성되었습니다.');
       router.push('/boards');
       resetForm();
     },
