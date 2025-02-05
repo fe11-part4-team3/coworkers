@@ -108,6 +108,7 @@ export default function MyPage() {
           variant="member"
           image={preview || user.image}
           onSelectFile={handleFileChange}
+          errorMessage={errorMessage.image}
         />
 
         {/* 닉네임 */}
