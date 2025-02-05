@@ -3,13 +3,14 @@ import { useSession } from 'next-auth/react';
 
 import { InputFieldProps } from '@/types/inputField.type';
 import useModalStore from '@/stores/modalStore';
+import { Input } from '@/components/ui/input';
+import Buttons from '@/components/Buttons';
+import ChangePassword from '@/components/modal/ChangePassword';
+import useFadeMessage from '@/hooks/useFadeComponents';
 
-import { Input } from '../ui/input';
-import ErrorMessage from './ErrorMessage';
 import InputLabel from './InputLabel';
 import HideToggle from './HideToggle';
-import Buttons from '../Buttons';
-import ChangePassword from '../modal/ChangePassword';
+import ErrorMessage from './ErrorMessage';
 
 // input 공통 스타일
 export const inputStyled =
@@ -44,6 +45,22 @@ export default function InputField({
   const [showPassword, setShowPassword] = useState(false);
   const { status } = useSession();
   const { openModal } = useModalStore();
+
+  // --- fadeOut 처리를 위한 상태 ---
+  const { fadingMessage, animationClass } = useFadeMessage(errorMessage);
+
+  const errorMessageState = (errorMessage: string) => {
+    if (
+      errorMessage === '이메일은 필수 입력입니다.' ||
+      errorMessage === '비밀번호는 필수 입력입니다.' ||
+      errorMessage === '닉네임은 필수 입력입니다.' ||
+      errorMessage === '팀 이름은 필수 입력입니다.'
+    ) {
+      return 'ERROR';
+    } else {
+      return 'WARNING';
+    }
+  };
 
   // 비밀번호 보이기/숨기기 토글
   const togglePassword = () => {
@@ -89,7 +106,14 @@ export default function InputField({
               showPassword={showPassword}
             />
           ))}
-        {errorMessage && <ErrorMessage message={errorMessage} />}
+        {fadingMessage && (
+          <ErrorMessage
+            tooltipState={errorMessageState(fadingMessage)}
+            className={animationClass}
+          >
+            {fadingMessage}
+          </ErrorMessage>
+        )}
       </div>
     </fieldset>
   );
