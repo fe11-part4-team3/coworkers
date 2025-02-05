@@ -26,29 +26,29 @@ export default function GroupReportContent({
   const deviceType = useDeviceType();
 
   return (
-    <>
-      {deviceType !== 'mobile' ? (
-        <DefaultContent tasks={tasks} taskLists={taskLists} />
-      ) : (
-        <MobileContent tasks={tasks} taskLists={taskLists} />
-      )}
-    </>
-  );
-}
-
-function DefaultContent({ tasks, taskLists }: GroupReportContentProps) {
-  return (
-    <div className="flex h-pr-250 items-center justify-around rounded-pr-12 bg-b-secondary p-pr-24">
+    <div className="flex h-pr-250 select-none items-center justify-around rounded-pr-12 bg-b-secondary p-pr-24 xmo:h-fit xmo:flex-col">
       <TodayProgressChart tasks={tasks} />
-      <Separator orientation="vertical" />
-      <TodayTasksChart state="todo" taskLists={taskLists || []} />
-      <Separator orientation="vertical" />
-      <TodayTasksChart state="done" taskLists={taskLists || []} />
+      {deviceType === 'mobile' ? (
+        <MobileContent taskLists={taskLists || []} />
+      ) : (
+        <DefaultContent taskLists={taskLists || []} />
+      )}
     </div>
   );
 }
 
-function MobileContent({ tasks, taskLists }: GroupReportContentProps) {
+function DefaultContent({ taskLists }: { taskLists: ITaskList[] }) {
+  return (
+    <>
+      <Separator orientation="vertical" className="xmo:hidden" />
+      <TodayTasksChart state="todo" taskLists={taskLists || []} />
+      <Separator orientation="vertical" className="xmo:hidden" />
+      <TodayTasksChart state="done" taskLists={taskLists || []} />
+    </>
+  );
+}
+
+function MobileContent({ taskLists }: { taskLists: ITaskList[] }) {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
 
@@ -63,8 +63,7 @@ function MobileContent({ tasks, taskLists }: GroupReportContentProps) {
   }, [api]);
 
   return (
-    <div className="flex h-pr-250 select-none items-center justify-around rounded-pr-12 bg-b-secondary p-pr-24 xmo:h-fit xmo:flex-col">
-      <TodayProgressChart tasks={tasks} />
+    <>
       <Separator orientation="horizontal" className="my-4 hidden xmo:block" />
       <Separator orientation="vertical" className="xmo:hidden" />
       <div>
@@ -87,6 +86,6 @@ function MobileContent({ tasks, taskLists }: GroupReportContentProps) {
           />
         </div>
       </div>
-    </div>
+    </>
   );
 }
