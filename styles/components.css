@@ -58,3 +58,18 @@
     @apply size-pr-42 bg-[url('/images/icon-kakao.svg')] bg-contain bg-center bg-no-repeat;
   }
 }
+
+@layer components {
+  .input-tooltip {
+    /* 툴팁 컨테이너 스타일 */
+    @apply relative z-[100] mt-pr-6 w-fit rounded-xl border bg-b-primary px-pr-15 py-pr-10 text-14m font-medium;
+  }
+
+  .input-tooltip::after {
+    @apply absolute left-pr-15 top-[-6px] z-[1] block h-0 w-0 border-b-[8px] border-l-[6.5px] border-r-[6px] border-t-0 border-solid border-b-b-primary border-l-transparent border-r-transparent [content:''];
+  }
+
+  .input-tooltip::before {
+    @apply absolute left-pr-15 top-[-8px] z-0 block h-0 w-0 border-b-[8px] border-l-[6.5px] border-r-[6px] border-t-0 border-solid border-l-transparent border-r-transparent [content:''];
+  }
+}
