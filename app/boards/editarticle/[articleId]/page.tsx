@@ -35,6 +35,11 @@ function EditArticlePage() {
   const router = useRouter();
   const { articleId } = useParams();
 
+  const isEditChanged =
+    formData.title === prevValue.title &&
+    formData.content === prevValue.content &&
+    formData.image === prevValue.image;
+
   useEffect(() => {
     const fetchArticleData = async () => {
       if (articleId) {
@@ -98,11 +103,7 @@ function EditArticlePage() {
               <Buttons
                 text="수정"
                 className="w-pr-184 mo:w-full"
-                disabled={
-                  formData.title === prevValue.title &&
-                  formData.content === prevValue.content &&
-                  formData.image === prevValue.image
-                }
+                disabled={isEditChanged}
                 loading={isPending}
               />
             </div>
