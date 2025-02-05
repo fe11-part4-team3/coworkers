@@ -2,9 +2,25 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { validateField } from '@/utils/validation';
 import { useFileHandler } from '@/hooks/useFileHandler';
+import useDebounce from '@/hooks/useDebounce';
 
 export type FormValue = string | number | File | '';
 
+/**
+ * useForm
+ * @param initialValues 초기값
+ * @returns formData 현재 폼 데이터
+ * @returns initialValues 초기값
+ * @returns changedFields 변경된 필드
+ * @returns preview 파일 미리보기
+ * @returns errorMessage 에러 메시지
+ * @returns resetForm 초기화 함수
+ * @returns setChangedFields 변경된 필드 설정 함수
+ * @returns handleInputChange 입력값 변경 핸들러
+ * @returns handleFileChange 파일 변경 핸들러
+ * @returns handleClearImage 파일 초기화 핸들러
+ * @returns handleClearPreview 미리보기 초기화 핸들러
+ */
 const useForm = <T extends Record<string, FormValue>>(initialValues: T) => {
   const [formData, setFormData] = useState<T>(initialValues);
   const [errorMessage, setErrorMessage] = useState<
@@ -14,7 +30,21 @@ const useForm = <T extends Record<string, FormValue>>(initialValues: T) => {
     Partial<Record<keyof T, boolean>>
   >({});
 
-  // 입력값 변경 핸들러
+  // input 디바운스된 검증 함수
+  const debouncedValidateField = useDebounce(
+    (key: keyof T, value: string, updatedFormData: T) => {
+      const fieldErrors = validateField(
+        key,
+        value,
+        updatedFormData,
+        initialValues,
+      );
+      setErrorMessage((prevErr) => ({ ...prevErr, ...fieldErrors }));
+    },
+    500,
+  );
+
+  // 입력값 변경 핸들러 (formData는 즉시 업데이트하되, 검증은 디바운스)
   const handleInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       const { name, value } = e.target;
@@ -22,30 +52,26 @@ const useForm = <T extends Record<string, FormValue>>(initialValues: T) => {
 
       setFormData((prev) => {
         if (value === prev[key]) {
-          // 값에 변화가 없다면 just return (changedFields도 바꾸지 않음)
+          // 값에 변화가 없다면 그대로 반환
           return prev;
         }
 
+        // 새 formData
         const updatedFormData = { ...prev, [key]: value };
 
-        // 변경된 필드 업데이트
+        // 변경된 필드 표시
         setChangedFields((prevChanged) => {
           const isChanged = value !== initialValues[key];
           return { ...prevChanged, [key]: isChanged };
         });
 
-        const fieldErrors = validateField(
-          key,
-          value,
-          updatedFormData,
-          initialValues,
-        );
-        setErrorMessage((prevErr) => ({ ...prevErr, ...fieldErrors }));
+        // 즉시 validateField를 부르는 대신, 디바운스된 검증 함수를 호출
+        debouncedValidateField(key, value, updatedFormData);
 
         return updatedFormData;
       });
     },
-    [initialValues],
+    [initialValues, debouncedValidateField],
   );
 
   // 파일 핸들러를 활용
