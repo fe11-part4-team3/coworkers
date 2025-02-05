@@ -1,17 +1,11 @@
-import { ChangeEvent, useEffect, useState } from 'react';
-import {
-  useInfiniteQuery,
-  useMutation,
-  useQueryClient,
-} from '@tanstack/react-query';
-import { useInView } from 'react-intersection-observer';
+import { ChangeEvent, useState } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import ArticleCommentTextarea from '@/components/ArticleCommentTextarea/ArticleCommentTextarea';
 import Comment from '@/components/Comment/Comment';
 import {
   createArticleComment,
   deleteArticleComment,
-  getArticleCommentList,
   updateArticleComment,
 } from '@/service/articleComment.api';
 import {
@@ -19,38 +13,12 @@ import {
   DeleteArticleCommentParams,
   UpdateArticleCommentParams,
 } from '@/types/articleComment.type';
+import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 
 function CommentContainer({ articleId }: { articleId: number }) {
   const [commentValue, setCommentValue] = useState('');
 
   const queryClient = useQueryClient();
-  const { ref, inView } = useInView();
-
-  // 게시글 댓글 리스트 조회 (무한스크롤)
-  const {
-    data: articleComments,
-    fetchNextPage, // 다음 페이지 데이터를 가져오는 함수
-    hasNextPage, // 다음 페이지가 있는지 여부
-    isLoading,
-    isError,
-  } = useInfiniteQuery({
-    queryKey: ['commentList', articleId],
-    queryFn: ({ pageParam = null }: { pageParam: number | null }) =>
-      getArticleCommentList({ articleId, limit: 6, cursor: pageParam }),
-    initialPageParam: null,
-    getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined, // 다음 페이지의 커서 반환
-  });
-
-  useEffect(() => {
-    // 센서가 감지되고, 다음 페이지가 있다면 데이터 요청
-    if (inView && hasNextPage) {
-      fetchNextPage();
-    }
-  }, [inView, hasNextPage, fetchNextPage]);
-
-  const handleCommentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setCommentValue(e.target.value);
-  };
 
   // 게시글 댓글 생성
   const createCommentMutation = useMutation({
@@ -62,9 +30,25 @@ function CommentContainer({ articleId }: { articleId: number }) {
     },
   });
 
+  const handleCommentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setCommentValue(e.target.value);
+  };
+
   const handleCommentSubmit = () => {
     createCommentMutation.mutate({ articleId, content: commentValue });
   };
+
+  // 게시글 댓글 리스트 조회 (무한스크롤)
+  const {
+    ref,
+    data: articleComments,
+    isLoading,
+    isError,
+  } = useIntersectionObserver({
+    queryKey: 'commentList',
+    articleId: articleId,
+    limit: 6,
+  });
 
   // 게시글 댓글 삭제
   const deleteCommentMutation = useMutation({
