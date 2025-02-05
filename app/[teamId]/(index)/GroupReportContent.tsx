@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 
 import { Separator } from '@/components/ui/separator';
 import { useDeviceType } from '@/contexts/DeviceTypeContext';
@@ -70,32 +70,34 @@ interface TextContentProps {
 }
 
 function TextContent({ tasks }: TextContentProps) {
-  const parsedTasks = parseTasks(tasks);
+  const { todo, done } = parseTasks(tasks);
 
   return (
     <>
       <Separator orientation="horizontal" className="my-4 hidden xmo:block" />
       <div className="flex flex-col gap-pr-16 xmo:flex-row">
-        <div className="flex w-pr-400 items-center justify-between rounded-pr-12 bg-b-tertiary p-pr-16 transition-all duration-300 xmo:max-w-pr-132 mo:w-pr-182 ta:w-pr-280">
-          <div className="flex flex-col gap-pr-4">
-            <span className="text-12m text-t-secondary">오늘의 할 일</span>
-            <span className="text-24b text-brand-tertiary">
-              {parsedTasks.todo.length}
-            </span>
-          </div>
-          <IconTodo />
-        </div>
-        <div className="flex w-pr-400 items-center justify-between rounded-pr-12 bg-b-tertiary p-pr-16 transition-all duration-300 xmo:max-w-pr-132 mo:w-pr-182 ta:w-pr-280">
-          <div className="flex flex-col gap-pr-4">
-            <span className="text-12m text-t-secondary">한 일</span>
-            <span className="text-24b text-brand-tertiary">
-              {parsedTasks.done.length}
-            </span>
-          </div>
-          <IconDone />
-        </div>
+        <TextContentCard tasks={todo} text="오늘의 할 일" icon={<IconTodo />} />
+        <TextContentCard tasks={done} text="한 일" icon={<IconDone />} />
       </div>
     </>
+  );
+}
+
+interface TextContentCardProps {
+  tasks: ITask[];
+  text: string;
+  icon: ReactNode;
+}
+
+function TextContentCard({ tasks, text, icon }: TextContentCardProps) {
+  return (
+    <div className="flex w-pr-400 items-center justify-between rounded-pr-12 bg-b-tertiary p-pr-16 transition-all duration-300 xmo:max-w-pr-132 mo:w-pr-182 ta:w-pr-280">
+      <div className="flex flex-col gap-pr-4">
+        <span className="text-12m text-t-secondary">{text}</span>
+        <span className="text-24b text-brand-tertiary">{tasks.length}개</span>
+      </div>
+      {icon}
+    </div>
   );
 }
 
