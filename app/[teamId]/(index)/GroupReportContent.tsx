@@ -29,21 +29,38 @@ export default function GroupReportContent({
   taskLists,
 }: GroupReportContentProps) {
   const deviceType = useDeviceType();
+  const [contentType, setContentType] = useState(type);
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    if (type !== contentType) {
+      setIsVisible(false); // 기존 컨텐츠 페이드 아웃
+
+      setTimeout(() => {
+        setContentType(type); // 새로운 컨텐츠로 변경
+        setIsVisible(true); // 새로운 컨텐츠 페이드 인
+      }, 300); // 300ms 후 변경 (애니메이션 시간과 동일하게 설정)
+    }
+  }, [type]);
 
   return (
-    <div
-      className={`flex h-pr-250 select-none items-center rounded-pr-12 bg-b-secondary p-pr-24 ${type === 'chart' ? 'justify-around xmo:h-fit xmo:flex-col' : 'justify-between'}`}
-    >
-      <TodayProgressChart tasks={tasks} />
+    <div className="select-none rounded-pr-12 bg-b-secondary">
+      <div
+        className={`flex h-pr-250 items-center p-pr-24 transition-opacity duration-300 xmo:h-fit xmo:flex-col ${
+          contentType === 'chart' ? 'justify-around' : 'justify-between'
+        } ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+      >
+        <TodayProgressChart tasks={tasks} />
 
-      {type === 'text' && <TextContent tasks={tasks} />}
+        {contentType === 'text' && <TextContent tasks={tasks} />}
 
-      {type === 'chart' && deviceType === 'mobile' && (
-        <MobileChartContent taskLists={taskLists || []} />
-      )}
-      {type === 'chart' && deviceType !== 'mobile' && (
-        <ChartContent taskLists={taskLists || []} />
-      )}
+        {contentType === 'chart' && deviceType === 'mobile' && (
+          <MobileChartContent taskLists={taskLists || []} />
+        )}
+        {contentType === 'chart' && deviceType !== 'mobile' && (
+          <ChartContent taskLists={taskLists || []} />
+        )}
+      </div>
     </div>
   );
 }
@@ -56,26 +73,29 @@ function TextContent({ tasks }: TextContentProps) {
   const parsedTasks = parseTasks(tasks);
 
   return (
-    <div className="flex flex-col gap-pr-16">
-      <div className="flex w-pr-400 items-center justify-between rounded-pr-12 bg-b-tertiary p-pr-16 transition-all duration-300 mo:w-pr-142 ta:w-pr-280">
-        <div className="flex flex-col gap-pr-4">
-          <span className="text-12m text-t-secondary">오늘의 할 일</span>
-          <span className="text-24b text-brand-tertiary">
-            {parsedTasks.todo.length}
-          </span>
+    <>
+      <Separator orientation="horizontal" className="my-4 hidden xmo:block" />
+      <div className="flex flex-col gap-pr-16 xmo:flex-row">
+        <div className="flex w-pr-400 items-center justify-between rounded-pr-12 bg-b-tertiary p-pr-16 transition-all duration-300 xmo:max-w-pr-132 mo:w-pr-182 ta:w-pr-280">
+          <div className="flex flex-col gap-pr-4">
+            <span className="text-12m text-t-secondary">오늘의 할 일</span>
+            <span className="text-24b text-brand-tertiary">
+              {parsedTasks.todo.length}
+            </span>
+          </div>
+          <IconTodo />
         </div>
-        <IconTodo />
-      </div>
-      <div className="flex w-pr-400 items-center justify-between rounded-pr-12 bg-b-tertiary p-pr-16 transition-all duration-300 mo:w-pr-142 ta:w-pr-280">
-        <div className="flex flex-col gap-pr-4">
-          <span className="text-12m text-t-secondary">한 일</span>
-          <span className="text-24b text-brand-tertiary">
-            {parsedTasks.done.length}
-          </span>
+        <div className="flex w-pr-400 items-center justify-between rounded-pr-12 bg-b-tertiary p-pr-16 transition-all duration-300 xmo:max-w-pr-132 mo:w-pr-182 ta:w-pr-280">
+          <div className="flex flex-col gap-pr-4">
+            <span className="text-12m text-t-secondary">한 일</span>
+            <span className="text-24b text-brand-tertiary">
+              {parsedTasks.done.length}
+            </span>
+          </div>
+          <IconDone />
         </div>
-        <IconDone />
       </div>
-    </div>
+    </>
   );
 }
 
