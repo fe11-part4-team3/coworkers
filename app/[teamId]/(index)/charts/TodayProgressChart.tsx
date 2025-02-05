@@ -50,7 +50,7 @@ export default function TodayProgressChart({ tasks }: TodayProgressChartProps) {
         {length && (
           <ChartTooltip
             cursor={false}
-            content={<ChartTooltipContent customColor={COLOR} hideLabel />}
+            content={<ChartTooltipContent hideLabel />}
           />
         )}
 
