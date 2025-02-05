@@ -134,7 +134,7 @@ export default function TaskListPage() {
               />
               {isCalendarOpen && (
                 <div className="absolute left-pr-100 top-0 z-50">
-                  <DatePicker width="w-pr-300" isInput={false} />
+                  <DatePicker width="w-pr-300" />
                 </div>
               )}
             </div>

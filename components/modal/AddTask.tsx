@@ -7,6 +7,8 @@ import useModalForm from '@/hooks/useModalForm';
 import { SelectOption } from '@/types/selectBox.type';
 import TextareaField from '@/components/InputField/TextareaField';
 import InputField from '@/components/InputField/InputField';
+import DatePicker from '@/components/DateTimePicker/DatePicker';
+import TimePicker from '@/components/DateTimePicker/TimePicker';
 
 /* 꼭 읽어주세요.
     InputField 컴포넌트에서 updateInputValue 함수를 사용할 때,
@@ -69,6 +71,10 @@ export default function AddTask({
             updateInputValue(0, 'title', e.target.value)
           }
         />
+        <div className="flex flex-col gap-pr-12">
+          <DatePicker />
+          <TimePicker />
+        </div>
         <div>
           <label
             className="mb-pr-12 flex text-16m text-t-primary"
