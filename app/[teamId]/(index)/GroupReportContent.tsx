@@ -34,19 +34,19 @@ export default function GroupReportContent({
 
   useEffect(() => {
     if (type !== contentType) {
-      setIsVisible(false); // 기존 컨텐츠 페이드 아웃
+      setIsVisible(false);
 
       setTimeout(() => {
-        setContentType(type); // 새로운 컨텐츠로 변경
-        setIsVisible(true); // 새로운 컨텐츠 페이드 인
-      }, 300); // 300ms 후 변경 (애니메이션 시간과 동일하게 설정)
+        setContentType(type);
+        setIsVisible(true);
+      }, 300);
     }
   }, [type]);
 
   return (
     <div className="select-none rounded-pr-12 bg-b-secondary">
       <div
-        className={`flex h-pr-250 items-center p-pr-24 transition-opacity duration-300 xmo:h-fit xmo:flex-col ${
+        className={`team_xmo:h-fit team_xmo:flex-col flex h-pr-250 items-center p-pr-24 transition-opacity duration-300 ${
           contentType === 'chart' ? 'justify-around' : 'justify-between'
         } ${isVisible ? 'opacity-100' : 'opacity-0'}`}
       >
@@ -74,8 +74,11 @@ function TextContent({ tasks }: TextContentProps) {
 
   return (
     <>
-      <Separator orientation="horizontal" className="my-4 hidden xmo:block" />
-      <div className="flex flex-col gap-pr-16 xmo:flex-row">
+      <Separator
+        orientation="horizontal"
+        className="team_xmo:block my-4 hidden"
+      />
+      <div className="team_xmo:w-full flex flex-col items-center gap-pr-16">
         <TextContentCard tasks={todo} text="오늘의 할 일" icon={<IconTodo />} />
         <TextContentCard tasks={done} text="한 일" icon={<IconDone />} />
       </div>
@@ -91,7 +94,7 @@ interface TextContentCardProps {
 
 function TextContentCard({ tasks, text, icon }: TextContentCardProps) {
   return (
-    <div className="flex w-pr-400 items-center justify-between rounded-pr-12 bg-b-tertiary p-pr-16 transition-all duration-300 xmo:max-w-pr-132 mo:w-pr-182 ta:w-pr-280">
+    <div className="team_xmo:w-full team_xmo:max-w-pr-320 team_mo:w-pr-182 flex w-pr-400 items-center justify-between rounded-pr-12 bg-b-tertiary p-pr-16 transition-all duration-300 ta:w-pr-280">
       <div className="flex flex-col gap-pr-4">
         <span className="text-12m text-t-secondary">{text}</span>
         <span className="text-24b text-brand-tertiary">{tasks.length}개</span>
@@ -108,9 +111,9 @@ interface ChartContentProps {
 function ChartContent({ taskLists }: ChartContentProps) {
   return (
     <>
-      <Separator orientation="vertical" className="xmo:hidden" />
+      <Separator orientation="vertical" className="team_xmo:hidden" />
       <TodayTasksChart state="todo" taskLists={taskLists || []} />
-      <Separator orientation="vertical" className="xmo:hidden" />
+      <Separator orientation="vertical" className="team_xmo:hidden" />
       <TodayTasksChart state="done" taskLists={taskLists || []} />
     </>
   );
@@ -132,8 +135,11 @@ function MobileChartContent({ taskLists }: ChartContentProps) {
 
   return (
     <>
-      <Separator orientation="horizontal" className="my-4 hidden xmo:block" />
-      <Separator orientation="vertical" className="xmo:hidden" />
+      <Separator
+        orientation="horizontal"
+        className="team_xmo:block my-4 hidden"
+      />
+      <Separator orientation="vertical" className="team_xmo:hidden" />
       <div>
         <Carousel className="w-full max-w-pr-200" setApi={setApi}>
           <CarouselContent>

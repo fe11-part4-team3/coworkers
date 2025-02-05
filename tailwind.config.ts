@@ -317,8 +317,12 @@ const shadcnConfig: Config = {
         ],
       },
       screens: {
-        xmo: {
+        team_xmo: {
           max: '550px',
+        },
+        team_mo: {
+          min: '550px',
+          max: '767px',
         },
         mo: {
           max: '767px',
