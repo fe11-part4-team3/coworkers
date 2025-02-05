@@ -34,28 +34,28 @@ export default function GroupReportContent({
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    if (type !== contentType) {
-      setIsVisible(false);
-
-      setTimeout(() => {
-        setContentType(type);
-        setIsVisible(true);
-      }, 300);
-    }
-  }, [type]);
+    if (type === contentType) return;
+    setIsVisible(false);
+    setTimeout(() => {
+      setContentType(type);
+      setIsVisible(true);
+    }, 300);
+  }, [type, contentType]);
 
   return (
     <div className="select-none rounded-pr-12 bg-b-secondary">
       <div
         className={classNames(
-          'team_xmo:h-fit team_xmo:flex-col flex h-pr-250 items-center p-pr-24 transition-opacity duration-300',
-
+          'flex h-pr-250 items-center p-pr-24 transition-opacity duration-300',
+          'mo:h-fit mo:flex-col',
           contentType === 'chart' ? 'justify-around' : 'justify-between',
           contentType === 'text' && 'mo:h-fit mo:flex-col',
           isVisible ? 'opacity-100' : 'opacity-0',
         )}
       >
         <TodayProgressChart tasks={tasks} />
+
+        <Separator orientation="horizontal" className="my-4 hidden mo:block" />
 
         {contentType === 'text' && <TextContent tasks={tasks} />}
 
@@ -78,13 +78,10 @@ function TextContent({ tasks }: TextContentProps) {
   const { todo, done } = parseTasks(tasks);
 
   return (
-    <>
-      <Separator orientation="horizontal" className="my-4 hidden mo:block" />
-      <div className="flex w-pr-400 flex-col items-center gap-pr-16 mo:w-full ta:w-1/2">
-        <TextContentCard tasks={todo} text="오늘의 할 일" icon={<IconTodo />} />
-        <TextContentCard tasks={done} text="한 일" icon={<IconDone />} />
-      </div>
-    </>
+    <div className="flex w-pr-400 flex-col items-center gap-pr-16 mo:w-full ta:w-1/2">
+      <TextContentCard tasks={todo} text="오늘의 할 일" icon={<IconTodo />} />
+      <TextContentCard tasks={done} text="한 일" icon={<IconDone />} />
+    </div>
   );
 }
 
@@ -113,9 +110,9 @@ interface ChartContentProps {
 function ChartContent({ taskLists }: ChartContentProps) {
   return (
     <>
-      <Separator orientation="vertical" className="team_xmo:hidden" />
+      <Separator orientation="vertical" />
       <TodayTasksChart state="todo" taskLists={taskLists || []} />
-      <Separator orientation="vertical" className="team_xmo:hidden" />
+      <Separator orientation="vertical" />
       <TodayTasksChart state="done" taskLists={taskLists || []} />
     </>
   );
@@ -136,32 +133,25 @@ function MobileChartContent({ taskLists }: ChartContentProps) {
   }, [api]);
 
   return (
-    <>
-      <Separator
-        orientation="horizontal"
-        className="team_xmo:block my-4 hidden"
-      />
-      <Separator orientation="vertical" className="team_xmo:hidden" />
-      <div>
-        <Carousel className="w-full max-w-pr-200" setApi={setApi}>
-          <CarouselContent>
-            <CarouselItem>
-              <TodayTasksChart state="todo" taskLists={taskLists || []} />
-            </CarouselItem>
-            <CarouselItem>
-              <TodayTasksChart state="done" taskLists={taskLists || []} />
-            </CarouselItem>
-          </CarouselContent>
-        </Carousel>
-        <div className="flex justify-center gap-pr-8">
-          <div
-            className={`size-pr-12 rounded-full transition-all duration-300 ${current ? 'bg-b-tertiary' : 'bg-t-primary'}`}
-          />
-          <div
-            className={`size-pr-12 rounded-full transition-all duration-300 ${current ? 'bg-t-primary' : 'bg-b-tertiary'}`}
-          />
-        </div>
+    <div>
+      <Carousel className="w-full max-w-pr-200" setApi={setApi}>
+        <CarouselContent>
+          <CarouselItem>
+            <TodayTasksChart state="todo" taskLists={taskLists || []} />
+          </CarouselItem>
+          <CarouselItem>
+            <TodayTasksChart state="done" taskLists={taskLists || []} />
+          </CarouselItem>
+        </CarouselContent>
+      </Carousel>
+      <div className="flex justify-center gap-pr-8">
+        <div
+          className={`size-pr-12 rounded-full transition-all duration-300 ${current ? 'bg-b-tertiary' : 'bg-t-primary'}`}
+        />
+        <div
+          className={`size-pr-12 rounded-full transition-all duration-300 ${current ? 'bg-t-primary' : 'bg-b-tertiary'}`}
+        />
       </div>
-    </>
+    </div>
   );
 }
