@@ -23,7 +23,11 @@ export default function GroupReports({ tasks, taskLists }: GroupReportProps) {
           onCheckedChange={() => setShowChart((prev) => !prev)}
         />
       </div>
-      <GroupReportContent tasks={tasks} taskLists={taskLists} />
+      <GroupReportContent
+        type={showChart ? 'chart' : 'text'}
+        tasks={tasks}
+        taskLists={taskLists}
+      />
     </div>
   );
 }
