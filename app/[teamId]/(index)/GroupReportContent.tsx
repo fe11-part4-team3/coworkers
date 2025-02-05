@@ -1,4 +1,5 @@
 import { ReactNode, useEffect, useState } from 'react';
+import classNames from 'classnames';
 
 import { Separator } from '@/components/ui/separator';
 import { useDeviceType } from '@/contexts/DeviceTypeContext';
@@ -46,9 +47,13 @@ export default function GroupReportContent({
   return (
     <div className="select-none rounded-pr-12 bg-b-secondary">
       <div
-        className={`flex h-pr-250 items-center p-pr-24 transition-opacity duration-300 team_xmo:h-fit team_xmo:flex-col ${
-          contentType === 'chart' ? 'justify-around' : 'justify-between'
-        } ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+        className={classNames(
+          'team_xmo:h-fit team_xmo:flex-col flex h-pr-250 items-center p-pr-24 transition-opacity duration-300',
+
+          contentType === 'chart' ? 'justify-around' : 'justify-between',
+          contentType === 'text' && 'mo:h-fit mo:flex-col',
+          isVisible ? 'opacity-100' : 'opacity-0',
+        )}
       >
         <TodayProgressChart tasks={tasks} />
 
@@ -74,11 +79,8 @@ function TextContent({ tasks }: TextContentProps) {
 
   return (
     <>
-      <Separator
-        orientation="horizontal"
-        className="my-4 hidden team_xmo:block"
-      />
-      <div className="flex flex-col items-center gap-pr-16 team_xmo:w-full">
+      <Separator orientation="horizontal" className="my-4 hidden mo:block" />
+      <div className="flex w-pr-400 flex-col items-center gap-pr-16 mo:w-full ta:w-1/2">
         <TextContentCard tasks={todo} text="오늘의 할 일" icon={<IconTodo />} />
         <TextContentCard tasks={done} text="한 일" icon={<IconDone />} />
       </div>
@@ -94,7 +96,7 @@ interface TextContentCardProps {
 
 function TextContentCard({ tasks, text, icon }: TextContentCardProps) {
   return (
-    <div className="flex w-pr-400 items-center justify-between rounded-pr-12 bg-b-tertiary p-pr-16 transition-all duration-300 team_xmo:w-full team_xmo:max-w-pr-280 team_mo:w-pr-182 ta:w-pr-280">
+    <div className="flex w-full items-center justify-between rounded-pr-12 bg-b-tertiary p-pr-16 transition-all duration-300">
       <div className="flex flex-col gap-pr-4">
         <span className="text-12m text-t-secondary">{text}</span>
         <span className="text-24b text-brand-tertiary">{tasks.length}개</span>
@@ -137,7 +139,7 @@ function MobileChartContent({ taskLists }: ChartContentProps) {
     <>
       <Separator
         orientation="horizontal"
-        className="my-4 hidden team_xmo:block"
+        className="team_xmo:block my-4 hidden"
       />
       <Separator orientation="vertical" className="team_xmo:hidden" />
       <div>
