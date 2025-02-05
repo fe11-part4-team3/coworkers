@@ -37,7 +37,7 @@ export default function TextareaField({
     <fieldset>
       {label && <InputLabel label={label} essential={essential} />}
       <Textarea
-        className={`${inputStyled} ${sizes[size]} ${height} resize-none`}
+        className={`${inputStyled} ${sizes[size]} ${height} resize-none transition-colors hover:border-i-hover`}
         value={value}
         placeholder={placeholder}
         disabled={disabled}

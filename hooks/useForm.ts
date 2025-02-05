@@ -67,21 +67,18 @@ const useForm = <T extends Record<string, FormValue>>(initialValues: T) => {
     },
   });
 
-  // preview 삭제 시 formData의 image key 제거
   const handleClearImage = () => {
     handleClearPreview();
 
-    setFormData((prev) => {
-      const updatedFormData = { ...prev };
-      delete updatedFormData.image;
-      return updatedFormData;
-    });
+    setFormData((prev) => ({
+      ...prev,
+      image: null,
+    }));
 
-    setChangedFields((prevChanged) => {
-      const updatedChangedFields = { ...prevChanged };
-      delete updatedChangedFields.image;
-      return updatedChangedFields;
-    });
+    setChangedFields((prevChanged) => ({
+      ...prevChanged,
+      image: true,
+    }));
   };
 
   // 파일 에러 메시지를 폼 에러 메시지에 추가
