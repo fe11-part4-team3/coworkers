@@ -14,6 +14,7 @@ import Buttons from '@/components/Buttons';
 import useModalStore from '@/stores/modalStore';
 import ResetPassword from '@/components/modal/ResetPassword';
 import AuthLoading from '@/components/AuthLoading';
+import { useSnackbar } from '@/contexts/SnackBar.context';
 
 function LoginPage() {
   const { formData, handleInputChange, errorMessage } = useForm({
@@ -26,6 +27,7 @@ function LoginPage() {
   const { openModal } = useModalStore();
 
   const { status } = useSession();
+  const { showSnackbar } = useSnackbar();
 
   // STUB submit 후 로그인 에러 메시지
   const [hasLoginError, setHasLoginError] = useState('');
@@ -33,10 +35,9 @@ function LoginPage() {
   // STUB 일반 로그인 api mutate
   const { mutateAsync: postLogin, isPending: isLogin } = useMutation({
     mutationFn: signIn,
-    onSuccess: (res) => {
+    onSuccess: () => {
       reload();
-      alert('(login)로그인이 완료 되었습니다.');
-      console.log('로그인 완료 : ', res);
+      showSnackbar('로그인이 완료 되었습니다.');
     },
     onError: () => setHasLoginError('이메일 혹은 비밀번호를 확인해주세요.'),
   });
