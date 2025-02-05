@@ -14,17 +14,23 @@ import DatePicker from '@/components/DateTimePicker/DatePicker';
 
 import { taskMockData, commentMockData } from './mockData';
 import { getTaskList } from '@/service/taskList.api';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import { usePathname } from 'next/navigation';
 import TaskCard from '@/components/TaskCard/TaskCard';
 import { createTask } from '@/service/task.api';
 import { TaskRecurringCreateDto } from '@/types/task.type';
 import useGroup from '@/hooks/useGroup';
+import Buttons from '@/components/Buttons';
+import PlusIcon from '@/public/images/icon-plus.svg';
+import useModalStore from '@/stores/modalStore';
+import AddTask from '@/components/modal/AddTask';
 
 export default function TaskListPage() {
   const [isDetailOpen, setIsDetailOpen] = useState<boolean>(false);
   const [date, setDate] = useState(new Date());
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+
+  const { openModal } = useModalStore();
 
   const pathName = usePathname();
   const groupId = Number(pathName.split('/')[1]);
@@ -55,13 +61,11 @@ export default function TaskListPage() {
     queryFn: fetchTaskList,
   });
 
-  const {
-    data: createTaskData,
-    error: createTaskError,
-    isLoading: createTaskIsLoading,
-  } = useQuery({
-    queryKey: ['task', groupId, taskListId],
-    queryFn: fetchTaskList,
+  const mutation = useMutation({
+    mutationFn: fetchCreateTask,
+    onError: (error) => {
+      console.error(error);
+    },
   });
 
   // const isoDate = date.toISOString();
@@ -101,11 +105,11 @@ export default function TaskListPage() {
   dayjs.locale('ko');
   const formattedDate = dayjs(date).format('M월 D일 (ddd)');
 
-  if (taskListIsLoading || createTaskIsLoading) return <div>로딩 중...</div>;
+  if (taskListIsLoading) return <div>로딩 중...</div>;
 
-  if (taskListError || createTaskError) {
-    console.error(taskListError, createTaskError);
-    return <div>에러가 발생했습니다.</div>;
+  if (taskListError) {
+    console.error(taskListError);
+    return <div>데이터를 불러올 수 없습니다.</div>;
   }
 
   return (
@@ -149,6 +153,17 @@ export default function TaskListPage() {
         {taskListData?.tasks.map((task) => (
           <TaskCard key={task.id} type="taskList" taskData={task} />
         ))}
+        <div className="fixed bottom-pr-48 right-pr-80">
+          <div className="relative flex w-pr-116 items-center">
+            <Buttons
+              text="할 일 추가"
+              rounded={true}
+              icon={true}
+              onClick={() => openModal(<AddTask onClick={() => mutation} />)}
+            />
+            <PlusIcon width={24} height={24} className="absolute left-pr-12" />
+          </div>
+        </div>
         <TaskDetail
           isOpen={isDetailOpen}
           setIsOpen={setIsDetailOpen}
