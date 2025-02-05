@@ -25,7 +25,6 @@ const useGetArticle = ({
         orderBy: orderBy,
         keyword: keyword,
       }),
-    staleTime: 1000 * 60 * 5,
   });
 
   return { data, isLoading, isError };

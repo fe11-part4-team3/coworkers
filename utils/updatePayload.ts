@@ -10,6 +10,7 @@ interface updatePayloadSubmitProps<T> {
   changedFields: Record<string, boolean>;
   formData: Record<string, FormValue>;
   mutate: (payload: T) => void;
+  articleId?: number;
 }
 
 /**
@@ -66,19 +67,25 @@ interface updatePayloadSubmitProps<T> {
  *
  */
 const updatePayloadSubmit = async <T>({
+  articleId,
   changedFields,
   formData,
   mutate,
 }: updatePayloadSubmitProps<T>): Promise<void> => {
   if (!Object.values(changedFields).some(Boolean)) {
-    console.log('[updatePayloadSubmit] 변경된 필드 없음 ,patch 생략');
+    console.log('[updatePayloadSubmit] 변경된 필드 없음, patch 생략');
     return;
   }
 
   // 변경된 필드만 payload에 추가
   const payload: Partial<UpdatePayloadParams> = {};
 
-  // formData의 변경된 필드만 payload에 추가 image는 파일일 경우만 url 변환 api 실행
+  // articleId가 존재할 경우 추가
+  if (articleId) {
+    payload.articleId = articleId;
+  }
+
+  // formData의 변경된 필드만 payload에 추가
   await Promise.all(
     Object.entries(changedFields).map(async ([key, hasChanged]) => {
       if (!hasChanged) return;

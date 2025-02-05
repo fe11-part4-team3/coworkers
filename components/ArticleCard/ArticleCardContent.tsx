@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import classNames from 'classnames';
+import { useRouter } from 'next/navigation';
 
 import { CardContent } from '@/components/ui/card';
 import KebabDropDown from '@/components/KebabDropDown';
@@ -29,6 +30,7 @@ function ArticleCardContent({
   handleArticleDelete?: (id: number) => void;
 }) {
   const { user: userData } = useUserStore();
+  const router = useRouter();
 
   const cardContentStyled = classNames(
     'flex justify-between p-0',
@@ -61,7 +63,7 @@ function ArticleCardContent({
             }}
           >
             <KebabDropDown
-              onEdit={() => alert('수정')}
+              onEdit={() => router.push(`/boards/editarticle/${id}`)}
               onDelete={() => handleArticleDelete(id)}
             />
           </div>
