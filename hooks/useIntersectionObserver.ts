@@ -2,54 +2,62 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
-import { getArticleCommentList } from '@/service/articleComment.api';
+interface ApiFunction<P, R> {
+  (params: P): Promise<R>;
+}
 
-interface IntersectionObserver {
+interface IntersectionObserverProps<P, R> {
   queryKey: string;
-  articleId: number;
-  limit: number;
+  api: ApiFunction<P, R>;
+  apiParams: P;
+  getNextPageParam: (lastPage: R) => unknown;
 }
 
 /**
- * @param {string} props.queryKey - queryKey 이름
- * @param {Function} props.articleId - 개시글 Id
- * @param {Function} props.limit - 불러올 데이터의 수
+ * @param {string} queryKey - React Query의 queryKey
+ * @param {Function} api - 데이터를 불러오는 API 함수
+ * @param {Object} apiParams - API에 전달할 기본 매개변수
+ * @param {Function} getNextPageParam - 다음 페이지 파라미터를 결정하는 함수
  * @returns {JSX.Element} - 무한스크롤 커스텀 훅
  *
  * @example
  * const { ref, data, isLoading, isError } = useIntersectionObserver({
-    queryKey: 'commentList',
-    articleId: articleId,
-    limit: 6,
-  });
+ *   queryKey: 'comments',
+ *   api: getArticleCommentList,
+ *   apiParams: { postId: 1, limit: 10 },
+ *   getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
+ * });
  */
-export const useIntersectionObserver = ({
+export const useIntersectionObserver = <P, R>({
   queryKey,
-  articleId,
-  limit,
-}: IntersectionObserver) => {
+  api,
+  apiParams,
+  getNextPageParam,
+}: IntersectionObserverProps<P, R>) => {
   const { ref, inView } = useInView();
 
   const {
     data,
-    fetchNextPage, // 다음 페이지 데이터를 가져오는 함수
-    hasNextPage, // 다음 페이지가 있는지 여부
+    fetchNextPage,
+    isFetchingNextPage,
+    hasNextPage,
     isLoading,
     isError,
   } = useInfiniteQuery({
-    queryKey: [queryKey, articleId],
-    queryFn: ({ pageParam = null }: { pageParam: number | null }) =>
-      getArticleCommentList({ articleId, limit: limit, cursor: pageParam }),
+    queryKey: [queryKey, apiParams],
+    queryFn: ({ pageParam = null }: { pageParam?: unknown }) => {
+      const paramsWithCursor = { ...apiParams, cursor: pageParam };
+      return api(paramsWithCursor);
+    },
     initialPageParam: null,
-    getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined, // 다음 페이지의 커서 반환
+    getNextPageParam,
   });
 
   useEffect(() => {
-    // 센서가 감지되고, 다음 페이지가 있다면 데이터 요청
-    if (inView && hasNextPage) {
+    if (inView && hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
     }
-  }, [inView, hasNextPage, fetchNextPage]);
+  }, [inView, fetchNextPage, isFetchingNextPage, hasNextPage]);
 
   return { ref, data, isLoading, isError };
 };

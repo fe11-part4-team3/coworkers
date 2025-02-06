@@ -6,6 +6,7 @@ import Comment from '@/components/Comment/Comment';
 import {
   createArticleComment,
   deleteArticleComment,
+  getArticleCommentList,
   updateArticleComment,
 } from '@/service/articleComment.api';
 import {
@@ -46,8 +47,9 @@ function CommentContainer({ articleId }: { articleId: number }) {
     isError,
   } = useIntersectionObserver({
     queryKey: 'commentList',
-    articleId: articleId,
-    limit: 6,
+    api: getArticleCommentList,
+    apiParams: { articleId: articleId, limit: 6 },
+    getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
   });
 
   // 게시글 댓글 삭제
