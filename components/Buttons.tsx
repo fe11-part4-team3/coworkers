@@ -103,7 +103,7 @@ export default function Buttons({
         </span>
       )}
       {loading && <Loader2 className="animate-spin" />}
-      {text}
+      {!loading && text}
     </>
   );
 
