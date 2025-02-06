@@ -85,7 +85,9 @@ export default function TeamPage() {
   };
 
   // teamId가 숫자가 아니라면 또는 4자리 숫자가 아니라면
-  if (typeof teamId !== 'number' || teamId < 1000 || teamId > 9999) {
+  const parsedTeamId = Number(teamId);
+
+  if (isNaN(parsedTeamId) || parsedTeamId < 1000 || parsedTeamId > 9999) {
     return <NotFound />;
   }
 
