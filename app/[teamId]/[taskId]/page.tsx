@@ -24,11 +24,14 @@ import Buttons from '@/components/Buttons';
 import PlusIcon from '@/public/images/icon-plus.svg';
 import useModalStore from '@/stores/modalStore';
 import AddTask from '@/components/modal/AddTask';
+import { useEffect, useRef } from 'react';
 
 export default function TaskListPage() {
   const [isDetailOpen, setIsDetailOpen] = useState<boolean>(false);
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [isCalendarOpen, setIsCalendarOpen] = useState<boolean>(false);
+
+  const ref = useRef<HTMLDivElement>(null);
 
   const { openModal } = useModalStore();
 
@@ -107,6 +110,20 @@ export default function TaskListPage() {
   dayjs.locale('ko');
   const formattedDate = dayjs(date).format('M월 D일 (ddd)');
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        setIsCalendarOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [ref]);
+
   if (taskListIsLoading) return <div>로딩 중...</div>;
 
   if (taskListError) {
@@ -119,9 +136,12 @@ export default function TaskListPage() {
       <Container>
         <div className="mt-pr-40 text-t-primary">
           <h1 className="text-20b">할 일</h1>
-          <div className="mt-pr-24 flex items-center gap-pr-12">
+          <div className="relative mt-pr-24 flex items-center gap-pr-12">
             <span className="text-16m">{formattedDate}</span>
-            <div className="relative flex items-center gap-pr-4 text-b-secondary">
+            <div
+              className="flex items-center gap-pr-4 text-b-secondary"
+              ref={ref}
+            >
               <PrevButtonIcon
                 className="cursor-pointer"
                 onClick={handlePrevDate}
@@ -135,7 +155,7 @@ export default function TaskListPage() {
                 onClick={() => setIsCalendarOpen(!isCalendarOpen)}
               />
               {isCalendarOpen && date && (
-                <div className="absolute left-pr-100 top-0 z-50">
+                <div className="absolute left-0 top-pr-50 z-50">
                   <DatePicker
                     width="w-pr-300"
                     date={date}
