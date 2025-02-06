@@ -7,6 +7,7 @@ import Buttons from '@/components/Buttons';
 import useUser from '@/hooks/useUser';
 import { useRouter } from 'next/navigation';
 import IconBox from '@/components/Landing/Iconbox';
+import MainBox1 from '@/components/Landing/Mainbox1';
 
 export default function LandingPage() {
   const router = useRouter();
@@ -77,29 +78,7 @@ export default function LandingPage() {
 
       {/* 두 번째 섹션 (컨텐츠 박스) */}
       <section className="relative flex flex-col items-center gap-pr-80">
-        <div className="relative mt-pr-60 h-pr-419 w-pr-996 rounded-pr-40 bg-gradient-to-r from-brand-primary to-brand-tertiary p-pr-1 mo:h-pr-487 mo:w-pr-343 ta:h-pr-354 ta:w-pr-696">
-          <div className="relative flex h-full w-full rounded-pr-40 bg-b-primary shadow-lg backdrop-blur-md">
-            {/* 이미지 */}
-            <Image
-              src="/images/landing/img-mockup1.png"
-              alt="Mockup 1"
-              width={291}
-              height={338}
-              className="absolute bottom-0 left-pr-174 h-pr-338 w-pr-291 object-contain mo:bottom-0 mo:left-1/2 mo:h-pr-273 mo:w-pr-235 mo:-translate-x-1/2 ta:left-pr-120"
-            />
-
-            {/* 아이콘텍스트 박스 */}
-            <div className="absolute right-pr-181 top-pr-155 h-pr-120 w-pr-157 mo:right-pr-54 mo:top-pr-48 mo:h-pr-106 mo:w-pr-118 ta:right-pr-121 ta:top-pr-124 ta:h-pr-106 ta:w-pr-118">
-              <IconBox imageUrl="foldericon.svg" alt="Folder Icon" left />
-
-              {/* 텍스트 */}
-              <p className="absolute bottom-0 whitespace-nowrap text-24m leading-none text-t-primary mo:text-18m">
-                그룹으로
-                <br />할 일을 관리해요
-              </p>
-            </div>
-          </div>
-        </div>
+        <MainBox1 />
 
         <div className="relative flex h-pr-419 w-pr-996 rounded-pr-40 bg-b-secondary">
           {/* 아이콘텍스트박스 */}
@@ -150,13 +129,38 @@ export default function LandingPage() {
         </div>
       </section>
       <footer>
-        <div className="relative flex h-pr-1080 w-screen flex-col items-center bg-[url('/images/landing/img-Landing-bottom.png')] bg-cover bg-center bg-no-repeat">
-          <div className="absolute top-pr-230 flex flex-col items-center gap-pr-24">
-            <div className="text-center text-40sb text-t-primary">
+        <div className="relative flex h-pr-1080 w-screen flex-col items-center">
+          {/* 배경 이미지 (PC) */}
+          <img
+            src="/images/landing/img-Landing-bottom.png"
+            alt="background-bottom"
+            className="absolute inset-0 h-full w-full object-cover mo:hidden ta:hidden"
+          />
+
+          {/* 배경 이미지 (태블릿) */}
+          <img
+            src="/images/landing/img-Landing-bottom-ta.png"
+            alt="background-bottom-tablet"
+            className="absolute inset-0 hidden h-full w-full object-cover mo:hidden ta:block"
+          />
+
+          {/* 배경 이미지 (모바일) */}
+          <div
+            className="absolute inset-0 hidden bg-cover bg-center bg-no-repeat mo:block"
+            style={{
+              backgroundImage:
+                "url('/images/landing/img-Landing-bottom-mo.png')",
+            }}
+          />
+
+          {/* 텍스트 박스 */}
+          <div className="absolute top-pr-230 flex flex-col items-center gap-pr-24 mo:top-pr-123 ta:top-pr-176">
+            <div className="text-center text-40sb text-t-primary mo:text-24sb ta:text-40sb">
               지금 바로 시작해보세요
             </div>
-            <div className="text-center text-24m text-t-primary">
-              팀원 모두와 같은 방향, 같은 속도로 나아가는 가장 쉬운 방법
+            <div className="text-center text-24m text-t-primary mo:text-16m ta:text-24m">
+              팀원 모두와 같은 방향, <br className="hidden mo:block" />
+              같은 속도로 나아가는 가장 쉬운 방법
             </div>
           </div>
         </div>
