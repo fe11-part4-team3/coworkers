@@ -55,6 +55,9 @@ export default function AddTask({
     false,
   );
   const [isTimeOpen, setIsTimeOpen] = useState<boolean | undefined>(false);
+  const [selectedValue, setSelectedValue] = useState<string>('');
+
+  const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
 
   const combineDateAndTimeKST = (date: Date, time: string) => {
     const [hours, minutes] = time.split(':').map((val) => parseInt(val, 10));
@@ -80,7 +83,13 @@ export default function AddTask({
     setIsTimeOpen(!isTimeOpen);
   };
 
+  const handleRepeatTypeChange = (value: string) => {
+    updateInputValue(1, 'repeatType', value);
+    setSelectedValue(value);
+  };
+
   if (date && time) console.log(combineDateAndTimeKST(date, time));
+  console.log(selectedValue);
 
   return (
     <>
@@ -160,11 +169,25 @@ export default function AddTask({
             bgType="modal"
             placeholder="선택"
             defaultValue={value[1]}
-            onValueChange={(selectedValue: string) => {
-              updateInputValue(1, 'repeatType', selectedValue);
-            }}
+            onValueChange={handleRepeatTypeChange}
           />
         </div>
+        {selectedValue === 'WEEKLY' && (
+          <div>
+            <InputLabel label="반복 요일" />
+            <div className="flex gap-pr-4">
+              {weekdays.map((day, index) => (
+                <button
+                  key={index}
+                  className="h-pr-44 w-full rounded-xl bg-b-secondary-2 text-14m text-t-default"
+                  type="button"
+                >
+                  {day}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
         <TextareaField
           value={value[2]}
           placeholder="메모를 입력해주세요."

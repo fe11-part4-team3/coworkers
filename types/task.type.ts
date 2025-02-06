@@ -104,6 +104,8 @@ interface DeleteRecurringParams {
 }
 
 interface TaskDetailProps {
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
   value: ITask;
   commentData?: ITaskComment[];
   deleteTask: (id: number) => void;

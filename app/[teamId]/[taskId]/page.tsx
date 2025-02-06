@@ -71,8 +71,6 @@ export default function TaskListPage() {
     },
   });
 
-  // const isoDate = date.toISOString();
-
   const handlePrevDate = () => {
     if (!date) return;
     setDate(subDays(date, 1));
