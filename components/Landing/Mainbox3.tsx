@@ -3,7 +3,7 @@ import IconBox from './Iconbox';
 
 const MainBox3 = () => {
   return (
-    <div className="relative mt-pr-60 h-pr-419 w-pr-996 rounded-pr-12 bg-b-secondary-2 bg-slate-950 mo:h-pr-467 mo:w-pr-343 ta:h-pr-354 ta:w-pr-696">
+    <div className="relative h-pr-419 w-pr-996 rounded-pr-12 bg-b-secondary-2 bg-slate-950 mo:h-pr-467 mo:w-pr-343 ta:h-pr-354 ta:w-pr-696">
       <div className="backdrop-blur-pr-12 relative flex h-full w-full rounded-pr-12 mo:flex-col-reverse">
         <div className="flex h-full w-1/2 items-start justify-end mo:w-full mo:items-start mo:justify-center">
           <Image

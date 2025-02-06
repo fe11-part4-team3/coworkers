@@ -44,7 +44,7 @@ export default function LandingPage() {
         />
 
         <div className="absolute left-1/2 top-pr-204 flex -translate-x-1/2 transform flex-col items-center justify-center gap-pr-20 text-center mo:top-pr-175 ta:top-pr-220">
-          <h2 className="flex gap-pr-24 whitespace-nowrap text-48sb text-t-primary mo:text-24sb ta:text-40sb">
+          <h2 className="flex gap-pr-24 whitespace-nowrap text-48sb text-t-primary mo:gap-pr-4 mo:text-24sb ta:text-40sb">
             함께 만들어가는 투두 리스트
             <Image
               src="/images/landing/img-Tool.svg"
