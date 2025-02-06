@@ -27,7 +27,7 @@ import AddTask from '@/components/modal/AddTask';
 
 export default function TaskListPage() {
   const [isDetailOpen, setIsDetailOpen] = useState<boolean>(false);
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState<Date | undefined>(new Date());
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
   const { openModal } = useModalStore();
@@ -71,10 +71,12 @@ export default function TaskListPage() {
   // const isoDate = date.toISOString();
 
   const handlePrevDate = () => {
+    if (!date) return;
     setDate(subDays(date, 1));
   };
 
   const handleNextDate = () => {
+    if (!date) return;
     setDate(addDays(date, 1));
   };
 
@@ -132,9 +134,9 @@ export default function TaskListPage() {
                 className="ml-pr-8 cursor-pointer"
                 onClick={() => setIsCalendarOpen(!isCalendarOpen)}
               />
-              {isCalendarOpen && (
+              {isCalendarOpen && date && (
                 <div className="absolute left-pr-100 top-0 z-50">
-                  <DatePicker width="w-pr-300" />
+                  <DatePicker width="w-pr-300" date={date} setDate={setDate} />
                 </div>
               )}
             </div>

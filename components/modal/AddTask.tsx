@@ -9,6 +9,8 @@ import TextareaField from '@/components/InputField/TextareaField';
 import InputField from '@/components/InputField/InputField';
 import DatePicker from '@/components/DateTimePicker/DatePicker';
 import TimePicker from '@/components/DateTimePicker/TimePicker';
+import { format } from 'date-fns';
+import InputLabel from '@/components/InputField/InputLabel';
 
 /* 꼭 읽어주세요.
     InputField 컴포넌트에서 updateInputValue 함수를 사용할 때,
@@ -47,6 +49,37 @@ export default function AddTask({
     initialLength: 3,
   });
 
+  const [date, setDate] = useState<Date | undefined>(new Date());
+  const [time, setTime] = useState<string>('');
+  const [isCalendarOpen, setIsCalendarOpen] = useState<boolean>(false);
+  const [isTimeOpen, setIsTimeOpen] = useState<boolean | undefined>(false);
+
+  const combineDateAndTimeKST = (date: Date, time: string) => {
+    const [hours, minutes] = time.split(':').map((val) => parseInt(val, 10));
+
+    date.setHours(hours);
+    date.setMinutes(minutes);
+    date.setSeconds(0);
+    date.setMilliseconds(0);
+
+    const koreaTimeOffset = 9 * 60;
+    const koreaTime = new Date(date.getTime() + koreaTimeOffset * 60 * 1000);
+
+    return koreaTime.toISOString();
+  };
+
+  const handleCalendarInputClick = () => {
+    setIsTimeOpen(false);
+    setIsCalendarOpen(!isCalendarOpen);
+  };
+
+  const handleTimeInputClick = () => {
+    setIsCalendarOpen(false);
+    setIsTimeOpen(!isTimeOpen);
+  };
+
+  if (date && time) console.log(combineDateAndTimeKST(date, time));
+
   return (
     <>
       <CloseButton />
@@ -71,9 +104,42 @@ export default function AddTask({
             updateInputValue(0, 'title', e.target.value)
           }
         />
-        <div className="flex flex-col gap-pr-12">
-          <DatePicker />
-          <TimePicker />
+        <div className="flex flex-col">
+          {date && (
+            <>
+              <InputLabel label="시작 날짜 및 시간" />
+              <div className="flex gap-pr-8">
+                <InputField
+                  value={format(date, 'yyyy년 MM월 dd일')}
+                  name="task-date"
+                  width="w-pr-204"
+                  onClick={handleCalendarInputClick}
+                  className="h-pr-48 cursor-pointer"
+                  readOnly
+                />
+                <InputField
+                  value={time}
+                  name="task-time"
+                  placeholder="시간 선택"
+                  width="w-pr-124"
+                  onClick={handleTimeInputClick}
+                  className="h-pr-48 cursor-pointer"
+                  readOnly
+                />
+              </div>
+              <div className="mt-pr-8">
+                {isCalendarOpen && !isTimeOpen && (
+                  <DatePicker date={date} setDate={setDate} />
+                )}
+                {isTimeOpen && !isCalendarOpen && (
+                  <TimePicker
+                    setTime={setTime}
+                    setIsPickerView={setIsTimeOpen}
+                  />
+                )}
+              </div>
+            </>
+          )}
         </div>
         <div>
           <label

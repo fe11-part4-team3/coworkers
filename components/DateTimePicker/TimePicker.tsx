@@ -7,20 +7,24 @@ import { widthStyledSliceWPr } from '@/utils/filterClass';
 /**
  * TimePicker 컴포넌트는 시간을 선택할 수 있는 기능을 제공합니다.
  * @param {string} width - optional, TimePicker 컴포넌트의 너비를 설정합니다. (기본 값은 w-full입니다.)
+ * @param {function} setTime - 선택한 시간을 반환하는 함수입니다.
  * @returns {JSX.Element} TimePicker 컴포넌트를 반환합니다.
  */
 
-export default function TimePicker({ width }: { width?: string }) {
-  const [time, setTime] = useState<string>('');
+export default function TimePicker({
+  width,
+  setTime,
+  setIsPickerView,
+}: {
+  width?: string;
+  setTime: (time: string) => void;
+  setIsPickerView: (isOpen: boolean | undefined) => void;
+}) {
   const [amPm, setAmPm] = useState<'am' | 'pm'>('am');
 
   const timeButtonStyle = {
     default: 'h-pr-40 w-pr-78 rounded-xl bg-b-primary text-14m text-t-default',
     active: 'bg-brand-primary text-t-primary',
-  };
-  const selectTimeButtonStyle = (timeSlot: string) => {
-    const isSelected = time === timeSlot;
-    return isSelected ? 'text-brand-primary' : '';
   };
 
   const getButtonClass = (period: 'am' | 'pm') => {
@@ -29,7 +33,7 @@ export default function TimePicker({ width }: { width?: string }) {
 
   const timeSlots = useCallback(() => {
     const slots: string[] = [];
-    for (let i = 1; i <= 12; i++) {
+    for (let i = 0; i <= 11; i++) {
       slots.push(`${String(i)}:00`);
       slots.push(`${String(i)}:30`);
     }
@@ -37,12 +41,19 @@ export default function TimePicker({ width }: { width?: string }) {
   }, []);
 
   const handleTimeClick = (timeSlot: string) => {
-    setTime(timeSlot);
+    setIsPickerView(false);
+
+    let [hours, minutes] = timeSlot.split(':').map(Number);
+    if (amPm === 'pm') {
+      hours += 12;
+    }
+
+    const newTime = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+    setTime(newTime);
   };
 
   const handleTimeSlotClick = (AmPm: 'am' | 'pm') => {
     setAmPm(AmPm);
-    setTime('');
   };
 
   return (
@@ -71,7 +82,7 @@ export default function TimePicker({ width }: { width?: string }) {
                 <button
                   key={index}
                   onClick={() => handleTimeClick(timeSlot)}
-                  className={`text-left ${selectTimeButtonStyle(timeSlot)}`}
+                  className={`text-left hover:text-brand-primary`}
                   type="button"
                 >
                   <li>{timeSlot}</li>

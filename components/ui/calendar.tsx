@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import { DayPicker } from 'react-day-picker';
-import { useState, useEffect } from 'react';
 
 import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/ui/button';
@@ -13,7 +12,6 @@ import { useTheme } from 'next-themes';
 export type CalendarProps = React.ComponentProps<typeof DayPicker>;
 
 function Calendar({
-  onDayClick,
   className,
   classNames,
   showOutsideDays = true,
@@ -29,7 +27,6 @@ function Calendar({
 
   return (
     <DayPicker
-      onDayClick={onDayClick}
       showOutsideDays={showOutsideDays}
       className={cn('p-3', className)}
       classNames={{

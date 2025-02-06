@@ -1,7 +1,5 @@
 'use client';
 
-import { useState } from 'react';
-
 import { Calendar } from '@/components/ui/calendar';
 import { widthStyledSliceWPr } from '@/utils/filterClass';
 
@@ -11,15 +9,24 @@ import { widthStyledSliceWPr } from '@/utils/filterClass';
  * @returns {JSX.Element} DatePicker 컴포넌트를 반환합니다.
  */
 
-export default function DatePicker({ width }: { width?: string }) {
-  const [date, setdate] = useState<Date | undefined>(undefined);
-
+export default function DatePicker({
+  width,
+  date,
+  setDate,
+  setIsOpen,
+}: {
+  width?: string;
+  date: Date;
+  setDate: (date: Date | undefined) => void;
+  setIsOpen: (isOpen: boolean) => void;
+}) {
   return (
     <>
       <Calendar
+        setIsOpen={setIsOpen}
         mode="single"
         selected={date}
-        onSelect={setdate}
+        onSelect={setDate}
         className={`${width ? widthStyledSliceWPr(width) : 'w-full'} flex items-center justify-center rounded-2xl border border-brand-primary bg-b-secondary p-pr-16`}
       />
     </>
