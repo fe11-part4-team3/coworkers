@@ -111,7 +111,6 @@ const ChartTooltipContent = React.forwardRef<
       indicator?: 'line' | 'dot' | 'dashed';
       nameKey?: string;
       labelKey?: string;
-      customColor?: { [state in string]: string };
     }
 >(
   (
@@ -129,7 +128,6 @@ const ChartTooltipContent = React.forwardRef<
       color,
       nameKey,
       labelKey,
-      customColor,
     },
     ref,
   ) => {
@@ -169,7 +167,6 @@ const ChartTooltipContent = React.forwardRef<
       labelClassName,
       config,
       labelKey,
-      customColor,
     ]);
 
     if (!active || !payload?.length) {
@@ -191,9 +188,7 @@ const ChartTooltipContent = React.forwardRef<
           {payload.map((item, index) => {
             const key = `${nameKey || item.name || item.dataKey || 'value'}`;
             const itemConfig = getPayloadConfigFromPayload(config, item, key);
-            const indicatorColor = customColor
-              ? customColor[item.dataKey as string]
-              : color || item.payload.fill || item.color;
+            const indicatorColor = color || item.payload.fill || item.color;
 
             return (
               <div

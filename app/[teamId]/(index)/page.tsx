@@ -23,7 +23,7 @@ import {
   _DeleteTaskListParams,
   _UpdateTaskListParams,
 } from './TeamPage.type';
-import GroupReports from './GroupReports';
+import GroupReport from './GroupReport';
 
 export default function TeamPage() {
   useUser(true);
@@ -89,7 +89,7 @@ export default function TeamPage() {
           onEdit={onEdit}
           onDelete={onDelete}
         />
-        <GroupReports tasks={tasks} />
+        <GroupReport tasks={tasks} taskLists={taskLists} />
         <GroupMemberList groupId={group.id} members={members} />
       </div>
     </Container>
