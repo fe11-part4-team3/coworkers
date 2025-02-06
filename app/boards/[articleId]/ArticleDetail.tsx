@@ -55,7 +55,7 @@ function ArticleDetail({ articleId }: GetArticleDetailParams) {
           {user?.id === writer.id && (
             <div className="ml-pr-16 shrink">
               <KebabDropDown
-                onEdit={() => alert('수정하기')}
+                onEdit={() => router.push(`/boards/editarticle/${articleId}`)}
                 onDelete={handleArticleDelete}
               />
             </div>

@@ -11,6 +11,7 @@ import {
   deleteTaskList,
   updateTaskList,
 } from '@/service/taskList.api';
+import NotFound from '@/app/404/NotFound';
 import useTaskLists from '@/hooks/useTaskLists';
 import { getTasksInGroup } from '@/service/group.api';
 
@@ -22,7 +23,7 @@ import {
   _DeleteTaskListParams,
   _UpdateTaskListParams,
 } from './TeamPage.type';
-import GroupReports from './GroupReports';
+import GroupReport from './GroupReport';
 
 export default function TeamPage() {
   const { memberships } = useUser(true);
@@ -83,6 +84,11 @@ export default function TeamPage() {
     return deleteTaskList({ groupId: group.id, ...params });
   };
 
+  // teamId가 숫자가 아니라면 또는 4자리 숫자가 아니라면
+  if (typeof teamId !== 'number' || teamId < 1000 || teamId > 9999) {
+    return <NotFound />;
+  }
+
   if (!group) return null;
 
   return (
@@ -96,7 +102,7 @@ export default function TeamPage() {
           onEdit={onEdit}
           onDelete={onDelete}
         />
-        <GroupReports tasks={tasks} />
+        <GroupReport tasks={tasks} taskLists={taskLists} />
         <GroupMemberList role={role} groupId={group.id} members={members} />
       </div>
     </Container>

@@ -17,6 +17,8 @@ import { SidebarProvider } from '@/components/ui/sidebar';
 import Headers from '@/components/layout/Header/Headers';
 import { DeviceTypeProvider } from '@/contexts/DeviceTypeContext';
 import Modal from '@/components/modal/Modal';
+import { TooltipProvider } from '@/components/ui/tooltip';
+import { SnackbarProvider } from '@/contexts/SnackBar.context';
 
 const queryClient = new QueryClient();
 export default function RootLayout({
@@ -38,12 +40,16 @@ export default function RootLayout({
           >
             <QueryClientProvider client={queryClient}>
               <SessionProvider session={session}>
-                <SidebarProvider defaultOpen={false}>
-                  <Headers />
-                  <DarkmodeToggle />
-                  <Modal />
-                  {children}
-                </SidebarProvider>
+                <TooltipProvider>
+                  <SidebarProvider defaultOpen={false}>
+                    <SnackbarProvider>
+                      <Headers />
+                      <DarkmodeToggle />
+                      <Modal />
+                      {children}
+                    </SnackbarProvider>
+                  </SidebarProvider>
+                </TooltipProvider>
               </SessionProvider>
               <ReactQueryDevtools initialIsOpen={false} />
             </QueryClientProvider>
