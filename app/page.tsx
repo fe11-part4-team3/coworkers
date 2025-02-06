@@ -1,12 +1,9 @@
 'use client';
 
-import Link from 'next/link';
 import Image from 'next/image';
-import Container from '@/components/layout/Container';
 import Buttons from '@/components/Buttons';
 import useUser from '@/hooks/useUser';
 import { useRouter } from 'next/navigation';
-import IconBox from '@/components/Landing/Iconbox';
 import MainBox1 from '@/components/Landing/Mainbox1';
 import MainBox2 from '@/components/Landing/Mainbox2';
 import MainBox3 from '@/components/Landing/Mainbox3';
@@ -75,43 +72,6 @@ export default function LandingPage() {
         <MainBox1 />
         <MainBox2 />
         <MainBox3 />
-        {/* <div className="relative flex h-pr-419 w-pr-996 rounded-pr-40 bg-b-secondary">
-          <div className="absolute left-pr-165 top-pr-151 flex h-pr-116 w-pr-172 flex-col items-end">
-            <IconBox imageUrl="messageicon.svg" alt="Message Icon" right />
-            <p className="absolute bottom-0 whitespace-nowrap text-right text-24m leading-none text-t-primary">
-              간단하게 멤버들을
-              <br />
-              초대해요
-            </p>
-          </div>
-
-          <Image
-            src="/images/landing/img-mockup2.png"
-            alt="Mockup 2"
-            width={291}
-            height={338}
-            className="absolute right-pr-174 top-0 h-pr-338 w-pr-291 object-contain"
-          />
-        </div> */}
-
-        {/* <div className="backdrop-blur-pr-12 relative flex h-pr-419 w-pr-996 rounded-pr-12 bg-b-secondary-2 bg-slate-950">
-          <Image
-            src="/images/landing/img-mockup3.png"
-            alt="Mockup 3"
-            width={291}
-            height={338}
-            className="absolute left-pr-174 top-0 h-pr-338 w-pr-291 object-contain"
-          />
-
-          <div className="absolute right-pr-181 top-pr-151 flex h-pr-116 w-pr-172 flex-col items-start">
-            <IconBox imageUrl="checkicon.svg" alt="Check Icon" left />
-            <p className="absolute bottom-0 whitespace-nowrap text-24m leading-none text-t-primary">
-              할 일도 간편하게
-              <br />
-              체크해요
-            </p>
-          </div>
-        </div> */}
       </section>
 
       <footer>
