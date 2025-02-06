@@ -3,6 +3,7 @@ import classNames from 'classnames';
 
 import InputLabel from '@/components/InputField/InputLabel';
 import ErrorMessage from '@/components/InputField/ErrorMessage';
+import useFadeMessage from '@/hooks/useFadeComponents';
 
 import IconProfile from './IconProfile';
 import IconEdit from './IconEdit';
@@ -57,8 +58,10 @@ export default function Profile({
       <IconProfile variant={variant} size={profileSize} />
     );
 
+  const { fadingMessage, animationClass } = useFadeMessage(errorMessage);
+
   return (
-    <div>
+    <div className="relative">
       <fieldset className="relative size-fit select-none">
         {label && <InputLabel label={label} />}
         <label
@@ -96,7 +99,11 @@ export default function Profile({
           />
         )}
       </fieldset>
-      {errorMessage && <ErrorMessage message={errorMessage} />}
+      {fadingMessage && (
+        <ErrorMessage tooltipState="ERROR" className={animationClass}>
+          {fadingMessage}
+        </ErrorMessage>
+      )}
     </div>
   );
 }
