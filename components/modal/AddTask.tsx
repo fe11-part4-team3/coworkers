@@ -51,7 +51,9 @@ export default function AddTask({
 
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [time, setTime] = useState<string>('');
-  const [isCalendarOpen, setIsCalendarOpen] = useState<boolean>(false);
+  const [isCalendarOpen, setIsCalendarOpen] = useState<boolean | undefined>(
+    false,
+  );
   const [isTimeOpen, setIsTimeOpen] = useState<boolean | undefined>(false);
 
   const combineDateAndTimeKST = (date: Date, time: string) => {
@@ -129,7 +131,11 @@ export default function AddTask({
               </div>
               <div className="mt-pr-8">
                 {isCalendarOpen && !isTimeOpen && (
-                  <DatePicker date={date} setDate={setDate} />
+                  <DatePicker
+                    date={date}
+                    setDate={setDate}
+                    setIsPickerView={setIsCalendarOpen}
+                  />
                 )}
                 {isTimeOpen && !isCalendarOpen && (
                   <TimePicker

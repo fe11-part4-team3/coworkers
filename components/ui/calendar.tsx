@@ -10,23 +10,34 @@ import ChevronRightIcon from '@/public/images/icon-chevron-right.svg';
 import { useTheme } from 'next-themes';
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>;
+export type IsCalenderOpen = {
+  setIsPickerView: (isOpen: boolean) => void;
+};
+
+export type CalendarPropsType = IsCalenderOpen & CalendarProps;
 
 function Calendar({
+  setIsPickerView,
   className,
   classNames,
   showOutsideDays = true,
   ...props
-}: CalendarProps) {
+}: CalendarPropsType) {
   const formatters = {
     formatWeekdayName: (date: Date) => {
       return date.toLocaleDateString('en-US', { weekday: 'short' });
     },
   };
 
+  const onDayClick = () => {
+    setIsPickerView(false);
+  };
+
   const { theme } = useTheme();
 
   return (
     <DayPicker
+      onDayClick={onDayClick}
       showOutsideDays={showOutsideDays}
       className={cn('p-3', className)}
       classNames={{

@@ -13,17 +13,17 @@ export default function DatePicker({
   width,
   date,
   setDate,
-  setIsOpen,
+  setIsPickerView,
 }: {
   width?: string;
   date: Date;
   setDate: (date: Date | undefined) => void;
-  setIsOpen: (isOpen: boolean) => void;
+  setIsPickerView: (isOpen: boolean) => void;
 }) {
   return (
     <>
       <Calendar
-        setIsOpen={setIsOpen}
+        setIsPickerView={setIsPickerView}
         mode="single"
         selected={date}
         onSelect={setDate}

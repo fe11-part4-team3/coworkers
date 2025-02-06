@@ -28,7 +28,7 @@ import AddTask from '@/components/modal/AddTask';
 export default function TaskListPage() {
   const [isDetailOpen, setIsDetailOpen] = useState<boolean>(false);
   const [date, setDate] = useState<Date | undefined>(new Date());
-  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const [isCalendarOpen, setIsCalendarOpen] = useState<boolean>(false);
 
   const { openModal } = useModalStore();
 
@@ -136,7 +136,12 @@ export default function TaskListPage() {
               />
               {isCalendarOpen && date && (
                 <div className="absolute left-pr-100 top-0 z-50">
-                  <DatePicker width="w-pr-300" date={date} setDate={setDate} />
+                  <DatePicker
+                    width="w-pr-300"
+                    date={date}
+                    setDate={setDate}
+                    setIsPickerView={setIsCalendarOpen}
+                  />
                 </div>
               )}
             </div>
