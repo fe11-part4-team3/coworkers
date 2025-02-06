@@ -1,7 +1,10 @@
+import { useMemo, useState } from 'react';
+
 import { CardContent } from '@/components/ui/card';
 import useUserStore from '@/stores/useUser.store';
 import KebabDropDown from '@/components/KebabDropDown';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useDeviceType } from '@/contexts/DeviceTypeContext';
 
 /**
  * @param {'article'|'task'} props.type - 컴포넌트 타입(할 일 상세의 댓글 or 게시글 상세의 댓글)
@@ -36,6 +39,26 @@ function CommentContent({
 }) {
   const { user: userData } = useUserStore();
   const isArticleComment = type === 'article';
+  const deviceType = useDeviceType();
+
+  const [isCommentTextMore, setCommentTextMore] = useState(false);
+
+  let textLimit = 155;
+
+  if (deviceType === 'tablet') {
+    textLimit = 88;
+  } else if (deviceType === 'mobile') {
+    textLimit = 33;
+  }
+
+  const commenter: string = useMemo(() => {
+    if (commentEditContent.length <= textLimit) {
+      return commentEditContent;
+    }
+    return isCommentTextMore
+      ? commentEditContent
+      : commentEditContent.slice(0, textLimit);
+  }, [isCommentTextMore, commentEditContent, textLimit]);
 
   return (
     <CardContent
@@ -45,7 +68,15 @@ function CommentContent({
         <p
           className={`${isArticleComment ? 'text-16' : 'text-14'} break-all text-t-primary`}
         >
-          {commentEditContent}
+          {commenter}
+          <button
+            onClick={() => setCommentTextMore(!isCommentTextMore)}
+            className="inline-block text-14 text-t-disabled"
+          >
+            {commentEditContent.length > textLimit &&
+              !isCommentTextMore &&
+              '...더보기'}
+          </button>
         </p>
       ) : (
         <Skeleton className="h-pr-20 w-pr-150" />

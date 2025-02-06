@@ -21,7 +21,7 @@ interface CreateArticleCommentParams {
 interface GetArticleCommentListParams {
   articleId: number;
   limit: number;
-  cursor?: number;
+  cursor?: number | null;
 }
 
 interface UpdateArticleCommentParams {
