@@ -5,14 +5,17 @@ import Image from 'next/image';
 import IconGear from '@/public/images/icon-gear.svg';
 import DropDown from '@/components/DropDown';
 import useThemeMode from '@/hooks/useThemeMode';
+import { RoleType } from '@/types/group.type';
 
 interface GroupHeaderProps {
+  role: RoleType;
   name: string;
   // onClick: () => void;
 }
 
 //TODO 썸네일 이미지 추가
 export default function GroupHeader({
+  role,
   name,
   // onClick,
 }: GroupHeaderProps) {
@@ -32,15 +35,17 @@ export default function GroupHeader({
           width={181}
           height={64}
         />
-        <DropDown
-          trigger={
-            <IconGear className="transition-all hover:rotate-90 hover:scale-110 focus:rotate-90 data-[state=open]:rotate-90 data-[state=open]:scale-110" />
-          }
-          items={[
-            { text: '수정하기', onClick: () => {} },
-            { text: '삭제하기', onClick: () => {} },
-          ]}
-        />
+        {role === 'ADMIN' && (
+          <DropDown
+            trigger={
+              <IconGear className="transition-all hover:rotate-90 hover:scale-110 focus:rotate-90 data-[state=open]:rotate-90 data-[state=open]:scale-110" />
+            }
+            items={[
+              { text: '수정하기', onClick: () => {} },
+              { text: '삭제하기', onClick: () => {} },
+            ]}
+          />
+        )}
       </div>
     </header>
   );

@@ -12,8 +12,10 @@ interface IGroup {
   id: number;
 }
 
+type RoleType = 'ADMIN' | 'MEMBER';
+
 interface IMember {
-  role: 'ADMIN' | 'MEMBER';
+  role: RoleType;
   userImage: string | null;
   userEmail: string;
   userName: string;
@@ -96,6 +98,7 @@ interface GetTasksInGroupParams {
 // export { Role };
 export type {
   IMember,
+  RoleType,
   IGroup,
   ITaskListSummary,
   IGroupDetail,

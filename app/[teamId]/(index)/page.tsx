@@ -26,10 +26,16 @@ import {
 import GroupReport from './GroupReport';
 
 export default function TeamPage() {
-  useUser(true);
+  const { memberships } = useUser(true);
   const { teamId } = useParams();
   const { group, members, refetch } = useGroup(Number(teamId));
   const { taskLists, refetchById, removeById } = useTaskLists();
+
+  const currentMembership = memberships?.find(
+    (membership) => membership.groupId === group?.id,
+  );
+
+  const role = currentMembership?.role || 'MEMBER';
 
   const { data: tasks } = useQuery({
     queryKey: ['tasks', group?.id],
@@ -59,16 +65,22 @@ export default function TeamPage() {
 
   const _createTaskList = (params: _CreateTaskListParams) => {
     if (!group) throw new Error('목록을 생성할 팀이 없습니다');
+    if (role !== 'ADMIN')
+      throw new Error('관리자만 목록을 생성할 수 있습니다.');
     return createTaskList({ groupId: group.id, ...params });
   };
 
   const _updateTaskList = (params: _UpdateTaskListParams) => {
     if (!group) throw new Error('수정할 목록의 팀이 없습니다');
+    if (role !== 'ADMIN')
+      throw new Error('관리자만 목록을 수정할 수 있습니다.');
     return updateTaskList({ groupId: group.id, ...params });
   };
 
   const _deleteTaskList = async (params: _DeleteTaskListParams) => {
     if (!group) throw new Error('삭제할 목록의 팀이 없습니다');
+    if (role !== 'ADMIN')
+      throw new Error('관리자만 목록을 삭제할 수 있습니다.');
     return deleteTaskList({ groupId: group.id, ...params });
   };
 
@@ -82,15 +94,16 @@ export default function TeamPage() {
   return (
     <Container>
       <div className="flex flex-col gap-pr-24 pt-pr-24">
-        <GroupHeader name={group.name} />
+        <GroupHeader role={role} name={group.name} />
         <GroupTaskListWrapper
+          role={role}
           taskLists={taskLists}
           onCreate={onCreate}
           onEdit={onEdit}
           onDelete={onDelete}
         />
         <GroupReport tasks={tasks} taskLists={taskLists} />
-        <GroupMemberList groupId={group.id} members={members} />
+        <GroupMemberList role={role} groupId={group.id} members={members} />
       </div>
     </Container>
   );
