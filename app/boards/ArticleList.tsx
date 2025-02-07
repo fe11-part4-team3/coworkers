@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { motion } from 'framer-motion';
 
 import ArticleCard from '@/components/ArticleCard/ArticleCard';
 import SelectBox from '@/components/SelectBox';
@@ -65,13 +66,23 @@ function ArticleList({ keyword }: { keyword: string | undefined }) {
           <div className="mt-pr-32 flex flex-wrap justify-between gap-y-pr-24 mo:mt-pr-24 mo:gap-pr-16">
             {!isLoading ? (
               articleList?.list.map((article) => (
-                <ArticleCard
+                <motion.div
                   key={article.id}
-                  articleData={article}
-                  handleArticleDelete={() =>
-                    deleteArticleMutation.mutate(article.id)
-                  }
-                />
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{
+                    duration: 0.5,
+                    delay: 0.1,
+                  }}
+                >
+                  <ArticleCard
+                    articleData={article}
+                    handleArticleDelete={() =>
+                      deleteArticleMutation.mutate(article.id)
+                    }
+                  />
+                </motion.div>
               ))
             ) : (
               <ArticleSkeleton count={4} />

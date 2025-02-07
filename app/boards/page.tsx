@@ -1,6 +1,7 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
+import { motion } from 'framer-motion';
 
 import Container from '@/components/layout/Container';
 
@@ -18,12 +19,22 @@ export default function BoardsPage() {
 
   return (
     <Container className="relative pb-pr-40">
-      <ArticleSearch />
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{
+          duration: 0.5,
+          delay: 0.5,
+        }}
+      >
+        <ArticleSearch />
 
-      {!keyword && <BestArticleList />}
+        {!keyword && <BestArticleList />}
 
-      <ArticleList keyword={keyword} />
-      {!keyword && <AddArticleButton />}
+        <ArticleList keyword={keyword} />
+        {!keyword && <AddArticleButton />}
+      </motion.div>
     </Container>
   );
 }
