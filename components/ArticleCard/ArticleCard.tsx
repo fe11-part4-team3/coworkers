@@ -6,12 +6,12 @@ import BestMedal from '@/public/images/icon-medal.svg';
 import ArticleCardContent from '@/components/ArticleCard/ArticleCardContent';
 import ArticleCardFooter from '@/components/ArticleCard/ArticleCardFooter';
 
-const CARD_STYLE =
+export const CARD_STYLE =
   'rounded-pr-12 flex flex-col border border-b-tertiary bg-b-secondary text-16sb mo:relative mo:w-full mo:px-pr-16 cursor-pointer';
-const NORMAL_STYLE =
+export const NORMAL_STYLE =
   'h-pr-176 w-pr-590 px-pr-32 py-pr-24 mo:h-pr-162 mo:pb-pr-16 ta:w-full';
-const BEST_STYLE =
-  'relative h-pr-220 w-pr-387 ta:w-1/2 px-pr-24 pb-pr-16 pt-pr-48 mo:h-pr-178 mo:pt-pr-40';
+export const BEST_STYLE =
+  'relative h-pr-220 w-pr-387 ta:w-full px-pr-24 pb-pr-16 pt-pr-48 mo:h-pr-178 mo:pt-pr-40';
 
 /**
  * @param {'normal' | 'best'} props.type - 게시글 카드 타입 (normal type default)
