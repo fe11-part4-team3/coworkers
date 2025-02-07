@@ -1,12 +1,14 @@
 'use client';
 
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+
 import Buttons from '@/components/Buttons';
 import useUser from '@/hooks/useUser';
-import { useRouter } from 'next/navigation';
 import MainBox1 from '@/components/Landing/Mainbox1';
 import MainBox2 from '@/components/Landing/Mainbox2';
 import MainBox3 from '@/components/Landing/Mainbox3';
+
 export default function LandingPage() {
   const router = useRouter();
   const { user, memberships } = useUser();
@@ -19,19 +21,18 @@ export default function LandingPage() {
       router.push('/login');
     }
   };
-
   return (
     <div className="flex w-screen flex-col items-center overflow-x-hidden">
       <section className="relative h-pr-1080 w-screen mo:h-pr-640 ta:h-pr-940">
         <img
           src="/images/landing/img-Landing-bg.png"
           alt="background"
-          className="absolute inset-0 top-pr-60 h-full w-full object-cover mo:hidden ta:hidden"
+          className="absolute inset-0 top-pr-60 size-full object-cover mo:hidden ta:hidden"
         />
-        <img
+        <Image
           src="/images/landing/img-Landing-bg-ta.png"
           alt="background-tablet"
-          className="absolute inset-0 top-pr-60 hidden h-full w-full object-cover mo:hidden ta:block"
+          className="absolute inset-0 top-pr-60 hidden size-full object-cover mo:hidden ta:block"
         />
         <div
           className="absolute inset-0 top-pr-60 hidden bg-cover bg-center bg-no-repeat mo:block"
@@ -40,7 +41,7 @@ export default function LandingPage() {
           }}
         />
 
-        <div className="absolute left-1/2 top-pr-204 flex -translate-x-1/2 transform flex-col items-center justify-center gap-pr-20 text-center mo:top-pr-175 ta:top-pr-220">
+        <div className="absolute left-1/2 top-pr-204 flex -translate-x-1/2 flex-col items-center justify-center gap-pr-20 text-center mo:top-pr-175 ta:top-pr-220">
           <h2 className="flex gap-pr-24 whitespace-nowrap text-48sb text-t-primary mo:gap-pr-4 mo:text-24sb ta:text-40sb">
             함께 만들어가는 투두 리스트
             <Image
@@ -48,7 +49,7 @@ export default function LandingPage() {
               alt="Tool"
               width={56}
               height={56}
-              className="mo:h-pr-28 mo:w-pr-28 ta:h-pr-48 ta:w-pr-48"
+              className="mo:size-pr-28 ta:size-pr-48"
             />
           </h2>
           <h2 className="whitespace-nowrap bg-gradient-to-r from-brand-primary to-brand-tertiary bg-clip-text text-center text-64sb text-transparent mo:text-32sb ta:text-48sb">
@@ -56,7 +57,7 @@ export default function LandingPage() {
           </h2>
         </div>
 
-        <div className="absolute bottom-pr-120 left-1/2 -translate-x-1/2 transform mo:bottom-pr-48 ta:bottom-pr-119">
+        <div className="absolute bottom-pr-120 left-1/2 -translate-x-1/2 mo:bottom-pr-48 ta:bottom-pr-119">
           <Buttons
             text="지금 시작하기"
             backgroundColor="gradient"
@@ -79,12 +80,12 @@ export default function LandingPage() {
           <img
             src="/images/landing/img-Landing-bottom.png"
             alt="background-bottom"
-            className="absolute inset-0 h-full w-full object-cover mo:hidden ta:hidden"
+            className="absolute inset-0 size-full object-cover mo:hidden ta:hidden"
           />
           <img
             src="/images/landing/img-Landing-bottom-ta.png"
             alt="background-bottom-tablet"
-            className="absolute inset-0 hidden h-full w-full object-cover mo:hidden ta:block"
+            className="absolute inset-0 hidden size-full object-cover mo:hidden ta:block"
           />
           <div
             className="absolute inset-0 hidden bg-cover bg-center bg-no-repeat mo:block"

@@ -29,7 +29,7 @@ const IconBox: React.FC<IconBoxProps> = ({
         alt={alt}
         width={24}
         height={24}
-        className="h-pr-24 w-pr-24 object-contain"
+        className="size-pr-24 object-contain"
       />
     </div>
   );
