@@ -7,6 +7,7 @@ import { RoleType } from '@/types/group.type';
 import { _DeleteTaskListParams, _UpdateTaskListParams } from './TeamPage.type';
 import { PointColorType } from './GroupTaskListWrapper';
 import TaskProgressBadge from './TaskProgressBadge';
+import createUrlString from '@/utils/createUrlString';
 
 type IPointColorClasses = {
   [key in PointColorType]: string;
@@ -40,7 +41,11 @@ export default function GroupTaskList({
   const router = useRouter();
 
   const handleClickTaskList = () => {
-    router.push(`/${taskList.groupId}/${taskList.id}`);
+    const url = createUrlString({
+      pathname: [taskList.groupId, 'tasklist'],
+      searchParams: { id: taskList.id },
+    });
+    router.push(url);
   };
 
   const handleClickEdit = () => {
