@@ -61,14 +61,14 @@ function Headers() {
     }
     const group = groups.find((group) => group.id === groupId);
     if (group) setCurrentGroup(group);
-    else router.push('/');
+    else setCurrentGroup(null);
   }, [groupId, groups, isPending, router]);
 
   return (
     <header className="fixed z-40 flex w-full items-center border-b bg-b-secondary transition-all">
       <nav className="mx-auto flex h-pr-60 w-pr-1280 items-center justify-between px-pr-40 mo:px-pr-16 ta:px-pr-25">
         <div className="flex items-center gap-pr-40 ta:gap-pr-24">
-          {deviceType === 'mobile' && groups && (
+          {deviceType === 'mobile' && (
             <>
               <SideNavigationTrigger
                 src="/images/icon-gnb-menu.svg"
