@@ -3,11 +3,11 @@ import { useRouter } from 'next/navigation';
 import KebabDropDown from '@/components/KebabDropDown';
 import { ITaskList } from '@/types/taskList.type';
 import { RoleType } from '@/types/group.type';
+import createUrlString from '@/utils/createUrlString';
 
 import { _DeleteTaskListParams, _UpdateTaskListParams } from './TeamPage.type';
 import { PointColorType } from './GroupTaskListWrapper';
 import TaskProgressBadge from './TaskProgressBadge';
-import createUrlString from '@/utils/createUrlString';
 
 type IPointColorClasses = {
   [key in PointColorType]: string;
