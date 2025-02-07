@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { signOut } from 'next-auth/react';
+import { useQueryClient } from '@tanstack/react-query';
 
 import NavigationGroupDropdown from '@/components/NavigationGroupDropdown/NavigationGroupDropdown';
 import { Button } from '@/components/ui/button';
@@ -15,23 +16,32 @@ import { IGroup } from '@/types/group.type';
 import DropDown from '@/components/DropDown';
 import { removeLoginProcessed } from '@/lib/kakaoStorage';
 import { useSnackbar } from '@/contexts/SnackBar.context';
+import useGroup from '@/hooks/useGroup';
 
 import Profile from './Profile';
 import Logo from './Logo';
 
 function Headers() {
+  const queryClient = useQueryClient();
   const deviceType = useDeviceType();
   const router = useRouter();
   const { teamId } = useParams();
   const groupId = teamId ? Number(teamId) : null;
-  const { user, groups, isPending, clear } = useUser();
+  const { user, groups, isPending, clear: clearUser } = useUser();
+  const { clear: clearGroup } = useGroup(Number(teamId));
   const [currentGroup, setCurrentGroup] = useState<IGroup | null>(null);
   const { showSnackbar } = useSnackbar();
 
   const logout = useCallback(() => {
     const flag = confirm('로그아웃 하시겠습니까?');
     if (flag) {
-      clear();
+      clearUser();
+      clearGroup();
+
+      queryClient.removeQueries({ queryKey: ['user'] });
+      queryClient.removeQueries({ queryKey: ['group'] });
+      queryClient.removeQueries({ queryKey: ['tasks'] });
+      queryClient.removeQueries({ queryKey: ['taskList'] });
 
       // STUB 세션 로그아웃
       signOut({ redirect: false });
@@ -39,7 +49,7 @@ function Headers() {
 
       showSnackbar('로그아웃 되었습니다.');
     }
-  }, [clear]);
+  }, [clearUser]);
 
   const dropdownItems = useMemo(
     () => [
