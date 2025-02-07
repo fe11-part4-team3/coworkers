@@ -8,6 +8,14 @@ const meta: Meta<typeof GroupMemberList> = {
   parameters: {
     layout: 'centered',
   },
+  argTypes: {
+    role: {
+      control: {
+        type: 'select',
+        options: ['ADMIN', 'MEMBER'],
+      },
+    },
+  },
 };
 
 export default meta;

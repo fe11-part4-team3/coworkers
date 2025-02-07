@@ -2,6 +2,8 @@
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { SessionProvider } from 'next-auth/react';
+import { Session } from 'next-auth';
 
 import '@/styles/fonts.css';
 import '@/styles/globals.css';
@@ -15,12 +17,16 @@ import { SidebarProvider } from '@/components/ui/sidebar';
 import Headers from '@/components/layout/Header/Headers';
 import { DeviceTypeProvider } from '@/contexts/DeviceTypeContext';
 import Modal from '@/components/modal/Modal';
+import { TooltipProvider } from '@/components/ui/tooltip';
+import { SnackbarProvider } from '@/contexts/SnackBar.context';
 
 const queryClient = new QueryClient();
 export default function RootLayout({
   children,
+  session,
 }: Readonly<{
   children: React.ReactNode;
+  session?: Session;
 }>) {
   return (
     <html lang="ko">
@@ -33,12 +39,18 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <QueryClientProvider client={queryClient}>
-              <SidebarProvider defaultOpen={false}>
-                <Headers />
-                <DarkmodeToggle />
-                <Modal />
-                {children}
-              </SidebarProvider>
+              <SessionProvider session={session}>
+                <TooltipProvider>
+                  <SidebarProvider defaultOpen={false}>
+                    <SnackbarProvider>
+                      <Headers />
+                      <DarkmodeToggle />
+                      <Modal />
+                      {children}
+                    </SnackbarProvider>
+                  </SidebarProvider>
+                </TooltipProvider>
+              </SessionProvider>
               <ReactQueryDevtools initialIsOpen={false} />
             </QueryClientProvider>
           </ThemeProvider>

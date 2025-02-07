@@ -1,13 +1,14 @@
-import { IMember } from '@/types/group.type';
+import { IMember, RoleType } from '@/types/group.type';
 import { useDeviceType } from '@/contexts/DeviceTypeContext';
 import Profile from '@/components/Profile/Profile';
 import KebabDropDown from '@/components/KebabDropDown';
 
 interface GroupMemberCard {
+  role: RoleType;
   member: IMember;
 }
 
-export default function GroupMemberCard({ member }: GroupMemberCard) {
+export default function GroupMemberCard({ role, member }: GroupMemberCard) {
   const deviceType = useDeviceType();
 
   return (
@@ -18,7 +19,9 @@ export default function GroupMemberCard({ member }: GroupMemberCard) {
         <MobileContent member={member} />
       )}
       {/* TODO 수정, 삭제 기능 구현 */}
-      <KebabDropDown onEdit={() => {}} onDelete={() => {}} />
+      {role === 'ADMIN' && (
+        <KebabDropDown onEdit={() => {}} onDelete={() => {}} />
+      )}
     </div>
   );
 }

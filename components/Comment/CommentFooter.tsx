@@ -4,6 +4,8 @@ import Profile from '@/components/Profile/Profile';
 import { CardFooter } from '@/components/ui/card';
 import { IUserProfile } from '@/types/user.type';
 
+import { CommentDateSkeleton, CommentProfileSkeleton } from './CommentSkeleton';
+
 /**
  * @param {'article'|'task'} props.type - 컴포넌트 타입(할 일 상세의 댓글 or 게시글 상세의 댓글)
  * @param {object} props.writer - 댓글 작성자 유저 닉네임, 프로필 이미지
@@ -14,28 +16,33 @@ import { IUserProfile } from '@/types/user.type';
  * @param {string} props.content - 댓글 내용 (수정 입력 값과 비교)
  * @param {Function} props.cancelEditing - 댓글 수정 취소 함수
  * @param {Function} props.updateSubmit - 댓글 수정 완료 함수
+ * @param {boolean} props.isLoading - 댓글 리스트 데이터 로딩 유무
  * @returns {JSX.Element} 게시글 상세 페이지 댓글(조회, 수정) 컴포넌트
  */
-function ArticleDetailFooter({
+function CommentFooter({
   type = 'article',
   writer,
   user,
   commentEdit,
   createdAt,
+  updatedAt,
   commentEditContent,
   content,
   cancelEditing,
   updateSubmit,
+  isLoading,
 }: {
   type?: 'article' | 'task';
   writer?: IUserProfile;
   user?: IUserProfile;
   commentEdit: boolean;
   createdAt: string;
+  updatedAt: string;
   commentEditContent: string;
   content: string;
   cancelEditing: () => void;
   updateSubmit: () => void;
+  isLoading: boolean;
 }) {
   const isArticleComment = type === 'article';
 
@@ -43,28 +50,54 @@ function ArticleDetailFooter({
     <CardFooter className={`flex justify-between p-0`}>
       <div className="flex items-center">
         <div className="flex items-center">
-          <Profile variant="member" profileSize={32} />
-          <span className="ml-pr-12 text-14m">
-            {isArticleComment ? writer?.nickname : user?.nickname}
-          </span>
+          {!isLoading ? (
+            <>
+              <Profile
+                image={writer?.image}
+                variant="member"
+                profileSize={32}
+              />
+              <span className="ml-pr-12 text-14m">
+                {isArticleComment ? writer?.nickname : user?.nickname}
+              </span>
+            </>
+          ) : (
+            <CommentProfileSkeleton />
+          )}
         </div>
 
         {isArticleComment && (
           <>
             <span className="line-col" />
-            <div className={`leading-none`}>
-              <DateDisplay createdAt={createdAt} className="text-t-disabled" />
-            </div>
+            {!isLoading ? (
+              <div className={`leading-none`}>
+                <DateDisplay
+                  createdAt={createdAt}
+                  className="text-t-disabled"
+                />
+                {createdAt !== updatedAt && (
+                  <span className="text-14 text-t-disabled"> (수정됨)</span>
+                )}
+              </div>
+            ) : (
+              <CommentDateSkeleton />
+            )}
           </>
         )}
       </div>
 
       {!commentEdit ? (
         !isArticleComment && (
-          <DateDisplay
-            createdAt={createdAt}
-            className={`${isArticleComment && 'text-t-disabled'}`}
-          />
+          <>
+            {!isLoading ? (
+              <DateDisplay
+                createdAt={createdAt}
+                className={`${isArticleComment && 'text-t-disabled'}`}
+              />
+            ) : (
+              <CommentDateSkeleton />
+            )}
+          </>
         )
       ) : (
         <div className="flex gap-pr-8">
@@ -90,4 +123,4 @@ function ArticleDetailFooter({
   );
 }
 
-export default ArticleDetailFooter;
+export default CommentFooter;

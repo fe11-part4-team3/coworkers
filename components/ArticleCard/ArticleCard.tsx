@@ -1,14 +1,13 @@
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 import { IArticle } from '@/types/article.type';
-import { Card } from '@/components/ui/card';
 import { dotDate } from '@/utils/dateConversion';
 import BestMedal from '@/public/images/icon-medal.svg';
 import ArticleCardContent from '@/components/ArticleCard/ArticleCardContent';
 import ArticleCardFooter from '@/components/ArticleCard/ArticleCardFooter';
 
 const CARD_STYLE =
-  'flex flex-col border border-b-tertiary bg-b-secondary text-16sb mo:relative mo:w-full mo:px-pr-16 cursor-pointer';
+  'rounded-pr-12 flex flex-col border border-b-tertiary bg-b-secondary text-16sb mo:relative mo:w-full mo:px-pr-16 cursor-pointer';
 const NORMAL_STYLE =
   'h-pr-176 w-pr-590 px-pr-32 py-pr-24 mo:h-pr-162 mo:pb-pr-16 ta:w-full';
 const BEST_STYLE =
@@ -22,20 +21,19 @@ const BEST_STYLE =
 function ArticleCard({
   type = 'normal',
   articleData,
+  handleArticleDelete,
 }: {
   type?: 'normal' | 'best';
   articleData: IArticle;
+  handleArticleDelete?: (id: number) => void;
 }) {
   const { id, title, image, createdAt, writer, likeCount } = articleData;
   const isBestCard = type === 'best';
-  const router = useRouter();
 
   return (
-    <Card
+    <Link
+      href={`/boards/${id}`}
       className={`${CARD_STYLE} ${isBestCard ? BEST_STYLE : NORMAL_STYLE}`}
-      onClick={() => {
-        router.push(`/boards/${id}`);
-      }}
     >
       {isBestCard && (
         <div className="absolute top-pr-13 flex items-center">
@@ -46,10 +44,13 @@ function ArticleCard({
 
       <ArticleCardContent
         isBestCard={isBestCard}
+        id={id}
         title={title}
         image={image}
         writer={writer}
+        handleArticleDelete={handleArticleDelete}
       />
+
       {isBestCard && (
         <div className="mt-pr-12 mo:mt-0">
           <p className="text-14m text-t-disabled mo:text-12m">
@@ -64,7 +65,7 @@ function ArticleCard({
         createdAt={createdAt}
         likeCount={likeCount}
       />
-    </Card>
+    </Link>
   );
 }
 

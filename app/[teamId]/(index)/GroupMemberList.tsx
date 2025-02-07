@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { IMember } from '@/types/group.type';
+import { IMember, RoleType } from '@/types/group.type';
 import { useDeviceType } from '@/contexts/DeviceTypeContext';
 import Plus from '@/public/images/icon-plus.svg';
 import { getInvitation } from '@/service/group.api';
@@ -9,6 +9,7 @@ import ArrowDown from '@/public/images/icon-arrow-down.svg';
 import GroupMemberCard from './GroupMemberCard';
 
 interface GroupMemberListProps {
+  role: RoleType;
   groupId: number;
   members: IMember[] | null;
 }
@@ -26,6 +27,7 @@ const GRID_COLRS = {
 };
 
 export default function GroupMemberList({
+  role,
   groupId,
   members,
 }: GroupMemberListProps) {
@@ -56,13 +58,15 @@ export default function GroupMemberList({
             &nbsp;({members.length}명)
           </span>
         </div>
-        <button
-          className="flex bg-inherit text-brand-primary underline-offset-2 hover:underline"
-          onClick={handleClickInvitation}
-        >
-          <Plus width={17} height={17} />
-          <span className="text-14">새로운 멤버 초대하기</span>
-        </button>
+        {role === 'ADMIN' && (
+          <button
+            className="flex bg-inherit text-brand-primary underline-offset-2 hover:underline"
+            onClick={handleClickInvitation}
+          >
+            <Plus width={17} height={17} />
+            <span className="text-14">새로운 멤버 초대하기</span>
+          </button>
+        )}
       </div>
 
       <div
@@ -70,7 +74,7 @@ export default function GroupMemberList({
       >
         {members?.map((member, i) =>
           more || SIZE[deviceType] > i ? (
-            <GroupMemberCard key={member.userId} member={member} />
+            <GroupMemberCard key={member.userId} role={role} member={member} />
           ) : null,
         )}
       </div>

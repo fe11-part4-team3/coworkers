@@ -18,7 +18,7 @@ const useGetArticle = ({
   deviceType,
 }: GetArticleProps) => {
   const { data, isLoading, isError } = useQuery({
-    queryKey: [{ queryKey }, orderBy, deviceType, keyword],
+    queryKey: [queryKey, orderBy, deviceType, keyword],
     queryFn: () =>
       getArticleList({
         pageSize: pageSize,
