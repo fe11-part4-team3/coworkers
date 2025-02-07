@@ -7,7 +7,7 @@ import ArticleCardContent from '@/components/ArticleCard/ArticleCardContent';
 import ArticleCardFooter from '@/components/ArticleCard/ArticleCardFooter';
 
 export const CARD_STYLE =
-  'rounded-pr-12 flex flex-col border border-b-tertiary bg-b-secondary text-16sb mo:relative mo:w-full mo:px-pr-16 cursor-pointer';
+  ' transition-colors hover:border-i-hover rounded-pr-12 flex flex-col border border-b-tertiary bg-b-secondary text-16sb mo:relative mo:w-full mo:px-pr-16 cursor-pointer';
 export const NORMAL_STYLE =
   'h-pr-176 w-pr-590 px-pr-32 py-pr-24 mo:h-pr-162 mo:pb-pr-16 ta:w-full';
 export const BEST_STYLE =
