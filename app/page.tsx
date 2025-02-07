@@ -21,7 +21,7 @@ export default function LandingPage() {
   };
 
   return (
-    <div className="flex w-screen flex-col items-center">
+    <div className="flex w-screen flex-col items-center overflow-x-hidden">
       <section className="relative h-pr-1080 w-screen mo:h-pr-640 ta:h-pr-940">
         <img
           src="/images/landing/img-Landing-bg.png"
