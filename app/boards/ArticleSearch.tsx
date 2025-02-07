@@ -1,4 +1,5 @@
-import { ChangeEvent, FormEvent } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 import SearchInput from '@/components/SearchInput/SearchInput';
 
@@ -8,15 +9,24 @@ import SearchInput from '@/components/SearchInput/SearchInput';
  * @param {function} props.handleSearchFormSubmit - 검색 폼 제출 핸들러
  * @returns {JSX.Element} 검색 입력 컴포넌트
  */
-function ArticleSearch({
-  search,
-  handleSearchFormSubmit,
-  handleSearchInputChange,
-}: {
-  search: string;
-  handleSearchInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  handleSearchFormSubmit: (e: FormEvent<HTMLFormElement>) => void;
-}) {
+function ArticleSearch() {
+  const [search, setSearch] = useState('');
+  const router = useRouter();
+
+  const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+  };
+
+  const handleSearchFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (search) {
+      router.push(`/boards?q=${search}`);
+    } else if (search === '') {
+      router.push('/boards');
+    }
+  };
+
   return (
     <section className="mt-pr-40">
       <h2 className="mb-pr-40 text-24b mo:mb-pr-24">자유게시판</h2>
