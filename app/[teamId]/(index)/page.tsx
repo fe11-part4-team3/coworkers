@@ -28,7 +28,7 @@ import GroupReport from './GroupReport';
 export default function TeamPage() {
   const { memberships } = useUser(true);
   const { teamId } = useParams();
-  const { group, members, refetch } = useGroup(Number(teamId));
+  const { group, members, refetch, isPending } = useGroup(Number(teamId));
   const { taskLists, refetchById, removeById } = useTaskLists();
 
   const currentMembership = memberships?.find(
@@ -84,12 +84,11 @@ export default function TeamPage() {
     return deleteTaskList({ groupId: group.id, ...params });
   };
 
-  // teamId가 숫자가 아니라면 또는 4자리 숫자가 아니라면
-  if (typeof teamId !== 'number' || teamId < 1000 || teamId > 9999) {
-    return <NotFound />;
-  }
+  //TODO 그룹 데이터 로딩 중. 로딩 컴포넌트 보여주기
+  if (!group && isPending) return null;
 
-  if (!group) return null;
+  //팀이 없을 경우
+  if (!group) return <NotFound />;
 
   return (
     <Container>
