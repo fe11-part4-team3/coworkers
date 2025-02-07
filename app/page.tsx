@@ -8,10 +8,12 @@ import useUser from '@/hooks/useUser';
 import MainBox1 from '@/components/Landing/Mainbox1';
 import MainBox2 from '@/components/Landing/Mainbox2';
 import MainBox3 from '@/components/Landing/Mainbox3';
+import Empty from '@/components/Empty/Empty';
+import Container from '@/components/layout/Container';
 
 export default function LandingPage() {
+  const { user, memberships, isPending } = useUser();
   const router = useRouter();
-  const { user, memberships } = useUser();
 
   const handleButtonClick = () => {
     if (user) {
@@ -21,6 +23,28 @@ export default function LandingPage() {
       router.push('/login');
     }
   };
+
+  if (isPending && !user) {
+    return <div>사용자 정보를 불러오는 중입니다...</div>;
+  }
+
+  if (user && !memberships) {
+    return (
+      <Container className="flex items-center justify-center">
+        <Empty>
+          <Empty.TextWrapper>
+            <Empty.Text text="아직 소속된 팀이 없습니다." />
+            <Empty.Text text="팀을 생성하거나 팀에 참여해보세요." />
+          </Empty.TextWrapper>
+          <Empty.ButtonWrapper>
+            <Empty.Buttons text="팀 생성하기" href="/addteam" />
+            <Empty.ButtonsBorder text="팀 참여하기" href="/jointeam" />
+          </Empty.ButtonWrapper>
+        </Empty>
+      </Container>
+    );
+  }
+
   return (
     <div className="flex w-screen flex-col items-center overflow-x-hidden">
       <section className="relative h-pr-1080 w-screen mo:h-pr-640 ta:h-pr-940">
