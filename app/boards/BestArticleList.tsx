@@ -18,7 +18,6 @@ const PAGE_SIZE = {
 };
 
 /**
- * @param {string | undefined} props.keyword - 입력 검색어
  * @returns {JSX.Element} 베스트 게시글 리스트 컴포넌트
  */
 function BestArticleList() {
