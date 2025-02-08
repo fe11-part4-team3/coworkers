@@ -17,7 +17,7 @@ const MainBox3 = () => {
         </div>
 
         <div className="flex h-full w-1/2 items-center justify-start mo:w-full mo:items-start mo:justify-start">
-          <div className="absolute bottom-pr-124 right-pr-181 flex h-pr-120 w-pr-157 flex-col gap-pr-16 text-24m mo:absolute mo:bottom-pr-51 mo:left-pr-54 mo:h-pr-106 mo:w-pr-118 ta:right-pr-110 tamo:h-pr-106 tamo:w-pr-118 tamo:text-18m">
+          <div className="bottom-pr-124 ml-pr-160 flex h-pr-120 flex-col gap-pr-16 text-24m mo:absolute mo:bottom-pr-51 mo:left-pr-54 mo:mb-0 mo:ml-0 mo:mr-0 mo:mt-0 mo:h-pr-106 mo:w-pr-118 ta:right-pr-110 tamo:h-pr-106 tamo:w-pr-118 tamo:text-18m">
             <IconBox imageUrl="checkicon.svg" alt="Check Icon" />
             <p className="whitespace-nowrap text-t-primary">
               할 일도 간편하게

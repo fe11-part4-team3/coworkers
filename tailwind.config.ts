@@ -295,13 +295,6 @@ const shadcnConfig: Config = {
             fontWeight: '700',
           },
         ],
-        '24r': [
-          '1.5rem',
-          {
-            lineHeight: '1.75rem',
-            fontWeight: '500',
-          },
-        ],
         '32sb': [
           '2rem',
           {

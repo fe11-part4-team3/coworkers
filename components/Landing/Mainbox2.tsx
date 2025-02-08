@@ -23,7 +23,7 @@ const MainBox2 = () => {
             alt="Mockup 2"
             width={291}
             height={338}
-            className="h-pr-338 w-pr-291 object-contain mo:absolute mo:left-1/2 mo:top-0 mo:m-0 mo:h-pr-273 mo:w-pr-235 mo:-translate-x-1/2 ta:ml-pr-7 tamo:h-pr-273 tamo:w-pr-235"
+            className="ml-pr-33 h-pr-338 w-pr-291 object-contain mo:absolute mo:left-1/2 mo:top-0 mo:m-0 mo:h-pr-273 mo:w-pr-235 mo:-translate-x-1/2 ta:ml-pr-7 tamo:h-pr-273 tamo:w-pr-235"
           />
         </div>
       </div>

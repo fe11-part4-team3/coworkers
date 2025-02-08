@@ -48,15 +48,17 @@ export default function LandingPage() {
   return (
     <div className="flex w-screen flex-col items-center overflow-x-hidden">
       <section className="relative h-pr-1080 w-screen mo:h-pr-640 ta:h-pr-940">
-        <img
+        <Image
           src="/images/landing/img-Landing-bg.png"
           alt="background"
-          className="absolute inset-0 top-pr-60 size-full object-cover mo:hidden ta:hidden"
+          fill
+          className="absolute inset-0 top-pr-60 object-cover mo:hidden ta:hidden"
         />
         <Image
           src="/images/landing/img-Landing-bg-ta.png"
           alt="background-tablet"
-          className="absolute inset-0 top-pr-60 hidden size-full object-cover mo:hidden ta:block"
+          fill
+          className="absolute inset-0 top-pr-60 hidden object-cover mo:hidden ta:block"
         />
         <div
           className="absolute inset-0 top-pr-60 hidden bg-cover bg-center bg-no-repeat mo:block"
@@ -93,7 +95,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="relative flex flex-col items-center gap-pr-80 tamo:gap-pr-24">
+      <section className="relative mt-pr-60 flex flex-col items-center gap-pr-80 tamo:gap-pr-24">
         <MainBox1 />
         <MainBox2 />
         <MainBox3 />
@@ -101,15 +103,17 @@ export default function LandingPage() {
 
       <footer>
         <div className="relative flex h-pr-1080 w-screen flex-col items-center">
-          <img
+          <Image
             src="/images/landing/img-Landing-bottom.png"
             alt="background-bottom"
-            className="absolute inset-0 size-full object-cover mo:hidden ta:hidden"
+            fill
+            className="absolute inset-0 object-cover mo:hidden ta:hidden"
           />
-          <img
+          <Image
             src="/images/landing/img-Landing-bottom-ta.png"
             alt="background-bottom-tablet"
-            className="absolute inset-0 hidden size-full object-cover mo:hidden ta:block"
+            fill
+            className="absolute inset-0 hidden object-cover mo:hidden ta:block"
           />
           <div
             className="absolute inset-0 hidden bg-cover bg-center bg-no-repeat mo:block"
@@ -119,14 +123,14 @@ export default function LandingPage() {
             }}
           />
 
-          <div className="absolute top-pr-230 flex flex-col items-center gap-pr-24 mo:top-pr-123 ta:top-pr-176">
-            <div className="text-center text-40sb text-t-primary mo:text-24sb ta:text-40sb">
+          <div className="absolute top-pr-230 flex flex-col items-center mo:top-pr-123 ta:top-pr-176">
+            <h1 className="mb-pr-24 text-center text-40sb text-t-primary mo:text-24sb ta:text-40sb">
               지금 바로 시작해보세요
-            </div>
-            <div className="text-center text-24m text-t-primary mo:text-16m ta:text-24m">
+            </h1>
+            <h2 className="text-center text-24m text-t-primary mo:text-16m ta:text-24m">
               팀원 모두와 같은 방향, <br className="hidden mo:block" />
               같은 속도로 나아가는 가장 쉬운 방법
-            </div>
+            </h2>
           </div>
         </div>
       </footer>
