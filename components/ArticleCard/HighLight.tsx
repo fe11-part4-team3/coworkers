@@ -6,7 +6,7 @@ function Highlight({ title }: { title: string }) {
 
   if (!keyword) return <>{title}</>;
 
-  const regex = new RegExp(`(${keyword})`, 'gi');
+  const regex = new RegExp(`(${keyword})`, 'g');
   const parts = title.split(regex);
 
   return (
