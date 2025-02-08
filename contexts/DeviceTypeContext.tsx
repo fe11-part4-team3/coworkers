@@ -1,4 +1,3 @@
-import useDebounce from '@/hooks/useDebounce';
 import {
   createContext,
   useCallback,
@@ -7,6 +6,8 @@ import {
   useMemo,
   useState,
 } from 'react';
+
+import useDebounce from '@/hooks/useDebounce';
 
 export type DeviceType = 'desktop' | 'tablet' | 'mobile';
 
@@ -26,14 +27,15 @@ export function DeviceTypeProvider({
 }) {
   const [deviceType, setDeviceType] = useState<DeviceType>(getDeviceType());
 
-  const handleResize = useCallback(
-    useDebounce(() => {
-      if (typeof window !== 'undefined') {
-        setDeviceType(getDeviceType());
-      }
-    }, 100),
-    [],
-  );
+  const debouncedResize = useDebounce(() => {
+    if (typeof window !== 'undefined') {
+      setDeviceType(getDeviceType());
+    }
+  }, 100);
+
+  const handleResize = useCallback(() => {
+    debouncedResize();
+  }, [debouncedResize]);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;

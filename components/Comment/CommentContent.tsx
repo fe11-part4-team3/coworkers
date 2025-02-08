@@ -1,6 +1,10 @@
+import { useMemo, useState } from 'react';
+
 import { CardContent } from '@/components/ui/card';
 import useUserStore from '@/stores/useUser.store';
 import KebabDropDown from '@/components/KebabDropDown';
+import { Skeleton } from '@/components/ui/skeleton';
+import { useDeviceType } from '@/contexts/DeviceTypeContext';
 
 /**
  * @param {'article'|'task'} props.type - 컴포넌트 타입(할 일 상세의 댓글 or 게시글 상세의 댓글)
@@ -9,15 +13,17 @@ import KebabDropDown from '@/components/KebabDropDown';
  * @param {object} props.user - 댓글 작성자 유저 id (작성자 본인인지 판별)
  * @param {Function} props.handleEditClick - 댓글 수정 함수
  * @param {Function} props.commentDelete - 댓글 삭제 함수
+ * @param {boolean} props.isLoading - 댓글 리스트 데이터 로딩 유무
  * @returns {JSX.Element} 게시글 상세 페이지 댓글(조회, 수정) 컴포넌트
  */
-function ArticleDetailContent({
+function CommentContent({
   type = 'article',
   commentEditContent,
   writer,
   user,
   handleEditClick,
   commentDelete,
+  isLoading,
 }: {
   type?: 'article' | 'task';
   commentEditContent: string;
@@ -29,19 +35,52 @@ function ArticleDetailContent({
   };
   handleEditClick: () => void;
   commentDelete: () => void;
+  isLoading: boolean;
 }) {
   const { user: userData } = useUserStore();
   const isArticleComment = type === 'article';
+  const deviceType = useDeviceType();
+
+  const [isCommentTextMore, setCommentTextMore] = useState(false);
+
+  let textLimit = 155;
+
+  if (deviceType === 'tablet') {
+    textLimit = 88;
+  } else if (deviceType === 'mobile') {
+    textLimit = 33;
+  }
+
+  const commenter: string = useMemo(() => {
+    if (commentEditContent.length <= textLimit) {
+      return commentEditContent;
+    }
+    return isCommentTextMore
+      ? commentEditContent
+      : commentEditContent.slice(0, textLimit);
+  }, [isCommentTextMore, commentEditContent, textLimit]);
 
   return (
     <CardContent
       className={`${isArticleComment ? 'mb-pr-32' : 'mb-pr-16 min-h-pr-16'} flex justify-between p-0`}
     >
-      <p
-        className={`${isArticleComment ? 'text-16' : 'text-14'} break-all text-t-primary`}
-      >
-        {commentEditContent}
-      </p>
+      {!isLoading ? (
+        <p
+          className={`${isArticleComment ? 'text-16' : 'text-14'} break-all text-t-primary`}
+        >
+          {commenter}
+          <button
+            onClick={() => setCommentTextMore(!isCommentTextMore)}
+            className="inline-block text-14 text-t-disabled"
+          >
+            {commentEditContent.length > textLimit &&
+              !isCommentTextMore &&
+              '...더보기'}
+          </button>
+        </p>
+      ) : (
+        <Skeleton className="h-pr-20 w-pr-150" />
+      )}
 
       {userData?.id === (writer?.id ?? user?.id) && (
         <div className="ml-pr-16">
@@ -52,4 +91,4 @@ function ArticleDetailContent({
   );
 }
 
-export default ArticleDetailContent;
+export default CommentContent;

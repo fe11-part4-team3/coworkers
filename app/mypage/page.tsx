@@ -13,7 +13,6 @@ import Profile from '@/components/Profile/Profile';
 import Container from '@/components/layout/Container';
 import InputField from '@/components/InputField/InputField';
 import useModalStore from '@/stores/modalStore';
-import ChangePassword from '@/components/modal/ChangePassword';
 import DeleteAccount from '@/components/modal/DeleteAccount';
 
 interface initialValues {
@@ -84,12 +83,6 @@ export default function MyPage() {
     });
   }, [changedFields, formData, updateUserMutate]);
 
-  // STUB 비밀번호 변경 모달 열기
-  const handleOpenResetPassword = (e: MouseEvent) => {
-    e.preventDefault();
-    openModal(<ChangePassword />);
-  };
-
   // STUB 회원탈퇴 모달 열기
   const handleUserDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -115,11 +108,12 @@ export default function MyPage() {
           variant="member"
           image={preview || user.image}
           onSelectFile={handleFileChange}
+          errorMessage={errorMessage.image}
         />
 
         {/* 닉네임 */}
         <InputField
-          label="이름"
+          label="닉네임"
           name="nickname"
           value={formData.nickname}
           placeholder={user.nickname}
@@ -143,7 +137,6 @@ export default function MyPage() {
           value="password"
           name="password"
           placeholder="******"
-          onClickButton={(e) => handleOpenResetPassword(e)}
           disabled={true}
           label="비밀번호"
         />

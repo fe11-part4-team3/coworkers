@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
+import { signOut } from 'next-auth/react';
 
 import NavigationGroupDropdown from '@/components/NavigationGroupDropdown/NavigationGroupDropdown';
 import { Button } from '@/components/ui/button';
@@ -12,6 +13,8 @@ import SideNavigation from '@/components/SideNavigation/SideNavigation';
 import useUser from '@/hooks/useUser';
 import { IGroup } from '@/types/group.type';
 import DropDown from '@/components/DropDown';
+import { removeLoginProcessed } from '@/lib/kakaoStorage';
+import { useSnackbar } from '@/contexts/SnackBar.context';
 
 import Profile from './Profile';
 import Logo from './Logo';
@@ -23,12 +26,18 @@ function Headers() {
   const groupId = teamId ? Number(teamId) : null;
   const { user, groups, isPending, clear } = useUser();
   const [currentGroup, setCurrentGroup] = useState<IGroup | null>(null);
+  const { showSnackbar } = useSnackbar();
 
   const logout = useCallback(() => {
     const flag = confirm('로그아웃 하시겠습니까?');
     if (flag) {
       clear();
-      alert('로그아웃 되었습니다.');
+
+      // STUB 세션 로그아웃
+      signOut({ redirect: false });
+      removeLoginProcessed();
+
+      showSnackbar('로그아웃 되었습니다.');
     }
   }, [clear]);
 
@@ -42,7 +51,7 @@ function Headers() {
         onClick: logout,
       },
     ],
-    [clear],
+    [logout],
   );
 
   useEffect(() => {
@@ -52,14 +61,14 @@ function Headers() {
     }
     const group = groups.find((group) => group.id === groupId);
     if (group) setCurrentGroup(group);
-    else router.push('/');
-  }, [groupId, groups, isPending]);
+    else setCurrentGroup(null);
+  }, [groupId, groups, isPending, router]);
 
   return (
     <header className="fixed z-40 flex w-full items-center border-b bg-b-secondary transition-all">
       <nav className="mx-auto flex h-pr-60 w-pr-1280 items-center justify-between px-pr-40 mo:px-pr-16 ta:px-pr-25">
         <div className="flex items-center gap-pr-40 ta:gap-pr-24">
-          {deviceType === 'mobile' && groups && (
+          {deviceType === 'mobile' && (
             <>
               <SideNavigationTrigger
                 src="/images/icon-gnb-menu.svg"

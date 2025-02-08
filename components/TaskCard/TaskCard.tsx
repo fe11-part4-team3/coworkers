@@ -50,7 +50,9 @@ function TaskCard({ type, taskData }: TaskCardProps) {
 
         {isTaskList && (
           <>
-            <IconText type="commentCount" text={commentCount} />
+            <div className="ml-pr-12 mr-pr-8 mo:ml-auto">
+              <IconText type="commentCount" text={commentCount} />
+            </div>
 
             <div className="ml-auto mo:ml-0">
               <KebabDropDown

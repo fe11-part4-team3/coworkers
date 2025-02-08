@@ -50,13 +50,13 @@ function SignupPage() {
     <form onSubmit={handleSubmit}>
       <div className="auth_input-list">
         <InputField
-          label="이름"
+          label="닉네임"
           type="text"
           name="nickname"
           value={formData.nickname}
           onChange={handleInputChange}
           errorMessage={errorMessage.nickname}
-          placeholder="이름을 입력해주세요."
+          placeholder="닉네임을 입력해주세요."
           required
         />
 

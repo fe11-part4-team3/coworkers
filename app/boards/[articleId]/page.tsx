@@ -4,10 +4,18 @@ import { useParams } from 'next/navigation';
 
 import Container from '@/components/layout/Container';
 
+import ArticleDetail from './ArticleDetail';
+import CommentContainer from './CommentContainer';
+
 function ArticleDetailPage() {
   const { articleId } = useParams();
 
-  return <Container>{articleId}번 게시글 상세 페이지</Container>;
+  return (
+    <Container>
+      <ArticleDetail articleId={Number(articleId)} />
+      <CommentContainer articleId={Number(articleId)} />
+    </Container>
+  );
 }
 
 export default ArticleDetailPage;

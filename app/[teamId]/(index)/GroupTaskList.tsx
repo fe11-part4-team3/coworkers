@@ -2,6 +2,7 @@ import { useRouter } from 'next/navigation';
 
 import KebabDropDown from '@/components/KebabDropDown';
 import { ITaskList } from '@/types/taskList.type';
+import { RoleType } from '@/types/group.type';
 
 import { _DeleteTaskListParams, _UpdateTaskListParams } from './TeamPage.type';
 import { PointColorType } from './GroupTaskListWrapper';
@@ -22,6 +23,7 @@ const POINT_COLOR_CLASSES: IPointColorClasses = {
 };
 
 interface GroupTaskListProps {
+  role: RoleType;
   taskList: ITaskList;
   pointColor: PointColorType;
   onEdit: (params: _UpdateTaskListParams) => void;
@@ -29,6 +31,7 @@ interface GroupTaskListProps {
 }
 
 export default function GroupTaskList({
+  role,
   taskList,
   pointColor,
   onEdit,
@@ -60,10 +63,12 @@ export default function GroupTaskList({
         <div>{taskList.name}</div>
         <div className="flex items-center gap-pr-4">
           <TaskProgressBadge tasks={taskList.tasks} />
-          <KebabDropDown
-            onEdit={handleClickEdit}
-            onDelete={handleClickDelete}
-          />
+          {role === 'ADMIN' && (
+            <KebabDropDown
+              onEdit={handleClickEdit}
+              onDelete={handleClickDelete}
+            />
+          )}
         </div>
       </div>
     </div>

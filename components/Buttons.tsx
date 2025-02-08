@@ -103,14 +103,17 @@ export default function Buttons({
         </span>
       )}
       {loading && <Loader2 className="animate-spin" />}
-      {text}
+      {!loading && text}
     </>
   );
 
   if (href) {
     return (
       <Button className={buttonClasses} disabled={disabled} {...rest}>
-        <Link href={href!} className="flex items-center justify-center">
+        <Link
+          href={href!}
+          className="flex size-full items-center justify-center"
+        >
           {renderContent()}
         </Link>
       </Button>

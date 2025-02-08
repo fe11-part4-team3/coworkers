@@ -3,13 +3,11 @@ import { ChangeEvent, useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { IArticleComment } from '@/types/articleComment.type';
 import TextareaField from '@/components/InputField/TextareaField';
-import ArticleDetailContent from '@/components/Comment/CommentContent';
-import ArticleDetailFooter from '@/components/Comment/CommentFooter';
-import { ITaskComment } from '@/types/comment.type';
+import CommentContent from '@/components/Comment/CommentContent';
+import CommentFooter from '@/components/Comment/CommentFooter';
+import { CommentProps, ITaskComment } from '@/types/comment.type';
 
-type handlerType = (id: number) => void;
-
-const ARTICLE_COMMENT_STYLE = 'bg-b-secondary px-pr-24 py-pr-20';
+const ARTICLE_COMMENT_STYLE = 'bg-b-secondary px-pr-24 py-pr-20 border-none';
 const TASK_COMMENT_STYLE =
   'rounded-none border-x-0 border-t-0 border-input bg-transparent py-pr-16 shadow-none';
 
@@ -20,6 +18,7 @@ const TASK_COMMENT_STYLE =
  * @param {IArticleComment | ITaskComment} props.commentData - 댓글 데이터
  * @param {Function} props.handleDeleteClick - 댓글을 삭제하는 함수, 댓글 ID를 인수로 받습니다.
  * @param {Function} props.handleUpdateSubmit - 댓글을 업데이트하는 함수, 댓글 ID를 인수로 받습니다.
+ * @param {boolean} props.isLoading - 댓글 리스트 데이터 로딩 유무
  * @returns {JSX.Element} 게시글 상세 페이지 댓글 컴포넌트
  *
  * @example
@@ -32,6 +31,7 @@ const TASK_COMMENT_STYLE =
         commentData={comment}
         handleDeleteClick={(id) => alert(`${id} 삭제`)}
         handleUpdateSubmit={(id) => alert(`${id} 수정`)}
+        isLoading={isLoading}
       />
     );
  * })}
@@ -46,18 +46,14 @@ const TASK_COMMENT_STYLE =
     );
   })}
  */
-function ArticleDetailComment({
+function Comment({
   type = 'article',
   commentData,
   handleDeleteClick,
   handleUpdateSubmit,
-}: {
-  type?: 'article' | 'task';
-  commentData: IArticleComment | ITaskComment;
-  handleDeleteClick: handlerType;
-  handleUpdateSubmit: handlerType;
-}) {
-  const { id, content, createdAt } = commentData;
+  isLoading = false,
+}: CommentProps) {
+  const { id, content, createdAt, updatedAt } = commentData;
   const [commentEditContent, setCommentEditContent] = useState(content);
   const [commentEdit, setCommentEdit] = useState(false);
 
@@ -95,8 +91,7 @@ function ArticleDetailComment({
   const updateSubmit = () => {
     setCommentEdit(false);
 
-    // handleUpdateSubmit 함수로 댓글 id를 넘겨받아 PATCH 데이터 요청 실행
-    handleUpdateSubmit(id);
+    handleUpdateSubmit(id, commentEditContent);
   };
 
   return (
@@ -104,13 +99,14 @@ function ArticleDetailComment({
       className={`${isArticleComment ? ARTICLE_COMMENT_STYLE : TASK_COMMENT_STYLE} `}
     >
       {!commentEdit ? (
-        <ArticleDetailContent
+        <CommentContent
           type={type}
           commentEditContent={commentEditContent}
           writer={writer}
           user={user}
           handleEditClick={handleEditClick}
           commentDelete={commentDelete}
+          isLoading={isLoading}
         />
       ) : (
         <div className="mb-pr-16">
@@ -124,19 +120,21 @@ function ArticleDetailComment({
         </div>
       )}
 
-      <ArticleDetailFooter
+      <CommentFooter
         type={type}
         writer={writer}
         user={user}
         commentEdit={commentEdit}
         createdAt={createdAt}
+        updatedAt={updatedAt}
         commentEditContent={commentEditContent}
         content={content}
         cancelEditing={cancelEditing}
         updateSubmit={updateSubmit}
+        isLoading={isLoading}
       />
     </Card>
   );
 }
 
-export default ArticleDetailComment;
+export default Comment;

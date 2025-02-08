@@ -1,5 +1,7 @@
 import React from 'react';
-import { Meta, StoryFn } from '@storybook/react';
+import type { Meta, StoryFn } from '@storybook/react';
+import { SessionProvider } from 'next-auth/react';
+
 import InputField from '@/components/InputField/InputField';
 import { InputFieldProps } from '@/types/inputField.type';
 
@@ -25,7 +27,11 @@ export default {
   },
 } as Meta;
 
-const Template: StoryFn<InputFieldProps> = (args) => <InputField {...args} />;
+const Template: StoryFn<InputFieldProps> = (args) => (
+  <SessionProvider>
+    <InputField {...args} />
+  </SessionProvider>
+);
 
 export const Default = Template.bind({});
 Default.args = {
