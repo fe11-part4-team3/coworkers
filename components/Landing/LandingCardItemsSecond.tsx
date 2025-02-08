@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 import IconBox from './Iconbox';
 
-const MainBox2 = () => {
+const LandingCardItemsSecond = () => {
   return (
     <div className="relative h-pr-419 w-pr-996 rounded-pr-40 bg-b-secondary mo:h-pr-467 mo:w-pr-343 ta:h-pr-354 ta:w-pr-696">
       <div className="relative flex size-full mo:flex-col-reverse">
@@ -31,4 +31,4 @@ const MainBox2 = () => {
   );
 };
 
-export default MainBox2;
+export default LandingCardItemsSecond;

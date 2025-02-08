@@ -6,8 +6,8 @@ import { useRouter } from 'next/navigation';
 import Buttons from '@/components/Buttons';
 import useUser from '@/hooks/useUser';
 import LandingCardItemsFirst from '@/components/Landing/LandingCardItemsFirst';
-import MainBox2 from '@/components/Landing/Mainbox2';
-import MainBox3 from '@/components/Landing/Mainbox3';
+import LandingCardItemsSecond from '@/components/Landing/LandingCardItemsSecond';
+import LandingCardItemsthird from '@/components/Landing/LandingCardItemsthird';
 import Empty from '@/components/Empty/Empty';
 import Container from '@/components/layout/Container';
 
@@ -97,8 +97,8 @@ export default function LandingPage() {
 
       <section className="relative mt-pr-60 flex flex-col items-center gap-pr-80 tamo:gap-pr-24">
         <LandingCardItemsFirst />
-        <MainBox2 />
-        <MainBox3 />
+        <LandingCardItemsSecond />
+        <LandingCardItemsthird />
       </section>
 
       <footer>
