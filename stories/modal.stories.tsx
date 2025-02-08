@@ -46,7 +46,14 @@ const Template: StoryFn = () => {
   };
 
   const handleOpenLogout = () => {
-    openModal(<Logout onClick={handleAddTask} />);
+    openModal(
+      <Logout
+        onClick={() => {
+          alert('로그아웃 실행');
+          closeModal();
+        }}
+      />,
+    );
   };
 
   const handleOpenInviteMember = () => {
