@@ -18,7 +18,6 @@ import { removeLoginProcessed } from '@/lib/kakaoStorage';
 import { useSnackbar } from '@/contexts/SnackBar.context';
 import useGroup from '@/hooks/useGroup';
 import Logout from '@/components/modal/Logout';
-import Modal from '@/components/modal/Modal';
 import useModalStore from '@/stores/modalStore';
 
 import Logo from './Logo';
@@ -97,8 +96,6 @@ function Headers() {
               />
             </>
           )}
-
-          <Modal></Modal>
 
           <Logo />
 
