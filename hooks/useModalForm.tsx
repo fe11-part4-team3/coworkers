@@ -24,7 +24,7 @@ export default function useModalForm({
   initialLength = 1,
   body,
 }: {
-  onClick: (bodyData: object) => void;
+  onClick: any;
   initialLength?: number;
   body?: object;
 }) {
@@ -32,7 +32,7 @@ export default function useModalForm({
   const [bodyData, setBodyData] = useState<object>(body || {});
   const { closeModal } = useModalStore();
 
-  const updateInputValue = (index: number, name: string, newValue: string) => {
+  const updateInputValue = (index: number, name: string, newValue: any) => {
     const updatedValue = [...value];
     updatedValue[index] = newValue;
     setValue(updatedValue);
@@ -41,7 +41,7 @@ export default function useModalForm({
 
   const validateInput = () => {
     const trimmedValue = value.every(
-      (item) => item.trim() !== '' && item !== '',
+      (item) => typeof item !== 'string' || (item.trim() !== '' && item !== ''),
     );
     if (!trimmedValue) {
       return false;
@@ -50,14 +50,21 @@ export default function useModalForm({
   };
 
   const handleOnClick = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
     if (!validateInput()) {
-      e.preventDefault();
       return alert('항목을 입력해주세요.');
     }
 
-    fetchData(bodyData);
+    try {
+      fetchData(bodyData);
+    } catch (error) {
+      console.error(error);
+    }
     closeModal();
   };
+
+  console.log(bodyData);
 
   return { value, handleOnClick, updateInputValue };
 }

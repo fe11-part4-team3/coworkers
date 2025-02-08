@@ -25,6 +25,7 @@ import PlusIcon from '@/public/images/icon-plus.svg';
 import useModalStore from '@/stores/modalStore';
 import AddTask from '@/components/modal/AddTask';
 import { useEffect, useRef } from 'react';
+import Link from 'next/link';
 
 export default function TaskListPage() {
   const [isDetailOpen, setIsDetailOpen] = useState<boolean>(false);
@@ -64,7 +65,18 @@ export default function TaskListPage() {
     queryFn: fetchTaskList,
   });
 
-  const mutation = useMutation({
+  const {
+    data: createTaskData,
+    error: createTaskError,
+    mutate: createTaskMutate,
+  } = useMutation({
+    mutationFn: fetchCreateTask,
+    onError: (error) => {
+      console.error(error);
+    },
+  });
+
+  const createTaskMutation = useMutation({
     mutationFn: fetchCreateTask,
     onError: (error) => {
       console.error(error);
@@ -129,6 +141,8 @@ export default function TaskListPage() {
     return <div>데이터를 불러올 수 없습니다.</div>;
   }
 
+  console.log(taskListData);
+
   return (
     <>
       <Container>
@@ -167,24 +181,26 @@ export default function TaskListPage() {
         </div>
         <ul className="mt-pr-24 flex gap-pr-12 text-16m text-t-default">
           {taskLists?.map((taskList) => (
-            <li key={taskList.id} className="cursor-pointer">
-              {taskList.name}
-            </li>
+            <Link href={`/${groupId}/${taskList.id}`} key={taskList.id}>
+              <li className="cursor-pointer">{taskList.name}</li>
+            </Link>
           ))}
           <button onClick={() => setIsDetailOpen(!isDetailOpen)}>
             테스트용 상세 버튼
           </button>
         </ul>
+        <div className='mt-pr-16 flex flex-col gap-pr-16'>
         {taskListData?.tasks.map((task) => (
           <TaskCard key={task.id} type="taskList" taskData={task} />
         ))}
+        </div>
         <div className="fixed bottom-pr-48 right-pr-80">
           <div className="relative flex w-pr-116 items-center">
             <Buttons
               text="할 일 추가"
               rounded={true}
               icon={true}
-              onClick={() => openModal(<AddTask onClick={() => mutation} />)}
+              onClick={() => openModal(<AddTask fetchData={fetchCreateTask} />)}
             />
             <PlusIcon width={24} height={24} className="absolute left-pr-12" />
           </div>

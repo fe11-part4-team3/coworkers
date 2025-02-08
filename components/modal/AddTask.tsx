@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import SelectBox from '@/components/SelectBox';
 import Buttons from '@/components/Buttons';
@@ -9,7 +9,7 @@ import TextareaField from '@/components/InputField/TextareaField';
 import InputField from '@/components/InputField/InputField';
 import DatePicker from '@/components/DateTimePicker/DatePicker';
 import TimePicker from '@/components/DateTimePicker/TimePicker';
-import { format } from 'date-fns';
+import { format, getDate } from 'date-fns';
 import InputLabel from '@/components/InputField/InputLabel';
 
 /* 꼭 읽어주세요.
@@ -32,11 +32,7 @@ import InputLabel from '@/components/InputField/InputLabel';
  * 할 일 추가 모달
  * @param {function} onClick - 할 일 추가 버튼 클릭 시 실행되는 함수
  */
-export default function AddTask({
-  onClick: fetchData,
-}: {
-  onClick: (bodyData: object) => void;
-}) {
+export default function AddTask({ fetchData }: { fetchData: any }) {
   const [frequencyOptions] = useState<SelectOption[]>([
     { label: '한 번', value: 'ONCE' },
     { label: '매일', value: 'DAILY' },
@@ -55,7 +51,8 @@ export default function AddTask({
     false,
   );
   const [isTimeOpen, setIsTimeOpen] = useState<boolean | undefined>(false);
-  const [selectedValue, setSelectedValue] = useState<string>('');
+  const [selectedRepeatType, setSelectedRepeatType] = useState<string>('');
+  const [selectedDays, setSelectedDays] = useState<number[]>([]);
 
   const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
 
@@ -84,12 +81,32 @@ export default function AddTask({
   };
 
   const handleRepeatTypeChange = (value: string) => {
-    updateInputValue(1, 'repeatType', value);
-    setSelectedValue(value);
+    updateInputValue(3, 'frequencyType', value);
+    setSelectedRepeatType(value);
   };
 
-  if (date && time) console.log(combineDateAndTimeKST(date, time));
-  console.log(selectedValue);
+  const handleWeekdaysClick = (dayIndex: number) => {
+    if (selectedDays.includes(dayIndex)) {
+      setSelectedDays(selectedDays.filter((day) => day !== dayIndex));
+      updateInputValue(4, 'weekDays', selectedDays);
+    } else {
+      setSelectedDays([...selectedDays, dayIndex]);
+      updateInputValue(4, 'weekDays', selectedDays);
+    }
+  };
+
+  useEffect(() => {
+    if (date && time)
+      updateInputValue(2, 'startDate', combineDateAndTimeKST(date, time));
+  }, [date, time]);
+
+  /* useEffect(() => {
+    if (selectedRepeatType === 'WEEKLY' && selectedDays.length === 0)
+      updateInputValue(4, 'weekDays', '');
+
+    if (selectedRepeatType === 'MONTH' && date)
+      updateInputValue(4, 'monthDay', getDate(date));
+  }, [selectedRepeatType]); */
 
   return (
     <>
@@ -112,7 +129,7 @@ export default function AddTask({
           label="할 일 제목"
           name="task-title"
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            updateInputValue(0, 'title', e.target.value)
+            updateInputValue(0, 'name', e.target.value)
           }
         />
         <div className="flex flex-col">
@@ -168,19 +185,24 @@ export default function AddTask({
             width="w-pr-110"
             bgType="modal"
             placeholder="선택"
-            defaultValue={value[1]}
+            defaultValue={value[3]}
             onValueChange={handleRepeatTypeChange}
           />
         </div>
-        {selectedValue === 'WEEKLY' && (
+        {selectedRepeatType === 'WEEKLY' && (
           <div>
             <InputLabel label="반복 요일" />
             <div className="flex gap-pr-4">
               {weekdays.map((day, index) => (
                 <button
                   key={index}
-                  className="h-pr-44 w-full rounded-xl bg-b-secondary-2 text-14m text-t-default"
+                  className={`h-pr-44 w-full rounded-xl text-14m ${
+                    selectedDays.includes(index)
+                      ? 'bg-brand-primary text-t-primary'
+                      : 'bg-b-secondary-2 text-t-default'
+                  }`}
                   type="button"
+                  onClick={() => handleWeekdaysClick(index)}
                 >
                   {day}
                 </button>
@@ -189,12 +211,12 @@ export default function AddTask({
           </div>
         )}
         <TextareaField
-          value={value[2]}
+          value={value[1]}
           placeholder="메모를 입력해주세요."
           label="할 일 메모"
           name="task-memo"
           onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-            updateInputValue(2, 'description', e.target.value)
+            updateInputValue(1, 'description', e.target.value)
           }
         />
         <div className="modal-button-wrapper">
