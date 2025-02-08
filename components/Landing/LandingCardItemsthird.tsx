@@ -12,12 +12,12 @@ const LandingCardItemsthird = () => {
             alt="LandingCardimgthird"
             width={291}
             height={338}
-            className="mr-pr-33 h-pr-338 w-pr-291 object-contain mo:absolute mo:left-1/2 mo:top-0 mo:m-0 mo:h-pr-273 mo:w-pr-235 mo:-translate-x-1/2 ta:mr-pr-7 tamo:h-pr-273 tamo:w-pr-235"
+            className="mr-pr-33 h-pr-338 w-pr-291 object-contain mo:absolute mo:left-1/2 mo:top-pr-0 mo:m-pr-0 mo:-translate-x-1/2 ta:mr-pr-7 tamo:h-pr-273 tamo:w-pr-235"
           />
         </div>
 
         <div className="flex h-full w-1/2 items-center justify-start mo:w-full mo:items-start mo:justify-start">
-          <div className="bottom-pr-124 ml-pr-160 flex h-pr-120 flex-col gap-pr-16 text-24m mo:absolute mo:bottom-pr-51 mo:left-pr-54 mo:m-0 mo:h-pr-106 mo:w-pr-118 ta:right-pr-110 tamo:h-pr-106 tamo:w-pr-118 tamo:text-18m">
+          <div className="bottom-pr-124 ml-pr-160 flex h-pr-120 flex-col gap-pr-16 text-24m mo:absolute mo:bottom-pr-51 mo:left-pr-54 mo:m-0 ta:right-pr-110 tamo:h-pr-106 tamo:w-pr-118 tamo:text-18m">
             <IconBox imageUrl="icon-check.svg" alt="Check Icon" />
             <p className="whitespace-nowrap text-t-primary">
               할 일도 간편하게
