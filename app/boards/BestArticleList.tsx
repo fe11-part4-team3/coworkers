@@ -11,19 +11,18 @@ import {
 
 import ArticleSkeleton from './ArticleSkeleton';
 
+const PAGE_SIZE = {
+  desktop: 5,
+  tablet: 4,
+  mobile: 3,
+};
+
 /**
  * @param {string | undefined} props.keyword - 입력 검색어
  * @returns {JSX.Element} 베스트 게시글 리스트 컴포넌트
  */
 function BestArticleList() {
   const deviceType = useDeviceType();
-  let pageSize = 5;
-
-  if (deviceType === 'tablet') {
-    pageSize = 4;
-  } else if (deviceType === 'mobile') {
-    pageSize = 3;
-  }
 
   const {
     data: bestArticleList,
@@ -31,7 +30,7 @@ function BestArticleList() {
     isError,
   } = useGetArticle({
     queryKey: 'bestArticleList',
-    pageSize: pageSize,
+    pageSize: PAGE_SIZE[deviceType],
     orderBy: 'like',
     deviceType: deviceType,
   });
@@ -68,7 +67,7 @@ function BestArticleList() {
             </CarouselContent>
           </Carousel>
         ) : (
-          <ArticleSkeleton type="best" count={pageSize - 2} />
+          <ArticleSkeleton type="best" count={PAGE_SIZE[deviceType] - 2} />
         )}
       </div>
     </section>
