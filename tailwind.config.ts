@@ -70,6 +70,7 @@ const shadcnConfig: Config = {
           primary: 'var(--brand-primary)',
           secondary: 'var(--brand-secondary)',
           tertiary: 'var(--brand-tertiary)',
+          gradient: 'var(--brand-gradient)',
         },
         b: {
           primary: 'var(--b-primary-light)',
@@ -313,6 +314,28 @@ const shadcnConfig: Config = {
           {
             lineHeight: '3rem',
             fontWeight: '500',
+          },
+        ],
+        '40sb': [
+          '2.5rem',
+          {
+            lineHeight: '2.92rem',
+            fontWeight: '600',
+          },
+        ],
+
+        '48sb': [
+          '3rem',
+          {
+            lineHeight: '3.5rem',
+            fontWeight: '600',
+          },
+        ],
+        '64sb': [
+          '4rem',
+          {
+            lineHeight: '4.67rem',
+            fontWeight: '600',
           },
         ],
       },
