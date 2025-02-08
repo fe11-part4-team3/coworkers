@@ -1,7 +1,7 @@
 interface CreateUrlStringParams {
   origin?: string;
   pathname?: (string | number)[];
-  searchParams?: Record<string, string | number>;
+  queryParams?: Record<string, string | number>;
 }
 
 /**
@@ -9,7 +9,7 @@ interface CreateUrlStringParams {
  * @param {CreateUrlStringParams} params - URL 생성에 필요한 매개변수
  * @param {string} [params.origin] - 베이스 URL (기본값: 현재 페이지의 origin)
  * @param {(string|number)[]} [params.pathname] - URL 경로 배열
- * @param {Record<string, string|number>} [params.searchParams] - URL 쿼리 파라미터 객체
+ * @param {Record<string, string|number>} [params.queryParams] - URL 쿼리 파라미터 객체
  *
  * @returns {string} 생성된 URL 문자열
  *
@@ -33,7 +33,7 @@ interface CreateUrlStringParams {
 const createUrlString = ({
   origin,
   pathname,
-  searchParams,
+  queryParams,
 }: CreateUrlStringParams = {}) => {
   const url = new URL(origin || location.origin);
 
@@ -41,8 +41,8 @@ const createUrlString = ({
     url.pathname = '/' + pathname.map(String).join('/');
   }
 
-  if (searchParams) {
-    for (const [key, value] of Object.entries(searchParams)) {
+  if (queryParams) {
+    for (const [key, value] of Object.entries(queryParams)) {
       url.searchParams.append(key, String(value));
     }
   }

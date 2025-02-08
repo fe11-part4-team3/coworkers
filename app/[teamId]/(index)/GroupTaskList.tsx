@@ -43,7 +43,7 @@ export default function GroupTaskList({
   const handleClickTaskList = () => {
     const url = createUrlString({
       pathname: [taskList.groupId, 'tasklist'],
-      searchParams: { id: taskList.id },
+      queryParams: { id: taskList.id },
     });
     router.push(url);
   };
