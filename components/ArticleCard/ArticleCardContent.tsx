@@ -6,6 +6,8 @@ import { CardContent } from '@/components/ui/card';
 import KebabDropDown from '@/components/KebabDropDown';
 import useUserStore from '@/stores/useUser.store';
 
+import Highlight from './HighLight';
+
 /**
  * @param {boolean} props.isBestCard - 게시글 데이터
  * @param {string} props.title - 게시글 제목
@@ -42,7 +44,7 @@ function ArticleCardContent({
   return (
     <CardContent className={cardContentStyled}>
       <p className="article_title line-clamp-2 max-h-pr-56 mo:mb-pr-12 mo:max-h-pr-48">
-        {title}
+        <Highlight title={title} />
       </p>
       <div className="ml-auto flex">
         {image !== null && (

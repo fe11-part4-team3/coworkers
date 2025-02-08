@@ -1,22 +1,27 @@
+import Autoplay from 'embla-carousel-autoplay';
+
 import ArticleCard from '@/components/ArticleCard/ArticleCard';
 import { useDeviceType } from '@/contexts/DeviceTypeContext';
 import useGetArticle from '@/hooks/useGetArticle';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from '@/components/ui/carousel';
 
 import ArticleSkeleton from './ArticleSkeleton';
 
+const PAGE_SIZE = {
+  desktop: 5,
+  tablet: 4,
+  mobile: 3,
+};
+
 /**
- * @param {string | undefined} props.keyword - 입력 검색어
  * @returns {JSX.Element} 베스트 게시글 리스트 컴포넌트
  */
-function BestArticleList({ keyword }: { keyword: string | undefined }) {
+function BestArticleList() {
   const deviceType = useDeviceType();
-  let pageSize = 3;
-
-  if (deviceType === 'tablet') {
-    pageSize = 2;
-  } else if (deviceType === 'mobile') {
-    pageSize = 1;
-  }
 
   const {
     data: bestArticleList,
@@ -24,7 +29,7 @@ function BestArticleList({ keyword }: { keyword: string | undefined }) {
     isError,
   } = useGetArticle({
     queryKey: 'bestArticleList',
-    pageSize: pageSize,
+    pageSize: PAGE_SIZE[deviceType],
     orderBy: 'like',
     deviceType: deviceType,
   });
@@ -32,33 +37,39 @@ function BestArticleList({ keyword }: { keyword: string | undefined }) {
   if (isError) return '에러가 발생했습니다.';
 
   return (
-    <>
-      {!keyword ? (
-        <section className="mt-pr-40 border border-x-0 border-t-0 pb-pr-40 mo:mt-pr-24 mo:pb-pr-32">
-          <h3 className="text-20b">베스트 게시글</h3>
-
-          <div className="mt-pr-32 flex gap-x-pr-20 mo:mt-pr-24 ta:gap-pr-16">
-            {!isLoading ? (
-              <>
-                {bestArticleList?.list.map((bestArticle) => {
-                  return (
-                    <ArticleCard
-                      key={bestArticle.id}
-                      type="best"
-                      articleData={bestArticle}
-                    />
-                  );
-                })}
-              </>
-            ) : (
-              <ArticleSkeleton type="best" count={pageSize} />
-            )}
-          </div>
-        </section>
-      ) : (
-        ''
-      )}
-    </>
+    <section className="mt-pr-40 border border-x-0 border-t-0 pb-pr-40 mo:mt-pr-24 mo:pb-pr-32">
+      <h3 className="text-20b">베스트 게시글</h3>
+      <div className="mt-pr-32 flex gap-x-pr-19 mo:mt-pr-24 ta:gap-x-pr-16">
+        {!isLoading ? (
+          <Carousel
+            opts={{
+              align: 'start',
+            }}
+            plugins={[
+              Autoplay({
+                delay: 2500,
+              }),
+            ]}
+            className="w-full"
+          >
+            <CarouselContent>
+              {bestArticleList?.list.map((bestArticle) => {
+                return (
+                  <CarouselItem
+                    key={bestArticle.id}
+                    className="md:basis-1/2 lg:basis-1/3"
+                  >
+                    <ArticleCard type="best" articleData={bestArticle} />
+                  </CarouselItem>
+                );
+              })}
+            </CarouselContent>
+          </Carousel>
+        ) : (
+          <ArticleSkeleton type="best" count={PAGE_SIZE[deviceType] - 2} />
+        )}
+      </div>
+    </section>
   );
 }
 
