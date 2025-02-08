@@ -52,7 +52,7 @@ export default function LandingPage() {
           src="/images/landing/img-Landing-bg.png"
           alt="background"
           fill
-          className="absolute inset-0 object-cover mo:hidden ta:hidden"
+          className="absolute inset-0 object-cover tamo:hidden"
         />
         <Image
           src="/images/landing/img-Landing-bg-ta.png"
@@ -107,7 +107,7 @@ export default function LandingPage() {
             src="/images/landing/img-Landing-bottom.png"
             alt="background-bottom"
             fill
-            className="absolute inset-0 object-cover mo:hidden ta:hidden"
+            className="absolute inset-0 object-cover tamo:hidden"
           />
           <Image
             src="/images/landing/img-Landing-bottom-ta.png"
