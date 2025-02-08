@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 import IconBox from './Iconbox';
 
-const MainBox1 = () => {
+const LandingCardItemsFirst = () => {
   return (
     <div className="relative h-pr-419 w-pr-996 rounded-pr-40 bg-gradient-to-r from-brand-primary to-brand-tertiary p-pr-1 mo:h-pr-467 mo:w-pr-343 ta:h-pr-354 ta:w-pr-696">
       <div className="relative flex size-full rounded-pr-40 bg-b-primary shadow-lg backdrop-blur-md mo:flex-col-reverse">
@@ -30,4 +30,4 @@ const MainBox1 = () => {
   );
 };
 
-export default MainBox1;
+export default LandingCardItemsFirst;

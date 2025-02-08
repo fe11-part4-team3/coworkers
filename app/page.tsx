@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 
 import Buttons from '@/components/Buttons';
 import useUser from '@/hooks/useUser';
-import MainBox1 from '@/components/Landing/Mainbox1';
+import LandingCardItemsFirst from '@/components/Landing/LandingCardItemsFirst';
 import MainBox2 from '@/components/Landing/Mainbox2';
 import MainBox3 from '@/components/Landing/Mainbox3';
 import Empty from '@/components/Empty/Empty';
@@ -46,7 +46,7 @@ export default function LandingPage() {
   }
 
   return (
-    <div className="flex w-screen flex-col items-center overflow-x-hidden">
+    <div className="mt-pr-60 flex w-screen flex-col items-center overflow-x-hidden">
       <section className="relative h-pr-1080 w-screen mo:h-pr-640 ta:h-pr-940">
         <Image
           src="/images/landing/img-Landing-bg.png"
@@ -96,7 +96,7 @@ export default function LandingPage() {
       </section>
 
       <section className="relative mt-pr-60 flex flex-col items-center gap-pr-80 tamo:gap-pr-24">
-        <MainBox1 />
+        <LandingCardItemsFirst />
         <MainBox2 />
         <MainBox3 />
       </section>
