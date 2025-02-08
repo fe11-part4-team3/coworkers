@@ -52,16 +52,16 @@ export default function LandingPage() {
           src="/images/landing/img-Landing-bg.png"
           alt="background"
           fill
-          className="absolute inset-0 top-pr-60 object-cover mo:hidden ta:hidden"
+          className="absolute inset-0 object-cover mo:hidden ta:hidden"
         />
         <Image
           src="/images/landing/img-Landing-bg-ta.png"
           alt="background-tablet"
           fill
-          className="absolute inset-0 top-pr-60 hidden object-cover mo:hidden ta:block"
+          className="absolute inset-0 hidden object-cover mo:hidden ta:block"
         />
         <div
-          className="absolute inset-0 top-pr-60 hidden bg-cover bg-center bg-no-repeat mo:block"
+          className="absolute inset-0 hidden bg-cover bg-center bg-no-repeat mo:block"
           style={{
             backgroundImage: "url('/images/landing/img-Landing-bg-mo.png')",
           }}
@@ -124,10 +124,10 @@ export default function LandingPage() {
           />
 
           <div className="absolute top-pr-230 flex flex-col items-center mo:top-pr-123 ta:top-pr-176">
-            <h1 className="mb-pr-24 text-center text-40sb text-t-primary mo:text-24sb ta:text-40sb">
+            <h1 className="mb-pr-24 text-center text-40sb text-t-primary mo:text-24sb">
               지금 바로 시작해보세요
             </h1>
-            <h2 className="text-center text-24m text-t-primary mo:text-16m ta:text-24m">
+            <h2 className="text-center text-24m text-t-primary mo:text-16m">
               팀원 모두와 같은 방향, <br className="hidden mo:block" />
               같은 속도로 나아가는 가장 쉬운 방법
             </h2>
