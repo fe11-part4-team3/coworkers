@@ -1,14 +1,13 @@
 'use client';
 
-import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 
 import { signUp } from '@/service/auth.api';
 import useForm from '@/hooks/useForm';
-import useUser from '@/hooks/useUser';
 import InputField from '@/components/InputField/InputField';
 import Buttons from '@/components/Buttons';
+import { useSnackbar } from '@/contexts/SnackBar.context';
 
 function SignupPage() {
   const { formData, handleInputChange, errorMessage } = useForm({
@@ -20,17 +19,15 @@ function SignupPage() {
 
   const route = useRouter();
 
-  // 인증된 사용자인지 확인
-  const { isAuthenticated } = useUser();
+  const { showSnackbar } = useSnackbar();
 
   const { mutateAsync: postSignup, isPending: isSignup } = useMutation({
     mutationFn: signUp,
     onSuccess: () => {
-      alert('회원가입이 완료 되었습니다.');
-      console.log('회원가입 성공');
+      showSnackbar('회원가입이 완료 되었습니다.');
       route.push('/login');
     },
-    onError: () => console.log('회원가입 실패'),
+    onError: () => showSnackbar('회원가입에 실패했습니다.', 'error'),
   });
 
   // 회원가입 버튼 클릭 시
@@ -39,12 +36,6 @@ function SignupPage() {
 
     postSignup(formData);
   };
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      route.push('/');
-    }
-  }, [isAuthenticated, route]);
 
   return (
     <form onSubmit={handleSubmit}>

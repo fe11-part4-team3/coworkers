@@ -5,8 +5,8 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 
 import { resetPassword } from '@/service/user.api';
+import { useSnackbar } from '@/contexts/SnackBar.context';
 import useForm from '@/hooks/useForm';
-// import useUser from '@/hooks/useUser';
 import InputField from '@/components/InputField/InputField';
 import Buttons from '@/components/Buttons';
 
@@ -17,6 +17,8 @@ export default function ResetPasswordPage() {
   // STUB 비밀번호 초기화 토큰 가져오기
   const searchParams = useSearchParams();
   const resetToken = searchParams.get('token');
+
+  const { showSnackbar } = useSnackbar();
 
   // STUB 비밀번호 초기화 폼
   const {
@@ -43,10 +45,10 @@ export default function ResetPasswordPage() {
     useMutation({
       mutationFn: resetPassword,
       onSuccess: () => {
-        alert('비밀번호가 성공적으로 변경되었습니다.');
+        showSnackbar('비밀번호가 성공적으로 변경되었습니다.');
         route.push('/login');
       },
-      onError: (error) => console.error('비밀번호 초기화 실패:', error),
+      onError: () => showSnackbar('비밀번호 초기화에 실패했습니다.', 'error'),
     });
 
   // STUB 비밀번호 초기화 폼 제출

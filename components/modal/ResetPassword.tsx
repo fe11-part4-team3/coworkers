@@ -8,6 +8,7 @@ import InputField from '@/components/InputField/InputField';
 import useForm from '@/hooks/useForm';
 import { ResetPasswordEmailParams } from '@/types/user.type';
 import { resetPasswordEmail } from '@/service/user.api';
+import { useSnackbar } from '@/contexts/SnackBar.context';
 
 /**
  * 비밀번호 재설정 모달 컴포넌트.
@@ -15,11 +16,12 @@ import { resetPasswordEmail } from '@/service/user.api';
  */
 export default function ResetPassword() {
   const { closeModal } = useModalStore();
+  const { showSnackbar } = useSnackbar();
 
   const origin =
     typeof window !== 'undefined'
       ? window.location.origin
-      : 'http://localhost:3000';
+      : 'https://coworkers.netlify.app';
 
   const {
     formData: createResetUrl,
@@ -33,15 +35,16 @@ export default function ResetPassword() {
 
   const { mutate: resetPasswordMutate, isPending } = useMutation({
     mutationFn: resetPasswordEmail,
-    onSuccess: (message) => {
-      alert(message);
+    onSuccess: () => {
+      showSnackbar('비밀번호 재설정 링크를 보냈습니다. 이메일을 확인해주세요.');
       resetForm();
       closeModal();
     },
-    onError: (error) => {
-      alert('존재하지 않는 이메일 입니다.');
-      console.error('비밀번호 재설정 실패:', error);
-    },
+    onError: () =>
+      showSnackbar(
+        '존재하지 않는 이메일 입니다. 이메일을 확인해주세요.',
+        'error',
+      ),
   });
 
   return (
