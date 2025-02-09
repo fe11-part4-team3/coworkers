@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useSession } from 'next-auth/react';
 
 import { InputFieldProps } from '@/types/inputField.type';
 import useModalStore from '@/stores/modalStore';
@@ -40,10 +39,10 @@ export default function InputField({
   disabled = false,
   width = '',
   onChange,
+  sesstionStatus,
   ...props
 }: InputFieldProps) {
   const [showPassword, setShowPassword] = useState(false);
-  const { status } = useSession();
   const { openModal } = useModalStore();
 
   // --- fadeOut 처리를 위한 상태 ---
@@ -90,7 +89,7 @@ export default function InputField({
         />
         {type === 'password' &&
           (disabled ? (
-            status !== 'authenticated' && (
+            sesstionStatus !== 'authenticated' && (
               <div className="absolute right-pr-16 top-1/2 -translate-y-1/2">
                 <Buttons
                   text="변경하기"
