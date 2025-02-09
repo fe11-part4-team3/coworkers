@@ -6,6 +6,19 @@ import useDebounce from '@/hooks/useDebounce';
 
 export type FormValue = string | number | File | '';
 
+const initializeValues = <T extends Record<string, FormValue>, U>(
+  values: T,
+  initValue: U,
+): Partial<Record<keyof T, U>> => {
+  return Object.keys(values).reduce(
+    (acc, key) => {
+      acc[key as keyof T] = initValue;
+      return acc;
+    },
+    {} as Partial<Record<keyof T, U>>,
+  );
+};
+
 /**
  * useForm
  * @param initialValues 초기값
