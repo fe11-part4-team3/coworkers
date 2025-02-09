@@ -1,19 +1,17 @@
 import { UpdateGroupParams } from '@/types/group.type';
+import {
+  CreateTaskListParams,
+  DeleteTaskListParams,
+  UpdateTaskListParams,
+} from '@/types/taskList.type';
 
 type _UpdateGroupParams = Omit<UpdateGroupParams, 'id'>;
 
-interface _CreateTaskListParams {
-  name: string;
-}
+type _CreateTaskListParams = Omit<CreateTaskListParams, 'groupId'>;
 
-interface _UpdateTaskListParams {
-  id: number;
-  name: string;
-}
+type _UpdateTaskListParams = Omit<UpdateTaskListParams, 'groupId'>;
 
-interface _DeleteTaskListParams {
-  id: number;
-}
+type _DeleteTaskListParams = Omit<DeleteTaskListParams, 'groupId'>;
 
 export type {
   _UpdateGroupParams,
