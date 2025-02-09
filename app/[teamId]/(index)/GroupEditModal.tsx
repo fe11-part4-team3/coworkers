@@ -23,7 +23,6 @@ export default function GroupEditModal({ group, onEdit }: GroupEditModalProps) {
     handleInputChange,
     handleFileChange,
     changedFields,
-    resetForm,
   } = useForm({
     name: group.name,
     image: group.image || '',
@@ -40,8 +39,6 @@ export default function GroupEditModal({ group, onEdit }: GroupEditModalProps) {
       formData,
       mutate: onEdit,
     });
-
-    resetForm();
   };
 
   return (

@@ -25,12 +25,14 @@ import {
   _UpdateTaskListParams,
 } from './TeamPage.type';
 import GroupReport from './GroupReport';
+import useModalStore from '@/stores/modalStore';
 
 export default function TeamPage() {
   const { memberships, reload } = useUser(true);
   const { teamId } = useParams();
   const { group, members, refetch, isPending } = useGroup(Number(teamId));
   const { taskLists, refetchById, removeById } = useTaskLists();
+  const { closeModal } = useModalStore();
 
   const currentMembership = memberships?.find(
     (membership) => membership.groupId === group?.id,
@@ -51,6 +53,7 @@ export default function TeamPage() {
   const { mutate: onEditGroup } = useMutation({
     mutationFn: (params: _UpdateGroupParams) => _updateGroup(params),
     onSuccess: () => {
+      closeModal();
       reload();
       refetch();
     },
