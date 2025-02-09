@@ -13,7 +13,7 @@ import {
 } from '@/service/taskList.api';
 import NotFound from '@/app/404/NotFound';
 import useTaskLists from '@/hooks/useTaskLists';
-import { getTasksInGroup } from '@/service/group.api';
+import { getTasksInGroup, updateGroup } from '@/service/group.api';
 
 import GroupHeader from './GroupHeader';
 import GroupMemberList from './GroupMemberList';
@@ -21,12 +21,13 @@ import GroupTaskListWrapper from './GroupTaskListWrapper';
 import {
   _CreateTaskListParams,
   _DeleteTaskListParams,
+  _UpdateGroupParams,
   _UpdateTaskListParams,
 } from './TeamPage.type';
 import GroupReport from './GroupReport';
 
 export default function TeamPage() {
-  const { memberships } = useUser(true);
+  const { memberships, reload } = useUser(true);
   const { teamId } = useParams();
   const { group, members, refetch, isPending } = useGroup(Number(teamId));
   const { taskLists, refetchById, removeById } = useTaskLists();
@@ -46,6 +47,20 @@ export default function TeamPage() {
     },
     initialData: [],
   });
+
+  const { mutate: onEditGroup } = useMutation({
+    mutationFn: (params: _UpdateGroupParams) => _updateGroup(params),
+    onSuccess: () => {
+      reload();
+      refetch();
+    },
+    onError: (error) => alert(error),
+  });
+  const _updateGroup = (params: _UpdateGroupParams) => {
+    if (!group) throw new Error('수정할 팀이 없습니다');
+    if (role !== 'ADMIN') throw new Error('관리자만 팀을 수정할 수 있습니다.');
+    return updateGroup({ id: group.id, ...params });
+  };
 
   const { mutate: onCreateTaskList } = useMutation({
     mutationFn: (params: _CreateTaskListParams) => _createTaskList(params),
@@ -92,7 +107,7 @@ export default function TeamPage() {
   return (
     <Container>
       <div className="flex flex-col gap-pr-24 pt-pr-24">
-        <GroupHeader role={role} name={group.name} />
+        <GroupHeader role={role} group={group} onEdit={onEditGroup} />
         <GroupTaskListWrapper
           role={role}
           taskLists={taskLists}

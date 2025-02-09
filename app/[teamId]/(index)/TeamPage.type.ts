@@ -1,3 +1,7 @@
+import { UpdateGroupParams } from '@/types/group.type';
+
+type _UpdateGroupParams = Omit<UpdateGroupParams, 'id'>;
+
 interface _CreateTaskListParams {
   name: string;
 }
@@ -12,6 +16,7 @@ interface _DeleteTaskListParams {
 }
 
 export type {
+  _UpdateGroupParams,
   _CreateTaskListParams,
   _UpdateTaskListParams,
   _DeleteTaskListParams,
