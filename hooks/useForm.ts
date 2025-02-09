@@ -51,10 +51,10 @@ const useForm = <T extends Record<string, FormValue>>(initialValues: T) => {
   const [formData, setFormData] = useState<T>(initialValues);
   const [errorMessage, setErrorMessage] = useState<
     Partial<Record<keyof T, string>>
-  >({});
+  >(initializeValues(initialValues, ''));
   const [changedFields, setChangedFields] = useState<
     Partial<Record<keyof T, boolean>>
-  >({});
+  >(initializeValues(initialValues, false));
 
   // input 디바운스된 검증 함수
   const debouncedValidateField = useDebounce(
