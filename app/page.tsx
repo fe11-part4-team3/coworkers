@@ -67,11 +67,11 @@ export default function LandingPage() {
           }}
         />
 
-        <div className="absolute left-1/2 top-pr-204 flex -translate-x-1/2 flex-col items-center justify-center gap-pr-20 text-center mo:top-pr-175 ta:top-pr-220">
+        <div className="absolute left-1/2 top-pr-204 flex -translate-x-1/2 flex-col items-center justify-center gap-pr-20 text-center mo:top-pr-175 mo:gap-pr-4 ta:top-pr-220">
           <h2 className="flex gap-pr-24 whitespace-nowrap text-48sb text-t-primary mo:gap-pr-4 mo:text-24sb ta:text-40sb">
             함께 만들어가는 투두 리스트
             <Image
-              src="/images/landing/img-Tool.svg"
+              src="/images/landing/icon-Tool.svg"
               alt="Tool"
               width={56}
               height={56}
@@ -115,16 +115,15 @@ export default function LandingPage() {
             fill
             className="absolute inset-0 hidden object-cover mo:hidden ta:block"
           />
-          <div
-            className="absolute inset-0 hidden bg-cover bg-center bg-no-repeat mo:block"
-            style={{
-              backgroundImage:
-                "url('/images/landing/img-Landing-bottom-mo.png')",
-            }}
+          <Image
+            src="/images/landing/img-Landing-bottom-mo.png"
+            alt="background-bottom-mobile"
+            fill
+            className="absolute inset-0 hidden bg-slate-950 object-contain mo:block"
           />
 
           <div className="absolute top-pr-230 flex flex-col items-center mo:top-pr-123 ta:top-pr-176">
-            <h1 className="mb-pr-24 text-center text-40sb text-t-primary mo:text-24sb">
+            <h1 className="mb-pr-24 text-center text-40sb text-t-primary mo:mb-pr-16 mo:text-24sb">
               지금 바로 시작해보세요
             </h1>
             <h2 className="text-center text-24m text-t-primary mo:text-16m">
