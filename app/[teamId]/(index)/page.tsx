@@ -47,22 +47,11 @@ export default function TeamPage() {
     initialData: [],
   });
 
-  const { mutate: onCreate } = useMutation({
+  const { mutate: onCreateTaskList } = useMutation({
     mutationFn: (params: _CreateTaskListParams) => _createTaskList(params),
     onSuccess: () => refetch(),
     onError: (error) => alert(error),
   });
-  const { mutate: onEdit } = useMutation({
-    mutationFn: (params: _UpdateTaskListParams) => _updateTaskList(params),
-    onSuccess: ({ id }) => refetchById(id),
-    onError: (error) => alert(error),
-  });
-  const { mutate: onDelete } = useMutation({
-    mutationFn: (params: _DeleteTaskListParams) => _deleteTaskList(params),
-    onSuccess: ({ id }) => removeById(id),
-    onError: (error) => alert(error),
-  });
-
   const _createTaskList = (params: _CreateTaskListParams) => {
     if (!group) throw new Error('목록을 생성할 팀이 없습니다');
     if (role !== 'ADMIN')
@@ -70,6 +59,11 @@ export default function TeamPage() {
     return createTaskList({ groupId: group.id, ...params });
   };
 
+  const { mutate: onEditTaskList } = useMutation({
+    mutationFn: (params: _UpdateTaskListParams) => _updateTaskList(params),
+    onSuccess: ({ id }) => refetchById(id),
+    onError: (error) => alert(error),
+  });
   const _updateTaskList = (params: _UpdateTaskListParams) => {
     if (!group) throw new Error('수정할 목록의 팀이 없습니다');
     if (role !== 'ADMIN')
@@ -77,6 +71,11 @@ export default function TeamPage() {
     return updateTaskList({ groupId: group.id, ...params });
   };
 
+  const { mutate: onDeleteTaskList } = useMutation({
+    mutationFn: (params: _DeleteTaskListParams) => _deleteTaskList(params),
+    onSuccess: ({ id }) => removeById(id),
+    onError: (error) => alert(error),
+  });
   const _deleteTaskList = async (params: _DeleteTaskListParams) => {
     if (!group) throw new Error('삭제할 목록의 팀이 없습니다');
     if (role !== 'ADMIN')
@@ -97,9 +96,9 @@ export default function TeamPage() {
         <GroupTaskListWrapper
           role={role}
           taskLists={taskLists}
-          onCreate={onCreate}
-          onEdit={onEdit}
-          onDelete={onDelete}
+          onCreate={onCreateTaskList}
+          onEdit={onEditTaskList}
+          onDelete={onDeleteTaskList}
         />
         <GroupReport tasks={tasks} taskLists={taskLists} />
         <GroupMemberList role={role} groupId={group.id} members={members} />
