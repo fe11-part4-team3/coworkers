@@ -14,6 +14,7 @@ import {
 import NotFound from '@/app/404/NotFound';
 import useTaskLists from '@/hooks/useTaskLists';
 import { getTasksInGroup, updateGroup } from '@/service/group.api';
+import useModalStore from '@/stores/modalStore';
 
 import GroupHeader from './GroupHeader';
 import GroupMemberList from './GroupMemberList';
@@ -25,7 +26,6 @@ import {
   _UpdateTaskListParams,
 } from './TeamPage.type';
 import GroupReport from './GroupReport';
-import useModalStore from '@/stores/modalStore';
 
 export default function TeamPage() {
   const { memberships, reload } = useUser(true);
