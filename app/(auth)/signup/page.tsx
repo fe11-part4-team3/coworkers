@@ -27,7 +27,7 @@ function SignupPage() {
       showSnackbar('회원가입이 완료 되었습니다.');
       route.push('/login');
     },
-    onError: () => showSnackbar('회원가입에 실패했습니다.', 'error'),
+    onError: () => showSnackbar('이미 사용중인 이메일입니다.', 'error'),
   });
 
   // 회원가입 버튼 클릭 시
