@@ -56,6 +56,8 @@ export default function AddTask({ fetchData }: { fetchData: any }) {
 
   const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
 
+  const today = new Date();
+
   const combineDateAndTimeKST = (date: Date, time: string) => {
     const [hours, minutes] = time.split(':').map((val) => parseInt(val, 10));
 
@@ -96,8 +98,18 @@ export default function AddTask({ fetchData }: { fetchData: any }) {
   };
 
   useEffect(() => {
-    if (date && time)
-      updateInputValue(2, 'startDate', combineDateAndTimeKST(date, time));
+    if (date && time) {
+      const conbineDate = combineDateAndTimeKST(date, time);
+
+      if (conbineDate < today.toISOString()) {
+        alert('현재 시간 이후로 설정해주세요.');
+        setDate(new Date());
+        setTime('');
+        return;
+      }
+
+      updateInputValue(2, 'startDate', conbineDate);
+    }
   }, [date, time]);
 
   /* useEffect(() => {
