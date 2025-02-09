@@ -135,8 +135,9 @@ const useForm = <T extends Record<string, FormValue>>(initialValues: T) => {
         ? { ...initialValues, ...newValues }
         : initialValues;
       setFormData(updatedInitialValues);
-      setChangedFields({});
-      setErrorMessage({});
+      setChangedFields(initializeValues(initialValues, false));
+      setErrorMessage(initializeValues(initialValues, ''));
+      handleClearPreview();
     },
     [initialValues],
   );
