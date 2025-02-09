@@ -43,13 +43,13 @@ export default function OauthForm({ type }: { type: 'login' | 'signup' }) {
 
   const isExecuted = useRef(false);
 
-  // STUB 유저 정보가 없고, 구글 로그인 데이터가 있을 때
   useEffect(() => {
     if (!session || isExecuted.current) return;
 
     isExecuted.current = true;
 
     if (session?.googleIdToken) {
+      // STUB 유저 정보가 없고, 구글 로그인 데이터가 있을 때
       const googleFormData = {
         provider: 'GOOGLE',
         state: 'authenticated',
@@ -58,28 +58,21 @@ export default function OauthForm({ type }: { type: 'login' | 'signup' }) {
       };
 
       postOauthLogin(googleFormData);
-    }
-  }, [postOauthLogin, session]);
-
-  // STUB 유저 정보가 없고, 카카오 로그인 데이터가 있을 때, 로그인 처리가 되지 않았을 때(중복 로그인 방지)
-  useEffect(() => {
-    if (!session || isExecuted.current) return;
-
-    isExecuted.current = true;
-
-    if (!user && session && session.user && session.kakaoAccessToken) {
+    } else if (session?.kakaoAccessToken) {
+      // STUB 유저 정보가 없고, 카카오 로그인 데이터가 있을 때, 로그인 처리가 되지 않았을 때(중복 로그인 방지)
       const kakaoFormData = {
         id: session.id || 0,
         user: {
-          email: session.user.email || `${session.id}@kakao.com`,
-          nickname: `${session.user.name}${generateRandomNumber(5)}`,
-          image: session.user.image || '',
+          email: session?.user?.email || `${session?.id}@kakao.com`,
+          nickname: `${session?.user?.name}${generateRandomNumber(5)}`,
+          image: session?.user?.image || '',
         },
         accessToken: session.kakaoAccessToken, // 세션에 저장된 최신 토큰 사용
       };
+
       kakaoLogin(kakaoFormData, reload);
     }
-  }, [session, user, reload, kakaoLogin]);
+  }, [session, user]);
 
   return (
     <>
