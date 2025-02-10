@@ -8,7 +8,7 @@ import CommentFooter from '@/components/Comment/CommentFooter';
 import { CommentProps, ITaskComment } from '@/types/comment.type';
 import useModalStore from '@/stores/modalStore';
 
-import CommentEdit from '../modal/CommentEdit';
+import EditDelete from '../modal/EditDelete';
 
 const ARTICLE_COMMENT_STYLE = 'bg-b-secondary px-pr-24 py-pr-20 border-none';
 const TASK_COMMENT_STYLE =
@@ -95,7 +95,9 @@ function Comment({
   // 수정 완료
   const updateSubmit = () => {
     openModal(
-      <CommentEdit
+      <EditDelete
+        title="댓글"
+        actionType="수정"
         onClick={() => {
           handleUpdateSubmit(id, commentEditContent);
           setCommentEdit(false);

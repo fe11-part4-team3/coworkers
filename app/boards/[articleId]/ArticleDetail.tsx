@@ -12,7 +12,7 @@ import { GetArticleDetailParams } from '@/types/article.type';
 import useUser from '@/hooks/useUser';
 import { useSnackbar } from '@/contexts/SnackBar.context';
 import useModalStore from '@/stores/modalStore';
-import Delete from '@/components/modal/Delete';
+import EditDelete from '@/components/modal/EditDelete';
 
 import ArticleDetailSkeleton from './ArticleDetailSkeleton';
 
@@ -49,8 +49,9 @@ function ArticleDetail({ articleId }: GetArticleDetailParams) {
 
   const handleArticleDelete = () => {
     openModal(
-      <Delete
+      <EditDelete
         title="게시글"
+        actionType="삭제"
         onClick={() => {
           deleteArticle({ articleId });
           showSnackbar('게시글이 삭제되었습니다.');

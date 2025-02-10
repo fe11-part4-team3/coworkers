@@ -2,13 +2,22 @@ import useModalStore from '@/stores/modalStore';
 import Buttons from '@/components/Buttons';
 
 /**
- * 댓글 수정 모달 컴포넌트.
- * 댓글 수정 기능을 제공합니다.
+ * 게시글, 댓글 삭제 모달 컴포넌트.
+ * 게시글 삭제와 댓글 삭제 기능을 제공합니다.
  *
- * @param {Function} onClick - 모달 실행 함수 (댓글 수정을 처리하는 함수 전달해주세요.)
+ * @param {string} title - 모달 타이틀 (게시글 or 댓글)
+ * @param {Function} onClick - 모달 실행 함수 (게시글, 댓글 삭제를 처리하는 함수 전달해주세요.)
  */
 
-export default function CommentEdit({ onClick }: { onClick: () => void }) {
+export default function EditDelete({
+  title,
+  actionType,
+  onClick,
+}: {
+  title: '게시글' | '댓글';
+  actionType: '삭제' | '수정';
+  onClick: () => void;
+}) {
   const { closeModal } = useModalStore();
 
   /* 꼭 읽어주세요. 
@@ -21,10 +30,14 @@ export default function CommentEdit({ onClick }: { onClick: () => void }) {
     closeModal();
   };
 
+  const deleteType = actionType === '삭제';
+
   return (
     <>
       <div className="modal-title-wrapper">
-        <h2 className="modal-title">댓글을 수정하시겠습니까?</h2>
+        <h2 className="modal-title">
+          {title}을 {actionType}하시겠습니까?
+        </h2>
       </div>
       <div className="modal-button-wrapper">
         <Buttons
@@ -35,9 +48,9 @@ export default function CommentEdit({ onClick }: { onClick: () => void }) {
           backgroundColor="white"
         />
         <Buttons
-          text="수정"
+          text={actionType}
           onClick={handleOnClick}
-          backgroundColor="default"
+          backgroundColor={deleteType ? 'danger' : 'default'}
         />
       </div>
     </>

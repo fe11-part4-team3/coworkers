@@ -11,7 +11,7 @@ import { deleteArticle } from '@/service/article.api';
 import Empty from '@/components/Empty/Empty';
 import { useSnackbar } from '@/contexts/SnackBar.context';
 import useModalStore from '@/stores/modalStore';
-import Delete from '@/components/modal/Delete';
+import EditDelete from '@/components/modal/EditDelete';
 
 import ArticleSkeleton from './ArticleSkeleton';
 
@@ -53,8 +53,9 @@ function ArticleList({ keyword }: { keyword: string | undefined }) {
 
   const handleArticleDelete = (id: number) => {
     openModal(
-      <Delete
+      <EditDelete
         title="게시글"
+        actionType="삭제"
         onClick={() => deleteArticleMutation.mutate(id)}
       />,
     );

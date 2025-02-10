@@ -18,7 +18,7 @@ import {
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { useSnackbar } from '@/contexts/SnackBar.context';
 import useModalStore from '@/stores/modalStore';
-import Delete from '@/components/modal/Delete';
+import EditDelete from '@/components/modal/EditDelete';
 
 function CommentContainer({ articleId }: { articleId: number }) {
   const [commentValue, setCommentValue] = useState('');
@@ -79,8 +79,9 @@ function CommentContainer({ articleId }: { articleId: number }) {
 
   const handleCommentDelete = ({ commentId }: DeleteArticleCommentParams) => {
     openModal(
-      <Delete
+      <EditDelete
         title="댓글"
+        actionType="삭제"
         onClick={() => deleteCommentMutation.mutate({ commentId })}
       />,
     );
