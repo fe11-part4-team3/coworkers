@@ -1,9 +1,8 @@
 'use client';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import dynamic from 'next/dynamic';
 import { SessionProvider } from 'next-auth/react';
-import { Session } from 'next-auth';
 
 import '@/styles/fonts.css';
 import '@/styles/globals.css';
@@ -21,12 +20,19 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import { SnackbarProvider } from '@/contexts/SnackBar.context';
 
 const queryClient = new QueryClient();
+
+const ReactQueryDevtools = dynamic(
+  () =>
+    import('@tanstack/react-query-devtools').then(
+      (mod) => mod.ReactQueryDevtools,
+    ),
+  { ssr: false },
+);
+
 export default function RootLayout({
   children,
-  session,
 }: Readonly<{
   children: React.ReactNode;
-  session?: Session;
 }>) {
   return (
     <html lang="ko">
@@ -39,7 +45,7 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <QueryClientProvider client={queryClient}>
-              <SessionProvider session={session}>
+              <SessionProvider refetchInterval={0}>
                 <TooltipProvider>
                   <SidebarProvider defaultOpen={false}>
                     <SnackbarProvider>

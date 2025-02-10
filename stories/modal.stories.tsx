@@ -64,7 +64,12 @@ const Template: StoryFn = () => {
     openModal(<DeleteTask title="dd" onClick={() => handleAddTask} />);
   };
   const handleOpenDeleteAccount = () => {
-    openModal(<DeleteAccount />);
+    openModal(
+      <DeleteAccount
+        onClick={() => console.log('회원탈퇴 클릭')}
+        isPending={false}
+      />,
+    );
   };
   const handleOpenChangePassword = () => {
     openModal(<ChangePassword />);
