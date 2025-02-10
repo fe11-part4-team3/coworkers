@@ -9,6 +9,7 @@ import SelectBox from '@/components/SelectBox';
 import useGetArticle from '@/hooks/useGetArticle';
 import { deleteArticle } from '@/service/article.api';
 import Empty from '@/components/Empty/Empty';
+import { useSnackbar } from '@/contexts/SnackBar.context';
 
 import ArticleSkeleton from './ArticleSkeleton';
 
@@ -19,6 +20,8 @@ import ArticleSkeleton from './ArticleSkeleton';
 function ArticleList({ keyword }: { keyword: string | undefined }) {
   const [option, setOption] = useState<'recent' | 'like'>('recent');
   const queryClient = useQueryClient();
+
+  const { showSnackbar } = useSnackbar();
 
   const {
     data: articleList,
@@ -39,7 +42,7 @@ function ArticleList({ keyword }: { keyword: string | undefined }) {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['articleList'] });
-      alert('게시글이 삭제되었습니다.');
+      showSnackbar('게시글이 삭제되었습니다.');
     },
   });
 
