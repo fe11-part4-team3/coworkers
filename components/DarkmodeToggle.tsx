@@ -1,9 +1,23 @@
-import { ModeToggle } from './ui/ModeToggle';
+import { useTheme } from 'next-themes';
+import { Moon, Sun } from 'lucide-react';
 
-export default function DarkmodeToggle() {
+function DarkmodeToggle() {
+  const { theme, setTheme } = useTheme();
+
+  // 다크 모드 여부 확인
+  const isDark = theme === 'dark';
   return (
-    <div className="fixed bottom-pr-60 right-pr-40 z-50">
-      <ModeToggle />
-    </div>
+    <button
+      onClick={() => setTheme(isDark ? 'light' : 'dark')}
+      className="flex items-center rounded-full p-pr-8 transition-all duration-300 hover:bg-b-primary"
+    >
+      {isDark ? (
+        <Moon className="size-pr-20" />
+      ) : (
+        <Sun className="size-pr-20" />
+      )}
+    </button>
   );
 }
+
+export default DarkmodeToggle;
