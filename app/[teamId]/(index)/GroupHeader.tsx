@@ -19,7 +19,7 @@ export default function GroupHeader({
   name,
   // onClick,
 }: GroupHeaderProps) {
-  const theme = useThemeMode();
+  const { theme } = useThemeMode();
 
   return (
     <header className="flex max-h-pr-64 max-w-pr-1200 items-center justify-between rounded-pr-12 border border-[#F8FAFC1A] bg-[--t-primary-dark-10] px-pr-20">
