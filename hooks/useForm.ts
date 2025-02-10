@@ -43,6 +43,7 @@ const initializeValues = <T extends Record<string, FormValue>, U>(
  * @returns resetForm 초기화 함수
  * @returns setChangedFields 변경된 필드 설정 함수
  * @returns handleInputChange 입력값 변경 핸들러
+ * @returns handleInputBlur 입력값 블러 핸들러
  * @returns handleFileChange 파일 변경 핸들러
  * @returns handleClearImage 파일 초기화 핸들러
  * @returns handleClearPreview 미리보기 초기화 핸들러
@@ -78,6 +79,30 @@ const useForm = <T extends Record<string, FormValue>>(initialValues: T) => {
     },
     500,
   );
+
+  const handleInputBlur = (
+    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const { name, value } = e.target;
+    const key = name as keyof T;
+
+    // 디바운스 카운트가 끝나기전에 포커스를 이동한다면, 바로 검증 함수를 호출
+    const updatedFormData = { ...formData, [key]: value };
+    const fieldErrors = validateField(
+      key,
+      value,
+      updatedFormData,
+      initialValues,
+    );
+    setErrorMessage((prevErr) => ({
+      ...prevErr,
+      [key]: fieldErrors[key] || '',
+    }));
+    setChangedFields((prevChanged) => ({
+      ...prevChanged,
+      [key]: value !== initialValues[key],
+    }));
+  };
 
   // 입력값 변경 핸들러 (formData는 즉시 업데이트하되, 검증은 디바운스)
   const handleInputChange = useCallback(
@@ -167,6 +192,7 @@ const useForm = <T extends Record<string, FormValue>>(initialValues: T) => {
     resetForm,
     setChangedFields,
     handleInputChange,
+    handleInputBlur,
     handleFileChange,
     handleClearImage,
   };

@@ -20,8 +20,13 @@ function LoginPage() {
     password: '',
   };
 
-  const { formData, handleInputChange, changedFields, errorMessage } =
-    useForm(initialValues);
+  const {
+    formData,
+    handleInputChange,
+    changedFields,
+    handleInputBlur,
+    errorMessage,
+  } = useForm(initialValues);
 
   const route = useRouter();
   const { reload, user } = useUser();
@@ -93,6 +98,7 @@ function LoginPage() {
               handleInputChange(e);
               setHasLoginError('');
             }}
+            onBlur={handleInputBlur}
             errorMessage={hasLoginError ? hasLoginError : errorMessage.email}
             placeholder="이메일을 입력해주세요."
             required
@@ -104,6 +110,7 @@ function LoginPage() {
             autoComplete="current-password"
             value={formData.password}
             onChange={handleInputChange}
+            onBlur={handleInputBlur}
             errorMessage={errorMessage.password}
             placeholder="비밀번호를 입력해주세요."
             required
