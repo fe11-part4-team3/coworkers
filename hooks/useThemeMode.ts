@@ -5,16 +5,25 @@ const DEFAULT_THEME = 'dark';
 
 export type Theme = 'dark' | 'light';
 
-export default function useThemeMode(selectTheme?: Theme): Theme {
+export default function useThemeMode() {
   const [currentTheme, setCurrentTheme] = useState<Theme>(DEFAULT_THEME);
-  const { theme, systemTheme } = useTheme();
+  const { theme, systemTheme, setTheme } = useTheme();
 
-  useEffect(() => {
-    if (selectTheme) {
-      setCurrentTheme(selectTheme);
+  const toggle = (theme: Theme) => (theme === 'dark' ? 'light' : 'dark');
+
+  const toggleTheme = () => {
+    if (theme === 'system' && systemTheme) {
+      setTheme(toggle(systemTheme));
       return;
     }
+    if (theme === 'dark' || theme === 'light') {
+      setTheme((prev) => toggle(prev as Theme));
+      return;
+    }
+    setTheme(toggle(DEFAULT_THEME));
+  };
 
+  useEffect(() => {
     if (theme === 'system') {
       const next = systemTheme || DEFAULT_THEME;
       setCurrentTheme(next);
@@ -27,7 +36,7 @@ export default function useThemeMode(selectTheme?: Theme): Theme {
     }
 
     setCurrentTheme(DEFAULT_THEME);
-  }, [theme, systemTheme, selectTheme]);
+  }, [theme, systemTheme]);
 
-  return currentTheme;
+  return { theme: currentTheme, toggleTheme };
 }
