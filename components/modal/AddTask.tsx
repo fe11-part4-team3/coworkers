@@ -65,9 +65,12 @@ export default function AddTask({ fetchData }: { fetchData: any }) {
     date.setSeconds(0);
     date.setMilliseconds(0);
 
-    const combineTime = new Date(date.getTime());
+    const combineDate = new Date(date);
 
-    return combineTime.toISOString();
+    const offset = combineDate.getTimezoneOffset() * 60000;
+    const combineKSTDate = new Date(date.getTime() - offset).toISOString();
+
+    return combineKSTDate;
   };
 
   const handleCalendarInputClick = () => {
@@ -99,18 +102,20 @@ export default function AddTask({ fetchData }: { fetchData: any }) {
     if (!date) return setDate(new Date());
 
     if (date && time) {
-      const conbineDate = combineDateAndTimeKST(date, time);
+      const combineKSTDate = combineDateAndTimeKST(date, time);
       const today = new Date();
-      const todayKST = new Date(today.getTime() + 9 * 60 * 1000);
+      const todayKST = new Date(today.getTime() + 9 * 60 * 60000).toISOString();
 
-      if (conbineDate < todayKST.toISOString()) {
+      console.log(combineKSTDate, todayKST);
+
+      if (combineKSTDate < todayKST) {
         alert('현재 시간 이후로 설정해주세요.');
         setDate(new Date());
         setTime('');
         return;
       }
 
-      updateInputValue(2, 'startDate', conbineDate);
+      updateInputValue(2, 'startDate', combineKSTDate);
     }
   }, [date, time]);
 

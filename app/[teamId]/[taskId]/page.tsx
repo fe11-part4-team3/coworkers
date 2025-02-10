@@ -51,8 +51,12 @@ export default function TaskListPage() {
   const { taskLists } = useGroup(groupId);
 
   const fetchGetTaskList = useQuery({
-    queryKey: ['getTaskList', { groupId, taskListId, date: String(date) }],
-    queryFn: () => getTaskList({ groupId, id: taskListId, date: String(date) }),
+    queryKey: [
+      'getTaskList',
+      { groupId, taskListId, date: date?.toDateString() },
+    ],
+    queryFn: () =>
+      getTaskList({ groupId, id: taskListId, date: date?.toDateString() }),
   });
 
   const fetchCreateTask = useMutation({
@@ -155,6 +159,7 @@ export default function TaskListPage() {
             <span className="text-16m">{formattedDate}</span>
             <div
               className="flex items-center gap-pr-4 text-b-secondary"
+              onClick={() => setDetailTaskId(null)}
               ref={ref}
             >
               <PrevButtonIcon
