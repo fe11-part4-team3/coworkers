@@ -1,31 +1,44 @@
+'use client';
+
 import Container from '@/components/layout/Container';
 import TaskCard from '@/components/TaskCard/TaskCard';
 import { newDate } from '@/utils/dateConversion';
-
-import historyMock from './mock.json';
+import { getHistory } from '@/service/user.api';
+import { useEffect, useState } from 'react';
+import { ITaskMetadata } from '@/types/task.type';
+// import instance from '@/service/axios';
+// import historyMock from './mock.json';
 
 function MyHistoryPage() {
-  // 필요한 값만 추출하여 새로운 배열 생성
-  const tasksDone = historyMock.tasksDone.map((task) => ({
-    id: task.id,
-    name: task.name,
-    date: task.date,
-    doneAt: task.doneAt,
-    frequency: task.frequency,
-    commentCount: 0,
-  }));
+  const [tasksDone, setTasksDone] = useState<ITaskMetadata[]>([]);
+
+  useEffect(() => {
+    const fetchHistory = async () => {
+      try {
+        const data = await getHistory();
+        console.log('📌 API 응답 데이터:', data);
+        setTasksDone(data);
+      } catch (error) {
+        console.error('Failed to fetch history:', error);
+      }
+    };
+
+    fetchHistory();
+  }, []);
 
   // doneAt 날짜를 기준으로 그룹화
   const groupedTasks = tasksDone.reduce(
     (acc, task) => {
-      const date = newDate(task.doneAt);
+      if (!task.doneAt) return acc; // null 값 무시
+
+      const date = newDate(task.doneAt); // newDate 함수 사용
       if (!acc[date]) {
         acc[date] = [];
       }
       acc[date].push(task);
       return acc;
     },
-    {} as Record<string, typeof tasksDone>,
+    {} as Record<string, ITaskMetadata[]>,
   );
 
   // 날짜별로 정렬 (최신 날짜가 위쪽으로)
