@@ -9,7 +9,7 @@ function DarkmodeToggle() {
   return (
     <button
       onClick={() => setTheme(isDark ? 'light' : 'dark')}
-      className="flex items-center rounded-full p-pr-8 transition-all duration-300 hover:bg-b-primary"
+      className="light:bg-i-inactive flex items-center rounded-full p-pr-8 transition-all duration-300 hover:bg-b-tertiary"
     >
       {isDark ? (
         <Moon className="size-pr-20" />
