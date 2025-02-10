@@ -7,6 +7,32 @@ import useDebounce from '@/hooks/useDebounce';
 export type FormValue = string | number | File | '';
 
 /**
+ * 특정 객체의 `key`와 동일한 `key`를 공유하는 객체를 생성하는 함수
+ * @param values `key`를 공유할 원본 객체
+ * @param initValue 프로퍼티에 들어갈 초기값
+ * @returns 초기화 된 객체
+ * @example
+ * ```
+ * const A = { a : value1,  b : value2  };
+ * const B = initialValues(A, false);
+ * console.log(B)
+ * // {a : false, b : false}
+ * ```
+ */
+const initializeValues = <T extends Record<string, FormValue>, U>(
+  values: T,
+  initValue: U,
+): Partial<Record<keyof T, U>> => {
+  return Object.keys(values).reduce(
+    (acc, key) => {
+      acc[key as keyof T] = initValue;
+      return acc;
+    },
+    {} as Partial<Record<keyof T, U>>,
+  );
+};
+
+/**
  * useForm
  * @param initialValues 초기값
  * @returns formData 현재 폼 데이터
@@ -25,10 +51,10 @@ const useForm = <T extends Record<string, FormValue>>(initialValues: T) => {
   const [formData, setFormData] = useState<T>(initialValues);
   const [errorMessage, setErrorMessage] = useState<
     Partial<Record<keyof T, string>>
-  >({});
+  >(initializeValues(initialValues, ''));
   const [changedFields, setChangedFields] = useState<
     Partial<Record<keyof T, boolean>>
-  >({});
+  >(initializeValues(initialValues, false));
 
   // input 디바운스된 검증 함수
   const debouncedValidateField = useDebounce(
@@ -125,8 +151,9 @@ const useForm = <T extends Record<string, FormValue>>(initialValues: T) => {
         ? { ...initialValues, ...newValues }
         : initialValues;
       setFormData(updatedInitialValues);
-      setChangedFields({});
-      setErrorMessage({});
+      setChangedFields(initializeValues(initialValues, false));
+      setErrorMessage(initializeValues(initialValues, ''));
+      handleClearPreview();
     },
     [initialValues],
   );

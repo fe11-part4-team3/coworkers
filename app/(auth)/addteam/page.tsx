@@ -11,6 +11,7 @@ import Profile from '@/components/Profile/Profile';
 import useUser from '@/hooks/useUser';
 import updatePayloadSubmit from '@/utils/updatePayload';
 import Buttons from '@/components/Buttons';
+import { useSnackbar } from '@/contexts/SnackBar.context';
 
 // STUB 초기값
 const INITIAL_VALUES = {
@@ -22,6 +23,8 @@ export default function AddTeamPage() {
   const { user, isPending, reload, groups } = useUser(true);
 
   const route = useRouter();
+
+  const { showSnackbar } = useSnackbar();
 
   // STUB 팀 생성 폼 상태
   const {
@@ -59,14 +62,13 @@ export default function AddTeamPage() {
     useMutation({
       mutationFn: createGroup,
       onSuccess: (response) => {
-        alert('팀 생성이 완료되었습니다');
-        console.log('팀 생성이 완료되었습니다', response);
+        showSnackbar('팀 생성이 완료되었습니다.');
         route.push(`/${response.id}`);
         resetForm();
         reload();
       },
       onError: () => {
-        alert('팀 생성에 실패했습니다');
+        showSnackbar('팀 생성에 실패했습니다. 다시 시도해주세요', 'error');
       },
     });
 

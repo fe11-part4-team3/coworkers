@@ -8,6 +8,7 @@ import {
 } from '@/lib/kakaoStorage';
 import { signIn, signUp } from '@/service/auth.api';
 import { updateUser } from '@/service/user.api';
+import { useSnackbar } from '@/contexts/SnackBar.context';
 
 interface IKakaoLogin {
   id: number;
@@ -17,6 +18,7 @@ interface IKakaoLogin {
 const useKakaoLogin = () => {
   // STUB 중복 로그인 방지 플래그
   const signInExecutedRef = useRef(false);
+  const { showSnackbar } = useSnackbar();
 
   const kakaoLogin = useCallback(
     async ({ id, user: userData }: IKakaoLogin, reload: () => void) => {
@@ -52,14 +54,13 @@ const useKakaoLogin = () => {
               email: userEmail,
               password: userPassword,
             });
-            console.log('[카카오] 로그인 완료');
+            showSnackbar('카카오 로그인이 완료되었습니다.');
             setLoginProcessed();
 
             if (!getProfileUpdated()) {
               await updateUser({
                 image: image || '',
               });
-              console.log('프로필 업데이트 완료');
               setProfileUpdated();
             }
           }
