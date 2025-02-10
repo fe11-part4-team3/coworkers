@@ -102,7 +102,7 @@ export default function LandingPage() {
       </section>
 
       <footer>
-        <div className="relative flex h-pr-1080 w-screen flex-col items-center">
+        <div className="relative flex h-pr-1080 w-screen flex-col items-center mo:h-pr-640 ta:h-pr-940">
           <Image
             src="/images/landing/img-Landing-bottom.png"
             alt="background-bottom"
@@ -119,7 +119,7 @@ export default function LandingPage() {
             src="/images/landing/img-Landing-bottom-mo.png"
             alt="background-bottom-mobile"
             fill
-            className="absolute inset-0 hidden bg-slate-950 object-contain mo:block"
+            className="absolute inset-0 hidden bg-slate-950 object-cover mo:block"
           />
 
           <div className="absolute top-pr-230 flex flex-col items-center mo:top-pr-123 ta:top-pr-176">
