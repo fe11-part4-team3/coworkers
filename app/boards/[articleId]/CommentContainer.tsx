@@ -15,11 +15,14 @@ import {
   UpdateArticleCommentParams,
 } from '@/types/articleComment.type';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
+import { useSnackbar } from '@/contexts/SnackBar.context';
 
 function CommentContainer({ articleId }: { articleId: number }) {
   const [commentValue, setCommentValue] = useState('');
 
   const queryClient = useQueryClient();
+
+  const { showSnackbar } = useSnackbar();
 
   // 게시글 댓글 생성
   const createCommentMutation = useMutation({
@@ -27,6 +30,7 @@ function CommentContainer({ articleId }: { articleId: number }) {
       createArticleComment(newComment),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['commentList'] });
+      showSnackbar('댓글이 등록되었습니다.');
       setCommentValue('');
     },
   });
@@ -58,6 +62,7 @@ function CommentContainer({ articleId }: { articleId: number }) {
       deleteArticleComment(deleteComment),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['commentList'] });
+      showSnackbar('댓글이 삭제되었습니다.');
     },
   });
 
@@ -73,6 +78,7 @@ function CommentContainer({ articleId }: { articleId: number }) {
       updateArticleComment(updateComment),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['commentList'] });
+      showSnackbar('댓글이 수정되었습니다.');
     },
   });
 
