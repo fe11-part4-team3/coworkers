@@ -10,6 +10,7 @@ import useModalStore from '@/stores/modalStore';
 
 import GroupEditModal from './GroupEditModal';
 import { _UpdateGroupParams } from './TeamPage.type';
+import GroupDeleteModal from './GroupDeleteModal';
 
 interface GroupHeaderProps {
   role: RoleType;
@@ -33,9 +34,7 @@ export default function GroupHeader({
   };
 
   const handleClickDelete = () => {
-    if (confirm('팀을 삭제 하시겠습니까?')) {
-      onDelete();
-    }
+    openModal(<GroupDeleteModal onDelete={onDelete} />);
   };
 
   return (

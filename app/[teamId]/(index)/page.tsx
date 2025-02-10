@@ -75,10 +75,10 @@ export default function TeamPage() {
     mutationFn: () => _deleteGroup(),
     onSuccess: () => {
       closeModal();
+      router.push('/');
       removeAll();
       refetchUser();
       refetchGroup();
-      router.push('/');
     },
     onError: (error) => alert(error),
   });
