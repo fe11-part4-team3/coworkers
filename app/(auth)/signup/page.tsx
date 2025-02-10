@@ -2,12 +2,14 @@
 
 import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
+import { useEffect } from 'react';
 
 import { signUp } from '@/service/auth.api';
 import useForm from '@/hooks/useForm';
 import InputField from '@/components/InputField/InputField';
 import Buttons from '@/components/Buttons';
 import { useSnackbar } from '@/contexts/SnackBar.context';
+import useUser from '@/hooks/useUser';
 
 function SignupPage() {
   const { formData, handleInputChange, errorMessage } = useForm({
@@ -16,6 +18,8 @@ function SignupPage() {
     password: '',
     passwordConfirmation: '',
   });
+
+  const { user } = useUser();
 
   const route = useRouter();
 
@@ -36,6 +40,19 @@ function SignupPage() {
 
     postSignup(formData);
   };
+
+  useEffect(() => {
+    if (user) {
+      // STUB 로그인 후 가입된 그룹이 있을 때, 첫 번째 그룹으로 이동
+      if (user.memberships.length > 0) {
+        route.push(`/${user.memberships[0].groupId}`);
+      } else {
+        route.push(`/`);
+      }
+    } else {
+      return;
+    }
+  }, [route, user]);
 
   return (
     <form onSubmit={handleSubmit}>
