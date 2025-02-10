@@ -1,5 +1,6 @@
 import { ChangeEvent, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { motion } from 'framer-motion';
 
 import ArticleCommentTextarea from '@/components/ArticleCommentTextarea/ArticleCommentTextarea';
 import Comment from '@/components/Comment/Comment';
@@ -107,18 +108,28 @@ function CommentContainer({ articleId }: { articleId: number }) {
           articleComments.pages
             .flatMap((page) => page.list) // 페이지별 댓글 리스트를 하나의 배열로 변환
             .map((comment) => (
-              <Comment
+              <motion.div
                 key={comment.id}
-                type="article"
-                commentData={comment}
-                handleDeleteClick={(id) =>
-                  handleCommentDelete({ commentId: id })
-                }
-                handleUpdateSubmit={(id, content) =>
-                  handleUpdateSubmit({ commentId: id, content })
-                }
-                isLoading={isLoading}
-              />
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{
+                  duration: 0.5,
+                  delay: 0.1,
+                }}
+              >
+                <Comment
+                  type="article"
+                  commentData={comment}
+                  handleDeleteClick={(id) =>
+                    handleCommentDelete({ commentId: id })
+                  }
+                  handleUpdateSubmit={(id, content) =>
+                    handleUpdateSubmit({ commentId: id, content })
+                  }
+                  isLoading={isLoading}
+                />
+              </motion.div>
             ))
         ) : (
           <p className="my-pr-118 text-center text-16m text-t-default">
