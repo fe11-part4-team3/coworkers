@@ -17,10 +17,13 @@ import AuthLoading from '@/components/AuthLoading';
 import { useSnackbar } from '@/contexts/SnackBar.context';
 
 function LoginPage() {
-  const { formData, handleInputChange, errorMessage } = useForm({
+  const initialValues = {
     email: '',
     password: '',
-  });
+  };
+
+  const { formData, handleInputChange, changedFields, errorMessage } =
+    useForm(initialValues);
 
   const route = useRouter();
   const { user, reload, isAuthenticated } = useUser();
@@ -75,6 +78,16 @@ function LoginPage() {
 
   if (status === 'loading') return <AuthLoading />;
 
+  const requiredFields = Object.keys(initialValues);
+
+  const hasDisabled =
+    requiredFields.some(
+      (field) => !changedFields[field as keyof typeof changedFields],
+    ) ||
+    requiredFields.some(
+      (field) => errorMessage[field as keyof typeof errorMessage] !== '',
+    );
+
   // STUB 로그인 상태가 아닐 때
   return (
     <>
@@ -121,10 +134,7 @@ function LoginPage() {
           text="로그인"
           type="submit"
           className="mt-pr-40"
-          disabled={
-            isLogin ||
-            !(errorMessage.email === '' && errorMessage.password === '')
-          }
+          disabled={hasDisabled}
           loading={isLogin}
         />
       </form>
