@@ -32,12 +32,11 @@ export default function TaskDetail({
   commentData,
   deleteTask,
   updateTask,
-  updateTaskStatus,
   postComment,
   deleteComment,
   updateComment,
 }: TaskDetailProps) {
-  const [comment, setComment] = useState<string>('');
+  const [enterComment, setEnterComment] = useState<string>('');
 
   const taskDoneButtonStyle =
     value.doneBy?.user === null
@@ -61,13 +60,12 @@ export default function TaskDetail({
 
   const handleSubmitComment = (e: FormEvent) => {
     e.preventDefault();
-    postComment();
-    setComment('');
+    postComment({ taskId: value.id, content: enterComment });
+    setEnterComment('');
   };
 
   if (!isOpen) return null;
 
-  // 커스텀 달력, 시계 병합 후 base.css에 있는 scrollbar 사용 예정
   return (
     <>
       <div className="relative">
@@ -97,9 +95,9 @@ export default function TaskDetail({
           </p>
           <form onSubmit={handleSubmitComment}>
             <CommentTextarea
-              value={comment}
+              value={enterComment}
               onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
-                setComment(e.target.value)
+                setEnterComment(e.target.value)
               }
             />
           </form>
@@ -118,7 +116,16 @@ export default function TaskDetail({
         </div>
         <button
           className={`fixed bottom-pr-60 right-pr-40 flex h-pr-40 items-center justify-center gap-pr-4 rounded-full px-pr-20 text-14sb ${taskDoneButtonStyle}`}
-          onClick={() => updateTaskStatus(value.id)}
+          onClick={() =>
+            updateTask({
+              taskId: value.id,
+              body: {
+                name: value.name,
+                description: value.description ? value.description : '',
+                done: !value.doneAt,
+              },
+            })
+          }
         >
           <CheckIcon
             stroke={

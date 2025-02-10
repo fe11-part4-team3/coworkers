@@ -108,12 +108,18 @@ interface TaskDetailProps {
   setIsOpen: (isOpen: boolean) => void;
   value: ITask;
   commentData?: ITaskComment[];
-  deleteTask: (id: number) => void;
-  updateTask: (id: number) => void;
-  updateTaskStatus: (id: number) => void;
-  postComment: () => void;
-  deleteComment: (id: number) => void;
-  updateComment: (id: number) => void;
+  deleteTask: (taskId: number) => void;
+  updateTask: (variables: {
+    taskId: number;
+    body: { name: string; description: string; done: boolean };
+  }) => void;
+  postComment: (variables: { taskId: number; content: string }) => void;
+  deleteComment: (variables: { taskId: number; commentId: number }) => void;
+  updateComment: (variables: {
+    taskId: number;
+    commentId: number;
+    content: string;
+  }) => void;
 }
 
 export type {

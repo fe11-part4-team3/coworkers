@@ -12,12 +12,11 @@ import CalendarButtonIcon from '@/public/images/icon-calendar-button.svg';
 import TaskDetail from '@/components/TaskDetail/TaskDetail';
 import DatePicker from '@/components/DateTimePicker/DatePicker';
 
-import { taskMockData, commentMockData } from './mockData';
 import { getTaskList } from '@/service/taskList.api';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { usePathname } from 'next/navigation';
 import TaskCard from '@/components/TaskCard/TaskCard';
-import { createTask } from '@/service/task.api';
+import { createTask, updateTask, deleteTask } from '@/service/task.api';
 import { TaskRecurringCreateDto } from '@/types/task.type';
 import useGroup from '@/hooks/useGroup';
 import Buttons from '@/components/Buttons';
@@ -26,6 +25,12 @@ import useModalStore from '@/stores/modalStore';
 import AddTask from '@/components/modal/AddTask';
 import { useEffect, useRef } from 'react';
 import Link from 'next/link';
+import {
+  getTaskComment,
+  createTaskComment,
+  updateTaskComment,
+  deleteTaskComment,
+} from '@/service/comment.api';
 
 export default function TaskListPage() {
   const [isDetailOpen, setIsDetailOpen] = useState<boolean>(false);
@@ -42,8 +47,12 @@ export default function TaskListPage() {
 
   const { taskLists } = useGroup(groupId);
 
-  const fetchTaskList = async () => {
-    const response = await getTaskList({ groupId, id: taskListId });
+  const fetchGetTaskList = async () => {
+    const response = await getTaskList({
+      groupId,
+      id: taskListId,
+      date: String(date),
+    });
     return response;
   };
 
@@ -56,32 +65,136 @@ export default function TaskListPage() {
     return response;
   };
 
+  const fetchUpdateTask = async (
+    taskId: number,
+    body: { name: string; description: string; done: boolean },
+  ) => {
+    const response = await updateTask({
+      groupId,
+      taskListId,
+      taskId,
+      ...body,
+    });
+    return response;
+  };
+
+  const fetchDeleteTask = async (taskId: number) => {
+    const response = await deleteTask({ groupId, taskListId, taskId });
+    return response;
+  };
+
+  const fetchGetTaskComment = async (taskId: number) => {
+    const response = await getTaskComment({ taskId });
+    return response;
+  };
+
+  const fetchPostTaskComment = async (taskId: number, content: string) => {
+    const response = await createTaskComment({ taskId, content });
+    return response;
+  };
+
+  const fetchUpdateTaskComment = async (
+    taskId: number,
+    commentId: number,
+    content: string,
+  ) => {
+    const response = await updateTaskComment({ taskId, commentId, content });
+    return response;
+  };
+
+  const fetchDeleteTaskComment = async (taskId: number, commentId: number) => {
+    const response = await deleteTaskComment({ taskId, commentId });
+    return response;
+  };
+
   const {
     data: taskListData,
     error: taskListError,
     isLoading: taskListIsLoading,
+    refetch,
   } = useQuery({
     queryKey: ['taskList', groupId, taskListId],
-    queryFn: fetchTaskList,
+    queryFn: fetchGetTaskList,
+  });
+
+  const { error: createTaskError, mutate: createTaskMutate } = useMutation({
+    mutationFn: (body: TaskRecurringCreateDto) => fetchCreateTask(body),
+    onError: (error) => {
+      console.error(error);
+    },
+    onMutate: async () => {
+      await refetch();
+    },
+  });
+
+  const { error: updateTaskError, mutate: updateTaskMutate } = useMutation({
+    mutationFn: (variables: {
+      taskId: number;
+      body: { name: string; description: string; done: boolean };
+    }) => fetchUpdateTask(variables.taskId, variables.body),
+    onError: (error) => {
+      console.error(error);
+    },
+    onMutate: async () => {
+      await refetch();
+    },
+  });
+
+  const { error: deleteTaskError, mutate: deleteTaskMutate } = useMutation({
+    mutationFn: (taskId: number) => fetchDeleteTask(taskId),
+    onError: (error) => {
+      console.error(error);
+    },
+    onMutate: async () => {
+      await refetch();
+    },
   });
 
   const {
-    data: createTaskData,
-    error: createTaskError,
-    mutate: createTaskMutate,
+    error: getTaskCommentError,
+    data: getTaskCommentData,
+    mutate: getTaskCommentMutate,
   } = useMutation({
-    mutationFn: fetchCreateTask,
+    mutationFn: (taskId: number) => fetchGetTaskComment(taskId),
     onError: (error) => {
       console.error(error);
     },
   });
 
-  const createTaskMutation = useMutation({
-    mutationFn: fetchCreateTask,
-    onError: (error) => {
-      console.error(error);
-    },
-  });
+  const { error: postTaskCommentError, mutate: postTaskCommentMutate } =
+    useMutation({
+      mutationFn: (variables: { taskId: number; content: string }) =>
+        fetchPostTaskComment(variables.taskId, variables.content),
+      onError: (error) => {
+        console.error(error);
+      },
+    });
+
+  const { error: updateTaskCommentError, mutate: updateTaskCommentMutate } =
+    useMutation({
+      mutationFn: (variables: {
+        taskId: number;
+        commentId: number;
+        content: string;
+      }) =>
+        fetchUpdateTaskComment(
+          variables.taskId,
+          variables.commentId,
+          variables.content,
+        ),
+      onError: (error) => {
+        console.error(error);
+      },
+    });
+
+  const { error: deleteTaskCommentError, mutate: deleteTaskCommentMutate } =
+    useMutation({
+      mutationFn: (variables: { taskId: number; commentId: number }) =>
+        fetchDeleteTaskComment(variables.taskId, variables.commentId),
+      onError: (error) => {
+        console.error(error);
+      },
+    });
 
   const handlePrevDate = () => {
     if (!date) return;
@@ -91,30 +204,6 @@ export default function TaskListPage() {
   const handleNextDate = () => {
     if (!date) return;
     setDate(addDays(date, 1));
-  };
-
-  const handlePostCommentTest = () => {
-    console.log('댓글 등록');
-  };
-
-  const handleDeleteTask = () => {
-    console.log('할 일 삭제');
-  };
-
-  const handleUpdateTask = () => {
-    console.log('할 일 수정');
-  };
-
-  const handleUpdateTaskStatus = () => {
-    console.log('할 일 상태 수정');
-  };
-
-  const handleDeleteComment = () => {
-    console.log('댓글 삭제');
-  };
-
-  const handleUpdateComment = () => {
-    console.log('댓글 수정');
   };
 
   dayjs.locale('ko');
@@ -136,8 +225,26 @@ export default function TaskListPage() {
 
   if (taskListIsLoading) return <div>로딩 중...</div>;
 
-  if (taskListError) {
-    console.error(taskListError);
+  if (
+    taskListError ||
+    createTaskError ||
+    updateTaskError ||
+    deleteTaskError ||
+    getTaskCommentError ||
+    postTaskCommentError ||
+    updateTaskCommentError ||
+    deleteTaskCommentError
+  ) {
+    console.error(
+      taskListError ||
+        createTaskError ||
+        updateTaskError ||
+        deleteTaskError ||
+        getTaskCommentError ||
+        postTaskCommentError ||
+        updateTaskCommentError ||
+        deleteTaskCommentError,
+    );
     return <div>데이터를 불러올 수 없습니다.</div>;
   }
 
@@ -190,7 +297,25 @@ export default function TaskListPage() {
         </ul>
         <div className="mb-pr-80 mt-pr-16 flex flex-col gap-pr-16">
           {taskListData?.tasks.map((task) => (
-            <TaskCard key={task.id} type="taskList" taskData={task} />
+            <div key={task.id} onClick={() => getTaskCommentMutate(task.id)}>
+              <TaskCard
+                type="taskList"
+                taskData={task}
+                onClick={() => setIsDetailOpen(!isDetailOpen)}
+              />
+              <TaskDetail
+                isOpen={isDetailOpen}
+                setIsOpen={setIsDetailOpen}
+                value={task}
+                commentData={getTaskCommentData}
+                postComment={postTaskCommentMutate}
+                deleteTask={deleteTaskMutate}
+                updateTask={updateTaskMutate}
+                updateTaskStatus={updateTaskMutate}
+                deleteComment={() => deleteTaskCommentMutate}
+                updateComment={() => updateTaskCommentMutate}
+              />
+            </div>
           ))}
         </div>
         <div className="fixed bottom-pr-48 right-pr-80">
@@ -199,23 +324,13 @@ export default function TaskListPage() {
               text="할 일 추가"
               rounded={true}
               icon={true}
-              onClick={() => openModal(<AddTask fetchData={fetchCreateTask} />)}
+              onClick={() =>
+                openModal(<AddTask fetchData={createTaskMutate} />)
+              }
             />
             <PlusIcon width={24} height={24} className="absolute left-pr-12" />
           </div>
         </div>
-        <TaskDetail
-          isOpen={isDetailOpen}
-          setIsOpen={setIsDetailOpen}
-          value={taskMockData}
-          commentData={commentMockData}
-          postComment={handlePostCommentTest}
-          deleteTask={handleDeleteTask}
-          updateTask={handleUpdateTask}
-          updateTaskStatus={handleUpdateTaskStatus}
-          deleteComment={handleDeleteComment}
-          updateComment={handleUpdateComment}
-        />
       </Container>
     </>
   );

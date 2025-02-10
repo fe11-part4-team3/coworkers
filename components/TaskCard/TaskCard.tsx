@@ -24,7 +24,7 @@ const frequencyList: Record<
  * @param {object} props.taskData - 할 일 데이터
  * @returns {JSX.Element} 할 일 카드 컴포넌트
  */
-function TaskCard({ type, taskData }: TaskCardProps) {
+function TaskCard({ type, taskData, onClick }: TaskCardProps) {
   const { name, date, doneAt, commentCount, frequency } = taskData;
   const [isChecked, setIsChecked] = useState(Boolean(doneAt));
   const isTaskList = type === 'taskList';
@@ -39,6 +39,7 @@ function TaskCard({ type, taskData }: TaskCardProps) {
   return (
     <Card
       className={`${isTaskList && 'h-pr-74'} flex w-full flex-col justify-between rounded-lg border-none bg-b-secondary px-pr-18 py-pr-16`}
+      onClick={onClick}
     >
       <CardContent className="flex items-center p-0">
         <TaskCheckbox

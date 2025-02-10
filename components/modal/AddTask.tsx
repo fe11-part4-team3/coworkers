@@ -11,6 +11,7 @@ import DatePicker from '@/components/DateTimePicker/DatePicker';
 import TimePicker from '@/components/DateTimePicker/TimePicker';
 import { format, getDate } from 'date-fns';
 import InputLabel from '@/components/InputField/InputLabel';
+import { Switch } from '@radix-ui/react-switch';
 
 /* 꼭 읽어주세요.
     InputField 컴포넌트에서 updateInputValue 함수를 사용할 때,
@@ -40,11 +41,10 @@ export default function AddTask({ fetchData }: { fetchData: any }) {
     { label: '월 반복', value: 'MONTHLY' },
   ]);
 
-  const { value, handleOnClick, updateInputValue, deleteInputValue } =
-    useModalForm({
-      onClick: fetchData,
-      initialLength: 3,
-    });
+  const { value, handleOnClick, updateInputValue } = useModalForm({
+    onClick: fetchData,
+    initialLength: 3,
+  });
 
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [time, setTime] = useState<string>('');
@@ -103,8 +103,10 @@ export default function AddTask({ fetchData }: { fetchData: any }) {
 
     if (date && time) {
       const conbineDate = combineDateAndTimeKST(date, time);
+      const today = new Date();
+      const todayKST = new Date(today.getTime() + 9 * 60 * 60 * 1000);
 
-      if (conbineDate < today.toISOString()) {
+      if (conbineDate < todayKST.toISOString()) {
         alert('현재 시간 이후로 설정해주세요.');
         setDate(new Date());
         setTime('');
@@ -114,19 +116,6 @@ export default function AddTask({ fetchData }: { fetchData: any }) {
       updateInputValue(2, 'startDate', conbineDate);
     }
   }, [date, time]);
-
-  useEffect(() => {
-    deleteInputValue('weekDays');
-    deleteInputValue('monthDay');
-
-    if (selectedRepeatType === 'WEEKLY') {
-      updateInputValue(4, 'weekDays', selectedDays);
-      return;
-    } else if (selectedRepeatType === 'MONTHLY' && date) {
-      updateInputValue(4, 'monthDay', getDate(date));
-      return;
-    }
-  }, [selectedRepeatType]);
 
   return (
     <>

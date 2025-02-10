@@ -43,7 +43,7 @@ export default function useModalForm({
     setBodyData({ ...bodyData, [name]: newValue });
   };
 
-  const deleteInputValue = (name: string) => {
+  /* const deleteInputValue = (name: string) => {
     const updatedValue = value.filter((item) => item !== name);
 
     const updatedBodyData: BodyData = { ...bodyData };
@@ -51,8 +51,9 @@ export default function useModalForm({
 
     setValue(updatedValue);
     setBodyData(updatedBodyData);
+
     console.log(updatedBodyData, updatedValue);
-  };
+  }; */
 
   const validateInput = () => {
     const trimmedValue = value.every(
@@ -79,7 +80,5 @@ export default function useModalForm({
     closeModal();
   };
 
-  console.log(bodyData);
-
-  return { value, handleOnClick, updateInputValue, deleteInputValue };
+  return { value, handleOnClick, updateInputValue };
 }
