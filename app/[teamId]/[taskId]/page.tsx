@@ -141,8 +141,6 @@ export default function TaskListPage() {
     return <div>데이터를 불러올 수 없습니다.</div>;
   }
 
-  console.log(taskListData);
-
   return (
     <>
       <Container>
@@ -179,20 +177,21 @@ export default function TaskListPage() {
             </div>
           </div>
         </div>
-        <ul className="mt-pr-24 flex gap-pr-12 text-16m text-t-default">
+        <ul className="mt-pr-24 flex gap-pr-12 text-16m">
           {taskLists?.map((taskList) => (
             <Link href={`/${groupId}/${taskList.id}`} key={taskList.id}>
-              <li className="cursor-pointer">{taskList.name}</li>
+              <li
+                className={`cursor-pointer ${taskList.id === taskListId ? 'text-t-primary' : 'text-t-default'}`}
+              >
+                {taskList.name}
+              </li>
             </Link>
           ))}
-          <button onClick={() => setIsDetailOpen(!isDetailOpen)}>
-            테스트용 상세 버튼
-          </button>
         </ul>
-        <div className='mt-pr-16 flex flex-col gap-pr-16'>
-        {taskListData?.tasks.map((task) => (
-          <TaskCard key={task.id} type="taskList" taskData={task} />
-        ))}
+        <div className="mb-pr-80 mt-pr-16 flex flex-col gap-pr-16">
+          {taskListData?.tasks.map((task) => (
+            <TaskCard key={task.id} type="taskList" taskData={task} />
+          ))}
         </div>
         <div className="fixed bottom-pr-48 right-pr-80">
           <div className="relative flex w-pr-116 items-center">

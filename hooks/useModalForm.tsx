@@ -19,6 +19,10 @@ import useModalStore from '@/stores/modalStore';
  *    newValue - 업데이트 할 값인데 그냥 웬만해선 e.target.value 넣어주시면 됩니다.
  */
 
+interface BodyData {
+  [key: string]: any;
+}
+
 export default function useModalForm({
   onClick: fetchData,
   initialLength = 1,
@@ -37,6 +41,17 @@ export default function useModalForm({
     updatedValue[index] = newValue;
     setValue(updatedValue);
     setBodyData({ ...bodyData, [name]: newValue });
+  };
+
+  const deleteInputValue = (name: string) => {
+    const updatedValue = value.filter((item) => item !== name);
+
+    const updatedBodyData: BodyData = { ...bodyData };
+    delete updatedBodyData[name];
+
+    setValue(updatedValue);
+    setBodyData(updatedBodyData);
+    console.log(updatedBodyData, updatedValue);
   };
 
   const validateInput = () => {
@@ -66,5 +81,5 @@ export default function useModalForm({
 
   console.log(bodyData);
 
-  return { value, handleOnClick, updateInputValue };
+  return { value, handleOnClick, updateInputValue, deleteInputValue };
 }

@@ -40,10 +40,11 @@ export default function AddTask({ fetchData }: { fetchData: any }) {
     { label: '월 반복', value: 'MONTHLY' },
   ]);
 
-  const { value, handleOnClick, updateInputValue } = useModalForm({
-    onClick: fetchData,
-    initialLength: 3,
-  });
+  const { value, handleOnClick, updateInputValue, deleteInputValue } =
+    useModalForm({
+      onClick: fetchData,
+      initialLength: 3,
+    });
 
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [time, setTime] = useState<string>('');
@@ -98,6 +99,8 @@ export default function AddTask({ fetchData }: { fetchData: any }) {
   };
 
   useEffect(() => {
+    if (!date) return setDate(new Date());
+
     if (date && time) {
       const conbineDate = combineDateAndTimeKST(date, time);
 
@@ -112,13 +115,18 @@ export default function AddTask({ fetchData }: { fetchData: any }) {
     }
   }, [date, time]);
 
-  /* useEffect(() => {
-    if (selectedRepeatType === 'WEEKLY' && selectedDays.length === 0)
-      updateInputValue(4, 'weekDays', '');
+  useEffect(() => {
+    deleteInputValue('weekDays');
+    deleteInputValue('monthDay');
 
-    if (selectedRepeatType === 'MONTH' && date)
+    if (selectedRepeatType === 'WEEKLY') {
+      updateInputValue(4, 'weekDays', selectedDays);
+      return;
+    } else if (selectedRepeatType === 'MONTHLY' && date) {
       updateInputValue(4, 'monthDay', getDate(date));
-  }, [selectedRepeatType]); */
+      return;
+    }
+  }, [selectedRepeatType]);
 
   return (
     <>
