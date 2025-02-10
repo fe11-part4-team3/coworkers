@@ -38,11 +38,14 @@ function ArticleList({ keyword }: { keyword: string | undefined }) {
     mutationFn: async (id: number) => {
       if (confirm('게시글을 삭제하시겠습니까?')) {
         await deleteArticle({ articleId: id });
+        showSnackbar('게시글이 삭제되었습니다.');
       }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['articleList'] });
-      showSnackbar('게시글이 삭제되었습니다.');
+    },
+    onError: () => {
+      showSnackbar('게시글 삭제를 실패했습니다. 다시 시도해주세요', 'error');
     },
   });
 

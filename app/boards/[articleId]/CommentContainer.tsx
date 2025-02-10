@@ -34,6 +34,9 @@ function CommentContainer({ articleId }: { articleId: number }) {
       showSnackbar('댓글이 등록되었습니다.');
       setCommentValue('');
     },
+    onError: () => {
+      showSnackbar('댓글 등록을 실패했습니다. 다시 시도해주세요', 'error');
+    },
   });
 
   const handleCommentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -65,6 +68,9 @@ function CommentContainer({ articleId }: { articleId: number }) {
       queryClient.invalidateQueries({ queryKey: ['commentList'] });
       showSnackbar('댓글이 삭제되었습니다.');
     },
+    onError: () => {
+      showSnackbar('댓글 삭제를 실패했습니다. 다시 시도해주세요', 'error');
+    },
   });
 
   const handleCommentDelete = ({ commentId }: DeleteArticleCommentParams) => {
@@ -80,6 +86,9 @@ function CommentContainer({ articleId }: { articleId: number }) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['commentList'] });
       showSnackbar('댓글이 수정되었습니다.');
+    },
+    onError: () => {
+      showSnackbar('댓글 수정을 실패했습니다. 다시 시도해주세요', 'error');
     },
   });
 
