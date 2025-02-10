@@ -34,7 +34,7 @@ function IconText({
     <>
       <span
         className={classNames(
-          ...baseClass,
+          baseClass,
           iconClass,
           textSizeClass,
           fontColorClass,
