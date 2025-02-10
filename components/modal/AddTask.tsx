@@ -57,8 +57,6 @@ export default function AddTask({ fetchData }: { fetchData: any }) {
 
   const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
 
-  const today = new Date();
-
   const combineDateAndTimeKST = (date: Date, time: string) => {
     const [hours, minutes] = time.split(':').map((val) => parseInt(val, 10));
 
@@ -67,10 +65,9 @@ export default function AddTask({ fetchData }: { fetchData: any }) {
     date.setSeconds(0);
     date.setMilliseconds(0);
 
-    const koreaTimeOffset = 9 * 60;
-    const koreaTime = new Date(date.getTime() + koreaTimeOffset * 60 * 1000);
+    const combineTime = new Date(date.getTime());
 
-    return koreaTime.toISOString();
+    return combineTime.toISOString();
   };
 
   const handleCalendarInputClick = () => {
@@ -104,7 +101,7 @@ export default function AddTask({ fetchData }: { fetchData: any }) {
     if (date && time) {
       const conbineDate = combineDateAndTimeKST(date, time);
       const today = new Date();
-      const todayKST = new Date(today.getTime() + 9 * 60 * 60 * 1000);
+      const todayKST = new Date(today.getTime() + 9 * 60 * 1000);
 
       if (conbineDate < todayKST.toISOString()) {
         alert('현재 시간 이후로 설정해주세요.');

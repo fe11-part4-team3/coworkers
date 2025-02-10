@@ -56,6 +56,12 @@ type TaskRecurringCreateDto =
   | DailyRecurringCreateBody
   | OnceRecurringCreateBody;
 
+type UpdateTaskBodyParams = {
+  name: string;
+  description: string;
+  done: boolean;
+};
+
 interface CreateTaskParams {
   groupId: number;
   taskListId: number;
@@ -78,9 +84,7 @@ interface UpdateTaskParams {
   groupId: number;
   taskListId: number;
   taskId: number;
-  name?: string;
-  description?: string;
-  done?: boolean;
+  body: UpdateTaskBodyParams;
 }
 
 interface DeleteTaskParams {
@@ -104,8 +108,8 @@ interface DeleteRecurringParams {
 }
 
 interface TaskDetailProps {
-  isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
+  detailTaskId: number | null;
+  setDetailTaskId: (taskId: number | null) => void;
   value: ITask;
   commentData?: ITaskComment[];
   deleteTask: (taskId: number) => void;
@@ -127,6 +131,7 @@ export type {
   ITaskMetadata,
   ITask,
   TaskRecurringCreateDto,
+  UpdateTaskBodyParams,
   MonthlyRecurringCreateBody,
   WeeklyRecurringCreateBody,
   DailyRecurringCreateBody,
