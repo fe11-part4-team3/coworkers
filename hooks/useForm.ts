@@ -39,7 +39,16 @@ const useForm = <T extends Record<string, FormValue>>(initialValues: T) => {
         updatedFormData,
         initialValues,
       );
-      setErrorMessage((prevErr) => ({ ...prevErr, ...fieldErrors }));
+      setErrorMessage((prevErr) => ({
+        ...prevErr,
+        [key]: fieldErrors[key] || '',
+      }));
+
+      // 유효성 검사 후 changedFields 업데이트
+      setChangedFields((prevChanged) => ({
+        ...prevChanged,
+        [key]: value !== initialValues[key],
+      }));
     },
     500,
   );
@@ -58,12 +67,6 @@ const useForm = <T extends Record<string, FormValue>>(initialValues: T) => {
 
         // 새 formData
         const updatedFormData = { ...prev, [key]: value };
-
-        // 변경된 필드 표시
-        setChangedFields((prevChanged) => {
-          const isChanged = value !== initialValues[key];
-          return { ...prevChanged, [key]: isChanged };
-        });
 
         // 즉시 validateField를 부르는 대신, 디바운스된 검증 함수를 호출
         debouncedValidateField(key, value, updatedFormData);
@@ -111,7 +114,7 @@ const useForm = <T extends Record<string, FormValue>>(initialValues: T) => {
   useEffect(() => {
     setErrorMessage((prevErr) => ({
       ...prevErr,
-      image: fileError,
+      image: fileError || '',
     }));
   }, [fileError]);
 
