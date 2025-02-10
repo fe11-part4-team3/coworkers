@@ -11,6 +11,8 @@ import { deleteArticle, getArticleDetail } from '@/service/article.api';
 import { GetArticleDetailParams } from '@/types/article.type';
 import useUser from '@/hooks/useUser';
 import { useSnackbar } from '@/contexts/SnackBar.context';
+import useModalStore from '@/stores/modalStore';
+import Delete from '@/components/modal/Delete';
 
 import ArticleDetailSkeleton from './ArticleDetailSkeleton';
 
@@ -28,6 +30,8 @@ function ArticleDetail({ articleId }: GetArticleDetailParams) {
 
   const { showSnackbar } = useSnackbar();
 
+  const { openModal } = useModalStore();
+
   if (isError) return '에러가 발생했습니다.';
   if (!articleData || isLoading) return <ArticleDetailSkeleton />;
 
@@ -44,11 +48,16 @@ function ArticleDetail({ articleId }: GetArticleDetailParams) {
   } = articleData;
 
   const handleArticleDelete = () => {
-    if (confirm('게시글을 삭제하시겠습니까?')) {
-      deleteArticle({ articleId });
-      showSnackbar('게시글이 삭제되었습니다.');
-      router.push('/boards');
-    }
+    openModal(
+      <Delete
+        title="게시글"
+        onClick={() => {
+          deleteArticle({ articleId });
+          showSnackbar('게시글이 삭제되었습니다.');
+          router.push('/boards');
+        }}
+      />,
+    );
   };
 
   return (

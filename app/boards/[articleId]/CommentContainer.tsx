@@ -17,6 +17,8 @@ import {
 } from '@/types/articleComment.type';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { useSnackbar } from '@/contexts/SnackBar.context';
+import useModalStore from '@/stores/modalStore';
+import Delete from '@/components/modal/Delete';
 
 function CommentContainer({ articleId }: { articleId: number }) {
   const [commentValue, setCommentValue] = useState('');
@@ -24,6 +26,8 @@ function CommentContainer({ articleId }: { articleId: number }) {
   const queryClient = useQueryClient();
 
   const { showSnackbar } = useSnackbar();
+
+  const { openModal } = useModalStore();
 
   // 게시글 댓글 생성
   const createCommentMutation = useMutation({
@@ -74,9 +78,12 @@ function CommentContainer({ articleId }: { articleId: number }) {
   });
 
   const handleCommentDelete = ({ commentId }: DeleteArticleCommentParams) => {
-    if (confirm('댓글을 삭제하시겠습니까?')) {
-      deleteCommentMutation.mutate({ commentId });
-    }
+    openModal(
+      <Delete
+        title="댓글"
+        onClick={() => deleteCommentMutation.mutate({ commentId })}
+      />,
+    );
   };
 
   // 게시글 댓글 수정
@@ -96,9 +103,7 @@ function CommentContainer({ articleId }: { articleId: number }) {
     commentId,
     content,
   }: UpdateArticleCommentParams) => {
-    if (confirm('댓글을 수정하시겠습니까?')) {
-      updateCommentMutation.mutate({ commentId, content });
-    }
+    updateCommentMutation.mutate({ commentId, content });
   };
 
   if (!articleComments) return;

@@ -6,6 +6,9 @@ import TextareaField from '@/components/InputField/TextareaField';
 import CommentContent from '@/components/Comment/CommentContent';
 import CommentFooter from '@/components/Comment/CommentFooter';
 import { CommentProps, ITaskComment } from '@/types/comment.type';
+import useModalStore from '@/stores/modalStore';
+
+import CommentEdit from '../modal/CommentEdit';
 
 const ARTICLE_COMMENT_STYLE = 'bg-b-secondary px-pr-24 py-pr-20 border-none';
 const TASK_COMMENT_STYLE =
@@ -57,6 +60,8 @@ function Comment({
   const [commentEditContent, setCommentEditContent] = useState(content);
   const [commentEdit, setCommentEdit] = useState(false);
 
+  const { openModal } = useModalStore();
+
   const isArticleComment = type === 'article';
 
   // 타입 단언으로 writer/user 접근
@@ -89,9 +94,14 @@ function Comment({
 
   // 수정 완료
   const updateSubmit = () => {
-    setCommentEdit(false);
-
-    handleUpdateSubmit(id, commentEditContent);
+    openModal(
+      <CommentEdit
+        onClick={() => {
+          handleUpdateSubmit(id, commentEditContent);
+          setCommentEdit(false);
+        }}
+      />,
+    );
   };
 
   return (
