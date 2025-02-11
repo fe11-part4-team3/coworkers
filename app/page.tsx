@@ -10,9 +10,11 @@ import LandingCardItemsSecond from '@/components/Landing/LandingCardItemsSecond'
 import LandingCardItemsthird from '@/components/Landing/LandingCardItemsthird';
 import Empty from '@/components/Empty/Empty';
 import Container from '@/components/layout/Container';
+import useUserStore from '@/stores/useUser.store';
 
 export default function LandingPage() {
-  const { user, memberships, isPending } = useUser();
+  const { memberships, isPending } = useUser();
+  const user = useUserStore((state) => state.user);
   const router = useRouter();
 
   const handleButtonClick = () => {
