@@ -12,6 +12,7 @@ import Container from '@/components/layout/Container';
 import useForm from '@/hooks/useForm';
 import { getArticleDetail, updateArticle } from '@/service/article.api';
 import updatePayloadSubmit from '@/utils/updatePayload';
+import { useSnackbar } from '@/contexts/SnackBar.context';
 
 const INITIAL_VALUES = {
   title: '',
@@ -34,6 +35,8 @@ function EditArticlePage() {
 
   const router = useRouter();
   const { articleId } = useParams();
+
+  const { showSnackbar } = useSnackbar();
 
   const isEditChanged =
     formData.title === prevValue.title &&
@@ -69,12 +72,12 @@ function EditArticlePage() {
   const { mutate, isPending } = useMutation({
     mutationFn: updateArticle,
     onSuccess: () => {
-      alert('게시글이 수정되었습니다.');
+      showSnackbar('게시글이 수정되었습니다.');
       router.push('/boards');
       resetForm();
     },
     onError: () => {
-      alert('게시글 수정에 실패했습니다.');
+      showSnackbar('게시글 수정에 실패했습니다.', 'error');
     },
   });
 
