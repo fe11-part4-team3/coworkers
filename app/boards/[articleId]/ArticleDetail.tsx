@@ -10,6 +10,9 @@ import { dotDate } from '@/utils/dateConversion';
 import { deleteArticle, getArticleDetail } from '@/service/article.api';
 import { GetArticleDetailParams } from '@/types/article.type';
 import useUser from '@/hooks/useUser';
+import { useSnackbar } from '@/contexts/SnackBar.context';
+import useModalStore from '@/stores/modalStore';
+import EditDelete from '@/components/modal/EditDelete';
 
 import ArticleDetailSkeleton from './ArticleDetailSkeleton';
 
@@ -24,6 +27,10 @@ function ArticleDetail({ articleId }: GetArticleDetailParams) {
     queryKey: ['articleDetail', articleId],
     queryFn: () => getArticleDetail({ articleId: articleId }),
   });
+
+  const { showSnackbar } = useSnackbar();
+
+  const { openModal } = useModalStore();
 
   if (isError) return '에러가 발생했습니다.';
   if (!articleData || isLoading) return <ArticleDetailSkeleton />;
@@ -41,10 +48,17 @@ function ArticleDetail({ articleId }: GetArticleDetailParams) {
   } = articleData;
 
   const handleArticleDelete = () => {
-    if (confirm('게시글을 삭제하시겠습니까?')) {
-      deleteArticle({ articleId });
-      router.push('/boards');
-    }
+    openModal(
+      <EditDelete
+        title="게시글"
+        actionType="삭제"
+        onClick={() => {
+          deleteArticle({ articleId });
+          showSnackbar('게시글이 삭제되었습니다.');
+          router.push('/boards');
+        }}
+      />,
+    );
   };
 
   return (

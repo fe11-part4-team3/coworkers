@@ -12,6 +12,7 @@ import Container from '@/components/layout/Container';
 import useForm from '@/hooks/useForm';
 import { createArticle } from '@/service/article.api';
 import updatePayloadSubmit from '@/utils/updatePayload';
+import { useSnackbar } from '@/contexts/SnackBar.context';
 
 const INITIAL_VALUES = {
   title: '',
@@ -31,6 +32,8 @@ export default function AddArticlePage() {
 
   const router = useRouter();
 
+  const { showSnackbar } = useSnackbar();
+
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
     handleInputChange(e);
   };
@@ -42,12 +45,12 @@ export default function AddArticlePage() {
   const { mutate, isPending } = useMutation({
     mutationFn: createArticle,
     onSuccess: () => {
-      alert('게시글이 생성되었습니다.');
+      showSnackbar('게시글이 생성되었습니다.');
       router.push('/boards');
       resetForm();
     },
     onError: () => {
-      alert('게시글 생성에 실패했습니다.');
+      showSnackbar('게시글 생성에 실패했습니다.', 'error');
     },
   });
 

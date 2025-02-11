@@ -19,6 +19,7 @@ import { useSnackbar } from '@/contexts/SnackBar.context';
 import useGroup from '@/hooks/useGroup';
 import Logout from '@/components/modal/Logout';
 import useModalStore from '@/stores/modalStore';
+import DarkmodeToggle from '@/components/DarkmodeToggle';
 
 import Logo from './Logo';
 import Profile from './Profile';
@@ -120,21 +121,24 @@ function Headers() {
             </>
           )}
         </div>
-        {user ? (
-          <DropDown
-            trigger={
-              <Button variant="link">
-                <Profile userName={user.nickname} profileImage={user.image} />
-              </Button>
-            }
-            items={dropdownItems}
-          />
-        ) : (
-          <div className="flex gap-pr-16">
-            <Link href="/login">로그인</Link>
-            <Link href="/signup">회원가입</Link>
-          </div>
-        )}
+        <div className="flex items-center gap-pr-10">
+          <DarkmodeToggle />
+          {user ? (
+            <DropDown
+              trigger={
+                <Button variant="link">
+                  <Profile userName={user.nickname} profileImage={user.image} />
+                </Button>
+              }
+              items={dropdownItems}
+            />
+          ) : (
+            <div className="flex gap-pr-16">
+              <Link href="/login">로그인</Link>
+              <Link href="/signup">회원가입</Link>
+            </div>
+          )}
+        </div>
       </nav>
     </header>
   );
