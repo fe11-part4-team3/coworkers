@@ -93,6 +93,7 @@ export default function TaskListPage() {
     mutationFn: ({ taskId, content }: { taskId: number; content: string }) =>
       createTaskComment({ taskId, content }),
     onError: () => console.error('댓글 작성 실패'),
+    onSuccess: (_, variables) => fetchGetTaskComment.mutate(variables.taskId),
   });
 
   const fetchUpdateTaskComment = useMutation({
@@ -106,6 +107,7 @@ export default function TaskListPage() {
       content: string;
     }) => updateTaskComment({ taskId, commentId, content }),
     onError: () => console.error('댓글 수정 실패'),
+    onSuccess: (_, variables) => fetchGetTaskComment.mutate(variables.taskId),
   });
 
   const fetchDeleteTaskComment = useMutation({
@@ -117,6 +119,7 @@ export default function TaskListPage() {
       commentId: number;
     }) => deleteTaskComment({ taskId, commentId }),
     onError: () => console.error('댓글 삭제 실패'),
+    onSuccess: (_, variables) => fetchGetTaskComment.mutate(variables.taskId),
   });
 
   const handlePrevDate = () => {
@@ -134,6 +137,7 @@ export default function TaskListPage() {
 
   const toggleDetailTask = (taskId: number) => {
     setDetailTaskId((prev) => (prev === taskId ? null : taskId));
+    fetchGetTaskComment.mutate(taskId);
   };
 
   useEffect(() => {
@@ -200,10 +204,7 @@ export default function TaskListPage() {
         </ul>
         <div className="mb-pr-80 mt-pr-16 flex flex-col gap-pr-16">
           {fetchGetTaskList.data?.tasks.map((task) => (
-            <div
-              key={task.id}
-              onClick={() => fetchGetTaskComment.mutate(task.id)}
-            >
+            <div key={task.id}>
               <div onClick={() => toggleDetailTask(task.id)}>
                 <TaskCard type="taskList" taskData={task} />
               </div>
@@ -212,7 +213,7 @@ export default function TaskListPage() {
                   isOpen={detailTaskId === task.id}
                   setIsOpen={() => toggleDetailTask(task.id)}
                   value={task}
-                  /* commentData={fetchGetTaskComment.mutate} */
+                  commentData={fetchGetTaskComment.data}
                   postComment={fetchCreateTaskComment.mutate}
                   deleteTask={fetchDeleteTask.mutate}
                   updateTask={fetchUpdateTask.mutate}

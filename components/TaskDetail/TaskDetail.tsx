@@ -105,11 +105,12 @@ export default function TaskDetail({
             commentData.map((comment) => {
               return (
                 <ArticleDetailComment
+                  taskId={value.id}
                   key={comment.id}
                   type="task"
                   commentData={comment}
-                  handleDeleteClick={() => deleteComment}
-                  handleUpdateSubmit={() => updateComment}
+                  handleDeleteClick={deleteComment}
+                  handleUpdateSubmit={updateComment}
                 />
               );
             })}

@@ -3,7 +3,6 @@ type TaskName = string;
 interface TaskCardProps {
   type: 'history' | 'taskList';
   taskData: taskData;
-  isDetailOpen: (isOpen: boolean) => void;
 }
 
 interface taskData {

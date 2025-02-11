@@ -41,10 +41,11 @@ export default function AddTask({ fetchData }: { fetchData: any }) {
     { label: '월 반복', value: 'MONTHLY' },
   ]);
 
-  const { value, handleOnClick, updateInputValue } = useModalForm({
-    onClick: fetchData,
-    initialLength: 3,
-  });
+  const { value, handleOnClick, updateInputValue, deleteInputValue } =
+    useModalForm({
+      onClick: fetchData,
+      initialLength: 3,
+    });
 
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [time, setTime] = useState<string>('');
@@ -106,8 +107,6 @@ export default function AddTask({ fetchData }: { fetchData: any }) {
       const today = new Date();
       const todayKST = new Date(today.getTime() + 9 * 60 * 60000).toISOString();
 
-      console.log(combineKSTDate, todayKST);
-
       if (combineKSTDate < todayKST) {
         alert('현재 시간 이후로 설정해주세요.');
         setDate(new Date());
@@ -118,6 +117,19 @@ export default function AddTask({ fetchData }: { fetchData: any }) {
       updateInputValue(2, 'startDate', combineKSTDate);
     }
   }, [date, time]);
+
+  useEffect(() => {
+    deleteInputValue('weekDays');
+    deleteInputValue('monthDay');
+
+    if (selectedRepeatType === 'MONTHLY' && date) {
+      deleteInputValue('weekDays');
+      updateInputValue(4, 'monthDay', getDate(date));
+    } else if (selectedRepeatType === 'WEEKLY') {
+      deleteInputValue('monthDay');
+      updateInputValue(4, 'weekDays', selectedDays);
+    }
+  }, [selectedRepeatType, selectedDays, date]);
 
   return (
     <>
