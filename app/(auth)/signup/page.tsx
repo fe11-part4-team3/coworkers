@@ -42,7 +42,7 @@ function SignupPage() {
   };
 
   useEffect(() => {
-    if (user) {
+    if (user?.memberships) {
       // STUB 로그인 후 가입된 그룹이 있을 때, 첫 번째 그룹으로 이동
       if (user.memberships.length > 0) {
         route.push(`/${user.memberships[0].groupId}`);
