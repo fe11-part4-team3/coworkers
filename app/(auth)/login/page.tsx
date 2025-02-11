@@ -13,6 +13,7 @@ import Buttons from '@/components/Buttons';
 import useModalStore from '@/stores/modalStore';
 import ResetPassword from '@/components/modal/ResetPassword';
 import { useSnackbar } from '@/contexts/SnackBar.context';
+import useUserStore from '@/stores/useUser.store';
 
 function LoginPage() {
   const { formData, handleInputChange, errorMessage } = useForm({
@@ -21,7 +22,8 @@ function LoginPage() {
   });
 
   const route = useRouter();
-  const { reload, user } = useUser();
+  const { reload } = useUser();
+  const user = useUserStore((state) => state.user);
   const { openModal } = useModalStore();
 
   const { showSnackbar } = useSnackbar();
@@ -32,7 +34,11 @@ function LoginPage() {
   // STUB 일반 로그인 api mutate
   const { mutateAsync: postLogin, isPending: isLogin } = useMutation({
     mutationFn: signIn,
-    onSuccess: () => {
+    onSuccess: (data) => {
+      localStorage.setItem('accessToken', data.accessToken);
+      // zustand 스토어에 토큰 업데이트
+      const { setToken } = useUserStore.getState();
+      setToken(data.accessToken);
       reload();
       showSnackbar('로그인이 완료 되었습니다.');
     },
@@ -55,7 +61,7 @@ function LoginPage() {
   useEffect(() => {
     if (user) {
       // STUB 로그인 후 가입된 그룹이 있을 때, 첫 번째 그룹으로 이동
-      if (user.memberships.length > 0) {
+      if (user.memberships && user.memberships.length > 0) {
         route.push(`/${user.memberships[0].groupId}`);
       } else {
         route.push(`/`);
