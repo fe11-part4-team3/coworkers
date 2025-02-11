@@ -11,6 +11,7 @@ export interface InputFieldProps
   width?: string;
   onClickButton?: () => void;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  sesstionStatus?: string;
 }
 
 export interface TextareaFieldProps

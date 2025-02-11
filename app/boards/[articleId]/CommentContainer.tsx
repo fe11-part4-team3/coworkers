@@ -1,5 +1,6 @@
 import { ChangeEvent, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { motion } from 'framer-motion';
 
 import ArticleCommentTextarea from '@/components/ArticleCommentTextarea/ArticleCommentTextarea';
 import Comment from '@/components/Comment/Comment';
@@ -15,11 +16,18 @@ import {
   UpdateArticleCommentParams,
 } from '@/types/articleComment.type';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
+import { useSnackbar } from '@/contexts/SnackBar.context';
+import useModalStore from '@/stores/modalStore';
+import EditDelete from '@/components/modal/EditDelete';
 
 function CommentContainer({ articleId }: { articleId: number }) {
   const [commentValue, setCommentValue] = useState('');
 
   const queryClient = useQueryClient();
+
+  const { showSnackbar } = useSnackbar();
+
+  const { openModal } = useModalStore();
 
   // 게시글 댓글 생성
   const createCommentMutation = useMutation({
@@ -27,7 +35,11 @@ function CommentContainer({ articleId }: { articleId: number }) {
       createArticleComment(newComment),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['commentList'] });
+      showSnackbar('댓글이 등록되었습니다.');
       setCommentValue('');
+    },
+    onError: () => {
+      showSnackbar('댓글 등록을 실패했습니다. 다시 시도해주세요', 'error');
     },
   });
 
@@ -58,13 +70,21 @@ function CommentContainer({ articleId }: { articleId: number }) {
       deleteArticleComment(deleteComment),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['commentList'] });
+      showSnackbar('댓글이 삭제되었습니다.');
+    },
+    onError: () => {
+      showSnackbar('댓글 삭제를 실패했습니다. 다시 시도해주세요', 'error');
     },
   });
 
   const handleCommentDelete = ({ commentId }: DeleteArticleCommentParams) => {
-    if (confirm('댓글을 삭제하시겠습니까?')) {
-      deleteCommentMutation.mutate({ commentId });
-    }
+    openModal(
+      <EditDelete
+        title="댓글"
+        actionType="삭제"
+        onClick={() => deleteCommentMutation.mutate({ commentId })}
+      />,
+    );
   };
 
   // 게시글 댓글 수정
@@ -73,6 +93,10 @@ function CommentContainer({ articleId }: { articleId: number }) {
       updateArticleComment(updateComment),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['commentList'] });
+      showSnackbar('댓글이 수정되었습니다.');
+    },
+    onError: () => {
+      showSnackbar('댓글 수정을 실패했습니다. 다시 시도해주세요', 'error');
     },
   });
 
@@ -80,9 +104,7 @@ function CommentContainer({ articleId }: { articleId: number }) {
     commentId,
     content,
   }: UpdateArticleCommentParams) => {
-    if (confirm('댓글을 수정하시겠습니까?')) {
-      updateCommentMutation.mutate({ commentId, content });
-    }
+    updateCommentMutation.mutate({ commentId, content });
   };
 
   if (!articleComments) return;
@@ -101,18 +123,28 @@ function CommentContainer({ articleId }: { articleId: number }) {
           articleComments.pages
             .flatMap((page) => page.list) // 페이지별 댓글 리스트를 하나의 배열로 변환
             .map((comment) => (
-              <Comment
+              <motion.div
                 key={comment.id}
-                type="article"
-                commentData={comment}
-                handleDeleteClick={(id) =>
-                  handleCommentDelete({ commentId: id })
-                }
-                handleUpdateSubmit={(id, content) =>
-                  handleUpdateSubmit({ commentId: id, content })
-                }
-                isLoading={isLoading}
-              />
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{
+                  duration: 0.5,
+                  delay: 0.1,
+                }}
+              >
+                <Comment
+                  type="article"
+                  commentData={comment}
+                  handleDeleteClick={(id) =>
+                    handleCommentDelete({ commentId: id })
+                  }
+                  handleUpdateSubmit={(id, content) =>
+                    handleUpdateSubmit({ commentId: id, content })
+                  }
+                  isLoading={isLoading}
+                />
+              </motion.div>
             ))
         ) : (
           <p className="my-pr-118 text-center text-16m text-t-default">
