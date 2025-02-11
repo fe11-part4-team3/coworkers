@@ -9,6 +9,9 @@ import SelectBox from '@/components/SelectBox';
 import useGetArticle from '@/hooks/useGetArticle';
 import { deleteArticle } from '@/service/article.api';
 import Empty from '@/components/Empty/Empty';
+import { useSnackbar } from '@/contexts/SnackBar.context';
+import useModalStore from '@/stores/modalStore';
+import EditDelete from '@/components/modal/EditDelete';
 
 import ArticleSkeleton from './ArticleSkeleton';
 
@@ -19,6 +22,10 @@ import ArticleSkeleton from './ArticleSkeleton';
 function ArticleList({ keyword }: { keyword: string | undefined }) {
   const [option, setOption] = useState<'recent' | 'like'>('recent');
   const queryClient = useQueryClient();
+
+  const { showSnackbar } = useSnackbar();
+
+  const { openModal } = useModalStore();
 
   const {
     data: articleList,
@@ -33,15 +40,26 @@ function ArticleList({ keyword }: { keyword: string | undefined }) {
 
   const deleteArticleMutation = useMutation({
     mutationFn: async (id: number) => {
-      if (confirm('게시글을 삭제하시겠습니까?')) {
-        await deleteArticle({ articleId: id });
-      }
+      await deleteArticle({ articleId: id });
+      showSnackbar('게시글이 삭제되었습니다.');
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['articleList'] });
-      alert('게시글이 삭제되었습니다.');
+    },
+    onError: () => {
+      showSnackbar('게시글 삭제를 실패했습니다. 다시 시도해주세요', 'error');
     },
   });
+
+  const handleArticleDelete = (id: number) => {
+    openModal(
+      <EditDelete
+        title="게시글"
+        actionType="삭제"
+        onClick={() => deleteArticleMutation.mutate(id)}
+      />,
+    );
+  };
 
   if (isError) return '에러가 발생했습니다.';
 
@@ -78,9 +96,9 @@ function ArticleList({ keyword }: { keyword: string | undefined }) {
                 >
                   <ArticleCard
                     articleData={article}
-                    handleArticleDelete={() =>
-                      deleteArticleMutation.mutate(article.id)
-                    }
+                    handleArticleDelete={() => {
+                      handleArticleDelete(article.id);
+                    }}
                   />
                 </motion.div>
               ))
