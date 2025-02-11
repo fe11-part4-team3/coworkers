@@ -2,6 +2,8 @@ import { IMember, RoleType } from '@/types/group.type';
 import { useDeviceType } from '@/contexts/DeviceTypeContext';
 import Profile from '@/components/Profile/Profile';
 import KebabDropDown from '@/components/KebabDropDown';
+import useModalStore from '@/stores/modalStore';
+import MemberProfile from '@/components/modal/MemberProfile';
 
 interface GroupMemberCard {
   role: RoleType;
@@ -10,9 +12,15 @@ interface GroupMemberCard {
 
 export default function GroupMemberCard({ role, member }: GroupMemberCard) {
   const deviceType = useDeviceType();
+  const { openModal } = useModalStore();
+
+  const handleClickCard = () => openModal(<MemberProfile member={member} />);
 
   return (
-    <div className="relative flex max-h-pr-73 items-center gap-pr-12 rounded-pr-16 bg-b-secondary px-pr-24 py-pr-20 transition-all duration-300 hover:scale-105 hover:drop-shadow-lg mo:px-pr-16 mo:py-pr-12">
+    <div
+      onClick={handleClickCard}
+      className="relative flex max-h-pr-73 items-center gap-pr-12 rounded-pr-16 bg-b-secondary px-pr-24 py-pr-20 transition-all duration-300 hover:scale-105 hover:drop-shadow-lg mo:px-pr-16 mo:py-pr-12"
+    >
       {deviceType !== 'mobile' ? (
         <DefaultContent member={member} />
       ) : (
