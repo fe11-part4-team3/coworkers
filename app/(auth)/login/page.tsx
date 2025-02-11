@@ -4,7 +4,6 @@ import React, { useEffect, MouseEvent, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useMutation } from '@tanstack/react-query';
-import { useSession } from 'next-auth/react';
 
 import { signIn } from '@/service/auth.api';
 import useForm from '@/hooks/useForm';
@@ -13,7 +12,6 @@ import InputField from '@/components/InputField/InputField';
 import Buttons from '@/components/Buttons';
 import useModalStore from '@/stores/modalStore';
 import ResetPassword from '@/components/modal/ResetPassword';
-import AuthLoading from '@/components/AuthLoading';
 import { useSnackbar } from '@/contexts/SnackBar.context';
 
 function LoginPage() {
@@ -23,10 +21,9 @@ function LoginPage() {
   });
 
   const route = useRouter();
-  const { user, reload, isAuthenticated } = useUser();
+  const { reload, user } = useUser();
   const { openModal } = useModalStore();
 
-  const { status } = useSession();
   const { showSnackbar } = useSnackbar();
 
   // STUB submit 후 로그인 에러 메시지
@@ -55,15 +52,10 @@ function LoginPage() {
     openModal(<ResetPassword />);
   };
 
-  // // STUB 로그인 성공 시
   useEffect(() => {
-    if (user) reload();
-  }, [user, reload]);
-
-  useEffect(() => {
-    if (isAuthenticated) {
+    if (user) {
       // STUB 로그인 후 가입된 그룹이 있을 때, 첫 번째 그룹으로 이동
-      if (user && user.memberships.length > 0) {
+      if (user.memberships.length > 0) {
         route.push(`/${user.memberships[0].groupId}`);
       } else {
         route.push(`/`);
@@ -71,9 +63,7 @@ function LoginPage() {
     } else {
       return;
     }
-  }, [user, route, isAuthenticated]);
-
-  if (status === 'loading') return <AuthLoading />;
+  }, [route, user]);
 
   // STUB 로그인 상태가 아닐 때
   return (

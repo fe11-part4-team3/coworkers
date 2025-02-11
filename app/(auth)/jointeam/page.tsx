@@ -7,10 +7,12 @@ import InputField from '@/components/InputField/InputField';
 import useForm from '@/hooks/useForm';
 import useUser from '@/hooks/useUser';
 import { acceptInvitation } from '@/service/group.api';
+import { useSnackbar } from '@/contexts/SnackBar.context';
 
 // REVIEW 기능 테스트 전 입니다
 export default function JoinTeamPage() {
   const { user } = useUser(true);
+  const { showSnackbar } = useSnackbar();
 
   const { formData, handleInputChange, errorMessage } = useForm({
     userEmail: user?.email || '',
@@ -19,10 +21,8 @@ export default function JoinTeamPage() {
 
   const { mutateAsync: postJoinGroup, isPending: isJoinGroup } = useMutation({
     mutationFn: acceptInvitation,
-    onSuccess: () => {
-      console.log('팀 참여 성공');
-    },
-    onError: (error) => console.error('팀 참여 실패:', error),
+    onSuccess: () => showSnackbar('팀 참여가 완료되었습니다.'),
+    onError: () => showSnackbar('팀 참여에 실패 하였습니다.', 'error'),
   });
 
   const handleSubmit = (e: React.FormEvent) => {
