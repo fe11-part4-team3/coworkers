@@ -29,7 +29,6 @@ import {
 import GroupReport from './GroupReport';
 
 export default function TeamPage() {
-  const { memberships } = useUser(true);
   const params = useParams();
   const safeParams = React.useMemo(() => params, [params]);
   const { teamId } = safeParams;
