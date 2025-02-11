@@ -30,6 +30,7 @@ function Calendar({
   };
 
   const onDayClick = () => {
+    if (!props.selected) return setDate(new Date());
     setIsPickerView(false);
   };
 

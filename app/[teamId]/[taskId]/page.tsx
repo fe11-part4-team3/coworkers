@@ -154,6 +154,11 @@ export default function TaskListPage() {
     };
   }, [ref]);
 
+  useEffect(() => {
+    if (!date) return setDate(new Date());
+    fetchGetTaskList.refetch();
+  }, [date]);
+
   return (
     <>
       <Container>
