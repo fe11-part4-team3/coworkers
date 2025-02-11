@@ -20,7 +20,7 @@ interface IUser extends IUserProfile {
 }
 
 interface IUserDetail extends IUser {
-  memberships: IMembership[];
+  memberships: IMembership[] | null;
 }
 
 interface UpdateUserParams {
