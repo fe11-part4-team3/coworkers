@@ -1,37 +1,36 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Container from '@/components/layout/Container';
 import TaskCard from '@/components/TaskCard/TaskCard';
 import { newDate } from '@/utils/dateConversion';
 import { getHistory } from '@/service/user.api';
-import { useEffect, useState } from 'react';
 import { ITaskMetadata } from '@/types/task.type';
-// import instance from '@/service/axios';
-// import historyMock from './mock.json';
 
 function MyHistoryPage() {
   const [tasksDone, setTasksDone] = useState<ITaskMetadata[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchHistory = async () => {
       try {
         const data = await getHistory();
-        console.log('📌 API 응답 데이터:', data);
-        setTasksDone(data);
+        console.log('API 응답 데이터:', data);
+
+        setTasksDone(data ?? []);
       } catch (error) {
-        console.error('Failed to fetch history:', error);
+        console.error('Error fetching history:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchHistory();
   }, []);
 
-  // doneAt 날짜를 기준으로 그룹화
   const groupedTasks = tasksDone.reduce(
     (acc, task) => {
-      if (!task.doneAt) return acc; // null 값 무시
-
-      const date = newDate(task.doneAt); // newDate 함수 사용
+      const date = newDate(task.doneAt ?? task.date);
       if (!acc[date]) {
         acc[date] = [];
       }
@@ -41,9 +40,8 @@ function MyHistoryPage() {
     {} as Record<string, ITaskMetadata[]>,
   );
 
-  // 날짜별로 정렬 (최신 날짜가 위쪽으로)
   const sortedDates = Object.keys(groupedTasks).sort(
-    (a, b) => new Date(a).getTime() - new Date(b).getTime(),
+    (a, b) => new Date(b).getTime() - new Date(a).getTime(),
   );
 
   return (
@@ -51,17 +49,28 @@ function MyHistoryPage() {
       <h1 className="mb-pr-24 text-20b mo:mb-pr-27 mo:text-18b">
         마이 히스토리
       </h1>
-      <div className="space-y-pr-40">
-        {sortedDates.map((date) => (
-          <div key={date} className="flex flex-col gap-pr-16">
-            <h2 className="text-16m">{date}</h2>
-            {groupedTasks[date].map((task) => (
-              <TaskCard key={task.id} type="history" taskData={task} />
-            ))}
-          </div>
-        ))}
-      </div>
+      {loading ? (
+        <p>로딩 중...</p>
+      ) : tasksDone.length === 0 ? (
+        <p>완료한 작업이 없습니다.</p>
+      ) : (
+        <div className="space-y-pr-40">
+          {sortedDates.map((date) => (
+            <div key={date} className="flex flex-col gap-pr-16">
+              <h2 className="text-16m">{date}</h2>
+              {groupedTasks[date].map((task) => (
+                <TaskCard
+                  key={task.id}
+                  type="history"
+                  taskData={{ ...task, commentCount: 0 }}
+                />
+              ))}
+            </div>
+          ))}
+        </div>
+      )}
     </Container>
   );
 }
+
 export default MyHistoryPage;

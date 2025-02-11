@@ -10,7 +10,7 @@ interface taskData {
   name: string;
   date: string;
   doneAt: string | null;
-  // commentCount: number;
+  commentCount: number;
   frequency: 'ONCE' | 'DAILY' | 'WEEKLY' | 'MONTHLY' | string;
 }
 
