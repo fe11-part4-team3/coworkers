@@ -3,6 +3,7 @@
 import Buttons from '@/components/Buttons';
 import CloseButton from '@/components/modal/ModalCloseButton';
 import Profile from '@/components/Profile/Profile';
+import { useSnackbar } from '@/contexts/SnackBar.context';
 import { IMember } from '@/types/group.type';
 
 interface MemberProfileProps {
@@ -17,9 +18,11 @@ interface MemberProfileProps {
  */
 
 export default function MemberProfile({ member }: MemberProfileProps) {
+  const { showSnackbar } = useSnackbar();
+
   const handleClickCopyEmail = () => {
     navigator.clipboard.writeText(member.userEmail);
-    alert(member.userEmail);
+    showSnackbar('이메일을 클립보드에 복사했습니다.', 'success', 2000);
   };
 
   return (
