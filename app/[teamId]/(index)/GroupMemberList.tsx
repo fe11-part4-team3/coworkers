@@ -10,6 +10,7 @@ import GroupMemberCard from './GroupMemberCard';
 import useModalStore from '@/stores/modalStore';
 import InviteMember from '@/components/modal/InviteMember';
 import { useMutation } from '@tanstack/react-query';
+import createUrlString from '@/utils/createUrlString';
 
 interface GroupMemberListProps {
   role: RoleType;
@@ -41,8 +42,13 @@ export default function GroupMemberList({
   const { mutate: getInvitationMutate } = useMutation({
     mutationFn: () => getInvitation({ id: groupId }),
     onSuccess: (token) => {
-      navigator.clipboard.writeText(token);
-      console.log(token);
+      const path = createUrlString({
+        origin: location.origin,
+        pathname: ['/jointeam'],
+        queryParams: { token },
+      });
+      navigator.clipboard.writeText(path);
+      console.log(path);
     },
   });
 
