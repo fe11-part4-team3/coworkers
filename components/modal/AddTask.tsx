@@ -119,15 +119,10 @@ export default function AddTask({ fetchData }: { fetchData: any }) {
   }, [date, time]);
 
   useEffect(() => {
-    deleteInputValue('weekDays');
-    deleteInputValue('monthDay');
-
     if (selectedRepeatType === 'MONTHLY' && date) {
-      deleteInputValue('weekDays');
-      updateInputValue(4, 'monthDay', getDate(date));
+      updateInputValue(4, 'monthDay', getDate(date), 'weekDays');
     } else if (selectedRepeatType === 'WEEKLY') {
-      deleteInputValue('monthDay');
-      updateInputValue(4, 'weekDays', selectedDays);
+      updateInputValue(4, 'weekDays', selectedDays, 'monthDay');
     }
   }, [selectedRepeatType, selectedDays, date]);
 

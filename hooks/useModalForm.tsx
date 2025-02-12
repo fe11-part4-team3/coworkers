@@ -36,15 +36,26 @@ export default function useModalForm({
   const [bodyData, setBodyData] = useState<object>(body || {});
   const { closeModal } = useModalStore();
 
-  const updateInputValue = (index: number, name: string, newValue: any) => {
+  const updateInputValue = (
+    index: number,
+    name: string,
+    newValue: any,
+    existedKey?: string,
+  ) => {
     const updatedValue = [...value];
     updatedValue[index] = newValue;
     setValue(updatedValue);
-    setBodyData({ ...bodyData, [name]: newValue });
+
+    const updatedBodyData = { ...bodyData, [name]: newValue };
+    if (existedKey && updatedBodyData.hasOwnProperty(existedKey)) {
+      delete updatedBodyData[existedKey];
+    }
+    setBodyData(updatedBodyData);
+    console.log('업데이트', 'bodydata :', bodyData, 'value: ', value);
   };
 
-  const deleteInputValue = (name: string) => {
-    const updatedValue = value.filter((item) => item !== name);
+  const deleteInputValue = (index: number, name: string) => {
+    const updatedValue = value.filter((_, i) => index !== i);
 
     const updatedBodyData: BodyData = { ...bodyData };
     delete updatedBodyData[name];
@@ -52,7 +63,7 @@ export default function useModalForm({
     setValue(updatedValue);
     setBodyData(updatedBodyData);
 
-    console.log(updatedBodyData, updatedValue);
+    console.log('삭제', 'bodydata :', updatedBodyData, 'value: ', updatedValue);
   };
 
   const validateInput = () => {
