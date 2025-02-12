@@ -11,6 +11,7 @@ import useModalStore from '@/stores/modalStore';
 import InviteMember from '@/components/modal/InviteMember';
 import { useMutation } from '@tanstack/react-query';
 import createUrlString from '@/utils/createUrlString';
+import { useSnackbar } from '@/contexts/SnackBar.context';
 
 interface GroupMemberListProps {
   role: RoleType;
@@ -38,22 +39,28 @@ export default function GroupMemberList({
   const deviceType = useDeviceType();
   const [more, setMore] = useState(false);
   const { openModal } = useModalStore();
+  const { showSnackbar } = useSnackbar();
 
-  const { mutate: getInvitationMutate } = useMutation({
+  const { mutate: getInvitationMutate, isPending } = useMutation({
     mutationFn: () => getInvitation({ id: groupId }),
-    onSuccess: (token) => {
-      const path = createUrlString({
-        origin: location.origin,
-        pathname: ['/jointeam'],
-        queryParams: { token },
-      });
-      navigator.clipboard.writeText(path);
-      console.log(path);
-    },
+    onSuccess: (token) => copyLink(token),
+    onError: (error) => showSnackbar(error.message),
   });
 
+  const copyLink = (token: string) => {
+    const path = createUrlString({
+      origin: location.origin,
+      pathname: ['/jointeam'],
+      queryParams: { token },
+    });
+    setTimeout(() => navigator.clipboard.writeText(path), 500);
+    showSnackbar('초대하기 링크를 클립보드에 복사했습니다.');
+  };
+
   const handleClickInvitation = async () => {
-    openModal(<InviteMember onClick={getInvitationMutate} />);
+    openModal(
+      <InviteMember onClick={getInvitationMutate} loading={isPending} />,
+    );
   };
 
   if (!members) return null;
