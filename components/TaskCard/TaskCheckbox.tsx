@@ -1,4 +1,7 @@
+import { MouseEvent } from 'react';
+
 import { TaskCheckboxProps } from '@/types/taskCard.type';
+import { useSnackbar } from '@/contexts/SnackBar.context';
 
 /**
  * @param {string} props.name - 할 일 이름
@@ -13,8 +16,17 @@ function TaskCheckbox({
   handleCheckedToggle,
   isTaskList,
 }: TaskCheckboxProps) {
+  const { showSnackbar } = useSnackbar();
+
+  const handleClick = (e: MouseEvent<HTMLDivElement>) => {
+    if (!isTaskList) {
+      e.preventDefault();
+      showSnackbar('할 일 리스트 페이지에서만 수정이 가능합니다.', 'error');
+    }
+  };
+
   return (
-    <div className="flex gap-pr-12">
+    <div className="flex gap-pr-12" onClick={handleClick}>
       <input
         id={name}
         type="checkbox"

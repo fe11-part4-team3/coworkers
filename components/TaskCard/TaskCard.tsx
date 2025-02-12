@@ -8,7 +8,6 @@ import type { TaskCardProps } from '@/types/taskCard.type';
 import IconText from '@/components/IconLabel';
 import TaskCheckbox from '@/components/TaskCard/TaskCheckbox';
 import KebabDropDown from '@/components/KebabDropDown';
-import { useSnackbar } from '@/contexts/SnackBar.context';
 
 const frequencyList: Record<
   'ONCE' | 'DAILY' | 'WEEKLY' | 'MONTHLY' | string,
@@ -31,27 +30,15 @@ function TaskCard({ type, taskData }: TaskCardProps) {
   const isTaskList = type === 'taskList';
   const frequencyText = frequencyList[frequency];
 
-  const { showSnackbar } = useSnackbar();
-
   const handleCheckedToggle = () => {
     if (isTaskList) {
       setIsChecked(!isChecked);
     }
   };
 
-  const handleClick = () => {
-    if (!isTaskList) {
-      showSnackbar(
-        '할 일 완료 처리는 "할 일 리스트" 페이지에서만 가능합니다.',
-        'error',
-      );
-    }
-  };
-
   return (
     <Card
       className={`${isTaskList && 'h-pr-74'} flex w-full flex-col justify-between rounded-lg border-none bg-b-secondary px-pr-18 py-pr-16`}
-      onClick={handleClick}
     >
       <CardContent className="flex items-center p-0">
         <TaskCheckbox
