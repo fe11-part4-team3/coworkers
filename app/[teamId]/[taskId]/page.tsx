@@ -23,7 +23,7 @@ import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { getTaskList } from '@/service/taskList.api';
 import { createTask, updateTask, deleteTask } from '@/service/task.api';
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   TaskRecurringCreateDto,
   UpdateTaskBodyParams,
@@ -50,6 +50,8 @@ export default function TaskListPage() {
 
   const { taskLists } = useGroup(groupId);
 
+  const queryClient = useQueryClient();
+
   const fetchGetTaskList = useQuery({
     queryKey: [
       'getTaskList',
@@ -74,13 +76,27 @@ export default function TaskListPage() {
       taskId: number;
       body: UpdateTaskBodyParams;
     }) => updateTask({ groupId, taskListId, taskId, body }),
-    onSuccess: () => fetchGetTaskList.refetch(),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [
+          'getTaskList',
+          { groupId, taskListId, date: date?.toDateString() },
+        ],
+      });
+    },
     onError: () => console.error('할 일 수정 실패'),
   });
 
   const fetchDeleteTask = useMutation({
     mutationFn: (taskId: number) => deleteTask({ groupId, taskListId, taskId }),
-    onSuccess: () => fetchGetTaskList.refetch(),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [
+          'getTaskList',
+          { groupId, taskListId, date: date?.toDateString() },
+        ],
+      });
+    },
     onError: () => console.error('할 일 삭제 실패'),
   });
 
@@ -121,6 +137,10 @@ export default function TaskListPage() {
     onError: () => console.error('댓글 삭제 실패'),
     onSuccess: (_, variables) => fetchGetTaskComment.mutate(variables.taskId),
   });
+
+  const handleDeleteTask = (taskId: number) => {
+    confirm('할 일을 삭제하시겠습니까?') && fetchDeleteTask.mutate(taskId);
+  };
 
   const handlePrevDate = () => {
     if (!date) return;
@@ -211,7 +231,11 @@ export default function TaskListPage() {
           {fetchGetTaskList.data?.tasks.map((task) => (
             <div key={task.id}>
               <div onClick={() => toggleDetailTask(task.id)}>
-                <TaskCard type="taskList" taskData={task} />
+                <TaskCard
+                  type="taskList"
+                  taskData={task}
+                  updateTask={fetchUpdateTask.mutate}
+                />
               </div>
               <div>
                 <TaskDetail
@@ -220,7 +244,7 @@ export default function TaskListPage() {
                   value={task}
                   commentData={fetchGetTaskComment.data}
                   postComment={fetchCreateTaskComment.mutate}
-                  deleteTask={fetchDeleteTask.mutate}
+                  deleteTask={handleDeleteTask}
                   updateTask={fetchUpdateTask.mutate}
                   deleteComment={fetchDeleteTaskComment.mutate}
                   updateComment={fetchUpdateTaskComment.mutate}

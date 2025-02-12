@@ -78,7 +78,7 @@ export default function TaskDetail({
             <h1 className="text-20b text-t-primary">{value.name}</h1>
             <KebabDropDown
               onEdit={() => updateTask}
-              onDelete={() => deleteTask}
+              onDelete={() => deleteTask(value.id)}
             />
           </div>
           <div className="flex items-center justify-between text-t-secondary">

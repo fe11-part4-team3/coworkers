@@ -3,6 +3,10 @@ type TaskName = string;
 interface TaskCardProps {
   type: 'history' | 'taskList';
   taskData: taskData;
+  updateTask: (variables: {
+    taskId: number;
+    body: { name: string; description: string; done: boolean };
+  }) => void;
 }
 
 interface taskData {

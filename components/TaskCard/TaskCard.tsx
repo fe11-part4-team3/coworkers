@@ -24,8 +24,9 @@ const frequencyList: Record<
  * @param {object} props.taskData - 할 일 데이터
  * @returns {JSX.Element} 할 일 카드 컴포넌트
  */
-function TaskCard({ type, taskData }: TaskCardProps) {
-  const { name, date, doneAt, commentCount, frequency } = taskData;
+function TaskCard({ type, taskData, updateTask }: TaskCardProps) {
+  const { id, name, description, date, doneAt, commentCount, frequency } =
+    taskData;
   const [isChecked, setIsChecked] = useState(Boolean(doneAt));
   const isTaskList = type === 'taskList';
   const frequencyText = frequencyList[frequency];
@@ -33,6 +34,14 @@ function TaskCard({ type, taskData }: TaskCardProps) {
   const handleCheckedToggle = () => {
     if (isTaskList) {
       setIsChecked(!isChecked);
+      updateTask({
+        taskId: id,
+        body: {
+          name: name,
+          description: description ? description : '',
+          done: !isChecked,
+        },
+      });
     }
   };
 
