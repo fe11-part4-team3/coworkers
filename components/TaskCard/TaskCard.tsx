@@ -32,7 +32,7 @@ function TaskCard({ type, taskData, updateTask }: TaskCardProps) {
   const frequencyText = frequencyList[frequency];
 
   const handleCheckedToggle = () => {
-    if (isTaskList) {
+    if (isTaskList && updateTask) {
       setIsChecked(!isChecked);
       updateTask({
         taskId: id,

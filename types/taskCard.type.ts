@@ -4,20 +4,20 @@ type TaskName = string;
 
 interface TaskCardProps {
   type: 'history' | 'taskList';
-  taskData: ITask;
-  updateTask: (variables: {
+  taskData: TaskData;
+  updateTask?: (variables: {
     taskId: number;
     body: { name: string; description: string; done: boolean };
   }) => void;
 }
 
-interface taskData {
+interface TaskData extends Partial<ITask> {
   id: number;
   name: string;
   date: string;
   doneAt: string | null;
   commentCount: number;
-  frequency: 'ONCE' | 'DAILY' | 'WEEKLY' | 'MONTHLY' | string;
+  frequency: 'ONCE' | 'DAILY' | 'WEEKLY' | 'MONTHLY';
 }
 
 interface IconTextProps {
@@ -35,4 +35,4 @@ interface TaskCheckboxProps {
   isTaskList: boolean;
 }
 
-export type { TaskCardProps, IconTextProps, TaskCheckboxProps };
+export type { TaskCardProps, TaskData, IconTextProps, TaskCheckboxProps };

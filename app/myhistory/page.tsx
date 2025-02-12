@@ -11,14 +11,14 @@ function MyHistoryPage() {
     name: task.name,
     date: task.date,
     doneAt: task.doneAt,
-    frequency: task.frequency,
+    frequency: task.frequency as 'ONCE' | 'DAILY' | 'WEEKLY' | 'MONTHLY',
     commentCount: 0,
   }));
 
   // doneAt 날짜를 기준으로 그룹화
   const groupedTasks = tasksDone.reduce(
     (acc, task) => {
-      const date = newDate(task.doneAt);
+      const date = newDate(task.doneAt || '');
       if (!acc[date]) {
         acc[date] = [];
       }
