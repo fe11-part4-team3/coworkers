@@ -1,6 +1,6 @@
 'use client';
 
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import React from 'react';
 
@@ -14,8 +14,9 @@ import {
 } from '@/service/taskList.api';
 import NotFound from '@/app/404/NotFound';
 import useTaskLists from '@/hooks/useTaskLists';
-import { getTasksInGroup, updateGroup } from '@/service/group.api';
 import useModalStore from '@/stores/modalStore';
+import { deleteGroup, getTasksInGroup, updateGroup } from '@/service/group.api';
+import { useSnackbar } from '@/contexts/SnackBar.context';
 
 import GroupHeader from './GroupHeader';
 import GroupMemberList from './GroupMemberList';
@@ -29,13 +30,20 @@ import {
 import GroupReport from './GroupReport';
 
 export default function TeamPage() {
+  const router = useRouter();
+  const { memberships, reload: refetchUser } = useUser(true);
   const params = useParams();
   const safeParams = React.useMemo(() => params, [params]);
   const { teamId } = safeParams;
-  const { memberships, reload } = useUser(true);
-  const { group, members, refetch, isPending } = useGroup(Number(teamId));
-  const { taskLists, refetchById, removeById } = useTaskLists();
+  const {
+    group,
+    members,
+    refetch: refetchGroup,
+    isPending,
+  } = useGroup(Number(teamId));
+  const { taskLists, refetchById, removeById, removeAll } = useTaskLists();
   const { closeModal } = useModalStore();
+  const { showSnackbar } = useSnackbar();
 
   const currentMembership = memberships?.find(
     (membership) => membership.groupId === group?.id,
@@ -57,8 +65,8 @@ export default function TeamPage() {
     mutationFn: (params: _UpdateGroupParams) => _updateGroup(params),
     onSuccess: () => {
       closeModal();
-      reload();
-      refetch();
+      refetchUser();
+      refetchGroup();
     },
     onError: (error) => alert(error),
   });
@@ -68,9 +76,27 @@ export default function TeamPage() {
     return updateGroup({ id: group.id, ...params });
   };
 
+  const { mutate: onDeleteGroup } = useMutation({
+    mutationFn: () => _deleteGroup(),
+    onSuccess: () => {
+      closeModal();
+      router.push('/');
+      removeAll();
+      refetchUser();
+      refetchGroup();
+      showSnackbar('팀을 삭제했습니다.');
+    },
+    onError: (error) => showSnackbar(error.message),
+  });
+  const _deleteGroup = () => {
+    if (!group) throw new Error('삭제할 팀이 없습니다');
+    if (role !== 'ADMIN') throw new Error('관리자만 팀을 삭제할 수 있습니다.');
+    return deleteGroup({ id: group.id });
+  };
+
   const { mutate: onCreateTaskList } = useMutation({
     mutationFn: (params: _CreateTaskListParams) => _createTaskList(params),
-    onSuccess: () => refetch(),
+    onSuccess: () => refetchGroup(),
     onError: (error) => alert(error),
   });
   const _createTaskList = (params: _CreateTaskListParams) => {
@@ -113,7 +139,12 @@ export default function TeamPage() {
   return (
     <Container>
       <div className="flex flex-col gap-pr-24 pt-pr-24">
-        <GroupHeader role={role} group={group} onEdit={onEditGroup} />
+        <GroupHeader
+          role={role}
+          group={group}
+          onEdit={onEditGroup}
+          onDelete={onDeleteGroup}
+        />
         <GroupTaskListWrapper
           role={role}
           taskLists={taskLists}
