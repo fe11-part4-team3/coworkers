@@ -2,6 +2,7 @@
 
 import { useParams } from 'next/navigation';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import React from 'react';
 
 import Container from '@/components/layout/Container';
 import useUser from '@/hooks/useUser';
@@ -13,7 +14,8 @@ import {
 } from '@/service/taskList.api';
 import NotFound from '@/app/404/NotFound';
 import useTaskLists from '@/hooks/useTaskLists';
-import { getTasksInGroup } from '@/service/group.api';
+import { getTasksInGroup, updateGroup } from '@/service/group.api';
+import useModalStore from '@/stores/modalStore';
 
 import GroupHeader from './GroupHeader';
 import GroupMemberList from './GroupMemberList';
@@ -21,15 +23,19 @@ import GroupTaskListWrapper from './GroupTaskListWrapper';
 import {
   _CreateTaskListParams,
   _DeleteTaskListParams,
+  _UpdateGroupParams,
   _UpdateTaskListParams,
 } from './TeamPage.type';
 import GroupReport from './GroupReport';
 
 export default function TeamPage() {
-  const { memberships } = useUser(true);
-  const { teamId } = useParams();
+  const params = useParams();
+  const safeParams = React.useMemo(() => params, [params]);
+  const { teamId } = safeParams;
+  const { memberships, reload } = useUser(true);
   const { group, members, refetch, isPending } = useGroup(Number(teamId));
   const { taskLists, refetchById, removeById } = useTaskLists();
+  const { closeModal } = useModalStore();
 
   const currentMembership = memberships?.find(
     (membership) => membership.groupId === group?.id,
@@ -47,22 +53,26 @@ export default function TeamPage() {
     initialData: [],
   });
 
-  const { mutate: onCreate } = useMutation({
+  const { mutate: onEditGroup } = useMutation({
+    mutationFn: (params: _UpdateGroupParams) => _updateGroup(params),
+    onSuccess: () => {
+      closeModal();
+      reload();
+      refetch();
+    },
+    onError: (error) => alert(error),
+  });
+  const _updateGroup = (params: _UpdateGroupParams) => {
+    if (!group) throw new Error('수정할 팀이 없습니다');
+    if (role !== 'ADMIN') throw new Error('관리자만 팀을 수정할 수 있습니다.');
+    return updateGroup({ id: group.id, ...params });
+  };
+
+  const { mutate: onCreateTaskList } = useMutation({
     mutationFn: (params: _CreateTaskListParams) => _createTaskList(params),
     onSuccess: () => refetch(),
     onError: (error) => alert(error),
   });
-  const { mutate: onEdit } = useMutation({
-    mutationFn: (params: _UpdateTaskListParams) => _updateTaskList(params),
-    onSuccess: ({ id }) => refetchById(id),
-    onError: (error) => alert(error),
-  });
-  const { mutate: onDelete } = useMutation({
-    mutationFn: (params: _DeleteTaskListParams) => _deleteTaskList(params),
-    onSuccess: ({ id }) => removeById(id),
-    onError: (error) => alert(error),
-  });
-
   const _createTaskList = (params: _CreateTaskListParams) => {
     if (!group) throw new Error('목록을 생성할 팀이 없습니다');
     if (role !== 'ADMIN')
@@ -70,6 +80,11 @@ export default function TeamPage() {
     return createTaskList({ groupId: group.id, ...params });
   };
 
+  const { mutate: onEditTaskList } = useMutation({
+    mutationFn: (params: _UpdateTaskListParams) => _updateTaskList(params),
+    onSuccess: ({ id }) => refetchById(id),
+    onError: (error) => alert(error),
+  });
   const _updateTaskList = (params: _UpdateTaskListParams) => {
     if (!group) throw new Error('수정할 목록의 팀이 없습니다');
     if (role !== 'ADMIN')
@@ -77,6 +92,11 @@ export default function TeamPage() {
     return updateTaskList({ groupId: group.id, ...params });
   };
 
+  const { mutate: onDeleteTaskList } = useMutation({
+    mutationFn: (params: _DeleteTaskListParams) => _deleteTaskList(params),
+    onSuccess: ({ id }) => removeById(id),
+    onError: (error) => alert(error),
+  });
   const _deleteTaskList = async (params: _DeleteTaskListParams) => {
     if (!group) throw new Error('삭제할 목록의 팀이 없습니다');
     if (role !== 'ADMIN')
@@ -93,13 +113,13 @@ export default function TeamPage() {
   return (
     <Container>
       <div className="flex flex-col gap-pr-24 pt-pr-24">
-        <GroupHeader role={role} name={group.name} />
+        <GroupHeader role={role} group={group} onEdit={onEditGroup} />
         <GroupTaskListWrapper
           role={role}
           taskLists={taskLists}
-          onCreate={onCreate}
-          onEdit={onEdit}
-          onDelete={onDelete}
+          onCreate={onCreateTaskList}
+          onEdit={onEditTaskList}
+          onDelete={onDeleteTaskList}
         />
         <GroupReport tasks={tasks} taskLists={taskLists} />
         <GroupMemberList role={role} groupId={group.id} members={members} />

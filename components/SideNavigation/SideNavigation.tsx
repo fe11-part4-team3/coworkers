@@ -75,7 +75,7 @@ export default function SideNavigation({
               <SidebarMenu className="gap-pr-24">
                 <SidebarMenuButton
                   className="text-14m"
-                  onClick={() => handleClick('/board')}
+                  onClick={() => handleClick('/boards')}
                 >
                   <span>자유게시판</span>
                 </SidebarMenuButton>

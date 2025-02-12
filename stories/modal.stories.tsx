@@ -46,7 +46,14 @@ const Template: StoryFn = () => {
   };
 
   const handleOpenLogout = () => {
-    openModal(<Logout onClick={handleAddTask} />);
+    openModal(
+      <Logout
+        onClick={() => {
+          alert('로그아웃 실행');
+          closeModal();
+        }}
+      />,
+    );
   };
 
   const handleOpenInviteMember = () => {
@@ -57,7 +64,12 @@ const Template: StoryFn = () => {
     openModal(<DeleteTask title="dd" onClick={() => handleAddTask} />);
   };
   const handleOpenDeleteAccount = () => {
-    openModal(<DeleteAccount />);
+    openModal(
+      <DeleteAccount
+        onClick={() => console.log('회원탈퇴 클릭')}
+        isPending={false}
+      />,
+    );
   };
   const handleOpenChangePassword = () => {
     openModal(<ChangePassword />);

@@ -3,8 +3,9 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import Image from 'next/image';
+import { signOut, useSession } from 'next-auth/react';
 
-import { updateUser } from '@/service/user.api';
+import { deleteUser, updateUser } from '@/service/user.api';
 import updatePayloadSubmit from '@/utils/updatePayload';
 import useUser from '@/hooks/useUser';
 import useForm from '@/hooks/useForm';
@@ -14,6 +15,9 @@ import Container from '@/components/layout/Container';
 import InputField from '@/components/InputField/InputField';
 import useModalStore from '@/stores/modalStore';
 import DeleteAccount from '@/components/modal/DeleteAccount';
+import { useSnackbar } from '@/contexts/SnackBar.context';
+import { removeLoginProcessed, removeProfileUpdated } from '@/lib/kakaoStorage';
+import { revokeGoogleAccess, revokeKakaoAccess } from '@/service/auth.api';
 
 interface initialValues {
   nickname: string;
@@ -21,8 +25,9 @@ interface initialValues {
 }
 
 export default function MyPage() {
-  const { user, isPending: isUserLoading, reload } = useUser(true);
+  const { user, reload, clear } = useUser(true);
   const { openModal } = useModalStore();
+  const { data: session, status } = useSession();
 
   // STUB 유저 정보 초기값
   const initialValues = {
@@ -44,6 +49,8 @@ export default function MyPage() {
 
   // STUB 유효성 검사에 따라 버튼 활성화 여부 상태
   const [updateValidation, setUpdateValidation] = useState<boolean>(false);
+
+  const { showSnackbar } = useSnackbar();
 
   // STUB 초기값을 이용한 변경사항 검사
   useEffect(() => {
@@ -67,11 +74,12 @@ export default function MyPage() {
     useMutation({
       mutationFn: updateUser,
       onSuccess: () => {
-        alert('사용자 정보 수정에 성공했습니다.');
+        showSnackbar('수정이 완료 되었습니다.');
         reload();
         setChangedFields({ image: false, nickname: false });
       },
-      onError: () => alert('사용자 정보 수정에 실패했습니다.'),
+      onError: () =>
+        showSnackbar('수정에 실패 했습니다. 다시 시도해주세요.', 'error'),
     });
 
   // STUB 수정 버튼 클릭 시
@@ -83,19 +91,43 @@ export default function MyPage() {
     });
   }, [changedFields, formData, updateUserMutate]);
 
+  // STUB 회원 탈퇴 api mutate
+  const { mutate: deleteUserMutate, isPending: deletePending } = useMutation({
+    mutationFn: deleteUser,
+    onSuccess: () => {
+      removeProfileUpdated();
+      removeLoginProcessed();
+      showSnackbar('회원탈퇴가 완료되었습니다.');
+      clear();
+    },
+    onError: () => showSnackbar('회원탈퇴에 실패했습니다.', 'error'),
+  });
+
+  const handleDeleteAccount = async () => {
+    // STUB 회원 탈퇴 api 호출
+    deleteUserMutate();
+
+    // STUB 구글 연동 해제
+    if (session?.googleAccessToken) {
+      await revokeGoogleAccess(session.googleAccessToken);
+    }
+
+    // STUB 카카오 연동 해제
+    if (session?.kakaoAccessToken) {
+      await revokeKakaoAccess(session?.kakaoAccessToken);
+    }
+
+    // STUB 세션 로그아웃
+    await signOut({ redirect: false });
+  };
+
   // STUB 회원탈퇴 모달 열기
   const handleUserDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    openModal(<DeleteAccount />);
+    openModal(
+      <DeleteAccount onClick={handleDeleteAccount} isPending={deletePending} />,
+    );
   };
-
-  if (isUserLoading && !user) {
-    return <div>사용자 정보를 불러오는 중입니다...</div>;
-  }
-
-  if (!user) {
-    return <div>로그인 상태가 아닙니다.</div>;
-  }
 
   // 로그인 상태일 때
   return (
@@ -106,7 +138,7 @@ export default function MyPage() {
         <Profile
           isEdit={true}
           variant="member"
-          image={preview || user.image}
+          image={preview || user?.image}
           onSelectFile={handleFileChange}
           errorMessage={errorMessage.image}
         />
@@ -116,7 +148,7 @@ export default function MyPage() {
           label="닉네임"
           name="nickname"
           value={formData.nickname}
-          placeholder={user.nickname}
+          placeholder={user?.nickname}
           errorMessage={errorMessage.nickname}
           onChange={handleInputChange}
         />
@@ -124,8 +156,8 @@ export default function MyPage() {
         {/* 이메일 */}
         <InputField
           type="email"
-          value={user.email}
-          placeholder={user.email}
+          value={user?.email}
+          placeholder={user?.email}
           name="email"
           disabled={true}
           label="이메일"
@@ -139,6 +171,7 @@ export default function MyPage() {
           placeholder="******"
           disabled={true}
           label="비밀번호"
+          sesstionStatus={status}
         />
       </div>
 

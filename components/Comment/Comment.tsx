@@ -6,6 +6,9 @@ import TextareaField from '@/components/InputField/TextareaField';
 import CommentContent from '@/components/Comment/CommentContent';
 import CommentFooter from '@/components/Comment/CommentFooter';
 import { CommentProps, ITaskComment } from '@/types/comment.type';
+import useModalStore from '@/stores/modalStore';
+
+import EditDelete from '../modal/EditDelete';
 
 const ARTICLE_COMMENT_STYLE = 'bg-b-secondary px-pr-24 py-pr-20 border-none';
 const TASK_COMMENT_STYLE =
@@ -58,6 +61,8 @@ function Comment({
   const [commentEditContent, setCommentEditContent] = useState(content);
   const [commentEdit, setCommentEdit] = useState(false);
 
+  const { openModal } = useModalStore();
+
   const isArticleComment = type === 'article';
 
   // 타입 단언으로 writer/user 접근
@@ -99,7 +104,17 @@ function Comment({
         commentId: id,
         content: commentEditContent,
       });
-    else return handleUpdateSubmit(id, commentEditContent);
+    else
+      return openModal(
+        <EditDelete
+          title="댓글"
+          actionType="수정"
+          onClick={() => {
+            handleUpdateSubmit(id, commentEditContent);
+            setCommentEdit(false);
+          }}
+        />,
+      );
   };
 
   return (

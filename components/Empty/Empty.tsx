@@ -40,7 +40,9 @@ function Empty({
           src="/images/img-noTeam.png"
           alt="No data"
           className="object-contain"
+          sizes="(max-width: 320px) 100vw, (max-width: 480px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 100vw, 100vw"
           fill
+          priority
         />
       </div>
 

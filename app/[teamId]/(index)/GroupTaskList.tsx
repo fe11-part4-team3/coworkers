@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation';
 import KebabDropDown from '@/components/KebabDropDown';
 import { ITaskList } from '@/types/taskList.type';
 import { RoleType } from '@/types/group.type';
+import createUrlString from '@/utils/createUrlString';
 
 import { _DeleteTaskListParams, _UpdateTaskListParams } from './TeamPage.type';
 import { PointColorType } from './GroupTaskListWrapper';
@@ -40,7 +41,11 @@ export default function GroupTaskList({
   const router = useRouter();
 
   const handleClickTaskList = () => {
-    router.push(`/${taskList.groupId}/${taskList.id}`);
+    const url = createUrlString({
+      pathname: [taskList.groupId, 'tasklist'],
+      queryParams: { id: taskList.id },
+    });
+    router.push(url);
   };
 
   const handleClickEdit = () => {

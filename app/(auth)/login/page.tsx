@@ -4,7 +4,6 @@ import React, { useEffect, MouseEvent, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useMutation } from '@tanstack/react-query';
-import { useSession } from 'next-auth/react';
 
 import { signIn } from '@/service/auth.api';
 import useForm from '@/hooks/useForm';
@@ -13,20 +12,26 @@ import InputField from '@/components/InputField/InputField';
 import Buttons from '@/components/Buttons';
 import useModalStore from '@/stores/modalStore';
 import ResetPassword from '@/components/modal/ResetPassword';
-import AuthLoading from '@/components/AuthLoading';
 import { useSnackbar } from '@/contexts/SnackBar.context';
 
+const initialValues = {
+  email: '',
+  password: '',
+};
+
 function LoginPage() {
-  const { formData, handleInputChange, errorMessage } = useForm({
-    email: '',
-    password: '',
-  });
+  const {
+    formData,
+    handleInputChange,
+    changedFields,
+    handleInputBlur,
+    errorMessage,
+  } = useForm(initialValues);
 
   const route = useRouter();
-  const { user, reload, isAuthenticated } = useUser();
+  const { reload, user } = useUser();
   const { openModal } = useModalStore();
 
-  const { status } = useSession();
   const { showSnackbar } = useSnackbar();
 
   // STUB submit 후 로그인 에러 메시지
@@ -55,15 +60,10 @@ function LoginPage() {
     openModal(<ResetPassword />);
   };
 
-  // // STUB 로그인 성공 시
   useEffect(() => {
-    if (user) reload();
-  }, [user, reload]);
-
-  useEffect(() => {
-    if (isAuthenticated) {
+    if (user) {
       // STUB 로그인 후 가입된 그룹이 있을 때, 첫 번째 그룹으로 이동
-      if (user && user.memberships.length > 0) {
+      if (user.memberships.length > 0) {
         route.push(`/${user.memberships[0].groupId}`);
       } else {
         route.push(`/`);
@@ -71,9 +71,17 @@ function LoginPage() {
     } else {
       return;
     }
-  }, [user, route, isAuthenticated]);
+  }, [route, user]);
 
-  if (status === 'loading') return <AuthLoading />;
+  const requiredFields = Object.keys(initialValues);
+
+  const hasDisabled =
+    requiredFields.some(
+      (field) => !changedFields[field as keyof typeof changedFields],
+    ) ||
+    requiredFields.some(
+      (field) => errorMessage[field as keyof typeof errorMessage] !== '',
+    );
 
   // STUB 로그인 상태가 아닐 때
   return (
@@ -90,6 +98,7 @@ function LoginPage() {
               handleInputChange(e);
               setHasLoginError('');
             }}
+            onBlur={handleInputBlur}
             errorMessage={hasLoginError ? hasLoginError : errorMessage.email}
             placeholder="이메일을 입력해주세요."
             required
@@ -101,6 +110,7 @@ function LoginPage() {
             autoComplete="current-password"
             value={formData.password}
             onChange={handleInputChange}
+            onBlur={handleInputBlur}
             errorMessage={errorMessage.password}
             placeholder="비밀번호를 입력해주세요."
             required
@@ -121,10 +131,7 @@ function LoginPage() {
           text="로그인"
           type="submit"
           className="mt-pr-40"
-          disabled={
-            isLogin ||
-            !(errorMessage.email === '' && errorMessage.password === '')
-          }
+          disabled={hasDisabled}
           loading={isLogin}
         />
       </form>

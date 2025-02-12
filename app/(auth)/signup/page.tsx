@@ -1,36 +1,40 @@
 'use client';
 
-import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
+import { useEffect } from 'react';
 
 import { signUp } from '@/service/auth.api';
 import useForm from '@/hooks/useForm';
-import useUser from '@/hooks/useUser';
 import InputField from '@/components/InputField/InputField';
 import Buttons from '@/components/Buttons';
+import { useSnackbar } from '@/contexts/SnackBar.context';
+import useUser from '@/hooks/useUser';
+
+const initialValues = {
+  email: '',
+  nickname: '',
+  password: '',
+  passwordConfirmation: '',
+};
 
 function SignupPage() {
-  const { formData, handleInputChange, errorMessage } = useForm({
-    email: '',
-    nickname: '',
-    password: '',
-    passwordConfirmation: '',
-  });
+  const { formData, handleInputChange, changedFields, errorMessage } =
+    useForm(initialValues);
+
+  const { user } = useUser();
 
   const route = useRouter();
 
-  // 인증된 사용자인지 확인
-  const { isAuthenticated } = useUser();
+  const { showSnackbar } = useSnackbar();
 
   const { mutateAsync: postSignup, isPending: isSignup } = useMutation({
     mutationFn: signUp,
     onSuccess: () => {
-      alert('회원가입이 완료 되었습니다.');
-      console.log('회원가입 성공');
+      showSnackbar('회원가입이 완료 되었습니다.');
       route.push('/login');
     },
-    onError: () => console.log('회원가입 실패'),
+    onError: () => showSnackbar('이미 사용중인 이메일입니다.', 'error'),
   });
 
   // 회원가입 버튼 클릭 시
@@ -41,10 +45,27 @@ function SignupPage() {
   };
 
   useEffect(() => {
-    if (isAuthenticated) {
-      route.push('/');
+    if (user) {
+      // STUB 로그인 후 가입된 그룹이 있을 때, 첫 번째 그룹으로 이동
+      if (user.memberships.length > 0) {
+        route.push(`/${user.memberships[0].groupId}`);
+      } else {
+        route.push(`/`);
+      }
+    } else {
+      return;
     }
-  }, [isAuthenticated, route]);
+  }, [route, user]);
+
+  const requiredFields = Object.keys(initialValues);
+
+  const hasDisabled =
+    requiredFields.some(
+      (field) => !changedFields[field as keyof typeof changedFields],
+    ) ||
+    requiredFields.some(
+      (field) => errorMessage[field as keyof typeof errorMessage] !== '',
+    );
 
   return (
     <form onSubmit={handleSubmit}>
@@ -100,15 +121,7 @@ function SignupPage() {
         text="회원가입"
         type="submit"
         className="mt-pr-40"
-        disabled={
-          isSignup ||
-          !(
-            errorMessage.email === '' &&
-            errorMessage.nickname === '' &&
-            errorMessage.password === '' &&
-            errorMessage.passwordConfirmation === ''
-          )
-        }
+        disabled={hasDisabled}
         loading={isSignup}
       />
     </form>
