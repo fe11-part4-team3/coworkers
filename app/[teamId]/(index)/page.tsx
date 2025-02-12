@@ -27,6 +27,7 @@ import {
   _UpdateTaskListParams,
 } from './TeamPage.type';
 import GroupReport from './GroupReport';
+import { useSnackbar } from '@/contexts/SnackBar.context';
 
 export default function TeamPage() {
   const router = useRouter();
@@ -42,6 +43,7 @@ export default function TeamPage() {
   } = useGroup(Number(teamId));
   const { taskLists, refetchById, removeById, removeAll } = useTaskLists();
   const { closeModal } = useModalStore();
+  const { showSnackbar } = useSnackbar();
 
   const currentMembership = memberships?.find(
     (membership) => membership.groupId === group?.id,
@@ -82,8 +84,9 @@ export default function TeamPage() {
       removeAll();
       refetchUser();
       refetchGroup();
+      showSnackbar('팀을 삭제했습니다.');
     },
-    onError: (error) => alert(error),
+    onError: (error) => showSnackbar(error.message),
   });
   const _deleteGroup = () => {
     if (!group) throw new Error('삭제할 팀이 없습니다');
