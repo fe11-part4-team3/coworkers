@@ -2,7 +2,6 @@ import { format } from 'date-fns';
 import { ChangeEvent, FormEvent, useState } from 'react';
 
 import CloseIcon from '@/public/images/icon-close.svg';
-import useModalStore from '@/stores/modalStore';
 import ArticleDetailComment from '@/components/Comment/Comment';
 import { TaskDetailProps } from '@/types/task.type';
 import KebabDropDown from '@/components/KebabDropDown';

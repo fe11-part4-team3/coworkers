@@ -43,7 +43,8 @@ export default function TimePicker({
   const handleTimeClick = (timeSlot: string) => {
     setIsPickerView(false);
 
-    let [hours, minutes] = timeSlot.split(':').map(Number);
+    let [hours] = timeSlot.split(':').map(Number);
+    const [minutes] = timeSlot.split(':').map(Number);
     if (amPm === 'pm') {
       hours += 12;
     }

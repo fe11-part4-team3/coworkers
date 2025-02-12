@@ -1,29 +1,26 @@
 'use client';
 
 import { subDays, addDays } from 'date-fns';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
-
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import Container from '@/components/layout/Container';
 import PrevButtonIcon from '@/public/images/icon-prev-button.svg';
 import NextButtonIcon from '@/public/images/icon-next-button.svg';
 import CalendarButtonIcon from '@/public/images/icon-calendar-button.svg';
 import TaskDetail from '@/components/TaskDetail/TaskDetail';
 import DatePicker from '@/components/DateTimePicker/DatePicker';
-
-import { usePathname } from 'next/navigation';
 import TaskCard from '@/components/TaskCard/TaskCard';
 import useGroup from '@/hooks/useGroup';
 import Buttons from '@/components/Buttons';
 import PlusIcon from '@/public/images/icon-plus.svg';
 import useModalStore from '@/stores/modalStore';
 import AddTask from '@/components/modal/AddTask';
-import { useEffect, useRef } from 'react';
-import Link from 'next/link';
 import { getTaskList } from '@/service/taskList.api';
 import { createTask, updateTask, deleteTask } from '@/service/task.api';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   TaskRecurringCreateDto,
   UpdateTaskBodyParams,
@@ -139,7 +136,9 @@ export default function TaskListPage() {
   });
 
   const handleDeleteTask = (taskId: number) => {
-    confirm('할 일을 삭제하시겠습니까?') && fetchDeleteTask.mutate(taskId);
+    if (confirm('할 일을 삭제하시겠습니까?')) {
+      fetchDeleteTask.mutate(taskId);
+    }
   };
 
   const handlePrevDate = () => {

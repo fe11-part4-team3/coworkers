@@ -2,12 +2,12 @@
 
 import * as React from 'react';
 import { DayPicker } from 'react-day-picker';
+import { useTheme } from 'next-themes';
 
 import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/ui/button';
 import ChevronLeftIcon from '@/public/images/icon-chevron-left.svg';
 import ChevronRightIcon from '@/public/images/icon-chevron-right.svg';
-import { useTheme } from 'next-themes';
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>;
 export type IsCalenderOpen = {

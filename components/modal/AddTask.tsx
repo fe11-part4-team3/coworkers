@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-
+import { format, getDate } from 'date-fns';
 import SelectBox from '@/components/SelectBox';
 import Buttons from '@/components/Buttons';
 import CloseButton from '@/components/modal/ModalCloseButton';
@@ -9,9 +9,8 @@ import TextareaField from '@/components/InputField/TextareaField';
 import InputField from '@/components/InputField/InputField';
 import DatePicker from '@/components/DateTimePicker/DatePicker';
 import TimePicker from '@/components/DateTimePicker/TimePicker';
-import { format, getDate } from 'date-fns';
 import InputLabel from '@/components/InputField/InputLabel';
-import { Switch } from '@radix-ui/react-switch';
+import { TaskRecurringCreateDto } from '@/types/task.type';
 
 /* 꼭 읽어주세요.
     InputField 컴포넌트에서 updateInputValue 함수를 사용할 때,
@@ -33,7 +32,11 @@ import { Switch } from '@radix-ui/react-switch';
  * 할 일 추가 모달
  * @param {function} onClick - 할 일 추가 버튼 클릭 시 실행되는 함수
  */
-export default function AddTask({ fetchData }: { fetchData: any }) {
+export default function AddTask({
+  fetchData,
+}: {
+  fetchData: (body: TaskRecurringCreateDto) => void;
+}) {
   const [frequencyOptions] = useState<SelectOption[]>([
     { label: '한 번', value: 'ONCE' },
     { label: '매일', value: 'DAILY' },
