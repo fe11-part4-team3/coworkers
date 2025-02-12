@@ -14,12 +14,12 @@ import useModalStore from '@/stores/modalStore';
 import ResetPassword from '@/components/modal/ResetPassword';
 import { useSnackbar } from '@/contexts/SnackBar.context';
 
-function LoginPage() {
-  const initialValues = {
-    email: '',
-    password: '',
-  };
+const initialValues = {
+  email: '',
+  password: '',
+};
 
+function LoginPage() {
   const {
     formData,
     handleInputChange,
