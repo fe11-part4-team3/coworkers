@@ -93,6 +93,7 @@ function ArticleList({ keyword }: { keyword: string | undefined }) {
                     duration: 0.5,
                     delay: 0.1,
                   }}
+                  className="tamo:w-full"
                 >
                   <ArticleCard
                     articleData={article}
