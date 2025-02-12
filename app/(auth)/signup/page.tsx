@@ -11,14 +11,14 @@ import Buttons from '@/components/Buttons';
 import { useSnackbar } from '@/contexts/SnackBar.context';
 import useUser from '@/hooks/useUser';
 
-function SignupPage() {
-  const initialValues = {
-    email: '',
-    nickname: '',
-    password: '',
-    passwordConfirmation: '',
-  };
+const initialValues = {
+  email: '',
+  nickname: '',
+  password: '',
+  passwordConfirmation: '',
+};
 
+function SignupPage() {
   const { formData, handleInputChange, changedFields, errorMessage } =
     useForm(initialValues);
 
