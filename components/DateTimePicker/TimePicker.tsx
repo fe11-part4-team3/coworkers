@@ -44,7 +44,7 @@ export default function TimePicker({
     setIsPickerView(false);
 
     let [hours] = timeSlot.split(':').map(Number);
-    const [minutes] = timeSlot.split(':').map(Number);
+    const [, minutes] = timeSlot.split(':').map(Number);
     if (amPm === 'pm') {
       hours += 12;
     }
