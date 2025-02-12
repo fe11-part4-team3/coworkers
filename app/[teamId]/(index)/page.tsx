@@ -2,6 +2,7 @@
 
 import { useParams } from 'next/navigation';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import React from 'react';
 
 import Container from '@/components/layout/Container';
 import useUser from '@/hooks/useUser';
@@ -28,8 +29,10 @@ import {
 import GroupReport from './GroupReport';
 
 export default function TeamPage() {
+  const params = useParams();
+  const safeParams = React.useMemo(() => params, [params]);
+  const { teamId } = safeParams;
   const { memberships, reload } = useUser(true);
-  const { teamId } = useParams();
   const { group, members, refetch, isPending } = useGroup(Number(teamId));
   const { taskLists, refetchById, removeById } = useTaskLists();
   const { closeModal } = useModalStore();

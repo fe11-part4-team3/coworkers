@@ -28,7 +28,9 @@ function Headers() {
   const queryClient = useQueryClient();
   const deviceType = useDeviceType();
   const router = useRouter();
-  const { teamId } = useParams();
+  const params = useParams();
+  const safeParams = React.useMemo(() => params, [params]);
+  const { teamId } = safeParams;
   const groupId = teamId ? Number(teamId) : null;
   const { user, groups, isPending, clear: clearUser } = useUser();
   const { clear: clearGroup } = useGroup(Number(teamId));
