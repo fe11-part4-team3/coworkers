@@ -47,6 +47,8 @@ export default function GroupMemberList({
     onError: (error) => showSnackbar(error.message),
   });
 
+  //TODO 데이터가 있을 때 중복 요청 안보내게 개선
+
   const copyLink = (token: string) => {
     const path = createUrlString({
       origin: location.origin,
