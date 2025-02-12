@@ -26,7 +26,7 @@ export default function GroupHeader({
   onEdit,
   onDelete,
 }: GroupHeaderProps) {
-  const theme = useThemeMode();
+  const { theme } = useThemeMode();
   const { openModal } = useModalStore();
 
   const handleClickEdit = () => {

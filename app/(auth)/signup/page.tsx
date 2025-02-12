@@ -11,13 +11,16 @@ import Buttons from '@/components/Buttons';
 import { useSnackbar } from '@/contexts/SnackBar.context';
 import useUser from '@/hooks/useUser';
 
+const initialValues = {
+  email: '',
+  nickname: '',
+  password: '',
+  passwordConfirmation: '',
+};
+
 function SignupPage() {
-  const { formData, handleInputChange, errorMessage } = useForm({
-    email: '',
-    nickname: '',
-    password: '',
-    passwordConfirmation: '',
-  });
+  const { formData, handleInputChange, changedFields, errorMessage } =
+    useForm(initialValues);
 
   const { user } = useUser();
 
@@ -53,6 +56,16 @@ function SignupPage() {
       return;
     }
   }, [route, user]);
+
+  const requiredFields = Object.keys(initialValues);
+
+  const hasDisabled =
+    requiredFields.some(
+      (field) => !changedFields[field as keyof typeof changedFields],
+    ) ||
+    requiredFields.some(
+      (field) => errorMessage[field as keyof typeof errorMessage] !== '',
+    );
 
   return (
     <form onSubmit={handleSubmit}>
@@ -108,15 +121,7 @@ function SignupPage() {
         text="회원가입"
         type="submit"
         className="mt-pr-40"
-        disabled={
-          isSignup ||
-          !(
-            errorMessage.email === '' &&
-            errorMessage.nickname === '' &&
-            errorMessage.password === '' &&
-            errorMessage.passwordConfirmation === ''
-          )
-        }
+        disabled={hasDisabled}
         loading={isSignup}
       />
     </form>

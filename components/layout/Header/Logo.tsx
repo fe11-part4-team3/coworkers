@@ -8,9 +8,9 @@ function Logo() {
       <Image
         src="/images/img-Logo.svg"
         alt="로고"
-        layout="intrinsic"
         width={158}
         height={32}
+        priority
       />
     </Link>
   );

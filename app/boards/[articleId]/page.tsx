@@ -1,6 +1,7 @@
 'use client';
 
 import { useParams } from 'next/navigation';
+import React from 'react';
 
 import Container from '@/components/layout/Container';
 
@@ -8,7 +9,9 @@ import ArticleDetail from './ArticleDetail';
 import CommentContainer from './CommentContainer';
 
 function ArticleDetailPage() {
-  const { articleId } = useParams();
+  const params = useParams();
+  const safeParams = React.useMemo(() => params, [params]);
+  const { articleId } = safeParams;
 
   return (
     <Container>

@@ -39,6 +39,7 @@ export default function InputField({
   disabled = false,
   width = '',
   onChange,
+  onBlur,
   sesstionStatus,
   ...props
 }: InputFieldProps) {
@@ -84,6 +85,7 @@ export default function InputField({
           placeholder={placeholder}
           disabled={disabled}
           onChange={onChange}
+          onBlur={onBlur}
           className={`px-pr-16 py-pr-14.5 mo:py-pr-13.5 ${errorMessage && 'border-s-danger'} ${!disabled && !errorMessage && 'hover:border-i-hover'} ${inputStyled}`}
           {...props}
         />
