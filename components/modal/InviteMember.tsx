@@ -1,6 +1,5 @@
 'use client';
 
-import useModalStore from '@/stores/modalStore';
 import CloseButton from '@/components/modal/ModalCloseButton';
 import Buttons from '@/components/Buttons';
 
@@ -12,11 +11,8 @@ import Buttons from '@/components/Buttons';
  */
 
 export default function InviteMember({ onClick }: { onClick: () => void }) {
-  const { closeModal } = useModalStore();
-
   const handleOnClick = () => {
     onClick();
-    closeModal();
   };
 
   return (

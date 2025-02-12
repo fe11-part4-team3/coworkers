@@ -7,6 +7,9 @@ import { getInvitation } from '@/service/group.api';
 import ArrowDown from '@/public/images/icon-arrow-down.svg';
 
 import GroupMemberCard from './GroupMemberCard';
+import useModalStore from '@/stores/modalStore';
+import InviteMember from '@/components/modal/InviteMember';
+import { useMutation } from '@tanstack/react-query';
 
 interface GroupMemberListProps {
   role: RoleType;
@@ -33,18 +36,18 @@ export default function GroupMemberList({
 }: GroupMemberListProps) {
   const deviceType = useDeviceType();
   const [more, setMore] = useState(false);
+  const { openModal } = useModalStore();
 
-  //TODO 공용 모달 완성되면 모달로 alert 띄우기
-  //TODO 초대 관련 로직 구현하기
+  const { mutate: getInvitationMutate } = useMutation({
+    mutationFn: () => getInvitation({ id: groupId }),
+    onSuccess: (token) => {
+      navigator.clipboard.writeText(token);
+      console.log(token);
+    },
+  });
+
   const handleClickInvitation = async () => {
-    try {
-      const response = await getInvitation({ id: groupId });
-      navigator.clipboard.writeText(response);
-      alert(response);
-    } catch (error) {
-      console.error(error);
-      alert('초대 토큰 생성 실패');
-    }
+    openModal(<InviteMember onClick={getInvitationMutate} />);
   };
 
   if (!members) return null;
