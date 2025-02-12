@@ -26,6 +26,7 @@ import {
   _UpdateTaskListParams,
 } from './TeamPage.type';
 import GroupReport from './GroupReport';
+import { useSnackbar } from '@/contexts/SnackBar.context';
 
 export default function TeamPage() {
   const { memberships, reload } = useUser(true);
@@ -33,6 +34,7 @@ export default function TeamPage() {
   const { group, members, refetch, isPending } = useGroup(Number(teamId));
   const { taskLists, refetchById, removeById } = useTaskLists();
   const { closeModal } = useModalStore();
+  const { showSnackbar } = useSnackbar();
 
   const currentMembership = memberships?.find(
     (membership) => membership.groupId === group?.id,
@@ -67,7 +69,11 @@ export default function TeamPage() {
 
   const { mutate: onCreateTaskList } = useMutation({
     mutationFn: (params: _CreateTaskListParams) => _createTaskList(params),
-    onSuccess: () => refetch(),
+    onSuccess: () => {
+      closeModal();
+      refetch();
+      showSnackbar('할 일 목록을 생성했습니다.');
+    },
     onError: (error) => alert(error),
   });
   const _createTaskList = (params: _CreateTaskListParams) => {
