@@ -129,6 +129,10 @@ export default function AddTask({ fetchData }: { fetchData: any }) {
     }
   }, [selectedRepeatType, selectedDays, date]);
 
+  useEffect(() => {
+    updateInputValue(3, 'frequencyType', selectedRepeatType);
+  }, []);
+
   return (
     <>
       <CloseButton />

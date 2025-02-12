@@ -51,7 +51,6 @@ export default function useModalForm({
       delete updatedBodyData[existedKey];
     }
     setBodyData(updatedBodyData);
-    console.log('업데이트', 'bodydata :', bodyData, 'value: ', value);
   };
 
   const deleteInputValue = (index: number, name: string) => {
@@ -62,18 +61,23 @@ export default function useModalForm({
 
     setValue(updatedValue);
     setBodyData(updatedBodyData);
-
-    console.log('삭제', 'bodydata :', updatedBodyData, 'value: ', updatedValue);
   };
 
   const validateInput = () => {
-    const trimmedValue = value.every(
-      (item) => typeof item !== 'string' || (item.trim() !== '' && item !== ''),
-    );
-    if (!trimmedValue) {
+    const trimmedValue = value.every((item) => {
+      if (typeof item === 'string') {
+        return item.trim() !== '';
+      }
+      if (typeof item === 'number') {
+        return item !== 0;
+      }
+      if (Array.isArray(item)) {
+        return Object.keys(item).length > 0;
+      }
       return false;
-    }
-    return true;
+    });
+
+    return trimmedValue;
   };
 
   const handleOnClick = (e: React.FormEvent<HTMLFormElement>) => {
