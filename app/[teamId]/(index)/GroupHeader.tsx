@@ -10,19 +10,31 @@ import useModalStore from '@/stores/modalStore';
 
 import GroupEditModal from './GroupEditModal';
 import { _UpdateGroupParams } from './TeamPage.type';
+import GroupDeleteModal from './GroupDeleteModal';
 
 interface GroupHeaderProps {
   role: RoleType;
   group: IGroupDetail;
   onEdit: (params: _UpdateGroupParams) => void;
+  onDelete: () => void;
 }
 
-export default function GroupHeader({ role, group, onEdit }: GroupHeaderProps) {
+//TODO 썸네일 이미지 추가
+export default function GroupHeader({
+  role,
+  group,
+  onEdit,
+  onDelete,
+}: GroupHeaderProps) {
   const { theme } = useThemeMode();
   const { openModal } = useModalStore();
 
   const handleClickEdit = () => {
     openModal(<GroupEditModal group={group} onEdit={onEdit} />);
+  };
+
+  const handleClickDelete = () => {
+    openModal(<GroupDeleteModal onDelete={onDelete} />);
   };
 
   return (
@@ -46,7 +58,7 @@ export default function GroupHeader({ role, group, onEdit }: GroupHeaderProps) {
             }
             items={[
               { text: '수정하기', onClick: handleClickEdit },
-              { text: '삭제하기', onClick: () => {} },
+              { text: '삭제하기', onClick: handleClickDelete },
             ]}
           />
         )}
