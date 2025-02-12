@@ -17,9 +17,8 @@ interface GroupHeaderProps {
   onEdit: (params: _UpdateGroupParams) => void;
 }
 
-//TODO 썸네일 이미지 추가
 export default function GroupHeader({ role, group, onEdit }: GroupHeaderProps) {
-  const theme = useThemeMode();
+  const { theme } = useThemeMode();
   const { openModal } = useModalStore();
 
   const handleClickEdit = () => {

@@ -11,7 +11,6 @@ import '@/styles/components.css';
 import '@/styles/utilities.css';
 
 import { ThemeProvider } from '@/utils/theme-provider';
-import DarkmodeToggle from '@/components/DarkmodeToggle';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import Headers from '@/components/layout/Header/Headers';
 import { DeviceTypeProvider } from '@/contexts/DeviceTypeContext';
@@ -50,7 +49,6 @@ export default function RootLayout({
                   <SidebarProvider defaultOpen={false}>
                     <SnackbarProvider>
                       <Headers />
-                      <DarkmodeToggle />
                       <Modal />
                       {children}
                     </SnackbarProvider>
