@@ -1,10 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+
 import Container from '@/components/layout/Container';
 import TaskCard from '@/components/TaskCard/TaskCard';
+
 import { newDate } from '@/utils/dateConversion';
 import { getHistory } from '@/service/user.api';
+
 import { ITaskMetadata } from '@/types/task.type';
 
 function MyHistoryPage() {
@@ -15,11 +18,8 @@ function MyHistoryPage() {
     const fetchHistory = async () => {
       try {
         const data = await getHistory();
-        console.log('API 응답 데이터:', data);
-
         setTasksDone(data ?? []);
-      } catch (error) {
-        console.error('Error fetching history:', error);
+      } catch {
       } finally {
         setLoading(false);
       }
