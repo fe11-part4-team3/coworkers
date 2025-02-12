@@ -1,9 +1,10 @@
 'use client';
 
-import useGroup from '@/hooks/useGroup';
-import useUser from '@/hooks/useUser';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useMemo } from 'react';
+
+import useGroup from '@/hooks/useGroup';
+import useUser from '@/hooks/useUser';
 
 export default function RootLayout({
   children,
