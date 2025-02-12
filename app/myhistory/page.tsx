@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 
 import Container from '@/components/layout/Container';
 import TaskCard from '@/components/TaskCard/TaskCard';
+import Empty from '@/components/Empty/Empty';
+import { Skeleton } from '@/components/ui/skeleton';
 
 import { newDate } from '@/utils/dateConversion';
 import { getHistory } from '@/service/user.api';
@@ -50,9 +52,18 @@ function MyHistoryPage() {
         마이 히스토리
       </h1>
       {loading ? (
-        <p>로딩 중...</p>
+        <div className="space-y-pr-16">
+          <Skeleton className="h-pr-24 w-pr-120" />
+          <Skeleton className="h-pr-64 w-full" />
+          <Skeleton className="h-pr-64 w-full" />
+          <Skeleton className="h-pr-64 w-full" />
+        </div>
       ) : tasksDone.length === 0 ? (
-        <p>완료한 작업이 없습니다.</p>
+        <Empty>
+          <Empty.TextWrapper>
+            <Empty.Text text="완료한 작업이 없습니다." />
+          </Empty.TextWrapper>
+        </Empty>
       ) : (
         <div className="space-y-pr-40">
           {sortedDates.map((date) => (
