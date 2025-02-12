@@ -17,6 +17,7 @@ import { DeviceTypeProvider } from '@/contexts/DeviceTypeContext';
 import Modal from '@/components/modal/Modal';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { SnackbarProvider } from '@/contexts/SnackBar.context';
+import DynamicTitle from '@/components/DynamicTitle';
 
 const queryClient = new QueryClient();
 
@@ -35,7 +36,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
+      <head>
+        <meta name="description" content="Coworkers 랜딩페이지" />
+      </head>
+
       <body>
+        <DynamicTitle />
+
         <DeviceTypeProvider>
           <ThemeProvider
             attribute="class"
