@@ -1,8 +1,10 @@
+import { ITask } from '../types/task.type';
+
 type TaskName = string;
 
 interface TaskCardProps {
   type: 'history' | 'taskList';
-  taskData: taskData;
+  taskData: ITask;
   updateTask: (variables: {
     taskId: number;
     body: { name: string; description: string; done: boolean };

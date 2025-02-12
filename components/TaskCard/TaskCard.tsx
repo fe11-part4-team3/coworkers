@@ -52,7 +52,7 @@ function TaskCard({ type, taskData, updateTask }: TaskCardProps) {
       <CardContent className="flex items-center p-0">
         <TaskCheckbox
           name={name}
-          isChecked={isChecked}
+          isChecked={Boolean(doneAt)}
           handleCheckedToggle={handleCheckedToggle}
           isTaskList={isTaskList}
         />
