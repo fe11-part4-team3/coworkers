@@ -37,9 +37,11 @@ export default function TaskDetail({
   updateComment,
 }: TaskDetailProps) {
   const [enterComment, setEnterComment] = useState<string>('');
+  const [isEdit, setIsEdit] = useState<boolean>(false);
+  const [editTask, setEditTask] = useState<TaskDetailProps['value']>(value);
 
   const taskDoneButtonStyle =
-    value.doneBy?.user === null
+    !isEdit && value.doneBy?.user === null
       ? 'bg-brand-primary text-t-primary'
       : 'bg-b-inverse text-brand-primary border border-brand-primary';
   const formattedCreateAt = format(new Date(value.updatedAt), 'yyyy.MM.dd');
@@ -64,6 +66,29 @@ export default function TaskDetail({
     setEnterComment('');
   };
 
+  const handleEditButtonClick = (isEdit: boolean) => {
+    if (!isEdit)
+      updateTask({
+        taskId: value.id,
+        body: {
+          name: value.name,
+          description: value.description ? value.description : '',
+          done: !value.doneAt,
+        },
+      });
+    else {
+      updateTask({
+        taskId: value.id,
+        body: {
+          name: editTask.name,
+          description: editTask.description ? editTask.description : '',
+          done: Boolean(value.doneAt),
+        },
+      });
+      setIsEdit(false);
+    }
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -75,9 +100,19 @@ export default function TaskDetail({
             onClick={() => setIsOpen(false)}
           />
           <div className="my-pr-16 flex items-center justify-between">
-            <h1 className="text-20b text-t-primary">{value.name}</h1>
+            {!isEdit ? (
+              <h1 className="text-20b text-t-primary">{value.name}</h1>
+            ) : (
+              <input
+                defaultValue={editTask.name}
+                onChange={(e) =>
+                  setEditTask({ ...editTask, name: e.target.value })
+                }
+                className="w-full bg-b-secondary pr-pr-40 text-20b text-t-primary focus:outline-none"
+              />
+            )}
             <KebabDropDown
-              onEdit={() => updateTask}
+              onEdit={() => setIsEdit(true)}
               onDelete={() => deleteTask(value.id)}
             />
           </div>
@@ -90,9 +125,21 @@ export default function TaskDetail({
             <IconLabel text={formattedDateTime} type="time" hasBar />
             <IconLabel text={formattedRepeat()} type="repeat" />
           </div>
-          <p className="mb-pr-180 text-14 text-t-primary">
-            {value.description}
-          </p>
+          <div>
+            {!isEdit ? (
+              <p className="mb-pr-180 text-14 text-t-primary">
+                {value.description}
+              </p>
+            ) : (
+              <textarea
+                defaultValue={editTask.description ? editTask.description : ''}
+                onChange={(e) =>
+                  setEditTask({ ...editTask, description: e.target.value })
+                }
+                className="relative z-50 mb-pr-40 h-pr-150 w-full resize-none bg-b-secondary text-14m focus:outline-none"
+              ></textarea>
+            )}
+          </div>
           <form onSubmit={handleSubmitComment}>
             <CommentTextarea
               value={enterComment}
@@ -117,16 +164,7 @@ export default function TaskDetail({
         </div>
         <button
           className={`fixed bottom-pr-60 right-pr-40 flex h-pr-40 items-center justify-center gap-pr-4 rounded-full px-pr-20 text-14sb ${taskDoneButtonStyle}`}
-          onClick={() =>
-            updateTask({
-              taskId: value.id,
-              body: {
-                name: value.name,
-                description: value.description ? value.description : '',
-                done: !value.doneAt,
-              },
-            })
-          }
+          onClick={() => handleEditButtonClick(isEdit)}
         >
           <CheckIcon
             stroke={
@@ -135,7 +173,11 @@ export default function TaskDetail({
                 : 'border-brand-primary'
             }
           />
-          {value.doneBy?.user === null ? '완료하기' : '완료 취소하기'}
+          {!isEdit
+            ? value.doneBy?.user === null
+              ? '완료하기'
+              : '완료 취소하기'
+            : '수정 완료하기'}
         </button>
       </div>
     </>
