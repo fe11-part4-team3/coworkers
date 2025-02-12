@@ -1,5 +1,3 @@
-'use client';
-
 import React, { useEffect, useState } from 'react';
 import { useParams, usePathname, useSearchParams } from 'next/navigation';
 
@@ -59,7 +57,7 @@ export default function DynamicTitle() {
     };
 
     fetchTitle();
-  }, [pathname, taskId, keyword]);
+  }, [pathname, taskId, articleId, keyword]);
 
   useEffect(() => {
     document.title = title;

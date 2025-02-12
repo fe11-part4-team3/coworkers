@@ -1,5 +1,6 @@
 'use client';
 
+import { Suspense } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
 import { SessionProvider } from 'next-auth/react';
@@ -36,12 +37,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <head>
-        <meta name="description" content="Coworkers 랜딩페이지" />
-      </head>
-
       <body>
-        <DynamicTitle />
+        <Suspense fallback={null}>
+          <DynamicTitle />
+        </Suspense>
 
         <DeviceTypeProvider>
           <ThemeProvider
