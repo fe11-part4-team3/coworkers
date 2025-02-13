@@ -1,9 +1,9 @@
-import { getUser } from '@/service/user.api';
-import useUserStore from '@/stores/useUser.store';
-
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect } from 'react';
+
+import useUserStore from '@/stores/useUser.store';
+import { getUser } from '@/service/user.api';
 
 /**
  * 유저 관련 정보를 관리하기 위한 커스텀 훅입니다.
@@ -42,49 +42,54 @@ const useUser = (required?: boolean) => {
     user,
     memberships,
     groups,
-    setToken,
     setUser,
     setMemberships,
     setGroups,
     clearStore,
   } = useUserStore((state) => state);
+
+  /**
+   * zustand에 저장되어 있는 user와 memberships를 결합하여
+   * React Query의 initialData로 제공.
+   * getUser API가 반환하는 데이터의 구조(예: { …user, memberships })와 동일해야 함.
+   */
+  const initialData = token && user ? { ...user, memberships } : undefined;
+  const shouldFetch = !!token && !user;
+
   const { data, isPending, error, refetch } = useQuery({
     queryKey: ['user'],
     queryFn: getUser,
-    enabled: !!token,
+    enabled: shouldFetch,
+    initialData,
+    initialDataUpdatedAt: initialData ? Date.now() : undefined,
+    // 컴포넌트 마운트나 윈도우 포커스 시 추가 refetch 방지
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
   });
 
   const clear = () => clearStore();
 
   const reload = useCallback(() => {
-    setToken();
-    if (token) refetch();
-  }, [setToken, token]);
+    refetch();
+  }, [refetch]);
 
-  const storeUser = useCallback(() => setUser(data || null), [data, setUser]);
-
-  const storeMemberships = useCallback(() => {
-    const memberships = data?.memberships;
-    if (memberships && memberships.length > 0) {
-      setMemberships(memberships);
-    } else setMemberships(null);
-  }, [data, setMemberships]);
-
-  const storeGroups = useCallback(() => {
-    const memberships = data?.memberships || null;
-    memberships && memberships.length > 0
-      ? setGroups(memberships.map((membership) => membership.group))
-      : setGroups(null);
-  }, [data, setGroups]);
-
-  useEffect(() => reload(), [reload]);
+  useEffect(() => {
+    if (!!token && !user) {
+      reload();
+    }
+  }, [reload, token, user]);
 
   useEffect(() => {
     if (!token) return;
-    storeUser();
-    storeMemberships();
-    storeGroups();
-  }, [data, token]);
+    setUser(data || null);
+    if (data?.memberships && data.memberships.length > 0) {
+      setMemberships(data.memberships);
+      setGroups(data.memberships.map((membership) => membership.group));
+    } else {
+      setMemberships(null);
+      setGroups(null);
+    }
+  }, [data, token, setUser, setMemberships, setGroups]);
 
   useEffect(() => {
     if (!required) return;

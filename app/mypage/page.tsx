@@ -76,7 +76,8 @@ export default function MyPage() {
       onSuccess: () => {
         showSnackbar('수정이 완료 되었습니다.');
         reload();
-        setChangedFields({ image: false, nickname: false });
+        setChangedFields('image', false);
+        setChangedFields('nickname', false);
       },
       onError: () =>
         showSnackbar('수정에 실패 했습니다. 다시 시도해주세요.', 'error'),
