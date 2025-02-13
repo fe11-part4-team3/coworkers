@@ -48,9 +48,12 @@ export default function NavigationGroupDropdown({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="mt-pr-16 w-pr-218 rounded-pr-12 border-none bg-b-secondary p-pr-16">
-        {groups.map((group) => (
-          <DropdownTab key={group.id} group={group} onClick={handleClick} />
-        ))}
+        <div className="mb-pr-16 flex flex-col gap-pr-8">
+          {groups.map((group) => (
+            <DropdownTab key={group.id} group={group} onClick={handleClick} />
+          ))}
+        </div>
+
         <DropdownAddGroup />
       </DropdownMenuContent>
     </DropdownMenu>
