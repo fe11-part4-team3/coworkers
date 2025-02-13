@@ -1,9 +1,10 @@
 import { IMember, RoleType } from '@/types/group.type';
 import { useDeviceType } from '@/contexts/DeviceTypeContext';
 import Profile from '@/components/Profile/Profile';
-import KebabDropDown from '@/components/KebabDropDown';
 import useModalStore from '@/stores/modalStore';
 import MemberProfile from '@/components/modal/MemberProfile';
+import { MouseEvent, useRef } from 'react';
+import DropDown from '@/components/DropDown';
 
 interface GroupMemberCard {
   role: RoleType;
@@ -13,8 +14,14 @@ interface GroupMemberCard {
 export default function GroupMemberCard({ role, member }: GroupMemberCard) {
   const deviceType = useDeviceType();
   const { openModal } = useModalStore();
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const handleClickCard = () => openModal(<MemberProfile member={member} />);
+  const handleClickCard = (event: MouseEvent<HTMLDivElement>) => {
+    if (dropdownRef.current?.contains(event.target as Node)) {
+      return;
+    }
+    openModal(<MemberProfile member={member} />);
+  };
 
   return (
     <div
@@ -26,22 +33,26 @@ export default function GroupMemberCard({ role, member }: GroupMemberCard) {
       ) : (
         <MobileContent member={member} />
       )}
-      {/* TODO 수정, 삭제 기능 구현 */}
       {role === 'ADMIN' && (
-        <KebabDropDown onEdit={() => {}} onDelete={() => {}} />
+        <div className="size-pr-16">
+          <DropDown
+            ref={dropdownRef}
+            trigger={<button className="icon-kebab absolute" />}
+            items={[{ text: '삭제하기', onClick: () => {} }]}
+            width="w-pr-120"
+          />
+        </div>
       )}
     </div>
   );
 }
 
-// NOTE GroupMemberCard와 타입이 동일하지만 의미론적으로 분리했습니다.
 interface ContentProps {
   member: IMember;
 }
 
 const NAME_CLASSNAME = 'truncate text-14m text-t-primary';
 const EMAIL_CLASSNME = 'truncate text-12 text-t-secondary';
-//NOTE className에 직접 넣으니 h랑 w가 size로 병합되어 따로 상수로 만들었습니다.
 
 function DefaultContent({ member }: ContentProps) {
   return (
