@@ -30,10 +30,11 @@ import GroupReport from './GroupReport';
 
 export default function TeamPage() {
   const router = useRouter();
-  const { memberships, reload: refetchUser } = useUser(true);
+  const { reload: refetchUser } = useUser(true);
   const {
     groupId,
     group,
+    membership,
     members,
     refetch: refetchGroup,
     isPending,
@@ -41,11 +42,8 @@ export default function TeamPage() {
   const { taskLists, refetchById, removeById, removeAll } = useTaskLists();
   const { closeModal } = useModalStore();
   const { showSnackbar } = useSnackbar();
-  const currentMembership = memberships?.find(
-    (membership) => membership.groupId === group?.id,
-  );
 
-  const role = currentMembership?.role || 'MEMBER';
+  const role = membership?.role || 'MEMBER';
 
   const { data: tasks } = useQuery({
     queryKey: ['tasks', groupId],

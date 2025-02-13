@@ -4,7 +4,6 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
 import useGroup from '@/hooks/useGroup';
-import useUser from '@/hooks/useUser';
 
 export default function RootLayout({
   children,
@@ -12,20 +11,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const router = useRouter();
-  const { memberships } = useUser();
-  const { group, isPending } = useGroup();
-
-  const currentMembership = memberships?.find(
-    (membership) => membership.groupId === group?.id,
-  );
+  const { group, membership, isPending } = useGroup();
 
   useEffect(() => {
-    if (group && !isPending && !currentMembership) router.push('/');
-  }, [group, isPending, currentMembership]);
+    if (group && !isPending && !membership) router.push('/');
+  }, [group, isPending, membership]);
 
   if (!group && isPending) return null;
 
-  if (group && !currentMembership) return null;
+  if (group && !membership) return null;
 
   return <>{children}</>;
 }

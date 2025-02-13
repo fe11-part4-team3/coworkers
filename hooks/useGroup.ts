@@ -3,6 +3,7 @@ import useGroupStore from '@/stores/useGroup.store';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useEffect } from 'react';
 import useSafeParams from './useSafeParams';
+import useUser from './useUser';
 
 /**
  * getGroup으로 불러온 데이터를 관리합니다.
@@ -16,7 +17,9 @@ import useSafeParams from './useSafeParams';
  * ```
  *
  * @returns
+ * - `groupId` : URL 경로의 group ID
  * - `group` : 현재 위치한 그룹 데이터. `getGroup`의 반환값
+ * - `membership` : `현재 팀에서 사용자의 멤버십`
  * - `members` : 그룹에 속한 멤버 목록 데이터. `group`에서 파싱
  * - `taskLists` : 그룹에 속한 할 일 목록 배열. `group`에서 파싱
  * - `isPending` : `getGroup` 요청 및 갱신 중
@@ -36,11 +39,14 @@ const useGroup = () => {
   const queryClient = useQueryClient();
   const { teamId } = useSafeParams();
   const groupId = Number(teamId);
+  const { memberships } = useUser(true);
   const { data, isPending } = useQuery({
     queryKey: ['group', groupId],
     queryFn: () => getGroup({ id: groupId }),
     enabled: !!groupId,
   });
+
+  const membership = memberships?.find((e) => e.groupId === groupId) || null;
 
   const storeGroup = useCallback(() => {
     setGroup(data || null);
@@ -71,6 +77,7 @@ const useGroup = () => {
   return {
     groupId,
     group,
+    membership,
     members,
     taskLists,
     isPending: !!groupId && isPending,
