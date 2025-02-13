@@ -22,7 +22,10 @@ export default function MemberProfile({ member }: MemberProfileProps) {
 
   const handleClickCopyEmail = () => {
     navigator.clipboard.writeText(member.userEmail);
-    showSnackbar('이메일을 클립보드에 복사했습니다.', 'success', 2000);
+    setTimeout(
+      () => showSnackbar('이메일을 클립보드에 복사했습니다.', 'success', 2000),
+      100,
+    );
   };
 
   return (
