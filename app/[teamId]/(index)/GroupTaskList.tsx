@@ -11,6 +11,7 @@ import DropDown from '@/components/DropDown';
 import { MouseEvent, useRef } from 'react';
 import useModalStore from '@/stores/modalStore';
 import EditTaskListModal from './EditTaskListModal';
+import DeleteTaskListModal from './DeleteTaskListModal';
 
 type IPointColorClasses = {
   [key in PointColorType]: string;
@@ -62,8 +63,9 @@ export default function GroupTaskList({
   };
 
   const handleClickDelete = () => {
-    const flag = confirm(`${taskList.name}을(를) 삭제 하시겠습니다?`);
-    if (flag) onDelete({ id: taskList.id });
+    openModal(
+      <DeleteTaskListModal onDelete={() => onDelete({ id: taskList.id })} />,
+    );
   };
 
   return (
