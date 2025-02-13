@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
 import { SessionProvider } from 'next-auth/react';
 
-import '@/styles/fonts.css';
+// import '@/styles/fonts.css';
 import '@/styles/globals.css';
 import '@/styles/base.css';
 import '@/styles/components.css';
@@ -37,6 +37,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
+      <head>
+        <meta
+          name="description"
+          content="Coworkers | 함께 만들어가는 Todo List"
+        />
+        <link
+          rel="preload"
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css"
+          as="font"
+          type="text/css"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body>
         <DeviceTypeProvider>
           <ThemeProvider
