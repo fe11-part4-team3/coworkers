@@ -18,7 +18,6 @@ import DeleteAccount from '@/components/modal/DeleteAccount';
 import { useSnackbar } from '@/contexts/SnackBar.context';
 import { removeLoginProcessed, removeProfileUpdated } from '@/lib/kakaoStorage';
 import { revokeGoogleAccess, revokeKakaoAccess } from '@/service/auth.api';
-import useUserStore from '@/stores/useUser.store';
 
 interface initialValues {
   nickname: string;
@@ -26,8 +25,7 @@ interface initialValues {
 }
 
 export default function MyPage() {
-  const { reload, clear } = useUser(true);
-  const user = useUserStore((state) => state.user);
+  const { user, reload, clear } = useUser(true);
   const { openModal } = useModalStore();
   const { data: session, status } = useSession();
 

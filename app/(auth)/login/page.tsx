@@ -30,8 +30,7 @@ function LoginPage() {
   } = useForm(initialValues);
 
   const route = useRouter();
-  const { reload } = useUser();
-  const user = useUserStore((state) => state.user);
+  const { user, reload } = useUser();
   const { openModal } = useModalStore();
 
   const { showSnackbar } = useSnackbar();
