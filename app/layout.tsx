@@ -1,5 +1,6 @@
 'use client';
 
+import { Suspense } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
 import { SessionProvider } from 'next-auth/react';
@@ -17,6 +18,7 @@ import { DeviceTypeProvider } from '@/contexts/DeviceTypeContext';
 import Modal from '@/components/modal/Modal';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { SnackbarProvider } from '@/contexts/SnackBar.context';
+import DynamicTitle from '@/components/DynamicTitle';
 
 const queryClient = new QueryClient();
 
@@ -50,6 +52,9 @@ export default function RootLayout({
                     <SnackbarProvider>
                       <Headers />
                       <Modal />
+                      <Suspense fallback={null}>
+                        <DynamicTitle />
+                      </Suspense>
                       {children}
                     </SnackbarProvider>
                   </SidebarProvider>
