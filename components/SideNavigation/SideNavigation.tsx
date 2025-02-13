@@ -57,18 +57,20 @@ export default function SideNavigation({
           />
         </SidebarHeader>
         <SidebarContent>
-          <SidebarGroup>
-            <SidebarGroupLabel>그룹</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <GroupList
-                groups={groups}
-                isPending={isPending}
-                showSkeleton={showSkeleton}
-                skeletonLength={skeletonLength}
-                onClick={handleClick}
-              />
-            </SidebarGroupContent>
-          </SidebarGroup>
+          {groups && (
+            <SidebarGroup>
+              <SidebarGroupLabel>그룹</SidebarGroupLabel>
+              <SidebarGroupContent>
+                <GroupList
+                  groups={groups}
+                  isPending={isPending}
+                  showSkeleton={showSkeleton}
+                  skeletonLength={skeletonLength}
+                  onClick={handleClick}
+                />
+              </SidebarGroupContent>
+            </SidebarGroup>
+          )}
           <SidebarGroup>
             <SidebarGroupLabel>네비게이션</SidebarGroupLabel>
             <SidebarGroupContent>
