@@ -81,7 +81,7 @@ const Template: StoryFn = () => {
     openModal(<AddTask onClick={() => handleAddTask} />);
   };
   const handleOpenAddTaskList = () => {
-    openModal(<AddTaskList onClick={() => handleAddTask} />);
+    openModal(<AddTaskList onCreate={() => handleAddTask} />);
   };
   const handleOpenAddList = () => {
     openModal(<AddList onClick={() => handleAddTask} />);
