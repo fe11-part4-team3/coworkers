@@ -1,16 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, usePathname, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { usePathname, useSearchParams } from 'next/navigation';
 
-import { getGroup } from '@/service/group.api';
-import { getTaskList } from '@/service/taskList.api';
 import { getArticleDetail } from '@/service/article.api';
+import useGroup from '@/hooks/useGroup';
 
 const getTitle = (pathname: string) => {
-  if (pathname === '/jointeam') return '팀 참여하기 | Coworkers';
-  if (pathname === '/mypage') return '계정 설정 | Coworkers';
-  if (pathname === '/myhistory') return '마이 히스토리 | Coworkers';
-  if (pathname === '/boards') return '자유게시판 | Coworkers';
-  if (pathname === '/boards/addarticle') return '게시글 쓰기 | Coworkers';
+  const titles: Record<string, string> = {
+    '/myhistory': '마이 히스토리 | Coworkers',
+    '/mypage': '계정 설정 | Coworkers',
+    '/jointeam': '팀 참여하기 | Coworkers',
+    '/boards': '자유게시판 | Coworkers',
+    '/boards/addarticle': '게시글 쓰기 | Coworkers',
+  };
+
+  if (titles[pathname]) return titles[pathname];
   if (pathname.startsWith('/boards/editarticle'))
     return '게시글 수정 | Coworkers';
 
@@ -18,46 +21,48 @@ const getTitle = (pathname: string) => {
 };
 
 export default function DynamicTitle() {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const taskId = searchParams.get('id') ?? undefined;
-
   const [title, setTitle] = useState('');
 
-  const params = useParams();
-  const safeParams = React.useMemo(() => params, [params]);
-  const { articleId } = safeParams;
+  // url pathname
+  const pathname = usePathname();
 
-  const keyword = searchParams.get('q') ?? undefined;
+  // 할 일 id, 자유게시판 검색 키워드
+  const searchParams = useSearchParams();
+  const taskId = searchParams.get('id');
+  const keyword = searchParams.get('q');
+
+  // 그룹 이름, 할 일 리스트
+  const { group, taskLists } = useGroup(Number(taskId));
 
   useEffect(() => {
     const pathSegments = pathname.split('/').filter(Boolean);
+    const isGroupPage = Number(pathSegments[0]);
+    const isArticleDetail =
+      pathSegments[0] === 'boards' && Number(pathSegments[1]);
 
-    const fetchTitle = async () => {
+    const dynamicTitle = async () => {
       if (keyword) {
         setTitle(`${keyword} | Coworkers`);
-      } else if (pathSegments[1] === 'tasklist') {
-        const res = await getTaskList({
-          groupId: Number(pathSegments[0]),
-          id: Number(taskId),
+      } else if (taskId) {
+        // 할 일 목록 페이지
+        const task = taskLists?.find((task) => task.id === Number(taskId));
+        setTitle(`${task?.name} | Coworkers`);
+      } else if (isGroupPage) {
+        // 그룹(팀) 페이지
+        setTitle(`${group?.name} | Coworkers`);
+      } else if (isArticleDetail) {
+        // 자유게시판 게시글 상세 페이지
+        const res = await getArticleDetail({
+          articleId: Number(pathSegments[1]),
         });
-        setTitle(`${res.name} | Coworkers`);
-      } else if (!isNaN(Number(pathSegments[0]))) {
-        const res = await getGroup({ id: Number(pathSegments[0]) });
-        setTitle(`${res.name} | Coworkers`);
-      } else if (
-        pathSegments[0] === 'boards' &&
-        !isNaN(Number(pathSegments[1]))
-      ) {
-        const res = await getArticleDetail({ articleId: Number(articleId) });
         setTitle(`${res.title} | Coworkers`);
       } else {
         setTitle(getTitle(pathname));
       }
     };
 
-    fetchTitle();
-  }, [pathname, taskId, articleId, keyword]);
+    dynamicTitle();
+  }, [keyword, taskId, taskLists, group?.name, pathname]);
 
   useEffect(() => {
     document.title = title;

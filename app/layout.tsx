@@ -38,10 +38,6 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body>
-        <Suspense fallback={null}>
-          <DynamicTitle />
-        </Suspense>
-
         <DeviceTypeProvider>
           <ThemeProvider
             attribute="class"
@@ -56,6 +52,9 @@ export default function RootLayout({
                     <SnackbarProvider>
                       <Headers />
                       <Modal />
+                      <Suspense fallback={null}>
+                        <DynamicTitle />
+                      </Suspense>
                       {children}
                     </SnackbarProvider>
                   </SidebarProvider>
