@@ -37,6 +37,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
+      <head>
+        <meta
+          name="description"
+          content="Coworkers | 함께 만들어가는 Todo List"
+        />
+      </head>
       <body>
         <DeviceTypeProvider>
           <ThemeProvider
