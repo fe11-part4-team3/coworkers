@@ -14,7 +14,7 @@ import { useQueries, useQueryClient } from '@tanstack/react-query';
  */
 export default function useTaskLists() {
   const queryClient = useQueryClient();
-  const { taskLists, setTaskLists } = useGroupStore();
+  const { taskLists, setTaskLists, clearStore } = useGroupStore();
 
   const queries = useQueries({
     queries:
@@ -37,6 +37,9 @@ export default function useTaskLists() {
   const refetchById = async (id: number) =>
     await queryClient.refetchQueries({ queryKey: ['taskList', id] });
 
+  const refetchAll = async () =>
+    await queryClient.refetchQueries({ queryKey: ['taskList'] });
+
   const removeById = (id: number) => {
     const next = taskLists?.filter((taskList) => taskList.id !== id);
     if (next) {
@@ -45,15 +48,18 @@ export default function useTaskLists() {
     }
   };
 
-  const refetchAll = async () =>
-    await queryClient.refetchQueries({ queryKey: ['taskList'] });
+  const removeAll = () => {
+    clearStore();
+    queryClient.removeQueries({ queryKey: ['taskLists'] });
+  };
 
   return {
     taskLists: data.length > 0 ? data : null,
     isPending: !!taskLists && isPending,
     error,
     refetchById,
-    removeById,
     refetchAll,
+    removeById,
+    removeAll,
   };
 }
