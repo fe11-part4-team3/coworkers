@@ -26,7 +26,7 @@ export default function AddArticlePage() {
     changedFields,
     handleInputChange,
     handleFileChange,
-    handleClearImage,
+    handleClearPreview,
     resetForm,
   } = useForm(INITIAL_VALUES);
 
@@ -115,7 +115,7 @@ export default function AddArticlePage() {
             <ImageUpload
               preview={preview ?? null}
               handleFileChange={handleFileChange}
-              handleClearImage={handleClearImage}
+              handleClearPreview={handleClearPreview}
             />
           </div>
         </div>
