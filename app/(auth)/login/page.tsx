@@ -13,6 +13,7 @@ import Buttons from '@/components/Buttons';
 import useModalStore from '@/stores/modalStore';
 import ResetPassword from '@/components/modal/ResetPassword';
 import { useSnackbar } from '@/contexts/SnackBar.context';
+import useUserStore from '@/stores/useUser.store';
 
 const initialValues = {
   email: '',
@@ -40,7 +41,11 @@ function LoginPage() {
   // STUB 일반 로그인 api mutate
   const { mutateAsync: postLogin, isPending: isLogin } = useMutation({
     mutationFn: signIn,
-    onSuccess: () => {
+    onSuccess: (data) => {
+      localStorage.setItem('accessToken', data.accessToken);
+      // zustand 스토어에 토큰 업데이트
+      const { setToken } = useUserStore.getState();
+      setToken(data.accessToken);
       reload();
       showSnackbar('로그인이 완료 되었습니다.');
     },

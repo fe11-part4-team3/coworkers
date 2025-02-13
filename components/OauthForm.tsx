@@ -7,9 +7,11 @@ import useUser from '@/hooks/useUser';
 import useKakaoLogin from '@/hooks/useKakao';
 import { generateRandomNumber } from '@/utils/randomCode';
 import { useSnackbar } from '@/contexts/SnackBar.context';
+import useUserStore from '@/stores/useUser.store';
 
 export default function OauthForm({ type }: { type: 'login' | 'signup' }) {
-  const { user, reload } = useUser();
+  const { reload } = useUser();
+  const user = useUserStore((state) => state.user);
   const { showSnackbar } = useSnackbar();
 
   const { data: session } = useSession();
@@ -25,6 +27,14 @@ export default function OauthForm({ type }: { type: 'login' | 'signup' }) {
   const { mutateAsync: postOauthLogin } = useMutation({
     mutationFn: signInProvider,
     onSuccess: () => {
+      const { setToken } = useUserStore.getState();
+
+      if (session?.googleIdToken) {
+        setToken(session.googleIdToken);
+      } else if (session?.kakaoAccessToken) {
+        setToken(session.kakaoAccessToken);
+      }
+
       reload();
       showSnackbar('간편 로그인 성공');
     },
