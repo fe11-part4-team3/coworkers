@@ -81,7 +81,7 @@ export default function InputField({
           type={
             type === 'password' ? (showPassword ? 'text' : 'password') : type
           }
-          value={value}
+          value={value ?? ''}
           placeholder={placeholder}
           disabled={disabled}
           onChange={onChange}

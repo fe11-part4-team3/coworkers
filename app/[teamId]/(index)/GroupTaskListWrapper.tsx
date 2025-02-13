@@ -1,6 +1,8 @@
 import IconPlus from '@/public/images/icon-plus.svg';
 import { ITaskList } from '@/types/taskList.type';
 import { RoleType } from '@/types/group.type';
+import useModalStore from '@/stores/modalStore';
+import AddTaskList from '@/components/modal/AddTaskList';
 
 import GroupTaskList from './GroupTaskList';
 import {
@@ -43,10 +45,10 @@ export default function GroupTaskListWrapper({
   onEdit,
   onDelete,
 }: GroupTaskListWrapperProps) {
-  const handleClickCreate = () => {
-    const name = prompt('목록 명을 입력해주세요');
-    if (name) onCreate({ name });
-  };
+  const { openModal } = useModalStore();
+
+  const handleClickCreate = () =>
+    openModal(<AddTaskList onCreate={onCreate} />);
 
   return (
     <div className="flex flex-col gap-pr-16">

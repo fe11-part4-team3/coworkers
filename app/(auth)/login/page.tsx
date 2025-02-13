@@ -30,7 +30,7 @@ function LoginPage() {
   } = useForm(initialValues);
 
   const route = useRouter();
-  const { user, reload } = useUser();
+  const { reload, memberships } = useUser();
   const { openModal } = useModalStore();
 
   const { showSnackbar } = useSnackbar();
@@ -66,17 +66,17 @@ function LoginPage() {
   };
 
   useEffect(() => {
-    if (user) {
+    if (memberships) {
       // STUB 로그인 후 가입된 그룹이 있을 때, 첫 번째 그룹으로 이동
-      if (user.memberships && user.memberships.length > 0) {
-        route.push(`/${user.memberships[0].groupId}`);
+      if (memberships.length > 0) {
+        route.push(`/${memberships[0].groupId}`);
       } else {
         route.push(`/`);
       }
     } else {
       return;
     }
-  }, [route, user]);
+  }, [route, memberships]);
 
   const requiredFields = Object.keys(initialValues);
 
