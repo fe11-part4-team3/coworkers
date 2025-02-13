@@ -6,6 +6,7 @@ import MemberProfile from '@/components/modal/MemberProfile';
 import { MouseEvent, useRef } from 'react';
 import DropDown from '@/components/DropDown';
 import { _DeleteMemberParams } from './TeamPage.type';
+import DeleteMemberModal from './DeleteMemberModal';
 
 interface GroupMemberCard {
   role: RoleType;
@@ -29,7 +30,13 @@ export default function GroupMemberCard({
     openModal(<MemberProfile member={member} />);
   };
 
-  const handleClickDelete = () => onDelete({ memberUserId: member.userId });
+  const handleClickDelete = () => {
+    openModal(
+      <DeleteMemberModal
+        onDelete={() => onDelete({ memberUserId: member.userId })}
+      />,
+    );
+  };
 
   return (
     <div
