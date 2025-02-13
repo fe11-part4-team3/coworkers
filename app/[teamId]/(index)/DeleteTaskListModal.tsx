@@ -11,10 +11,7 @@ interface DeleteTaskListModal {
 export default function DeleteTaskListModal({ onDelete }: DeleteTaskListModal) {
   const { closeModal } = useModalStore();
 
-  const handleOnClick = () => {
-    onDelete();
-    closeModal();
-  };
+  const handleOnClick = () => onDelete();
 
   return (
     <>

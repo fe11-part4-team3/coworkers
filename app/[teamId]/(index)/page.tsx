@@ -114,6 +114,7 @@ export default function TeamPage() {
     mutationFn: (params: _UpdateTaskListParams) => _updateTaskList(params),
     onSuccess: ({ id }) => {
       refetchById(id);
+      closeModal();
       showSnackbar('할 일 목록을 수정했습니다.');
     },
     onError: (error) => showSnackbar(error.message, 'error'),
@@ -129,6 +130,7 @@ export default function TeamPage() {
     mutationFn: (params: _DeleteTaskListParams) => _deleteTaskList(params),
     onSuccess: ({ id }) => {
       removeById(id);
+      closeModal();
       showSnackbar('할 일 목록을 삭제했습니다.');
     },
     onError: (error) => showSnackbar(error.message, 'error'),
