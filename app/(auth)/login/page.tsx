@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, MouseEvent, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useMutation } from '@tanstack/react-query';
 
@@ -32,6 +32,8 @@ function LoginPage() {
   const route = useRouter();
   const { reload, memberships } = useUser();
   const { openModal } = useModalStore();
+  const params = useSearchParams();
+  const redirect = params.get('redirect');
 
   const { showSnackbar } = useSnackbar();
 
@@ -73,10 +75,14 @@ function LoginPage() {
       } else {
         route.push(`/`);
       }
+
+      if (redirect) {
+        route.push(redirect);
+      }
     } else {
       return;
     }
-  }, [route, memberships]);
+  }, [route, memberships, redirect]);
 
   const requiredFields = Object.keys(initialValues);
 
