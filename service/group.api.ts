@@ -3,6 +3,7 @@ import {
   CreateGroupParams,
   CreateGroupResponse,
   DeleteGroupParams,
+  DeleteGroupResponse,
   DeleteMemberParams,
   GetGroupParams,
   GetInvitationParams,
@@ -39,9 +40,11 @@ const updateGroup = async ({
   return response.data;
 };
 
-const deleteGroup = async ({ id }: DeleteGroupParams): Promise<boolean> => {
+const deleteGroup = async ({
+  id,
+}: DeleteGroupParams): Promise<DeleteGroupResponse> => {
   const response = await instance.delete(`/groups/${id}`);
-  return response.status === 204;
+  return { success: response.status === 204, id };
 };
 
 /**

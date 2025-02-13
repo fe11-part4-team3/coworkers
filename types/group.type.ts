@@ -66,6 +66,11 @@ interface CreateGroupResponse {
   id: number;
 }
 
+interface DeleteGroupResponse {
+  success: boolean;
+  id: number;
+}
+
 interface GetMemberParams {
   id: number;
   memberUserId: number;
@@ -107,6 +112,7 @@ export type {
   DeleteGroupParams,
   CreateGroupParams,
   CreateGroupResponse,
+  DeleteGroupResponse,
   GetMemberParams,
   DeleteMemberParams,
   GetInvitationParams,
