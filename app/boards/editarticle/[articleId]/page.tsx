@@ -1,6 +1,6 @@
 'use client';
 
-import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 
@@ -34,7 +34,9 @@ function EditArticlePage() {
   const [prevValue, setPrevValue] = useState(INITIAL_VALUES);
 
   const router = useRouter();
-  const { articleId } = useParams();
+  const params = useParams();
+  const safeParams = React.useMemo(() => params, [params]);
+  const { articleId } = safeParams;
 
   const { showSnackbar } = useSnackbar();
 

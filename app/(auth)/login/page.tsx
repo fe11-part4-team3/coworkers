@@ -15,11 +15,19 @@ import ResetPassword from '@/components/modal/ResetPassword';
 import { useSnackbar } from '@/contexts/SnackBar.context';
 import useUserStore from '@/stores/useUser.store';
 
+const initialValues = {
+  email: '',
+  password: '',
+};
+
 function LoginPage() {
-  const { formData, handleInputChange, errorMessage } = useForm({
-    email: '',
-    password: '',
-  });
+  const {
+    formData,
+    handleInputChange,
+    changedFields,
+    handleInputBlur,
+    errorMessage,
+  } = useForm(initialValues);
 
   const route = useRouter();
   const { reload } = useUser();
@@ -71,6 +79,16 @@ function LoginPage() {
     }
   }, [route, user]);
 
+  const requiredFields = Object.keys(initialValues);
+
+  const hasDisabled =
+    requiredFields.some(
+      (field) => !changedFields[field as keyof typeof changedFields],
+    ) ||
+    requiredFields.some(
+      (field) => errorMessage[field as keyof typeof errorMessage] !== '',
+    );
+
   // STUB 로그인 상태가 아닐 때
   return (
     <>
@@ -86,6 +104,7 @@ function LoginPage() {
               handleInputChange(e);
               setHasLoginError('');
             }}
+            onBlur={handleInputBlur}
             errorMessage={hasLoginError ? hasLoginError : errorMessage.email}
             placeholder="이메일을 입력해주세요."
             required
@@ -97,6 +116,7 @@ function LoginPage() {
             autoComplete="current-password"
             value={formData.password}
             onChange={handleInputChange}
+            onBlur={handleInputBlur}
             errorMessage={errorMessage.password}
             placeholder="비밀번호를 입력해주세요."
             required
@@ -117,10 +137,7 @@ function LoginPage() {
           text="로그인"
           type="submit"
           className="mt-pr-40"
-          disabled={
-            isLogin ||
-            !(errorMessage.email === '' && errorMessage.password === '')
-          }
+          disabled={hasDisabled}
           loading={isLogin}
         />
       </form>
