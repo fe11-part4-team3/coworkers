@@ -6,10 +6,8 @@ import Container from '@/components/layout/Container';
 import TaskCard from '@/components/TaskCard/TaskCard';
 import Empty from '@/components/Empty/Empty';
 import { Skeleton } from '@/components/ui/skeleton';
-
 import { newDate } from '@/utils/dateConversion';
 import { getHistory } from '@/service/user.api';
-
 import { ITaskMetadata } from '@/types/task.type';
 
 function MyHistoryPage() {
