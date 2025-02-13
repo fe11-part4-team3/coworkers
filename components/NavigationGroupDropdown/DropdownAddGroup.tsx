@@ -2,6 +2,7 @@ import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import IconPlus from '@/public/images/icon-plus.svg';
 import Buttons from '@/components/Buttons';
 import useModalStore from '@/stores/modalStore';
+
 import AddTeamModal from './AddTeamModal';
 
 /**
