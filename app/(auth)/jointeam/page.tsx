@@ -52,6 +52,8 @@ export default function JoinTeamPage() {
     }
   }, [joinToken]);
 
+  if (!user) return null;
+
   return (
     <>
       <form onSubmit={handleSubmit}>
