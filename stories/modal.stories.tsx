@@ -7,7 +7,6 @@ import Modal from '@/components/modal/Modal';
 import Buttons from '@/components/Buttons';
 import Container from '@/components/layout/Container';
 import ResetPassword from '@/components/modal/ResetPassword';
-import MemberProfile from '@/components/modal/MemberProfile';
 import Logout from '@/components/modal/Logout';
 import InviteMember from '@/components/modal/InviteMember';
 import DeleteTask from '@/components/modal/DeleteTask';
@@ -33,16 +32,6 @@ const Template: StoryFn = () => {
   // 모달 열기 핸들러
   const handleOpenModalResetPassword = () => {
     openModal(<ResetPassword />);
-  };
-  const handleOpenModalMemberProfile = () => {
-    openModal(
-      <MemberProfile
-        onClick={() => handleAddTask}
-        image=""
-        name="이름"
-        email="이메일"
-      />,
-    );
   };
 
   const handleOpenLogout = () => {
@@ -102,11 +91,6 @@ const Template: StoryFn = () => {
         <Buttons
           onClick={handleOpenModalResetPassword}
           text="비밀번호 재설정 모달 열기"
-        />
-
-        <Buttons
-          onClick={handleOpenModalMemberProfile}
-          text="멤버 프로필 모달 열기"
         />
 
         <Buttons onClick={handleOpenLogout} text="로그아웃 모달 열기" />

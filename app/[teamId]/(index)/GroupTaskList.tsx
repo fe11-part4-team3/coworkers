@@ -4,8 +4,8 @@ import { MouseEvent, useRef } from 'react';
 import { ITaskList } from '@/types/taskList.type';
 import { RoleType } from '@/types/group.type';
 import createUrlString from '@/utils/createUrlString';
-import DropDown from '@/components/DropDown';
 import useModalStore from '@/stores/modalStore';
+import KebabDropDown from '@/components/KebabDropDown';
 
 import { _DeleteTaskListParams, _UpdateTaskListParams } from './TeamPage.type';
 import { PointColorType } from './GroupTaskListWrapper';
@@ -79,17 +79,11 @@ export default function GroupTaskList({
         <div className="flex items-center gap-pr-4">
           <TaskProgressBadge tasks={taskList.tasks} />
           {role === 'ADMIN' && (
-            <div className="size-pr-16">
-              <DropDown
-                ref={dropdownRef}
-                trigger={<button className="icon-kebab absolute" />}
-                items={[
-                  { text: '수정하기', onClick: handleClickEdit },
-                  { text: '삭제하기', onClick: handleClickDelete },
-                ]}
-                width="w-pr-120"
-              />
-            </div>
+            <KebabDropDown
+              ref={dropdownRef}
+              onEdit={handleClickEdit}
+              onDelete={handleClickDelete}
+            />
           )}
         </div>
       </div>
