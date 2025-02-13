@@ -9,6 +9,8 @@ import { PointColorType } from './GroupTaskListWrapper';
 import TaskProgressBadge from './TaskProgressBadge';
 import DropDown from '@/components/DropDown';
 import { MouseEvent, useRef } from 'react';
+import useModalStore from '@/stores/modalStore';
+import EditTaskListModal from './EditTaskListModal';
 
 type IPointColorClasses = {
   [key in PointColorType]: string;
@@ -41,6 +43,7 @@ export default function GroupTaskList({
 }: GroupTaskListProps) {
   const router = useRouter();
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const { openModal } = useModalStore();
 
   const handleClickTaskList = (event: MouseEvent<HTMLDivElement>) => {
     if (dropdownRef.current?.contains(event.target as Node)) {
@@ -55,8 +58,7 @@ export default function GroupTaskList({
   };
 
   const handleClickEdit = () => {
-    const name = prompt('목록 명을 입력해주세요');
-    if (name) onEdit({ id: taskList.id, name });
+    openModal(<EditTaskListModal taskList={taskList} onEdit={onEdit} />);
   };
 
   const handleClickDelete = () => {
