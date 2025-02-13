@@ -21,6 +21,7 @@ export default function DropdownAddGroup() {
         backgroundColor="none"
         border="default"
         onClick={handleClick}
+        className="text-t-primary"
         icon={
           <IconPlus
             className="text-t-primary"
