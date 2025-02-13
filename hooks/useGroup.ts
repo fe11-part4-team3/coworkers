@@ -2,6 +2,7 @@ import { getGroup } from '@/service/group.api';
 import useGroupStore from '@/stores/useGroup.store';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useEffect } from 'react';
+import useSafeParams from './useSafeParams';
 
 /**
  * getGroup으로 불러온 데이터를 관리합니다.
@@ -22,7 +23,7 @@ import { useCallback, useEffect } from 'react';
  * - `clear` : `group`과 `group`에서 파싱된 데이터를 `null`로 초기화
  * - `refetch` : `getGroup` 리페칭
  */
-const useGroup = (groupId: number | null) => {
+const useGroup = () => {
   const {
     group,
     members,
@@ -33,11 +34,12 @@ const useGroup = (groupId: number | null) => {
     clearStore,
   } = useGroupStore();
   const queryClient = useQueryClient();
+  const { teamId } = useSafeParams();
+  const groupId = Number(teamId);
   const { data, isPending } = useQuery({
-    queryKey: ['group'],
-    queryFn: () => {
-      return groupId ? getGroup({ id: groupId }) : null;
-    },
+    queryKey: ['group', groupId],
+    queryFn: () => getGroup({ id: groupId }),
+    enabled: !!groupId,
   });
 
   const storeGroup = useCallback(() => {
@@ -67,6 +69,7 @@ const useGroup = (groupId: number | null) => {
   }, [data]);
 
   return {
+    groupId,
     group,
     members,
     taskLists,

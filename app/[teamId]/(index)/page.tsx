@@ -1,8 +1,7 @@
 'use client';
 
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { useMemo } from 'react';
 
 import Container from '@/components/layout/Container';
 import useUser from '@/hooks/useUser';
@@ -32,20 +31,16 @@ import GroupReport from './GroupReport';
 export default function TeamPage() {
   const router = useRouter();
   const { memberships, reload: refetchUser } = useUser(true);
-  const params = useParams();
-  const safeParams = useMemo(() => params, [params]);
-  const { teamId } = safeParams;
-  const groupId = Number(teamId);
   const {
+    groupId,
     group,
     members,
     refetch: refetchGroup,
     isPending,
-  } = useGroup(groupId);
+  } = useGroup();
   const { taskLists, refetchById, removeById, removeAll } = useTaskLists();
   const { closeModal } = useModalStore();
   const { showSnackbar } = useSnackbar();
-
   const currentMembership = memberships?.find(
     (membership) => membership.groupId === group?.id,
   );

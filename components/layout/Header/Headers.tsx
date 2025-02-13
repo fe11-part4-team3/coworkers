@@ -2,7 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { signOut } from 'next-auth/react';
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -28,12 +28,8 @@ function Headers() {
   const queryClient = useQueryClient();
   const deviceType = useDeviceType();
   const router = useRouter();
-  const params = useParams();
-  const safeParams = React.useMemo(() => params, [params]);
-  const { teamId } = safeParams;
-  const groupId = teamId ? Number(teamId) : null;
   const { user, groups, isPending, clear: clearUser } = useUser();
-  const { clear: clearGroup } = useGroup(Number(teamId));
+  const { groupId, clear: clearGroup } = useGroup();
   const [currentGroup, setCurrentGroup] = useState<IGroup | null>(null);
   const { showSnackbar } = useSnackbar();
   const { openModal } = useModalStore();

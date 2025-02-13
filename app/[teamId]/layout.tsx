@@ -1,7 +1,7 @@
 'use client';
 
-import { useParams, useRouter } from 'next/navigation';
-import { useEffect, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 import useGroup from '@/hooks/useGroup';
 import useUser from '@/hooks/useUser';
@@ -12,12 +12,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const router = useRouter();
-  const params = useParams();
-  const safeParams = useMemo(() => params, [params]);
-  const { teamId } = safeParams;
-
   const { memberships } = useUser();
-  const { group, isPending } = useGroup(Number(teamId));
+  const { group, isPending } = useGroup();
 
   const currentMembership = memberships?.find(
     (membership) => membership.groupId === group?.id,
