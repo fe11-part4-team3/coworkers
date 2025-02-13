@@ -1,7 +1,7 @@
 import { getGroup } from '@/service/group.api';
 import useGroupStore from '@/stores/useGroup.store';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import useSafeParams from './useSafeParams';
 import useUser from './useUser';
 
@@ -47,7 +47,10 @@ const useGroup = () => {
     enabled: !!groupId,
   });
 
-  const membership = memberships?.find((e) => e.groupId === groupId) || null;
+  const membership = useMemo(
+    () => memberships?.find((e) => e.groupId === groupId) || null,
+    [memberships],
+  );
 
   const storeGroup = useCallback(() => {
     setGroup(data || null);
