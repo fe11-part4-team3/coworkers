@@ -57,7 +57,7 @@ function MyHistoryPage() {
           <Skeleton className="h-pr-64 w-full" />
         </div>
       ) : tasksDone.length === 0 ? (
-        <Empty>
+        <Empty className="mt-pr-150">
           <Empty.TextWrapper>
             <Empty.Text text="완료한 작업이 없습니다." />
           </Empty.TextWrapper>
