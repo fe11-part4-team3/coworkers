@@ -44,7 +44,7 @@ export default function GroupMemberList({
   const { mutate: getInvitationMutate, isPending } = useMutation({
     mutationFn: () => getInvitation({ id: groupId }),
     onSuccess: (token) => copyLink(token),
-    onError: (error) => showSnackbar(error.message),
+    onError: (error) => showSnackbar(error.message, 'error'),
   });
 
   //TODO 데이터가 있을 때 중복 요청 안보내게 개선
