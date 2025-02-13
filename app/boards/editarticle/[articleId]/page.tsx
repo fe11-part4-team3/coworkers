@@ -1,7 +1,7 @@
 'use client';
 
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 
 import Buttons from '@/components/Buttons';
@@ -13,6 +13,7 @@ import useForm from '@/hooks/useForm';
 import { getArticleDetail, updateArticle } from '@/service/article.api';
 import updatePayloadSubmit from '@/utils/updatePayload';
 import { useSnackbar } from '@/contexts/SnackBar.context';
+import useSafeParams from '@/hooks/useSafeParams';
 
 const INITIAL_VALUES = {
   title: '',
@@ -34,9 +35,7 @@ function EditArticlePage() {
   const [prevValue, setPrevValue] = useState(INITIAL_VALUES);
 
   const router = useRouter();
-  const params = useParams();
-  const safeParams = React.useMemo(() => params, [params]);
-  const { articleId } = safeParams;
+  const { articleId } = useSafeParams();
 
   const { showSnackbar } = useSnackbar();
 
