@@ -4,9 +4,10 @@ import Profile from '@/components/Profile/Profile';
 import useModalStore from '@/stores/modalStore';
 import MemberProfile from '@/components/modal/MemberProfile';
 import { MouseEvent, useRef } from 'react';
-import DropDown from '@/components/DropDown';
+
 import { _DeleteMemberParams } from './TeamPage.type';
 import DeleteMemberModal from './DeleteMemberModal';
+import KebabDropDown from '@/components/KebabDropDown';
 
 interface GroupMemberCard {
   role: RoleType;
@@ -49,14 +50,7 @@ export default function GroupMemberCard({
         <MobileContent member={member} />
       )}
       {role === 'ADMIN' && (
-        <div className="size-pr-16">
-          <DropDown
-            ref={dropdownRef}
-            trigger={<button className="icon-kebab absolute" />}
-            items={[{ text: '삭제하기', onClick: handleClickDelete }]}
-            width="w-pr-120"
-          />
-        </div>
+        <KebabDropDown ref={dropdownRef} onDelete={handleClickDelete} />
       )}
     </div>
   );
