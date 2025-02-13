@@ -27,7 +27,7 @@ function EditArticlePage() {
     changedFields,
     handleInputChange,
     handleFileChange,
-    handleClearImage,
+    handleClearPreview,
     resetForm,
   } = useForm(INITIAL_VALUES);
 
@@ -143,7 +143,7 @@ function EditArticlePage() {
             <ImageUpload
               preview={preview ?? formData.image ?? null}
               handleFileChange={handleFileChange}
-              handleClearImage={handleClearImage}
+              handleClearPreview={handleClearPreview}
             />
           </div>
         </div>

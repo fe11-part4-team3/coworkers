@@ -57,7 +57,7 @@ const Template: StoryFn = () => {
   };
 
   const handleOpenInviteMember = () => {
-    openModal(<InviteMember onClick={() => handleAddTask} />);
+    openModal(<InviteMember loading={false} onClick={() => handleAddTask} />);
   };
 
   const handleOpenDeleteTask = () => {

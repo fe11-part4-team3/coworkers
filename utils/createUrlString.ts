@@ -38,7 +38,7 @@ const createUrlString = ({
   const url = new URL(origin || location.origin);
 
   if (pathname) {
-    url.pathname = '/' + pathname.map(String).join('/');
+    url.pathname = pathname.map(String).join('/');
   }
 
   if (queryParams) {
