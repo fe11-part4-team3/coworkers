@@ -24,12 +24,15 @@ export default function DropdownTab({ group, onClick }: DropdownTabProps) {
       className="mb-pr-8 rounded-lg px-pr-8 py-pr-7"
       onClick={handleClick}
     >
-      <Image
-        width={24}
-        height={24}
-        src={group.image || DEFAULT_GROUP_PROFILE}
-        alt="프로필 옵션"
-      />
+      <div className="relative size-pr-24 overflow-hidden rounded-pr-6">
+        <Image
+          fill
+          className="object-cover"
+          src={group.image || DEFAULT_GROUP_PROFILE}
+          alt="프로필 옵션"
+        />
+      </div>
+
       <span className="grow text-16m text-t-primary">{group.name}</span>
     </DropdownMenuItem>
   );
