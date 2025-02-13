@@ -7,11 +7,13 @@ import { getInvitation } from '@/service/group.api';
 import ArrowDown from '@/public/images/icon-arrow-down.svg';
 
 import GroupMemberCard from './GroupMemberCard';
+import { _DeleteMemberParams } from './TeamPage.type';
 
 interface GroupMemberListProps {
   role: RoleType;
   groupId: number;
   members: IMember[] | null;
+  onDelete: (params: _DeleteMemberParams) => void;
 }
 
 const SIZE = {
@@ -30,6 +32,7 @@ export default function GroupMemberList({
   role,
   groupId,
   members,
+  onDelete,
 }: GroupMemberListProps) {
   const deviceType = useDeviceType();
   const [more, setMore] = useState(false);
@@ -74,7 +77,12 @@ export default function GroupMemberList({
       >
         {members?.map((member, i) =>
           more || SIZE[deviceType] > i ? (
-            <GroupMemberCard key={member.userId} role={role} member={member} />
+            <GroupMemberCard
+              key={member.userId}
+              role={role}
+              member={member}
+              onDelete={onDelete}
+            />
           ) : null,
         )}
       </div>

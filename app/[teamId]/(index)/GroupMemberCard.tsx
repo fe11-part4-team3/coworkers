@@ -5,13 +5,19 @@ import useModalStore from '@/stores/modalStore';
 import MemberProfile from '@/components/modal/MemberProfile';
 import { MouseEvent, useRef } from 'react';
 import DropDown from '@/components/DropDown';
+import { _DeleteMemberParams } from './TeamPage.type';
 
 interface GroupMemberCard {
   role: RoleType;
   member: IMember;
+  onDelete: (params: _DeleteMemberParams) => void;
 }
 
-export default function GroupMemberCard({ role, member }: GroupMemberCard) {
+export default function GroupMemberCard({
+  role,
+  member,
+  onDelete,
+}: GroupMemberCard) {
   const deviceType = useDeviceType();
   const { openModal } = useModalStore();
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -22,6 +28,8 @@ export default function GroupMemberCard({ role, member }: GroupMemberCard) {
     }
     openModal(<MemberProfile member={member} />);
   };
+
+  const handleClickDelete = () => onDelete({ memberUserId: member.userId });
 
   return (
     <div
@@ -38,7 +46,7 @@ export default function GroupMemberCard({ role, member }: GroupMemberCard) {
           <DropDown
             ref={dropdownRef}
             trigger={<button className="icon-kebab absolute" />}
-            items={[{ text: '삭제하기', onClick: () => {} }]}
+            items={[{ text: '삭제하기', onClick: handleClickDelete }]}
             width="w-pr-120"
           />
         </div>
