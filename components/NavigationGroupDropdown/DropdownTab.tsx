@@ -31,15 +31,6 @@ export default function DropdownTab({ group, onClick }: DropdownTabProps) {
         alt="프로필 옵션"
       />
       <span className="grow text-16m text-t-primary">{group.name}</span>
-      {/* TODO 케밥 버튼 클릭시 리다이렉트 되지 않는 로직 추가해야합니다. */}
-      {/* TODO 케밥 버튼 클릭시 옵션 제공해야합니다. */}
-      <Image
-        className="rounded-full transition-all duration-300 hover:bg-primary/10 active:bg-primary/20"
-        width={24}
-        height={24}
-        src="/images/icon-kebab.svg"
-        alt="프로필 옵션"
-      />
     </DropdownMenuItem>
   );
 }

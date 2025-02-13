@@ -37,7 +37,6 @@ export default function NavigationGroupDropdown({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        {/* SECTION 트리거. 선택된 그룹 표기 */}
         <Button variant="link" className="bg-inherit text-t-primary">
           {/* TODO 펜딩 시 스피너 렌더링 해야함 */}
           {isPending ? (
@@ -45,16 +44,13 @@ export default function NavigationGroupDropdown({
           ) : (
             <span className="text-16m">{currentGroup?.name || '팀 선택'}</span>
           )}
-          {/* REVIEW 시안에는 없지만 화살표 색도 테마에 따라 변하면 좋겠음*/}
           <ArrowDwon />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="mt-pr-16 w-pr-218 rounded-pr-12 border-none bg-b-secondary p-pr-16">
-        {/* SECTION 드롭다운 그룹 리스트 */}
         {groups.map((group) => (
           <DropdownTab key={group.id} group={group} onClick={handleClick} />
         ))}
-        {/* SECTION 팀 추가하기 버튼 */}
         <DropdownAddGroup />
       </DropdownMenuContent>
     </DropdownMenu>
