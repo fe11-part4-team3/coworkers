@@ -32,8 +32,8 @@ export default function TeamPage() {
   const router = useRouter();
   const { reload: refetchUser } = useUser(true);
   const {
-    groupId,
     group,
+    groupId,
     membership,
     members,
     refetch: refetchGroup,
@@ -46,7 +46,7 @@ export default function TeamPage() {
   const role = membership?.role || 'MEMBER';
 
   const { data: tasks } = useQuery({
-    queryKey: ['tasks', groupId],
+    queryKey: groupId ? ['tasks', groupId] : [],
     queryFn: () =>
       getTasksInGroup({
         id: group?.id as number,

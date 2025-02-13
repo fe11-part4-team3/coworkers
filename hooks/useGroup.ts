@@ -40,8 +40,9 @@ const useGroup = () => {
   const { teamId } = useSafeParams();
   const groupId = Number(teamId);
   const { memberships } = useUser(true);
+
   const { data, isPending } = useQuery({
-    queryKey: ['group', groupId],
+    queryKey: groupId ? ['group', groupId] : [],
     queryFn: () => getGroup({ id: groupId }),
     enabled: !!groupId,
   });

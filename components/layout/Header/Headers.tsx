@@ -1,8 +1,7 @@
 'use client';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { signOut } from 'next-auth/react';
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -12,7 +11,6 @@ import { useDeviceType } from '@/contexts/DeviceTypeContext';
 import SideNavigationTrigger from '@/components/SideNavigation/SideNavigationTrigger';
 import SideNavigation from '@/components/SideNavigation/SideNavigation';
 import useUser from '@/hooks/useUser';
-import { IGroup } from '@/types/group.type';
 import DropDown from '@/components/DropDown';
 import { removeLoginProcessed } from '@/lib/kakaoStorage';
 import { useSnackbar } from '@/contexts/SnackBar.context';
@@ -27,10 +25,8 @@ import Profile from './Profile';
 function Headers() {
   const queryClient = useQueryClient();
   const deviceType = useDeviceType();
-  const router = useRouter();
   const { user, groups, isPending, clear: clearUser } = useUser();
-  const { groupId, clear: clearGroup } = useGroup();
-  const [currentGroup, setCurrentGroup] = useState<IGroup | null>(null);
+  const { group, clear: clearGroup } = useGroup();
   const { showSnackbar } = useSnackbar();
   const { openModal } = useModalStore();
 
@@ -67,16 +63,6 @@ function Headers() {
     [logout],
   );
 
-  useEffect(() => {
-    if (!groupId || !groups || isPending) {
-      setCurrentGroup(null);
-      return;
-    }
-    const group = groups.find((group) => group.id === groupId);
-    if (group) setCurrentGroup(group);
-    else setCurrentGroup(null);
-  }, [groupId, groups, isPending, router]);
-
   return (
     <header className="fixed z-40 flex w-full items-center border-b bg-b-secondary transition-all">
       <nav className="mx-auto flex h-pr-60 w-pr-1280 items-center justify-between px-pr-40 mo:px-pr-16 ta:px-pr-25">
@@ -104,7 +90,7 @@ function Headers() {
                 <NavigationGroupDropdown
                   groups={groups}
                   isPending={isPending}
-                  currentGroup={currentGroup}
+                  currentGroup={group}
                 />
               )}
               {user && (
