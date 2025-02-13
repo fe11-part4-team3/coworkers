@@ -1,10 +1,12 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useReducer, useRef } from 'react';
 
 import { validateField } from '@/utils/validation';
 import { useFileHandler } from '@/hooks/useFileHandler';
 import useDebounce from '@/hooks/useDebounce';
+import formReducer from '@/reducer/formReducer';
+import { IFormState, TAction, TFormValue } from '@/types/useForm.type';
 
-export type FormValue = string | number | File | '';
+import { useInputFieldHandler } from './useInputFieldHandler';
 
 /**
  * 특정 객체의 `key`와 동일한 `key`를 공유하는 객체를 생성하는 함수
@@ -19,19 +21,18 @@ export type FormValue = string | number | File | '';
  * // {a : false, b : false}
  * ```
  */
-const initializeValues = <T extends Record<string, FormValue>, U>(
+export const initializeValues = <T extends Record<string, TFormValue>, U>(
   values: T,
   initValue: U,
 ): Partial<Record<keyof T, U>> => {
-  return Object.keys(values).reduce(
+  return (Object.keys(values) as Array<keyof T>).reduce(
     (acc, key) => {
-      acc[key as keyof T] = initValue;
+      acc[key] = initValue;
       return acc;
     },
     {} as Partial<Record<keyof T, U>>,
   );
 };
-
 /**
  * useForm
  * @param initialValues 초기값
@@ -48,16 +49,40 @@ const initializeValues = <T extends Record<string, FormValue>, U>(
  * @returns handleClearImage 파일 초기화 핸들러
  * @returns handleClearPreview 미리보기 초기화 핸들러
  */
-const useForm = <T extends Record<string, FormValue>>(initialValues: T) => {
-  const [formData, setFormData] = useState<T>(initialValues);
-  const [errorMessage, setErrorMessage] = useState<
-    Partial<Record<keyof T, string>>
-  >(initializeValues(initialValues, ''));
-  const [changedFields, setChangedFields] = useState<
-    Partial<Record<keyof T, boolean>>
-  >(initializeValues(initialValues, false));
+const useForm = <T extends Record<string, TFormValue>>(initialValues: T) => {
+  /**
+   * 초기 상태
+   */
+  const initialState: IFormState<T> = {
+    formData: initialValues,
+    errorMessage: initializeValues(initialValues, ''),
+    changedFields: initializeValues(initialValues, false),
+  };
 
-  // input 디바운스된 검증 함수
+  /**
+   * 폼 상태
+   */
+  const [state, dispatch] = useReducer(
+    (state: IFormState<T>, action: TAction<T>) =>
+      formReducer(state, action, initialValues),
+    initialState,
+  );
+
+  /**
+   * 폼 데이터 ref
+   */
+  const formDataRef = useRef(state.formData);
+
+  /**
+   * 폼 데이터 업데이트 시 ref 업데이트
+   */
+  useEffect(() => {
+    formDataRef.current = state.formData;
+  }, [state.formData]);
+
+  /**
+   * 입력값 검증 디바운스
+   */
   const debouncedValidateField = useDebounce(
     (key: keyof T, value: string, updatedFormData: T) => {
       const fieldErrors = validateField(
@@ -66,135 +91,73 @@ const useForm = <T extends Record<string, FormValue>>(initialValues: T) => {
         updatedFormData,
         initialValues,
       );
-      setErrorMessage((prevErr) => ({
-        ...prevErr,
-        [key]: fieldErrors[key] || '',
-      }));
-
-      // 유효성 검사 후 changedFields 업데이트
-      setChangedFields((prevChanged) => ({
-        ...prevChanged,
-        [key]: value !== initialValues[key],
-      }));
+      dispatch({
+        type: 'SET_ERROR_MESSAGE',
+        key,
+        error: fieldErrors[key] || '',
+      });
+      dispatch({
+        type: 'SET_CHANGED_FIELD',
+        key,
+        changed: value !== initialValues[key],
+      });
     },
     500,
   );
 
-  const handleInputBlur = (
-    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    const { name, value } = e.target;
-    const key = name as keyof T;
+  /**
+   * 입력값 핸들러
+   */
+  const { handleInputBlur, handleInputChange } = useInputFieldHandler<T>({
+    initialValues,
+    formDataRef,
+    dispatch,
+    debouncedValidateField,
+  });
 
-    // 디바운스 카운트가 끝나기전에 포커스를 이동한다면, 바로 검증 함수를 호출
-    const updatedFormData = { ...formData, [key]: value };
-    const fieldErrors = validateField(
-      key,
-      value,
-      updatedFormData,
-      initialValues,
-    );
-    setErrorMessage((prevErr) => ({
-      ...prevErr,
-      [key]: fieldErrors[key] || '',
-    }));
-    setChangedFields((prevChanged) => ({
-      ...prevChanged,
-      [key]: value !== initialValues[key],
-    }));
-  };
-
-  // 입력값 변경 핸들러 (formData는 즉시 업데이트하되, 검증은 디바운스)
-  const handleInputChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      const { name, value } = e.target;
-      const key = name as keyof T;
-
-      setFormData((prev) => {
-        if (value === prev[key]) {
-          // 값에 변화가 없다면 그대로 반환
-          return prev;
-        }
-
-        // 새 formData
-        const updatedFormData = { ...prev, [key]: value };
-
-        // 즉시 validateField를 부르는 대신, 디바운스된 검증 함수를 호출
-        debouncedValidateField(key, value, updatedFormData);
-
-        return updatedFormData;
-      });
-    },
-    [initialValues, debouncedValidateField],
-  );
-
-  // 파일 핸들러를 활용
+  /**
+   * 파일 핸들러
+   */
   const {
     preview,
     error: fileError,
     handleFileChange,
     handleClearPreview,
-  } = useFileHandler({
-    onFileChange: (file) => {
-      setFormData((prev) => {
-        const updated = { ...prev, image: file };
-        return updated;
-      });
-      setChangedFields((prevChanged) => ({
-        ...prevChanged,
-        image: true,
-      }));
-    },
+  } = useFileHandler<T>({
+    dispatch,
+    fileFieldKey: 'image' as keyof T,
   });
 
-  const handleClearImage = () => {
-    handleClearPreview();
-
-    setFormData((prev) => ({
-      ...prev,
-      image: null,
-    }));
-
-    setChangedFields((prevChanged) => ({
-      ...prevChanged,
-      image: true,
-    }));
-  };
-
-  // 파일 에러 메시지를 폼 에러 메시지에 추가
-  useEffect(() => {
-    setErrorMessage((prevErr) => ({
-      ...prevErr,
-      image: fileError || '',
-    }));
-  }, [fileError]);
-
-  // 초기화 함수
+  /**
+   * 폼 초기화 함수(초기값으로 리셋)
+   */
   const resetForm = useCallback(
     (newValues?: Partial<T>) => {
-      const updatedInitialValues = newValues
-        ? { ...initialValues, ...newValues }
-        : initialValues;
-      setFormData(updatedInitialValues);
-      setChangedFields(initializeValues(initialValues, false));
-      setErrorMessage(initializeValues(initialValues, ''));
-      handleClearPreview();
+      dispatch({ type: 'RESET_FORM', newValues });
+      handleClearPreview(true); // 리셋 상황임을 명시
     },
-    [initialValues],
+    [dispatch, handleClearPreview],
   );
 
+  /**
+   * 변경된 필드 설정 함수
+   */
+  const setChangedFields = useCallback((key: keyof T, changed: boolean) => {
+    dispatch({ type: 'SET_CHANGED_FIELD', key, changed });
+  }, []);
+
   return {
-    formData,
     initialValues,
-    changedFields,
+    formData: state.formData,
+    changedFields: state.changedFields,
+    errorMessage: { ...state.errorMessage, file: fileError },
     preview,
-    errorMessage: { ...errorMessage, file: fileError },
     resetForm,
     setChangedFields,
     handleInputChange,
     handleInputBlur,
     handleFileChange,
-    handleClearImage,
+    handleClearPreview,
   };
 };
 
