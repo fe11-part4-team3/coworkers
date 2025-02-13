@@ -1,6 +1,5 @@
 import { useRouter } from 'next/navigation';
 
-import KebabDropDown from '@/components/KebabDropDown';
 import { ITaskList } from '@/types/taskList.type';
 import { RoleType } from '@/types/group.type';
 import createUrlString from '@/utils/createUrlString';
@@ -8,6 +7,8 @@ import createUrlString from '@/utils/createUrlString';
 import { _DeleteTaskListParams, _UpdateTaskListParams } from './TeamPage.type';
 import { PointColorType } from './GroupTaskListWrapper';
 import TaskProgressBadge from './TaskProgressBadge';
+import DropDown from '@/components/DropDown';
+import { MouseEvent, useRef } from 'react';
 
 type IPointColorClasses = {
   [key in PointColorType]: string;
@@ -39,8 +40,13 @@ export default function GroupTaskList({
   onDelete,
 }: GroupTaskListProps) {
   const router = useRouter();
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const handleClickTaskList = () => {
+  const handleClickTaskList = (event: MouseEvent<HTMLDivElement>) => {
+    if (dropdownRef.current?.contains(event.target as Node)) {
+      return;
+    }
+
     const url = createUrlString({
       pathname: [taskList.groupId, 'tasklist'],
       queryParams: { id: taskList.id },
@@ -69,10 +75,17 @@ export default function GroupTaskList({
         <div className="flex items-center gap-pr-4">
           <TaskProgressBadge tasks={taskList.tasks} />
           {role === 'ADMIN' && (
-            <KebabDropDown
-              onEdit={handleClickEdit}
-              onDelete={handleClickDelete}
-            />
+            <div className="size-pr-16">
+              <DropDown
+                ref={dropdownRef}
+                trigger={<button className="icon-kebab absolute" />}
+                items={[
+                  { text: '수정하기', onClick: handleClickEdit },
+                  { text: '삭제하기', onClick: handleClickDelete },
+                ]}
+                width="w-pr-120"
+              />
+            </div>
           )}
         </div>
       </div>
