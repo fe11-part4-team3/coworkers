@@ -1,6 +1,5 @@
-import { FormValue } from '@/hooks/useForm';
-
 import { IGroup, IMember } from './group.type';
+import { TFormValue } from './useForm.type';
 
 interface IMembership extends IMember {
   group: IGroup;
@@ -20,7 +19,7 @@ interface IUser extends IUserProfile {
 }
 
 interface IUserDetail extends IUser {
-  memberships: IMembership[];
+  memberships: IMembership[] | null;
 }
 
 interface UpdateUserParams {
@@ -31,7 +30,7 @@ interface UpdateUserParams {
 interface ResetPasswordEmailParams {
   email: string;
   redirectUrl: string;
-  [key: string]: FormValue;
+  [key: string]: TFormValue;
 }
 interface ResetPasswordParams extends UpdatePasswordParams {
   token: string;
