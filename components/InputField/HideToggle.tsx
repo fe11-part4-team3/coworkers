@@ -20,11 +20,12 @@ export default function HideToggle({
       type="button"
       onClick={togglePassword}
       className="absolute right-pr-16 top-pr-15.5"
+      aria-label="Toggle Password Visibility"
     >
       {showPassword ? (
-        <ICON_VISIBILITY_ON width={24} height={24} />
+        <ICON_VISIBILITY_ON width={24} height={24} alt="Show Password" />
       ) : (
-        <ICON_VISIBILITY_OFF width={24} height={24} />
+        <ICON_VISIBILITY_OFF width={24} height={24} alt="Hide Password" />
       )}
     </button>
   );
