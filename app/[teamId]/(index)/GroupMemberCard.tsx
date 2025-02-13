@@ -1,13 +1,14 @@
+import { MouseEvent, useRef } from 'react';
+
 import { IMember, RoleType } from '@/types/group.type';
 import { useDeviceType } from '@/contexts/DeviceTypeContext';
 import Profile from '@/components/Profile/Profile';
 import useModalStore from '@/stores/modalStore';
 import MemberProfile from '@/components/modal/MemberProfile';
-import { MouseEvent, useRef } from 'react';
+import KebabDropDown from '@/components/KebabDropDown';
 
 import { _DeleteMemberParams } from './TeamPage.type';
 import DeleteMemberModal from './DeleteMemberModal';
-import KebabDropDown from '@/components/KebabDropDown';
 
 interface GroupMemberCard {
   role: RoleType;

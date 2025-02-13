@@ -5,13 +5,13 @@ import { ITaskList } from '@/types/taskList.type';
 import { RoleType } from '@/types/group.type';
 import createUrlString from '@/utils/createUrlString';
 import useModalStore from '@/stores/modalStore';
+import KebabDropDown from '@/components/KebabDropDown';
 
 import { _DeleteTaskListParams, _UpdateTaskListParams } from './TeamPage.type';
 import { PointColorType } from './GroupTaskListWrapper';
 import TaskProgressBadge from './TaskProgressBadge';
 import EditTaskListModal from './EditTaskListModal';
 import DeleteTaskListModal from './DeleteTaskListModal';
-import KebabDropDown from '@/components/KebabDropDown';
 
 type IPointColorClasses = {
   [key in PointColorType]: string;
