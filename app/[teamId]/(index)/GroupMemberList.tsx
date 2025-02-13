@@ -1,17 +1,17 @@
 import { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
 
 import { IMember, RoleType } from '@/types/group.type';
 import { useDeviceType } from '@/contexts/DeviceTypeContext';
 import Plus from '@/public/images/icon-plus.svg';
 import { getInvitation } from '@/service/group.api';
 import ArrowDown from '@/public/images/icon-arrow-down.svg';
-
-import GroupMemberCard from './GroupMemberCard';
 import useModalStore from '@/stores/modalStore';
 import InviteMember from '@/components/modal/InviteMember';
-import { useMutation } from '@tanstack/react-query';
 import createUrlString from '@/utils/createUrlString';
 import { useSnackbar } from '@/contexts/SnackBar.context';
+
+import GroupMemberCard from './GroupMemberCard';
 
 interface GroupMemberListProps {
   role: RoleType;
