@@ -5,10 +5,7 @@ import { FormEvent } from 'react';
 import InputField from '@/components/InputField/InputField';
 import Buttons from '@/components/Buttons';
 import CloseButton from '@/components/modal/ModalCloseButton';
-import {
-  _CreateTaskListParams,
-  _UpdateTaskListParams,
-} from '@/app/[teamId]/(index)/TeamPage.type';
+import { _UpdateTaskListParams } from '@/app/[teamId]/(index)/TeamPage.type';
 import useForm from '@/hooks/useForm';
 import { ITaskList } from '@/types/taskList.type';
 
