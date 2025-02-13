@@ -4,6 +4,10 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import { getArticleDetail } from '@/service/article.api';
 import useGroup from '@/hooks/useGroup';
 
+/**
+ * @param {string} props.pathname - 현재 URL의 pathname
+ * @returns 정적 Title 적용이 가능한 문구 반환
+ */
 const getTitle = (pathname: string) => {
   const titles: Record<string, string> = {
     '/myhistory': '마이 히스토리 | Coworkers',
@@ -20,10 +24,13 @@ const getTitle = (pathname: string) => {
   return 'Coworkers | 함께 만들어가는 Todo List';
 };
 
+/**
+ * @returns 페이지별 Head의 Title 적용
+ */
 export default function DynamicTitle() {
   const [title, setTitle] = useState('');
 
-  // url pathname
+  // URL pathname
   const pathname = usePathname();
 
   // 할 일 id, 자유게시판 검색 키워드
