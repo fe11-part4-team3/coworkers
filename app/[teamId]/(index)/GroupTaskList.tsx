@@ -1,15 +1,15 @@
 import { useRouter } from 'next/navigation';
+import { MouseEvent, useRef } from 'react';
 
 import { ITaskList } from '@/types/taskList.type';
 import { RoleType } from '@/types/group.type';
 import createUrlString from '@/utils/createUrlString';
+import DropDown from '@/components/DropDown';
+import useModalStore from '@/stores/modalStore';
 
 import { _DeleteTaskListParams, _UpdateTaskListParams } from './TeamPage.type';
 import { PointColorType } from './GroupTaskListWrapper';
 import TaskProgressBadge from './TaskProgressBadge';
-import DropDown from '@/components/DropDown';
-import { MouseEvent, useRef } from 'react';
-import useModalStore from '@/stores/modalStore';
 import EditTaskListModal from './EditTaskListModal';
 import DeleteTaskListModal from './DeleteTaskListModal';
 

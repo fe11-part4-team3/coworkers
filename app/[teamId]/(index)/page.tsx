@@ -16,6 +16,7 @@ import NotFound from '@/app/404/NotFound';
 import useTaskLists from '@/hooks/useTaskLists';
 import useModalStore from '@/stores/modalStore';
 import { deleteGroup, getTasksInGroup, updateGroup } from '@/service/group.api';
+import { useSnackbar } from '@/contexts/SnackBar.context';
 
 import GroupHeader from './GroupHeader';
 import GroupMemberList from './GroupMemberList';
@@ -27,7 +28,6 @@ import {
   _UpdateTaskListParams,
 } from './TeamPage.type';
 import GroupReport from './GroupReport';
-import { useSnackbar } from '@/contexts/SnackBar.context';
 
 export default function TeamPage() {
   const router = useRouter();

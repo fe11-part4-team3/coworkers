@@ -1,11 +1,12 @@
 'use client';
 
+import { FormEvent } from 'react';
+
 import InputField from '@/components/InputField/InputField';
 import Buttons from '@/components/Buttons';
 import CloseButton from '@/components/modal/ModalCloseButton';
 import { _CreateTaskListParams } from '@/app/[teamId]/(index)/TeamPage.type';
 import useForm from '@/hooks/useForm';
-import { FormEvent } from 'react';
 
 const INIT_VALUES: _CreateTaskListParams = { name: '' };
 

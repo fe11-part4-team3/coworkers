@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { Ref } from 'react';
 
 import {
   DropdownMenu,
@@ -6,7 +7,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
-import { Ref } from 'react';
 
 type DropDownItem =
   | { text: string; href: string; onClick?: never }
