@@ -86,7 +86,7 @@ export default function TeamPage() {
       refetchGroup();
       showSnackbar('팀을 삭제했습니다.');
     },
-    onError: (error) => showSnackbar(error.message),
+    onError: (error) => showSnackbar(error.message, 'error'),
   });
   const _deleteGroup = () => {
     if (!group) throw new Error('삭제할 팀이 없습니다');
@@ -101,7 +101,7 @@ export default function TeamPage() {
       refetchGroup();
       showSnackbar('할 일 목록을 생성했습니다.');
     },
-    onError: (error) => alert(error),
+    onError: (error) => showSnackbar(error.message, 'error'),
   });
   const _createTaskList = (params: _CreateTaskListParams) => {
     if (!group) throw new Error('목록을 생성할 팀이 없습니다');
@@ -112,8 +112,11 @@ export default function TeamPage() {
 
   const { mutate: onEditTaskList } = useMutation({
     mutationFn: (params: _UpdateTaskListParams) => _updateTaskList(params),
-    onSuccess: ({ id }) => refetchById(id),
-    onError: (error) => alert(error),
+    onSuccess: ({ id }) => {
+      refetchById(id);
+      showSnackbar('할 일 목록을 수정했습니다.');
+    },
+    onError: (error) => showSnackbar(error.message, 'error'),
   });
   const _updateTaskList = (params: _UpdateTaskListParams) => {
     if (!group) throw new Error('수정할 목록의 팀이 없습니다');
@@ -124,8 +127,11 @@ export default function TeamPage() {
 
   const { mutate: onDeleteTaskList } = useMutation({
     mutationFn: (params: _DeleteTaskListParams) => _deleteTaskList(params),
-    onSuccess: ({ id }) => removeById(id),
-    onError: (error) => alert(error),
+    onSuccess: ({ id }) => {
+      removeById(id);
+      showSnackbar('할 일 목록을 삭제했습니다.');
+    },
+    onError: (error) => showSnackbar(error.message, 'error'),
   });
   const _deleteTaskList = async (params: _DeleteTaskListParams) => {
     if (!group) throw new Error('삭제할 목록의 팀이 없습니다');
