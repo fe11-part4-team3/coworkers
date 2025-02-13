@@ -65,7 +65,7 @@ const getMembershipList = async (): Promise<IMembership[]> => {
  */
 const getHistory = async (): Promise<ITaskMetadata[]> => {
   const response = await instance.get('/user/history');
-  return response.data.taskDone;
+  return response.data.tasksDone || [];
 };
 
 /**

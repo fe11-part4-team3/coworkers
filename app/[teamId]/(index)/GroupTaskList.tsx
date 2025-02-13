@@ -1,13 +1,17 @@
 import { useRouter } from 'next/navigation';
+import { MouseEvent, useRef } from 'react';
 
-import KebabDropDown from '@/components/KebabDropDown';
 import { ITaskList } from '@/types/taskList.type';
 import { RoleType } from '@/types/group.type';
 import createUrlString from '@/utils/createUrlString';
+import DropDown from '@/components/DropDown';
+import useModalStore from '@/stores/modalStore';
 
 import { _DeleteTaskListParams, _UpdateTaskListParams } from './TeamPage.type';
 import { PointColorType } from './GroupTaskListWrapper';
 import TaskProgressBadge from './TaskProgressBadge';
+import EditTaskListModal from './EditTaskListModal';
+import DeleteTaskListModal from './DeleteTaskListModal';
 
 type IPointColorClasses = {
   [key in PointColorType]: string;
@@ -39,8 +43,14 @@ export default function GroupTaskList({
   onDelete,
 }: GroupTaskListProps) {
   const router = useRouter();
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const { openModal } = useModalStore();
 
-  const handleClickTaskList = () => {
+  const handleClickTaskList = (event: MouseEvent<HTMLDivElement>) => {
+    if (dropdownRef.current?.contains(event.target as Node)) {
+      return;
+    }
+
     const url = createUrlString({
       pathname: [taskList.groupId, 'tasklist'],
       queryParams: { id: taskList.id },
@@ -49,13 +59,13 @@ export default function GroupTaskList({
   };
 
   const handleClickEdit = () => {
-    const name = prompt('목록 명을 입력해주세요');
-    if (name) onEdit({ id: taskList.id, name });
+    openModal(<EditTaskListModal taskList={taskList} onEdit={onEdit} />);
   };
 
   const handleClickDelete = () => {
-    const flag = confirm(`${taskList.name}을(를) 삭제 하시겠습니다?`);
-    if (flag) onDelete({ id: taskList.id });
+    openModal(
+      <DeleteTaskListModal onDelete={() => onDelete({ id: taskList.id })} />,
+    );
   };
 
   return (
@@ -69,10 +79,17 @@ export default function GroupTaskList({
         <div className="flex items-center gap-pr-4">
           <TaskProgressBadge tasks={taskList.tasks} />
           {role === 'ADMIN' && (
-            <KebabDropDown
-              onEdit={handleClickEdit}
-              onDelete={handleClickDelete}
-            />
+            <div className="size-pr-16">
+              <DropDown
+                ref={dropdownRef}
+                trigger={<button className="icon-kebab absolute" />}
+                items={[
+                  { text: '수정하기', onClick: handleClickEdit },
+                  { text: '삭제하기', onClick: handleClickDelete },
+                ]}
+                width="w-pr-120"
+              />
+            </div>
           )}
         </div>
       </div>
