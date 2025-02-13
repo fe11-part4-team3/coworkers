@@ -62,8 +62,6 @@ const useUser = (required?: boolean) => {
     enabled: shouldFetch,
     initialData,
     initialDataUpdatedAt: initialData ? Date.now() : undefined,
-    // 데이터가 5분간은 fresh한 상태로 간주
-    staleTime: 5 * 60 * 1000,
     // 컴포넌트 마운트나 윈도우 포커스 시 추가 refetch 방지
     refetchOnMount: false,
     refetchOnWindowFocus: false,
