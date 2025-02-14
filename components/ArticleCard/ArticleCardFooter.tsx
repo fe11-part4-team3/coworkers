@@ -10,10 +10,12 @@ import KebabDropDown from '@/components/KebabDropDown';
 import { ArticleCardFooterProps } from '@/types/article.type';
 
 /**
+ * @param {number} props.id - 게시글 id
  * @param {boolean} props.isBestCard - 게시글 데이터
  * @param {object} props.writer - 게시글 작성자 id, nickname
- * @param {string} props.createdAt - 게시글 생성일
  * @param {number} props.likeCount - 게시글 좋아요 수
+ * @param {string} props.createdAt - 게시글 생성일
+ * @param {Function} props.handleArticleDelete - 게시글 삭제 함수
  * @returns {JSX.Element} 게시글 카드의 프로필, 생성일, 좋아요가 포함된 Card Footer 컴포넌트
  */
 function ArticleCardFooter({

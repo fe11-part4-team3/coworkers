@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import classNames from 'classnames';
 
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { newDate, newTime } from '@/utils/dateConversion';
@@ -36,7 +37,10 @@ function TaskCard({ type, taskData }: TaskCardProps) {
 
   return (
     <Card
-      className={`${isTaskList && 'h-pr-74'} flex w-full flex-col justify-between rounded-lg border-none bg-b-secondary px-pr-18 py-pr-16`}
+      className={classNames(
+        isTaskList && 'h-pr-74',
+        'flex w-full flex-col justify-between rounded-lg border-none bg-b-secondary px-pr-18 py-pr-16',
+      )}
     >
       <CardContent className="flex items-center p-0">
         <TaskCheckbox

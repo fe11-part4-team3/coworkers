@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import classNames from 'classnames';
 
 import { CardContent } from '@/components/ui/card';
 import useUserStore from '@/stores/useUser.store';
@@ -52,11 +53,17 @@ function CommentContent({
 
   return (
     <CardContent
-      className={`${isArticleComment ? 'mb-pr-32' : 'mb-pr-16 min-h-pr-16'} flex justify-between p-0`}
+      className={classNames(
+        isArticleComment ? 'mb-pr-32' : 'mb-pr-16 min-h-pr-16',
+        'flex justify-between p-0',
+      )}
     >
       {!isLoading ? (
         <p
-          className={`${isArticleComment ? 'text-16' : 'text-14'} break-all text-t-primary`}
+          className={classNames(
+            isArticleComment ? 'text-16' : 'text-14',
+            'break-all text-t-primary',
+          )}
         >
           {commenter}
           <button

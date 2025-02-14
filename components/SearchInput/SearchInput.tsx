@@ -1,4 +1,5 @@
 import { ChangeEvent } from 'react';
+import classNames from 'classnames';
 
 import { inputStyled } from '@/components/InputField/InputField';
 import { Input } from '@/components/ui/input';
@@ -22,7 +23,10 @@ function SearchInput({ value, onChange }: SearchInputProps) {
       />
       <Input
         type="text"
-        className={`${inputStyled} h-pr-56 pl-pr-52 pr-pr-16 hover:border-i-hover mo:h-pr-48`}
+        className={classNames(
+          inputStyled,
+          'h-pr-56 pl-pr-52 pr-pr-16 hover:border-i-hover mo:h-pr-48',
+        )}
         placeholder="검색어를 입력해주세요"
         name="keyword"
         value={value}

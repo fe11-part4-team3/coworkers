@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import classNames from 'classnames';
 
 import { ArticleCardProps } from '@/types/article.type';
 import { dotDate } from '@/utils/dateConversion';
@@ -29,7 +30,7 @@ function ArticleCard({
   return (
     <Link
       href={`/boards/${id}`}
-      className={`${CARD_STYLE} ${isBestCard ? BEST_STYLE : NORMAL_STYLE}`}
+      className={classNames(CARD_STYLE, isBestCard ? BEST_STYLE : NORMAL_STYLE)}
     >
       {isBestCard && (
         <div className="absolute top-pr-13 flex items-center">

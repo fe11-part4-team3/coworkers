@@ -1,3 +1,5 @@
+import classNames from 'classnames';
+
 import Buttons from '@/components/Buttons';
 import DateDisplay from '@/components/DateDisplay';
 import Profile from '@/components/Profile/Profile';
@@ -35,7 +37,7 @@ function CommentFooter({
   const isArticleComment = type === 'article';
 
   return (
-    <CardFooter className={`flex justify-between p-0`}>
+    <CardFooter className="flex justify-between p-0">
       <div className="flex items-center">
         <div className="flex items-center">
           {!isLoading ? (
@@ -80,7 +82,7 @@ function CommentFooter({
             {!isLoading ? (
               <DateDisplay
                 createdAt={createdAt}
-                className={`${isArticleComment && 'text-t-disabled'}`}
+                className={classNames(isArticleComment && 'text-t-disabled')}
               />
             ) : (
               <CommentDateSkeleton />
