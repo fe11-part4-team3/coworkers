@@ -1,4 +1,4 @@
-type TFormValue = string | number | File | '';
+type TFormValue = string | number | File | Date | '' | number[];
 
 interface IFormState<T> {
   formData: T;

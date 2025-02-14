@@ -1,9 +1,10 @@
-import { getTaskList } from '@/service/taskList.api';
-import useGroupStore from '@/stores/useGroup.store';
 import { useQueries, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 
-interface UseTaskListsParams {
+import { getTaskList } from '@/service/taskList.api';
+import useGroupStore from '@/stores/useGroup.store';
+
+export interface UseTaskListsParams {
   date?: string;
 }
 
