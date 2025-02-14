@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { DayPicker } from 'react-day-picker';
-import { useTheme } from 'next-themes';
+import { useState, useEffect } from 'react';
 
 import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/ui/button';
@@ -10,30 +10,26 @@ import ChevronLeftIcon from '@/public/images/icon-chevron-left.svg';
 import ChevronRightIcon from '@/public/images/icon-chevron-right.svg';
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>;
-export type IsCalenderOpen = {
-  setIsPickerView: (isOpen: boolean) => void;
-};
-
-export type CalendarPropsType = IsCalenderOpen & CalendarProps;
 
 function Calendar({
-  setIsPickerView,
+  onDayClick,
   className,
   classNames,
   showOutsideDays = true,
   ...props
-}: CalendarPropsType) {
+}: CalendarProps) {
   const formatters = {
     formatWeekdayName: (date: Date) => {
       return date.toLocaleDateString('en-US', { weekday: 'short' });
     },
   };
 
-  const onDayClick = () => {
-    setIsPickerView(false);
-  };
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
-  const { theme } = useTheme();
+  useEffect(() => {
+    const isDark = document.documentElement.classList.contains('dark');
+    setIsDarkMode(isDark);
+  }, []);
 
   return (
     <DayPicker
@@ -45,14 +41,14 @@ function Calendar({
           'w-full flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0',
         month: 'space-y-4 w-full',
         caption: 'flex justify-center pt-1 relative items-center',
-        caption_label: 'text-sm dark:text-t-inverse text-t-default',
+        caption_label: 'text-sm dark:text-t-inverse light:text-t-default',
         nav: 'flex justify-between items-center',
         nav_button_previous: 'absolute left-0',
         nav_button_next: 'absolute right-0',
         table: 'w-full border-collapse space-y-1',
         head_row: 'flex mb-2 justify-between',
         head_cell:
-          'dark:text-t-inverse text-t-default rounded-md w-8 text-14sb',
+          'dark:text-t-inverse light:text-t-default rounded-md w-8 text-14sb',
         row: 'flex justify-between w-full',
         cell: cn(
           'relative p-0 text-t-primary text-center text-sm focus-within:relative focus-within:z-20 [&:has([aria-selected])]:bg-accent [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected].day-range-end)]:rounded-r-md',
@@ -78,20 +74,13 @@ function Calendar({
         ...classNames,
       }}
       components={{
-        IconLeft: () => (
-          <ChevronLeftIcon
-            width={24}
-            height={24}
-            style={{ fill: theme === 'dark' ? 'white' : 'black' }}
-          />
-        ),
-        IconRight: () => (
-          <ChevronRightIcon
-            width={24}
-            height={24}
-            style={{ fill: theme === 'dark' ? 'white' : 'black' }}
-          />
-        ),
+        IconLeft: () =>
+          isDarkMode ? (
+            <ChevronLeftIcon width={24} height={24} style={{ fill: 'black' }} />
+          ) : (
+            <ChevronLeftIcon width={24} height={24} style={{ fill: 'black' }} />
+          ),
+        IconRight: () => <ChevronRightIcon width={24} height={24} />,
       }}
       formatters={formatters}
       {...props}

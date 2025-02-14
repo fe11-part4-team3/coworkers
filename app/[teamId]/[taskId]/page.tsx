@@ -13,19 +13,13 @@ import PrevButtonIcon from '@/public/images/icon-prev-button.svg';
 import NextButtonIcon from '@/public/images/icon-next-button.svg';
 import CalendarButtonIcon from '@/public/images/icon-calendar-button.svg';
 import TaskDetail from '@/components/TaskDetail/TaskDetail';
-import DatePicker from '@/components/DateTimePicker/DatePicker';
 import TaskCard from '@/components/TaskCard/TaskCard';
 import useGroup from '@/hooks/useGroup';
 import Buttons from '@/components/Buttons';
 import PlusIcon from '@/public/images/icon-plus.svg';
-import useModalStore from '@/stores/modalStore';
-import AddTask from '@/components/modal/AddTask';
 import { getTaskList } from '@/service/taskList.api';
-import { createTask, updateTask, deleteTask } from '@/service/task.api';
-import {
-  TaskRecurringCreateDto,
-  UpdateTaskBodyParams,
-} from '@/types/task.type';
+import { updateTask, deleteTask } from '@/service/task.api';
+import { UpdateTaskBodyParams } from '@/types/task.type';
 import {
   getTaskComment,
   createTaskComment,
@@ -39,8 +33,6 @@ export default function TaskListPage() {
   const [isCalendarOpen, setIsCalendarOpen] = useState<boolean>(false);
 
   const ref = useRef<HTMLDivElement>(null);
-
-  const { openModal } = useModalStore();
 
   const pathName = usePathname();
   const groupId = Number(pathName.split('/')[1]);
@@ -57,13 +49,6 @@ export default function TaskListPage() {
     ],
     queryFn: () =>
       getTaskList({ groupId, id: taskListId, date: date?.toDateString() }),
-  });
-
-  const fetchCreateTask = useMutation({
-    mutationFn: (body: TaskRecurringCreateDto) =>
-      createTask({ groupId, taskListId, body }),
-    onSuccess: () => fetchGetTaskList.refetch(),
-    onError: () => console.error('할 일 추가 실패'),
   });
 
   const fetchUpdateTask = useMutation({
@@ -203,16 +188,6 @@ export default function TaskListPage() {
                 className="ml-pr-8 cursor-pointer"
                 onClick={() => setIsCalendarOpen(!isCalendarOpen)}
               />
-              {isCalendarOpen && date && (
-                <div className="absolute left-0 top-pr-50 z-50">
-                  <DatePicker
-                    width="w-pr-300"
-                    date={date}
-                    setDate={setDate}
-                    setIsPickerView={setIsCalendarOpen}
-                  />
-                </div>
-              )}
             </div>
           </div>
         </div>
@@ -261,9 +236,7 @@ export default function TaskListPage() {
               text="할 일 추가"
               rounded={true}
               icon={true}
-              onClick={() =>
-                openModal(<AddTask fetchData={fetchCreateTask.mutate} />)
-              }
+              onClick={() => {}}
             />
             <PlusIcon width={24} height={24} className="absolute left-pr-12" />
           </div>
