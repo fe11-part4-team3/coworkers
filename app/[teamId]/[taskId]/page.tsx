@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import classNames from 'classnames';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 import Container from '@/components/layout/Container';
@@ -166,7 +167,7 @@ export default function TaskListPage() {
 
   return (
     <>
-      <Container>
+      <Container className="relative h-screen">
         <div className="mt-pr-40 text-t-primary">
           <h1 className="text-20b">할 일</h1>
           <div className="relative mt-pr-24 flex items-center gap-pr-12">
@@ -228,18 +229,14 @@ export default function TaskListPage() {
             </div>
           ))}
         </div>
-        <div
-          className={`fixed bottom-pr-48 right-pr-80 ${detailTaskId ? 'hidden' : ''}`}
-        >
-          <div className="relative flex w-pr-116 items-center">
-            <Buttons
-              text="할 일 추가"
-              rounded={true}
-              icon={true}
-              onClick={() => {}}
-            />
-            <PlusIcon width={24} height={24} className="absolute left-pr-12" />
-          </div>
+        <div className="fixed bottom-pr-48 left-1/2 flex w-full max-w-screen-xl -translate-x-1/2 items-end justify-end tamo:bottom-pr-24 tamo:pr-pr-24">
+          <Buttons
+            text="할 일 추가"
+            icon={<PlusIcon width={16} height={16} />}
+            onClick={() => {}}
+            className={classNames('w-pr-125', detailTaskId && 'hidden')}
+            rounded
+          />
         </div>
       </Container>
     </>
