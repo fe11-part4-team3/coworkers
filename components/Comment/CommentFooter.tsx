@@ -2,7 +2,7 @@ import Buttons from '@/components/Buttons';
 import DateDisplay from '@/components/DateDisplay';
 import Profile from '@/components/Profile/Profile';
 import { CardFooter } from '@/components/ui/card';
-import { IUserProfile } from '@/types/user.type';
+import { CommentFooterProps } from '@/types/articleComment.type';
 
 import { CommentDateSkeleton, CommentProfileSkeleton } from './CommentSkeleton';
 
@@ -31,19 +31,7 @@ function CommentFooter({
   cancelEditing,
   updateSubmit,
   isLoading,
-}: {
-  type?: 'article' | 'task';
-  writer?: IUserProfile;
-  user?: IUserProfile;
-  commentEdit: boolean;
-  createdAt: string;
-  updatedAt: string;
-  commentEditContent: string;
-  content: string;
-  cancelEditing: () => void;
-  updateSubmit: () => void;
-  isLoading: boolean;
-}) {
+}: CommentFooterProps) {
   const isArticleComment = type === 'article';
 
   return (

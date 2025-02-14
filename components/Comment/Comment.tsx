@@ -63,12 +63,13 @@ function Comment({
   const { openModal } = useModalStore();
 
   const isArticleComment = type === 'article';
+  const isTaskComment = type === 'task';
 
   // 타입 단언으로 writer/user 접근
   const writer = isArticleComment
     ? (commentData as IArticleComment).writer
     : undefined;
-  const user = type === 'task' ? (commentData as ITaskComment).user : undefined;
+  const user = isTaskComment ? (commentData as ITaskComment).user : undefined;
 
   // Dropdown 수정하기
   const handleEditClick = () => {
@@ -77,7 +78,6 @@ function Comment({
 
   // Dropdown 삭제하기
   const commentDelete = () => {
-    // handleDeleteClick 함수로 댓글 id를 넘겨받아 DELETE 데이터 요청 실행
     handleDeleteClick(id);
   };
 

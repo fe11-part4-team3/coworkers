@@ -5,6 +5,7 @@ import useUserStore from '@/stores/useUser.store';
 import KebabDropDown from '@/components/KebabDropDown';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useDeviceType } from '@/contexts/DeviceTypeContext';
+import { CommentContentProps } from '@/types/articleComment.type';
 
 /**
  * @param {'article'|'task'} props.type - 컴포넌트 타입(할 일 상세의 댓글 or 게시글 상세의 댓글)
@@ -24,21 +25,10 @@ function CommentContent({
   handleEditClick,
   commentDelete,
   isLoading,
-}: {
-  type?: 'article' | 'task';
-  commentEditContent: string;
-  writer?: {
-    id: number;
-  };
-  user?: {
-    id: number;
-  };
-  handleEditClick: () => void;
-  commentDelete: () => void;
-  isLoading: boolean;
-}) {
+}: CommentContentProps) {
   const { user: userData } = useUserStore();
   const isArticleComment = type === 'article';
+  const isWriter = userData?.id === (writer?.id ?? user?.id);
   const deviceType = useDeviceType();
 
   const [isCommentTextMore, setCommentTextMore] = useState(false);
@@ -82,7 +72,7 @@ function CommentContent({
         <Skeleton className="h-pr-20 w-pr-150" />
       )}
 
-      {userData?.id === (writer?.id ?? user?.id) && (
+      {isWriter && (
         <div className="ml-pr-16">
           <KebabDropDown onEdit={handleEditClick} onDelete={commentDelete} />
         </div>
