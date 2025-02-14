@@ -57,7 +57,7 @@ const Template: StoryFn = () => {
   };
 
   const handleOpenInviteMember = () => {
-    openModal(<InviteMember onClick={() => handleAddTask} />);
+    openModal(<InviteMember loading={false} onClick={() => handleAddTask} />);
   };
 
   const handleOpenDeleteTask = () => {
@@ -81,7 +81,7 @@ const Template: StoryFn = () => {
     openModal(<AddTask fetchData={() => handleAddTask} />);
   };
   const handleOpenAddTaskList = () => {
-    openModal(<AddTaskList onClick={() => handleAddTask} />);
+    openModal(<AddTaskList onCreate={() => handleAddTask} />);
   };
   const handleOpenAddList = () => {
     openModal(<AddList onClick={() => handleAddTask} />);

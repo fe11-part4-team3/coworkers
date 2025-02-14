@@ -1,14 +1,15 @@
-import { IMembership, IUserDetail } from '@/types/user.type';
 import { create } from 'zustand';
-import { IGroup } from '@/types/group.type';
 import { persist } from 'zustand/middleware';
+
+import { IMembership, IUserDetail } from '@/types/user.type';
+import { IGroup } from '@/types/group.type';
 
 interface IUserStore {
   token: string | null;
   user: IUserDetail | null;
   memberships: IMembership[] | null;
   groups: IGroup[] | null;
-  setToken: () => void;
+  setToken: (token?: string) => void;
   setUser: (user: IUserDetail | null) => void;
   setMemberships: (memberships: IMembership[] | null) => void;
   setGroups: (groups: IGroup[] | null) => void;
@@ -36,7 +37,11 @@ const useUserStore = create(
       user: null,
       memberships: null,
       groups: null,
-      setToken: () => set({ token: localStorage.getItem('accessToken') }),
+      setToken: (token?: string) =>
+        set({
+          token:
+            token !== undefined ? token : localStorage.getItem('accessToken'),
+        }),
       setUser: (user) => set({ user }),
       setMemberships: (memberships) => set({ memberships }),
       setGroups: (groups) => set({ groups }),
@@ -48,6 +53,11 @@ const useUserStore = create(
     }),
     {
       name: 'user-store',
+      onRehydrateStorage: () => (state) => {
+        console.log('Rehydration finished. Current state:', state);
+        // 재수화가 완료되면 토큰을 강제로 업데이트합니다.
+        state?.setToken();
+      },
     },
   ),
 );

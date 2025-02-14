@@ -1,5 +1,5 @@
-import { FormValue } from '@/hooks/useForm';
 import { uploadImage } from '@/service/image.api';
+import { TFormValue } from '@/types/useForm.type';
 
 export type UpdatePayloadParams = {
   [key: string]: string | number | boolean | undefined | File;
@@ -8,7 +8,7 @@ export type UpdatePayloadParams = {
 
 interface updatePayloadSubmitProps<T> {
   changedFields: Record<string, boolean>;
-  formData: Record<string, FormValue>;
+  formData: Record<string, TFormValue>;
   mutate: (payload: T) => void;
   articleId?: number;
 }

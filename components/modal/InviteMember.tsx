@@ -1,8 +1,12 @@
 'use client';
 
-import useModalStore from '@/stores/modalStore';
 import CloseButton from '@/components/modal/ModalCloseButton';
 import Buttons from '@/components/Buttons';
+
+interface InviteMemberProps {
+  onClick: () => void;
+  loading: boolean;
+}
 
 /**
  * 멤버 초대 모달 컴포넌트.
@@ -11,12 +15,9 @@ import Buttons from '@/components/Buttons';
  * @param {Function} onClick - 모달 실행 함수 (링크 복사 기능을 처리하는 함수 전달해주세요.)
  */
 
-export default function InviteMember({ onClick }: { onClick: () => void }) {
-  const { closeModal } = useModalStore();
-
+export default function InviteMember({ onClick, loading }: InviteMemberProps) {
   const handleOnClick = () => {
     onClick();
-    closeModal();
   };
 
   return (
@@ -29,7 +30,12 @@ export default function InviteMember({ onClick }: { onClick: () => void }) {
         </p>
       </div>
       <div className="modal-button-wrapper">
-        <Buttons text="링크 복사하기" onClick={handleOnClick} />
+        <Buttons
+          text="링크 복사하기"
+          onClick={handleOnClick}
+          loading={loading}
+          disabled={loading}
+        />
       </div>
     </>
   );

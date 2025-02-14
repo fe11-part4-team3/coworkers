@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, MouseEvent, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useMutation } from '@tanstack/react-query';
 
@@ -13,6 +13,7 @@ import Buttons from '@/components/Buttons';
 import useModalStore from '@/stores/modalStore';
 import ResetPassword from '@/components/modal/ResetPassword';
 import { useSnackbar } from '@/contexts/SnackBar.context';
+import useUserStore from '@/stores/useUser.store';
 
 const initialValues = {
   email: '',
@@ -29,8 +30,10 @@ function LoginPage() {
   } = useForm(initialValues);
 
   const route = useRouter();
-  const { reload, user } = useUser();
+  const { reload, memberships } = useUser();
   const { openModal } = useModalStore();
+  const params = useSearchParams();
+  const redirect = params.get('redirect');
 
   const { showSnackbar } = useSnackbar();
 
@@ -40,7 +43,11 @@ function LoginPage() {
   // STUB 일반 로그인 api mutate
   const { mutateAsync: postLogin, isPending: isLogin } = useMutation({
     mutationFn: signIn,
-    onSuccess: () => {
+    onSuccess: (data) => {
+      localStorage.setItem('accessToken', data.accessToken);
+      // zustand 스토어에 토큰 업데이트
+      const { setToken } = useUserStore.getState();
+      setToken(data.accessToken);
       reload();
       showSnackbar('로그인이 완료 되었습니다.');
     },
@@ -61,17 +68,21 @@ function LoginPage() {
   };
 
   useEffect(() => {
-    if (user) {
+    if (memberships) {
       // STUB 로그인 후 가입된 그룹이 있을 때, 첫 번째 그룹으로 이동
-      if (user.memberships.length > 0) {
-        route.push(`/${user.memberships[0].groupId}`);
+      if (memberships.length > 0) {
+        route.push(`/${memberships[0].groupId}`);
       } else {
         route.push(`/`);
+      }
+
+      if (redirect) {
+        route.push(redirect);
       }
     } else {
       return;
     }
-  }, [route, user]);
+  }, [route, memberships, redirect]);
 
   const requiredFields = Object.keys(initialValues);
 
