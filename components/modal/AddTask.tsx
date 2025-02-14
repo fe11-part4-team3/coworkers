@@ -24,6 +24,9 @@ export default function AddTask() {
   const teamId = Number(params.teamId);
   const taskListId = Number(searchParams.get('id'));
 
+  const kstDate = new Date();
+  kstDate.setHours(kstDate.getHours() + 9);
+
   const [errorMessage, setErrorMessage] = useState<string>('');
 
   const validateName = (name: string) => {
@@ -36,7 +39,7 @@ export default function AddTask() {
 
   // 할 일 생성 뮤테이션
   const { createTaskMutation, createRecurringTaskMutation, isPending } =
-    useTaskMutation();
+    useTaskMutation({ date: kstDate.toISOString() });
 
   // 반복 유형 옵션
   const [frequencyOptions] = useState<SelectOption[]>([
@@ -54,8 +57,6 @@ export default function AddTask() {
     })),
   );
 
-  const kstDate = new Date();
-  kstDate.setHours(kstDate.getHours() + 9);
   const { formData, setFormData, handleInputChange, handleInputBlur } = useForm(
     {
       name: '',

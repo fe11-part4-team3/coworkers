@@ -5,13 +5,17 @@ import { useSnackbar } from '@/contexts/SnackBar.context';
 import useModalStore from '@/stores/modalStore';
 import { createRecurring } from '@/service/recurring.api';
 
-export function useTaskMutation() {
+import useTaskLists, { UseTaskListsParams } from './useTaskLists';
+
+export function useTaskMutation({ date }: UseTaskListsParams) {
   const { showSnackbar } = useSnackbar();
   const { closeModal } = useModalStore();
+  const { refetchById } = useTaskLists({ date });
 
   const createTaskMutation = useMutation({
     mutationFn: createTask,
-    onSuccess: () => {
+    onSuccess: ({ taskListId }) => {
+      refetchById(taskListId);
       showSnackbar('할 일이 생성되었습니다.');
       closeModal();
     },
@@ -20,7 +24,8 @@ export function useTaskMutation() {
 
   const createRecurringTaskMutation = useMutation({
     mutationFn: createRecurring,
-    onSuccess: () => {
+    onSuccess: ({ taskListId }) => {
+      refetchById(taskListId);
       showSnackbar('할 일이 생성되었습니다.');
       closeModal();
     },
