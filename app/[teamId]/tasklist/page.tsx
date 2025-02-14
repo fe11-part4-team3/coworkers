@@ -1,13 +1,13 @@
 'use client';
 
-import { subDays, addDays } from 'date-fns';
 import { useState, useEffect, useRef } from 'react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
-import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import classNames from 'classnames';
+import { format, subDays, addDays } from 'date-fns';
+import { useSearchParams } from 'next/navigation';
 
 import Container from '@/components/layout/Container';
 import PrevButtonIcon from '@/public/images/icon-prev-button.svg';
@@ -18,7 +18,6 @@ import TaskCard from '@/components/TaskCard/TaskCard';
 import useGroup from '@/hooks/useGroup';
 import Buttons from '@/components/Buttons';
 import PlusIcon from '@/public/images/icon-plus.svg';
-import { getTaskList } from '@/service/taskList.api';
 import { updateTask, deleteTask } from '@/service/task.api';
 import { UpdateTaskBodyParams } from '@/types/task.type';
 import {
@@ -30,33 +29,33 @@ import {
 import { useSnackbar } from '@/contexts/SnackBar.context';
 import useModalStore from '@/stores/modalStore';
 import AddTask from '@/components/modal/AddTask';
+import useTaskLists from '@/hooks/useTaskLists';
+import { ITaskList } from '@/types/taskList.type';
+import createUrlString from '@/utils/createUrlString';
 
 export default function TaskListPage() {
-  const [detailTaskId, setDetailTaskId] = useState<number | null>(null);
-  const [date, setDate] = useState<Date | undefined>(new Date());
-  const [isCalendarOpen, setIsCalendarOpen] = useState<boolean>(false);
   const { showSnackbar } = useSnackbar();
   const { openModal } = useModalStore();
+
+  const [detailTaskId, setDetailTaskId] = useState<number | null>(null);
+  const [date, setDate] = useState<Date>(new Date());
+  const [isCalendarOpen, setIsCalendarOpen] = useState<boolean>(false);
+
+  const { groupId } = useGroup();
+  const { taskLists, refetchById } = useTaskLists({
+    date: date?.toDateString(),
+  });
+  const taskListId = Number(useSearchParams().get('id'));
+  const [taskList, setTaskList] = useState<ITaskList | null>(null);
+
+  dayjs.locale('ko');
+  const formattedDate = format(date, 'M월 d일 (E)');
   const ref = useRef<HTMLDivElement>(null);
-  const queryClient = useQueryClient();
-  const { taskLists } = useGroup();
-  const pathName = usePathname();
-  const groupId = Number(pathName.split('/')[1]);
-  const taskListId = Number(pathName.split('/')[2]);
 
   const toggleDetailTask = (taskId: number) => {
     setDetailTaskId((prev) => (prev === taskId ? null : taskId));
     fetchGetTaskComment.mutate(taskId);
   };
-
-  const fetchGetTaskList = useQuery({
-    queryKey: [
-      'getTaskList',
-      { groupId, taskListId, date: date?.toDateString() },
-    ],
-    queryFn: () =>
-      getTaskList({ groupId, id: taskListId, date: date?.toDateString() }),
-  });
 
   const fetchUpdateTask = useMutation({
     mutationFn: ({
@@ -67,12 +66,7 @@ export default function TaskListPage() {
       body: UpdateTaskBodyParams;
     }) => updateTask({ groupId, taskListId, taskId, body }),
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: [
-          'getTaskList',
-          { groupId, taskListId, date: date?.toDateString() },
-        ],
-      });
+      refetchById(taskListId);
       showSnackbar('할 일이 수정되었습니다.');
     },
     onError: () => showSnackbar('할 일 수정할 수 없습니다.', 'error'),
@@ -81,12 +75,7 @@ export default function TaskListPage() {
   const fetchDeleteTask = useMutation({
     mutationFn: (taskId: number) => deleteTask({ groupId, taskListId, taskId }),
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: [
-          'getTaskList',
-          { groupId, taskListId, date: date?.toDateString() },
-        ],
-      });
+      refetchById(taskListId);
       showSnackbar('할 일이 삭제되었습니다.');
     },
     onError: () => showSnackbar('할 일을 삭제할 수 없습니다.', 'error'),
@@ -153,9 +142,6 @@ export default function TaskListPage() {
     setDate(addDays(date, 1));
   };
 
-  dayjs.locale('ko');
-  const formattedDate = dayjs(date).format('M월 D일 (ddd)');
-
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (ref.current && !ref.current.contains(event.target as Node)) {
@@ -171,9 +157,9 @@ export default function TaskListPage() {
   }, [ref]);
 
   useEffect(() => {
-    if (!date) return setDate(new Date());
-    fetchGetTaskList.refetch();
-  }, [date]);
+    const next = taskLists?.find((e) => e.id === taskListId) || null;
+    setTaskList(next);
+  }, [taskLists, taskListId]);
 
   return (
     <>
@@ -204,9 +190,20 @@ export default function TaskListPage() {
         </div>
         <ul className="mt-pr-24 flex gap-pr-12 text-16m">
           {taskLists?.map((taskList) => (
-            <Link href={`/${groupId}/${taskList.id}`} key={taskList.id}>
+            <Link
+              href={createUrlString({
+                pathname: [groupId, 'tasklist'],
+                queryParams: { id: taskList.id },
+              })}
+              key={taskList.id}
+            >
               <li
-                className={`cursor-pointer ${taskList.id === taskListId ? 'text-t-primary' : 'text-t-default'}`}
+                className={classNames(
+                  taskList.id === taskListId
+                    ? 'text-t-primary'
+                    : 'text-t-default',
+                  `cursor-pointer`,
+                )}
               >
                 {taskList.name}
               </li>
@@ -214,7 +211,7 @@ export default function TaskListPage() {
           ))}
         </ul>
         <div className="mb-pr-80 mt-pr-16 flex flex-col gap-pr-16">
-          {fetchGetTaskList.data?.tasks.map((task) => (
+          {taskList?.tasks.map((task) => (
             <div key={task.id}>
               <div onClick={() => toggleDetailTask(task.id)}>
                 <TaskCard
