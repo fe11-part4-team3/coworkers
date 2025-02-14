@@ -1,6 +1,11 @@
 import { getTaskList } from '@/service/taskList.api';
 import useGroupStore from '@/stores/useGroup.store';
 import { useQueries, useQueryClient } from '@tanstack/react-query';
+import { useEffect } from 'react';
+
+interface UseTaskListsParams {
+  date?: string;
+}
 
 /**
  * 특정 팀에 속한 모든 할 일 목록을 관리하기 위한 커스텀 훅입니다.
@@ -12,7 +17,7 @@ import { useQueries, useQueryClient } from '@tanstack/react-query';
  * @property removeById 특정 할 일 목록 캐싱 삭제
  * @property refetchAll 모든 할 일 목록 리페칭
  */
-export default function useTaskLists() {
+export default function useTaskLists({ date }: UseTaskListsParams = {}) {
   const queryClient = useQueryClient();
   const { taskLists, setTaskLists, clearStore } = useGroupStore();
 
@@ -21,7 +26,7 @@ export default function useTaskLists() {
       taskLists?.map(({ id, groupId }) => ({
         queryKey: ['taskList', id],
         queryFn: () =>
-          getTaskList({ groupId, id, date: new Date().toISOString() }),
+          getTaskList({ groupId, id, date: date || new Date().toISOString() }),
         initialData: null,
       })) || [],
   });
@@ -52,6 +57,10 @@ export default function useTaskLists() {
     clearStore();
     queryClient.removeQueries({ queryKey: ['taskLists'] });
   };
+
+  useEffect(() => {
+    queryClient.invalidateQueries({ queryKey: ['taskList'] });
+  }, [date]);
 
   return {
     taskLists: data.length > 0 ? data : null,
