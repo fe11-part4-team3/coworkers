@@ -10,9 +10,6 @@ import IconLabel from '@/components/IconLabel';
 import CheckIcon from '@/public/images/icon-task-check.svg';
 
 import WriterProfile from '../WriterProfile';
-import InputField from '../InputField/InputField';
-import TextareaField from '../InputField/TextareaField';
-import Buttons from '../Buttons';
 
 /**
  * 할 일 상세 컴포넌트
@@ -42,6 +39,10 @@ export default function TaskDetail({
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [editTask, setEditTask] = useState<TaskDetailProps['value']>(value);
 
+  const taskDoneButtonStyle =
+    !isEdit && value.doneBy?.user === null
+      ? 'bg-brand-primary text-t-primary'
+      : 'bg-b-inverse text-brand-primary border border-brand-primary';
   const formattedCreateAt = format(new Date(value.updatedAt), 'yyyy.MM.dd');
   const formattedDate = format(new Date(value.date), 'yyyy년 M월 dd일');
   const formattedDateTime = format(new Date(value.date), '오후 h:mm');
@@ -92,33 +93,27 @@ export default function TaskDetail({
   return (
     <>
       <div className="relative">
-        <div className="fixed right-0 top-pr-60 z-[1] h-full w-pr-780 overflow-y-auto bg-b-secondary p-pr-40 pb-pr-120 mo:w-full ta:w-pr-435">
+        <div className="fixed right-0 top-pr-60 h-full w-pr-780 overflow-y-auto bg-b-secondary p-pr-40 pb-pr-120 mo:w-full ta:w-pr-435">
           <CloseIcon
             className="cursor-pointer"
-            onClick={() => {
-              setIsOpen(false);
-              setIsEdit(false);
-            }}
+            onClick={() => setIsOpen(false)}
           />
           <div className="my-pr-16 flex items-center justify-between">
             {!isEdit ? (
               <h1 className="text-20b text-t-primary">{value.name}</h1>
             ) : (
-              <InputField
-                type="text"
-                value={editTask.name}
-                placeholder="제목을 입력해주세요."
+              <input
+                defaultValue={editTask.name}
                 onChange={(e) =>
                   setEditTask({ ...editTask, name: e.target.value })
                 }
+                className="w-full bg-b-secondary pr-pr-40 text-20b text-t-primary focus:outline-none"
               />
             )}
-            {!isEdit && (
-              <KebabDropDown
-                onEdit={() => setIsEdit(true)}
-                onDelete={() => deleteTask(value.id)}
-              />
-            )}
+            <KebabDropDown
+              onEdit={() => setIsEdit(true)}
+              onDelete={() => deleteTask(value.id)}
+            />
           </div>
           <div className="flex items-center justify-between text-t-secondary">
             {value.writer && <WriterProfile writer={value.writer} />}
@@ -135,16 +130,13 @@ export default function TaskDetail({
                 {value.description}
               </p>
             ) : (
-              <div className="mb-pr-66">
-                <TextareaField
-                  value={editTask.description ? editTask.description : ''}
-                  size="lg"
-                  placeholder="Placeholder를 작성해주세요"
-                  onChange={(e) =>
-                    setEditTask({ ...editTask, description: e.target.value })
-                  }
-                />
-              </div>
+              <textarea
+                defaultValue={editTask.description ? editTask.description : ''}
+                onChange={(e) =>
+                  setEditTask({ ...editTask, description: e.target.value })
+                }
+                className="relative z-50 mb-pr-40 h-pr-150 w-full resize-none bg-b-secondary text-14m focus:outline-none"
+              ></textarea>
             )}
           </div>
           <form onSubmit={handleSubmitComment}>
@@ -169,38 +161,23 @@ export default function TaskDetail({
               );
             })}
         </div>
-
-        <div className={`fixed bottom-pr-60 right-pr-40 z-[2]`}>
-          {!isEdit ? (
-            <Buttons
-              text={value.doneBy?.user === null ? '완료하기' : '완료 취소하기'}
-              icon={<CheckIcon />}
-              rounded={true}
-              onClick={() => handleEditButtonClick(isEdit)}
-              size="M"
-            />
-          ) : (
-            <div className="flex gap-pr-8">
-              <Buttons
-                text="취소하기"
-                size="M"
-                icon={<CheckIcon stroke="border-brand-primary" />}
-                rounded={true}
-                onClick={() => setIsEdit(false)}
-                backgroundColor="white"
-                textColor="primary"
-              />
-              <Buttons
-                text="수정하기"
-                size="M"
-                icon={<CheckIcon stroke="border-brand-primary" />}
-                rounded={true}
-                onClick={() => handleEditButtonClick(isEdit)}
-                textColor="white"
-              />
-            </div>
-          )}
-        </div>
+        <button
+          className={`fixed bottom-pr-60 right-pr-40 flex h-pr-40 items-center justify-center gap-pr-4 rounded-full px-pr-20 text-14sb ${taskDoneButtonStyle}`}
+          onClick={() => handleEditButtonClick(isEdit)}
+        >
+          <CheckIcon
+            stroke={
+              value.doneBy?.user === null
+                ? 'border-t-primary'
+                : 'border-brand-primary'
+            }
+          />
+          {!isEdit
+            ? value.doneBy?.user === null
+              ? '완료하기'
+              : '완료 취소하기'
+            : '수정 완료하기'}
+        </button>
       </div>
     </>
   );
