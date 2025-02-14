@@ -1,3 +1,5 @@
+import classNames from 'classnames';
+
 import { SidebarMenuItem, SidebarMenuButton } from '../ui/sidebar';
 
 /**
@@ -7,13 +9,20 @@ import { SidebarMenuItem, SidebarMenuButton } from '../ui/sidebar';
  */
 function SideNavDefaultList({
   handleClick,
+  pathname,
 }: {
   handleClick: (path: string) => void;
+  pathname: string;
 }) {
+  const isActive = pathname === '/boards';
+
   return (
     <SidebarMenuItem className="border-t">
       <SidebarMenuButton
-        className="my-pr-12 py-pr-4 text-14m hover:bg-b-primary"
+        className={classNames(
+          'my-pr-12 py-pr-4 text-14m hover:bg-b-primary',
+          isActive ? 'text-brand-primary' : '',
+        )}
         onClick={() => handleClick('/boards')}
       >
         <span>자유게시판</span>

@@ -1,3 +1,5 @@
+import classNames from 'classnames';
+
 import { IGroup } from '@/types/group.type';
 
 import { SidebarMenuItem, SidebarMenuButton } from '../ui/sidebar';
@@ -11,24 +13,32 @@ import { SidebarMenuItem, SidebarMenuButton } from '../ui/sidebar';
 function SideNavTeamList({
   groups,
   handleClick,
+  pathname,
 }: {
   groups: IGroup[] | null;
   handleClick: (path: string) => void;
+  pathname: string;
 }) {
   return (
     <>
       {groups ? (
-        groups.map((group) => (
-          <SidebarMenuItem key={group.id}>
-            <SidebarMenuButton
-              key={group.id}
-              onClick={() => handleClick(`/${group.id}`)}
-              className="my-pr-12 py-pr-4 text-14m transition-all duration-300 hover:bg-b-primary"
-            >
-              <span>{group.name}</span>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        ))
+        groups.map((group) => {
+          const isActive = pathname === `/${group.id}`;
+          return (
+            <SidebarMenuItem key={group.id}>
+              <SidebarMenuButton
+                key={group.id}
+                onClick={() => handleClick(`/${group.id}`)}
+                className={classNames(
+                  'my-pr-12 py-pr-4 text-14m transition-all duration-300 hover:bg-b-primary',
+                  isActive ? 'text-brand-primary' : '',
+                )}
+              >
+                <span>{group.name}</span>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          );
+        })
       ) : (
         <SidebarMenuItem className="my-pr-12 text-center text-14m text-t-default">
           소속된 팀이 없습니다.
