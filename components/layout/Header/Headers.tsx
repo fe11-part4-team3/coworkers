@@ -1,6 +1,6 @@
 'use client';
 
-import { useDeviceType } from '@/contexts/DeviceTypeContext';
+import { DeviceType, useDeviceType } from '@/contexts/DeviceTypeContext';
 import useUser from '@/hooks/useUser';
 import DarkmodeToggle from '@/components/DarkmodeToggle';
 
@@ -9,9 +9,8 @@ import HeadersGnb from './HeadersGnb';
 import HeadersSideNav from './HeadersSideNav';
 import HeadersProfileDropDown from './HeadersProfileDropDown';
 
-function isMobileGnb(isMobile: boolean) {
-  if (isMobile) return <HeadersSideNav />;
-  return <HeadersGnb />;
+function renderGnb(type: DeviceType) {
+  return type === 'mobile' ? <HeadersSideNav /> : <HeadersGnb />;
 }
 
 function Headers() {
@@ -24,7 +23,7 @@ function Headers() {
       <div className="mx-auto flex h-pr-60 w-pr-1280 items-center justify-between px-pr-40 mo:px-pr-16 ta:px-pr-25">
         <div className="flex items-center gap-x-pr-24 mo:flex-row-reverse mo:gap-x-pr-16">
           <Logo className="mo:flex-1" />
-          {user && isMobileGnb(deviceType === 'mobile')}
+          {user && renderGnb(deviceType)}
         </div>
 
         <div className="flex items-center">
