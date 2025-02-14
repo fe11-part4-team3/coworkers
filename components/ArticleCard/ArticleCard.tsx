@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { IArticle } from '@/types/article.type';
+import { ArticleCardProps } from '@/types/article.type';
 import { dotDate } from '@/utils/dateConversion';
 import BestMedal from '@/public/images/icon-medal.svg';
 import ArticleCardContent from '@/components/ArticleCard/ArticleCardContent';
@@ -22,11 +22,7 @@ function ArticleCard({
   type = 'normal',
   articleData,
   handleArticleDelete,
-}: {
-  type?: 'normal' | 'best';
-  articleData: IArticle;
-  handleArticleDelete?: (id: number) => void;
-}) {
+}: ArticleCardProps) {
   const { id, title, image, createdAt, writer, likeCount } = articleData;
   const isBestCard = type === 'best';
 

@@ -58,23 +58,36 @@ interface UnlikeArticleParams {
   articleId: number;
 }
 
-interface ArticleCardProps {
+interface ArticleDelete {
+  handleArticleDelete?: (id: number) => void;
+}
+
+interface IWriter {
+  id: number;
+  nickname?: string;
+}
+
+interface ArticleCardProps extends ArticleDelete {
+  type?: 'normal' | 'best';
+  articleData: IArticle;
+  handleArticleDelete?: (id: number) => void;
+}
+
+interface ArticleProps extends ArticleDelete {
   id: number;
   isBestCard: boolean;
   handleArticleDelete?: (id: number) => void;
 }
 
-interface ArticleCardContentProps extends ArticleCardProps {
+interface ArticleCardContentProps extends ArticleProps {
   title: string;
   image: string | null;
-  writer: {
-    id: number;
-  };
+  writer: IWriter;
 }
 
-interface ArticleCardFooterProps extends ArticleCardProps {
+interface ArticleCardFooterProps extends ArticleProps {
   id: number;
-  writer: { nickname: string; id: number };
+  writer: IWriter;
   createdAt: string;
   likeCount: number;
 }
@@ -90,6 +103,8 @@ export type {
   DeleteArticleDetailParams,
   LikeArticleParams,
   UnlikeArticleParams,
+  IWriter,
+  ArticleCardProps,
   ArticleCardContentProps,
   ArticleCardFooterProps,
 };
