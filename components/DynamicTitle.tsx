@@ -39,7 +39,7 @@ export default function DynamicTitle() {
   const keyword = searchParams.get('q');
 
   // 그룹 이름, 할 일 리스트
-  const { group, taskLists } = useGroup(Number(taskId));
+  const { group, taskLists } = useGroup();
 
   useEffect(() => {
     const pathSegments = pathname.split('/').filter(Boolean);

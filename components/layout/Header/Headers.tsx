@@ -1,5 +1,7 @@
 'use client';
 
+import React from 'react';
+
 import { DeviceType, useDeviceType } from '@/contexts/DeviceTypeContext';
 import useUser from '@/hooks/useUser';
 import DarkmodeToggle from '@/components/DarkmodeToggle';

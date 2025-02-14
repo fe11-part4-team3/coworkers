@@ -1,8 +1,7 @@
 'use client';
 
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import React from 'react';
 
 import Container from '@/components/layout/Container';
 import useUser from '@/hooks/useUser';
@@ -37,34 +36,30 @@ import GroupReport from './GroupReport';
 
 export default function TeamPage() {
   const router = useRouter();
-  const { memberships, reload: refetchUser } = useUser(true);
-  const params = useParams();
-  const safeParams = React.useMemo(() => params, [params]);
-  const { teamId } = safeParams;
+  const { reload: refetchUser } = useUser(true);
   const {
     group,
+    groupId,
+    membership,
     members,
     refetch: refetchGroup,
     isPending,
-  } = useGroup(Number(teamId));
+  } = useGroup();
   const { taskLists, refetchById, removeById, removeAll } = useTaskLists();
   const { closeModal } = useModalStore();
   const { showSnackbar } = useSnackbar();
 
-  const currentMembership = memberships?.find(
-    (membership) => membership.groupId === group?.id,
-  );
-
-  const role = currentMembership?.role || 'MEMBER';
+  const role = membership?.role || 'MEMBER';
 
   const { data: tasks } = useQuery({
-    queryKey: ['tasks', group?.id],
-    queryFn: () => {
-      return group
-        ? getTasksInGroup({ id: group.id, date: new Date().toISOString() })
-        : [];
-    },
+    queryKey: groupId ? ['tasks', groupId] : [],
+    queryFn: () =>
+      getTasksInGroup({
+        id: group?.id as number,
+        date: new Date().toISOString(),
+      }),
     initialData: [],
+    enabled: !!group,
   });
 
   const { mutate: onEditGroup } = useMutation({
