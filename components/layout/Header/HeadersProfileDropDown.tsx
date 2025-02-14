@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 import { signOut } from 'next-auth/react';
 import { useQueryClient } from '@tanstack/react-query';
-import { useParams } from 'next/navigation';
 
 import Logout from '@/components/modal/Logout';
 import { removeLoginProcessed } from '@/lib/kakaoStorage';
@@ -15,12 +14,8 @@ import { Button } from '@/components/ui/button';
 import Profile from './Profile';
 
 function HeadersProfileDropDown() {
-  const params = useParams();
-  const safeParams = React.useMemo(() => params, [params]);
-  const { teamId } = safeParams;
-
   const { user, clear: clearUser } = useUser();
-  const { clear: clearGroup } = useGroup(Number(teamId));
+  const { clear: clearGroup } = useGroup();
 
   const { showSnackbar } = useSnackbar();
   const { openModal } = useModalStore();
