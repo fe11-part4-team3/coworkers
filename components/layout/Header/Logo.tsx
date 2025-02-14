@@ -2,9 +2,9 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-function Logo() {
+function Logo({ className }: { className?: string }) {
   return (
-    <Link href="/" className="flex items-center">
+    <Link href="/" className={`flex items-center ${className}`}>
       <Image
         src="/images/img-Logo.svg"
         alt="로고"
