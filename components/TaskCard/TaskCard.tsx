@@ -8,11 +8,9 @@ import type { TaskCardProps } from '@/types/taskCard.type';
 import IconText from '@/components/IconLabel';
 import TaskCheckbox from '@/components/TaskCard/TaskCheckbox';
 import KebabDropDown from '@/components/KebabDropDown';
+import { FrequencyType } from '@/types/task.type';
 
-const frequencyList: Record<
-  'ONCE' | 'DAILY' | 'WEEKLY' | 'MONTHLY' | string,
-  string
-> = {
+const frequencyList: Record<FrequencyType | string, string> = {
   DAILY: '매일 반복',
   WEEKLY: '매주 반복',
   MONTHLY: '매월 반복',
