@@ -1,8 +1,7 @@
 'use client';
 
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import React from 'react';
 
 import Container from '@/components/layout/Container';
 import useUser from '@/hooks/useUser';
@@ -15,7 +14,12 @@ import {
 import NotFound from '@/app/404/NotFound';
 import useTaskLists from '@/hooks/useTaskLists';
 import useModalStore from '@/stores/modalStore';
-import { deleteGroup, getTasksInGroup, updateGroup } from '@/service/group.api';
+import {
+  deleteGroup,
+  deleteMember,
+  getTasksInGroup,
+  updateGroup,
+} from '@/service/group.api';
 import { useSnackbar } from '@/contexts/SnackBar.context';
 
 import GroupHeader from './GroupHeader';
@@ -23,6 +27,7 @@ import GroupMemberList from './GroupMemberList';
 import GroupTaskListWrapper from './GroupTaskListWrapper';
 import {
   _CreateTaskListParams,
+  _DeleteMemberParams,
   _DeleteTaskListParams,
   _UpdateGroupParams,
   _UpdateTaskListParams,
@@ -31,34 +36,30 @@ import GroupReport from './GroupReport';
 
 export default function TeamPage() {
   const router = useRouter();
-  const { memberships, reload: refetchUser } = useUser(true);
-  const params = useParams();
-  const safeParams = React.useMemo(() => params, [params]);
-  const { teamId } = safeParams;
+  const { reload: refetchUser } = useUser(true);
   const {
     group,
+    groupId,
+    membership,
     members,
     refetch: refetchGroup,
     isPending,
-  } = useGroup(Number(teamId));
+  } = useGroup();
   const { taskLists, refetchById, removeById, removeAll } = useTaskLists();
   const { closeModal } = useModalStore();
   const { showSnackbar } = useSnackbar();
 
-  const currentMembership = memberships?.find(
-    (membership) => membership.groupId === group?.id,
-  );
-
-  const role = currentMembership?.role || 'MEMBER';
+  const role = membership?.role || 'MEMBER';
 
   const { data: tasks } = useQuery({
-    queryKey: ['tasks', group?.id],
-    queryFn: () => {
-      return group
-        ? getTasksInGroup({ id: group.id, date: new Date().toISOString() })
-        : [];
-    },
+    queryKey: groupId ? ['tasks', groupId] : [],
+    queryFn: () =>
+      getTasksInGroup({
+        id: group?.id as number,
+        date: new Date().toISOString(),
+      }),
     initialData: [],
+    enabled: !!group,
   });
 
   const { mutate: onEditGroup } = useMutation({
@@ -142,6 +143,22 @@ export default function TeamPage() {
     return deleteTaskList({ groupId: group.id, ...params });
   };
 
+  const { mutate: onDeleteMember } = useMutation({
+    mutationFn: (params: _DeleteMemberParams) => _deleteMember(params),
+    onSuccess: () => {
+      refetchGroup();
+      closeModal();
+      showSnackbar('멤버를 삭제했습니다.');
+    },
+    onError: (error) => showSnackbar(error.message, 'error'),
+  });
+  const _deleteMember = async (params: _DeleteMemberParams) => {
+    if (!group) throw new Error('삭제할 멤버의 팀이 없습니다');
+    if (role !== 'ADMIN')
+      throw new Error('관리자만 멤버를 삭제할 수 있습니다.');
+    return deleteMember({ id: group?.id, ...params });
+  };
+
   //TODO 그룹 데이터 로딩 중. 로딩 컴포넌트 보여주기
   if (!group && isPending) return null;
 
@@ -165,7 +182,12 @@ export default function TeamPage() {
           onDelete={onDeleteTaskList}
         />
         <GroupReport tasks={tasks} taskLists={taskLists} />
-        <GroupMemberList role={role} groupId={group.id} members={members} />
+        <GroupMemberList
+          role={role}
+          groupId={group.id}
+          members={members}
+          onDelete={onDeleteMember}
+        />
       </div>
     </Container>
   );
