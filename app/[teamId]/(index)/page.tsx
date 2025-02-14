@@ -15,7 +15,12 @@ import {
 import NotFound from '@/app/404/NotFound';
 import useTaskLists from '@/hooks/useTaskLists';
 import useModalStore from '@/stores/modalStore';
-import { deleteGroup, getTasksInGroup, updateGroup } from '@/service/group.api';
+import {
+  deleteGroup,
+  deleteMember,
+  getTasksInGroup,
+  updateGroup,
+} from '@/service/group.api';
 import { useSnackbar } from '@/contexts/SnackBar.context';
 
 import GroupHeader from './GroupHeader';
@@ -23,6 +28,7 @@ import GroupMemberList from './GroupMemberList';
 import GroupTaskListWrapper from './GroupTaskListWrapper';
 import {
   _CreateTaskListParams,
+  _DeleteMemberParams,
   _DeleteTaskListParams,
   _UpdateGroupParams,
   _UpdateTaskListParams,
@@ -142,6 +148,22 @@ export default function TeamPage() {
     return deleteTaskList({ groupId: group.id, ...params });
   };
 
+  const { mutate: onDeleteMember } = useMutation({
+    mutationFn: (params: _DeleteMemberParams) => _deleteMember(params),
+    onSuccess: () => {
+      refetchGroup();
+      closeModal();
+      showSnackbar('멤버를 삭제했습니다.');
+    },
+    onError: (error) => showSnackbar(error.message, 'error'),
+  });
+  const _deleteMember = async (params: _DeleteMemberParams) => {
+    if (!group) throw new Error('삭제할 멤버의 팀이 없습니다');
+    if (role !== 'ADMIN')
+      throw new Error('관리자만 멤버를 삭제할 수 있습니다.');
+    return deleteMember({ id: group?.id, ...params });
+  };
+
   //TODO 그룹 데이터 로딩 중. 로딩 컴포넌트 보여주기
   if (!group && isPending) return null;
 
@@ -165,7 +187,12 @@ export default function TeamPage() {
           onDelete={onDeleteTaskList}
         />
         <GroupReport tasks={tasks} taskLists={taskLists} />
-        <GroupMemberList role={role} groupId={group.id} members={members} />
+        <GroupMemberList
+          role={role}
+          groupId={group.id}
+          members={members}
+          onDelete={onDeleteMember}
+        />
       </div>
     </Container>
   );
