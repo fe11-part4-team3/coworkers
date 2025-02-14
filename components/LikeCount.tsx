@@ -16,6 +16,8 @@ interface LikeCountProps {
  *  readOnly : 좋아요 수 확인만 가능, 클릭 시 아무 동작 없음
  *  interactive : 클릭 시 좋아요 수 카운트되며 하트 버튼 토글
  * @param {number} likeCount - 초기 좋아요 수
+ * @param {boolean} isLiked - 좋아요를 눌렀었다면 true, 누른적이 없다면 false
+ * @param {number} articleId - 게시글 id
  * @returns {JSX.Element} 좋아요 수와 좋아요 버튼을 렌더링하는 컴포넌트
  */
 function LikeCount({ type, likeCount, isLiked, articleId }: LikeCountProps) {

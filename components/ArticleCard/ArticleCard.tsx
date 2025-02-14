@@ -17,6 +17,7 @@ const BEST_STYLE =
 /**
  * @param {'normal' | 'best'} props.type - 게시글 카드 타입 (normal type default)
  * @param {object} props.articleData - 게시글 데이터
+ * @param {Function} props.handleArticleDelete - 게시글 삭제 함수
  * @returns {JSX.Element} 베스트, 일반 게시글 카드 컴포넌트
  */
 function ArticleCard({

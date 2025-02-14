@@ -17,7 +17,6 @@ const TASK_COMMENT_STYLE =
 
 /**
  * 게시글 상세 페이지 댓글(조회, 수정) 컴포넌트
- * @param {object} props - 컴포넌트에 전달되는 props
  * @param {'article' | 'task'} [props.type='article'] - 댓글의 유형 (게시글 댓글 or 할 일 댓글)
  * @param {IArticleComment | ITaskComment} props.commentData - 댓글 데이터
  * @param {Function} props.handleDeleteClick - 댓글을 삭제하는 함수, 댓글 ID를 인수로 받습니다.

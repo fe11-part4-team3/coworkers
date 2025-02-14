@@ -19,8 +19,13 @@ import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { useSnackbar } from '@/contexts/SnackBar.context';
 import useModalStore from '@/stores/modalStore';
 import EditDelete from '@/components/modal/EditDelete';
+import { GetArticleDetailParams } from '@/types/article.type';
 
-function CommentContainer({ articleId }: { articleId: number }) {
+/**
+ * @param {number} props.articleId - 게시글 id
+ * @returns {JSX.Element} 게시글 댓글 리스트 컴포넌트
+ */
+function CommentContainer({ articleId }: GetArticleDetailParams) {
   const [commentValue, setCommentValue] = useState('');
 
   const queryClient = useQueryClient();

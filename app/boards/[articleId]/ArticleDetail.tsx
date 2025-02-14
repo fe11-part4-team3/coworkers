@@ -8,14 +8,18 @@ import LikeCount from '@/components/LikeCount';
 import WriterProfile from '@/components/WriterProfile';
 import { dotDate } from '@/utils/dateConversion';
 import { deleteArticle, getArticleDetail } from '@/service/article.api';
-import { GetArticleDetailParams } from '@/types/article.type';
 import useUser from '@/hooks/useUser';
 import { useSnackbar } from '@/contexts/SnackBar.context';
 import useModalStore from '@/stores/modalStore';
 import EditDelete from '@/components/modal/EditDelete';
+import { GetArticleDetailParams } from '@/types/article.type';
 
 import ArticleDetailSkeleton from './ArticleDetailSkeleton';
 
+/**
+ * @param {number} props.articleId - 게시글 id
+ * @returns {JSX.Element} 게시글 상세 컴포넌트
+ */
 function ArticleDetail({ articleId }: GetArticleDetailParams) {
   const { user } = useUser();
   const router = useRouter();
