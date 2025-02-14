@@ -19,7 +19,7 @@ function ArticleSearch() {
 
     if (formData.keyword) {
       router.push(`/boards?q=${formData.keyword}`);
-    } else if (formData.keyword === '') {
+    } else {
       router.push('/boards');
     }
   };
