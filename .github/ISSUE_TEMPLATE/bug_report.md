@@ -4,6 +4,7 @@ about: Create a report to help us improve
 title: ''
 labels: ''
 assignees: ''
+
 ---
 
 ## **🐛 Bug: [버그 이름] 발생**
