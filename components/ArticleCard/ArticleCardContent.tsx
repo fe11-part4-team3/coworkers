@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { CardContent } from '@/components/ui/card';
 import KebabDropDown from '@/components/KebabDropDown';
 import useUserStore from '@/stores/useUser.store';
+import { ArticleCardContentProps } from '@/types/article.type';
 
 import Highlight from './HighLight';
 
@@ -21,16 +22,7 @@ function ArticleCardContent({
   image,
   writer,
   handleArticleDelete,
-}: {
-  id: number;
-  title: string;
-  image: string | null;
-  isBestCard: boolean;
-  writer: {
-    id: number;
-  };
-  handleArticleDelete?: (id: number) => void;
-}) {
+}: ArticleCardContentProps) {
   const { user: userData } = useUserStore();
   const router = useRouter();
 

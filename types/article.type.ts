@@ -58,6 +58,27 @@ interface UnlikeArticleParams {
   articleId: number;
 }
 
+interface ArticleCardProps {
+  id: number;
+  isBestCard: boolean;
+  handleArticleDelete?: (id: number) => void;
+}
+
+interface ArticleCardContentProps extends ArticleCardProps {
+  title: string;
+  image: string | null;
+  writer: {
+    id: number;
+  };
+}
+
+interface ArticleCardFooterProps extends ArticleCardProps {
+  id: number;
+  writer: { nickname: string; id: number };
+  createdAt: string;
+  likeCount: number;
+}
+
 export type {
   IArticle,
   IArticleDetail,
@@ -69,4 +90,6 @@ export type {
   DeleteArticleDetailParams,
   LikeArticleParams,
   UnlikeArticleParams,
+  ArticleCardContentProps,
+  ArticleCardFooterProps,
 };

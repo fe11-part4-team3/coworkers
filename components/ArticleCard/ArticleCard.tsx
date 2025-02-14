@@ -60,10 +60,12 @@ function ArticleCard({
       )}
 
       <ArticleCardFooter
+        id={id}
         isBestCard={isBestCard}
         writer={writer}
         createdAt={createdAt}
         likeCount={likeCount}
+        handleArticleDelete={handleArticleDelete}
       />
     </Link>
   );
