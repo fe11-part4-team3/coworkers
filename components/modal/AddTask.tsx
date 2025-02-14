@@ -3,7 +3,6 @@ import { useState } from 'react';
 import SelectBox from '@/components/SelectBox';
 import Buttons from '@/components/Buttons';
 import CloseButton from '@/components/modal/ModalCloseButton';
-import useModalForm from '@/hooks/useModalForm';
 import { SelectOption } from '@/types/selectBox.type';
 import TextareaField from '@/components/InputField/TextareaField';
 import InputField from '@/components/InputField/InputField';
@@ -28,22 +27,13 @@ import InputField from '@/components/InputField/InputField';
  * 할 일 추가 모달
  * @param {function} onClick - 할 일 추가 버튼 클릭 시 실행되는 함수
  */
-export default function AddTask({
-  onClick: fetchData,
-}: {
-  onClick: (bodyData: object) => void;
-}) {
+export default function AddTask() {
   const [frequencyOptions] = useState<SelectOption[]>([
     { label: '한 번', value: 'ONCE' },
     { label: '매일', value: 'DAILY' },
     { label: '주 반복', value: 'WEEKLY' },
     { label: '월 반복', value: 'MONTHLY' },
   ]);
-
-  const { value, handleOnClick, updateInputValue } = useModalForm({
-    onClick: fetchData,
-    initialLength: 3,
-  });
 
   return (
     <>
@@ -56,18 +46,11 @@ export default function AddTask({
           작성해주시면 좋습니다.
         </p>
       </div>
-      <form
-        className="mt-pr-18 flex w-full flex-col gap-pr-24"
-        onSubmit={handleOnClick}
-      >
+      <form className="mt-pr-18 flex w-full flex-col gap-pr-24">
         <InputField
-          value={value[0]}
           placeholder="할 일 제목을 입력해주세요."
           label="할 일 제목"
           name="task-title"
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            updateInputValue(0, 'title', e.target.value)
-          }
         />
         <div>
           <label
@@ -81,20 +64,12 @@ export default function AddTask({
             width="w-pr-110"
             bgType="modal"
             placeholder="선택"
-            defaultValue={value[1]}
-            onValueChange={(selectedValue: string) => {
-              updateInputValue(1, 'repeatType', selectedValue);
-            }}
           />
         </div>
         <TextareaField
-          value={value[2]}
           placeholder="메모를 입력해주세요."
           label="할 일 메모"
           name="task-memo"
-          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-            updateInputValue(2, 'description', e.target.value)
-          }
         />
         <div className="modal-button-wrapper">
           <Buttons text="만들기" type="submit" />

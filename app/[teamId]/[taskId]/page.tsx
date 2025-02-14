@@ -6,7 +6,6 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import classNames from 'classnames';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 import Container from '@/components/layout/Container';
@@ -28,22 +27,26 @@ import {
   deleteTaskComment,
 } from '@/service/comment.api';
 import { useSnackbar } from '@/contexts/SnackBar.context';
+import useModalStore from '@/stores/modalStore';
+import AddTask from '@/components/modal/AddTask';
 
 export default function TaskListPage() {
   const [detailTaskId, setDetailTaskId] = useState<number | null>(null);
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [isCalendarOpen, setIsCalendarOpen] = useState<boolean>(false);
   const { showSnackbar } = useSnackbar();
-
+  const { openModal } = useModalStore();
   const ref = useRef<HTMLDivElement>(null);
-
+  const queryClient = useQueryClient();
+  const { taskLists } = useGroup();
   const pathName = usePathname();
   const groupId = Number(pathName.split('/')[1]);
   const taskListId = Number(pathName.split('/')[2]);
 
-  const { taskLists } = useGroup();
-
-  const queryClient = useQueryClient();
+  const toggleDetailTask = (taskId: number) => {
+    setDetailTaskId((prev) => (prev === taskId ? null : taskId));
+    fetchGetTaskComment.mutate(taskId);
+  };
 
   const fetchGetTaskList = useQuery({
     queryKey: [
@@ -132,6 +135,13 @@ export default function TaskListPage() {
     }
   };
 
+  // const fetchCreateTask = useMutation({
+  //   mutationFn: (body: TaskRecurringCreateDto) =>
+  //     createTask({ groupId, taskListId, body }),
+  //   onSuccess: () => fetchGetTaskList.refetch(),
+  //   onError: () => console.error('할 일 추가 실패'),
+  // });
+
   const handlePrevDate = () => {
     if (!date) return;
     setDate(subDays(date, 1));
@@ -144,11 +154,6 @@ export default function TaskListPage() {
 
   dayjs.locale('ko');
   const formattedDate = dayjs(date).format('M월 D일 (ddd)');
-
-  const toggleDetailTask = (taskId: number) => {
-    setDetailTaskId((prev) => (prev === taskId ? null : taskId));
-    fetchGetTaskComment.mutate(taskId);
-  };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -233,14 +238,18 @@ export default function TaskListPage() {
             </div>
           ))}
         </div>
-        <div className="fixed bottom-pr-48 left-1/2 flex w-full max-w-screen-xl -translate-x-1/2 items-end justify-end tamo:bottom-pr-24 tamo:pr-pr-24">
-          <Buttons
-            text="할 일 추가"
-            icon={<PlusIcon width={16} height={16} />}
-            onClick={() => {}}
-            className={classNames('w-pr-125', detailTaskId && 'hidden')}
-            rounded
-          />
+        <div
+          className={`fixed bottom-pr-48 right-pr-80 ${detailTaskId ? 'hidden' : ''}`}
+        >
+          <div className="relative flex w-pr-116 items-center">
+            <Buttons
+              text="할 일 추가"
+              rounded={true}
+              icon={true}
+              onClick={() => openModal(<AddTask />)}
+            />
+            <PlusIcon width={24} height={24} className="absolute left-pr-12" />
+          </div>
         </div>
       </Container>
     </>
