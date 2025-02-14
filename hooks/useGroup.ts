@@ -1,7 +1,9 @@
 import { getGroup } from '@/service/group.api';
 import useGroupStore from '@/stores/useGroup.store';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
+import useSafeParams from './useSafeParams';
+import useUser from './useUser';
 
 /**
  * getGroup으로 불러온 데이터를 관리합니다.
@@ -15,14 +17,16 @@ import { useCallback, useEffect } from 'react';
  * ```
  *
  * @returns
+ * - `groupId` : URL 경로의 group ID
  * - `group` : 현재 위치한 그룹 데이터. `getGroup`의 반환값
+ * - `membership` : `현재 팀에서 사용자의 멤버십`
  * - `members` : 그룹에 속한 멤버 목록 데이터. `group`에서 파싱
  * - `taskLists` : 그룹에 속한 할 일 목록 배열. `group`에서 파싱
  * - `isPending` : `getGroup` 요청 및 갱신 중
  * - `clear` : `group`과 `group`에서 파싱된 데이터를 `null`로 초기화
  * - `refetch` : `getGroup` 리페칭
  */
-const useGroup = (groupId: number | null) => {
+const useGroup = () => {
   const {
     group,
     members,
@@ -33,12 +37,20 @@ const useGroup = (groupId: number | null) => {
     clearStore,
   } = useGroupStore();
   const queryClient = useQueryClient();
+  const { teamId } = useSafeParams();
+  const groupId = Number(teamId);
+  const { memberships } = useUser(true);
+
   const { data, isPending } = useQuery({
-    queryKey: ['group'],
-    queryFn: () => {
-      return groupId ? getGroup({ id: groupId }) : null;
-    },
+    queryKey: groupId ? ['group', groupId] : [],
+    queryFn: () => getGroup({ id: groupId }),
+    enabled: !!groupId,
   });
+
+  const membership = useMemo(
+    () => memberships?.find((e) => e.groupId === groupId) || null,
+    [memberships],
+  );
 
   const storeGroup = useCallback(() => {
     setGroup(data || null);
@@ -67,7 +79,9 @@ const useGroup = (groupId: number | null) => {
   }, [data]);
 
   return {
+    groupId,
     group,
+    membership,
     members,
     taskLists,
     isPending: !!groupId && isPending,
