@@ -7,7 +7,6 @@ import { newDate, newTime } from '@/utils/dateConversion';
 import type { TaskCardProps } from '@/types/taskCard.type';
 import IconText from '@/components/IconLabel';
 import TaskCheckbox from '@/components/TaskCard/TaskCheckbox';
-import KebabDropDown from '@/components/KebabDropDown';
 
 const frequencyList: Record<
   'ONCE' | 'DAILY' | 'WEEKLY' | 'MONTHLY' | string,
@@ -58,18 +57,9 @@ function TaskCard({ type, taskData, updateTask }: TaskCardProps) {
         />
 
         {isTaskList && (
-          <>
-            <div className="ml-pr-12 mr-pr-8 mo:ml-auto">
-              <IconText type="commentCount" text={commentCount} />
-            </div>
-
-            <div className="ml-auto mo:ml-0">
-              <KebabDropDown
-                onEdit={() => alert('수정')}
-                onDelete={() => alert('삭제')}
-              />
-            </div>
-          </>
+          <div className="ml-pr-12 mr-pr-8 mo:ml-auto">
+            <IconText type="commentCount" text={commentCount} />
+          </div>
         )}
       </CardContent>
 
