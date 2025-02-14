@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 import { signOut } from 'next-auth/react';
 import { useQueryClient } from '@tanstack/react-query';
-import { useParams } from 'next/navigation';
 
 import Logout from '@/components/modal/Logout';
 import { removeLoginProcessed } from '@/lib/kakaoStorage';
