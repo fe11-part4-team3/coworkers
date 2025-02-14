@@ -146,6 +146,10 @@ const useForm = <T extends Record<string, TFormValue>>(initialValues: T) => {
     dispatch({ type: 'SET_CHANGED_FIELD', key, changed });
   }, []);
 
+  const setFormData = useCallback((key: keyof T, value: TFormValue) => {
+    dispatch({ type: 'UPDATE_FORM_FIELD', key, value });
+  }, []);
+
   return {
     initialValues,
     formData: state.formData,
@@ -153,6 +157,7 @@ const useForm = <T extends Record<string, TFormValue>>(initialValues: T) => {
     errorMessage: { ...state.errorMessage, file: fileError },
     preview,
     resetForm,
+    setFormData,
     setChangedFields,
     handleInputChange,
     handleInputBlur,
