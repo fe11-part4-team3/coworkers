@@ -2,7 +2,7 @@
 
 import { Suspense } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-// import dynamic from 'next/dynamic';
+import dynamic from 'next/dynamic';
 import { SessionProvider } from 'next-auth/react';
 
 // import '@/styles/fonts.css';
@@ -22,13 +22,13 @@ import DynamicTitle from '@/components/DynamicTitle';
 
 const queryClient = new QueryClient();
 
-/* const ReactQueryDevtools = dynamic(
+const ReactQueryDevtools = dynamic(
   () =>
     import('@tanstack/react-query-devtools').then(
       (mod) => mod.ReactQueryDevtools,
     ),
   { ssr: false },
-); */
+);
 
 export default function RootLayout({
   children,
@@ -73,7 +73,7 @@ export default function RootLayout({
                   </SidebarProvider>
                 </TooltipProvider>
               </SessionProvider>
-              {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+              <ReactQueryDevtools initialIsOpen={false} />
             </QueryClientProvider>
           </ThemeProvider>
         </DeviceTypeProvider>
