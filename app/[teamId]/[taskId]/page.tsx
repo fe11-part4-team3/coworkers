@@ -26,11 +26,13 @@ import {
   updateTaskComment,
   deleteTaskComment,
 } from '@/service/comment.api';
+import { useSnackbar } from '@/contexts/SnackBar.context';
 
 export default function TaskListPage() {
   const [detailTaskId, setDetailTaskId] = useState<number | null>(null);
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [isCalendarOpen, setIsCalendarOpen] = useState<boolean>(false);
+  const { showSnackbar } = useSnackbar();
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -66,8 +68,9 @@ export default function TaskListPage() {
           { groupId, taskListId, date: date?.toDateString() },
         ],
       });
+      showSnackbar('할 일이 수정되었습니다.');
     },
-    onError: () => console.error('할 일 수정 실패'),
+    onError: () => showSnackbar('할 일 수정할 수 없습니다.', 'error'),
   });
 
   const fetchDeleteTask = useMutation({
@@ -79,20 +82,21 @@ export default function TaskListPage() {
           { groupId, taskListId, date: date?.toDateString() },
         ],
       });
+      showSnackbar('할 일이 삭제되었습니다.');
     },
-    onError: () => console.error('할 일 삭제 실패'),
+    onError: () => showSnackbar('할 일을 삭제할 수 없습니다.', 'error'),
   });
 
   const fetchGetTaskComment = useMutation({
     mutationFn: (taskId: number) => getTaskComment({ taskId }),
-    onError: () => console.error('댓글 불러오기 실패'),
+    onError: () => showSnackbar('댓글을 불러 올 수 없습니다.', 'error'),
   });
 
   const fetchCreateTaskComment = useMutation({
     mutationFn: ({ taskId, content }: { taskId: number; content: string }) =>
       createTaskComment({ taskId, content }),
-    onError: () => console.error('댓글 작성 실패'),
     onSuccess: (_, variables) => fetchGetTaskComment.mutate(variables.taskId),
+    onError: () => showSnackbar('댓글을 작성할 수 없습니다.', 'error'),
   });
 
   const fetchUpdateTaskComment = useMutation({
@@ -105,8 +109,8 @@ export default function TaskListPage() {
       commentId: number;
       content: string;
     }) => updateTaskComment({ taskId, commentId, content }),
-    onError: () => console.error('댓글 수정 실패'),
     onSuccess: (_, variables) => fetchGetTaskComment.mutate(variables.taskId),
+    onError: () => showSnackbar('댓글을 수정할 수 없습니다.', 'error'),
   });
 
   const fetchDeleteTaskComment = useMutation({
@@ -117,8 +121,8 @@ export default function TaskListPage() {
       taskId: number;
       commentId: number;
     }) => deleteTaskComment({ taskId, commentId }),
-    onError: () => console.error('댓글 삭제 실패'),
     onSuccess: (_, variables) => fetchGetTaskComment.mutate(variables.taskId),
+    onError: () => showSnackbar('댓글을 삭제할 수 없습니다.', 'error'),
   });
 
   const handleDeleteTask = (taskId: number) => {
