@@ -38,7 +38,7 @@ export default function TaskListPage() {
   const groupId = Number(pathName.split('/')[1]);
   const taskListId = Number(pathName.split('/')[2]);
 
-  const { taskLists } = useGroup(groupId);
+  const { taskLists } = useGroup();
 
   const queryClient = useQueryClient();
 
