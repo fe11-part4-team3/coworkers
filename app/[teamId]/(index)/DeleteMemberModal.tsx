@@ -24,7 +24,7 @@ export default function DeleteMemberModal({
         onClick={closeModal}
       />
       <div className="modal-title-wrapper">
-        <h2 className="modal-title">멤버 삭제를 진행하시겠어요?</h2>
+        <h2 className="modal-title">멤버 추방을 진행하시겠어요?</h2>
       </div>
       <div className="modal-button-wrapper">
         <Buttons
@@ -35,7 +35,7 @@ export default function DeleteMemberModal({
           textColor="default"
         />
         <Buttons
-          text="삭제"
+          text="추방"
           onClick={() => handleOnClick()}
           backgroundColor="danger"
         />
