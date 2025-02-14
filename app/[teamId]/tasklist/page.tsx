@@ -1,12 +1,10 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import Link from 'next/link';
 import { useMutation } from '@tanstack/react-query';
 import classNames from 'classnames';
-import { format, subDays, addDays } from 'date-fns';
 import { useSearchParams } from 'next/navigation';
 
 import Container from '@/components/layout/Container';
@@ -32,24 +30,21 @@ import AddTask from '@/components/modal/AddTask';
 import useTaskLists from '@/hooks/useTaskLists';
 import { ITaskList } from '@/types/taskList.type';
 import createUrlString from '@/utils/createUrlString';
+import useDate from '@/hooks/useDate';
 
 export default function TaskListPage() {
   const { showSnackbar } = useSnackbar();
   const { openModal } = useModalStore();
 
-  const [date, setDate] = useState<Date>(new Date());
   const [isCalendarOpen, setIsCalendarOpen] = useState<boolean>(false);
   const [detailTaskId, setDetailTaskId] = useState<number | null>(null);
 
+  const { date, kstDate, prev, next } = useDate();
   const { groupId } = useGroup();
-  const { taskLists, refetchById } = useTaskLists({
-    date: date?.toDateString(),
-  });
+  const { taskLists, refetchById, refetchAll } = useTaskLists();
   const taskListId = Number(useSearchParams().get('id'));
   const [taskList, setTaskList] = useState<ITaskList | null>(null);
 
-  dayjs.locale('ko');
-  const formattedDate = format(date, 'M월 d일 (E)');
   const ref = useRef<HTMLDivElement>(null);
 
   const toggleDetailTask = (taskId: number) => {
@@ -125,16 +120,6 @@ export default function TaskListPage() {
     }
   };
 
-  const handlePrevDate = () => {
-    if (!date) return;
-    setDate(subDays(date, 1));
-  };
-
-  const handleNextDate = () => {
-    if (!date) return;
-    setDate(addDays(date, 1));
-  };
-
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (ref.current && !ref.current.contains(event.target as Node)) {
@@ -150,6 +135,10 @@ export default function TaskListPage() {
   }, [ref]);
 
   useEffect(() => {
+    refetchAll();
+  }, [date]);
+
+  useEffect(() => {
     const next = taskLists?.find((e) => e.id === taskListId) || null;
     setTaskList(next);
   }, [taskLists, taskListId]);
@@ -160,20 +149,14 @@ export default function TaskListPage() {
         <div className="mt-pr-40 text-t-primary">
           <h1 className="text-20b">할 일</h1>
           <div className="relative mt-pr-24 flex items-center gap-pr-12">
-            <span className="text-16m">{formattedDate}</span>
+            <span className="text-16m">{kstDate}</span>
             <div
               className="flex items-center gap-pr-4 text-b-secondary"
               onClick={() => setDetailTaskId(null)}
               ref={ref}
             >
-              <PrevButtonIcon
-                className="cursor-pointer"
-                onClick={handlePrevDate}
-              />
-              <NextButtonIcon
-                className="cursor-pointer"
-                onClick={handleNextDate}
-              />
+              <PrevButtonIcon className="cursor-pointer" onClick={prev} />
+              <NextButtonIcon className="cursor-pointer" onClick={next} />
               <CalendarButtonIcon
                 className="ml-pr-8 cursor-pointer"
                 onClick={() => setIsCalendarOpen(!isCalendarOpen)}
