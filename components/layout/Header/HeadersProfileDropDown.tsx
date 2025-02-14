@@ -15,12 +15,8 @@ import { Button } from '@/components/ui/button';
 import Profile from './Profile';
 
 function HeadersProfileDropDown() {
-  const params = useParams();
-  const safeParams = React.useMemo(() => params, [params]);
-  const { teamId } = safeParams;
-
   const { user, clear: clearUser } = useUser();
-  const { clear: clearGroup } = useGroup(Number(teamId));
+  const { clear: clearGroup } = useGroup();
 
   const { showSnackbar } = useSnackbar();
   const { openModal } = useModalStore();
