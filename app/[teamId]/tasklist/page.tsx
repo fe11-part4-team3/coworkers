@@ -7,6 +7,7 @@ import 'dayjs/locale/ko';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import classNames from 'classnames';
 
 import Container from '@/components/layout/Container';
 import PrevButtonIcon from '@/public/images/icon-prev-button.svg';
@@ -238,18 +239,14 @@ export default function TaskListPage() {
             </div>
           ))}
         </div>
-        <div
-          className={`fixed bottom-pr-48 right-pr-80 ${detailTaskId ? 'hidden' : ''}`}
-        >
-          <div className="relative flex w-pr-116 items-center">
-            <Buttons
-              text="할 일 추가"
-              rounded={true}
-              icon={true}
-              onClick={() => openModal(<AddTask />)}
-            />
-            <PlusIcon width={24} height={24} className="absolute left-pr-12" />
-          </div>
+        <div className="fixed bottom-pr-48 left-1/2 flex w-full max-w-screen-xl -translate-x-1/2 items-end justify-end tamo:bottom-pr-24 tamo:pr-pr-24">
+          <Buttons
+            text="할 일 추가"
+            icon={<PlusIcon width={16} height={16} />}
+            onClick={() => openModal(<AddTask />)}
+            className={classNames('w-pr-125', detailTaskId && 'hidden')}
+            rounded
+          />
         </div>
       </Container>
     </>
