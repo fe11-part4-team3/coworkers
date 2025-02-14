@@ -37,9 +37,9 @@ export default function TaskListPage() {
   const { showSnackbar } = useSnackbar();
   const { openModal } = useModalStore();
 
-  const [detailTaskId, setDetailTaskId] = useState<number | null>(null);
   const [date, setDate] = useState<Date>(new Date());
   const [isCalendarOpen, setIsCalendarOpen] = useState<boolean>(false);
+  const [detailTaskId, setDetailTaskId] = useState<number | null>(null);
 
   const { groupId } = useGroup();
   const { taskLists, refetchById } = useTaskLists({
@@ -124,13 +124,6 @@ export default function TaskListPage() {
       fetchDeleteTask.mutate(taskId);
     }
   };
-
-  // const fetchCreateTask = useMutation({
-  //   mutationFn: (body: TaskRecurringCreateDto) =>
-  //     createTask({ groupId, taskListId, body }),
-  //   onSuccess: () => fetchGetTaskList.refetch(),
-  //   onError: () => console.error('할 일 추가 실패'),
-  // });
 
   const handlePrevDate = () => {
     if (!date) return;
