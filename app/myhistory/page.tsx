@@ -1,34 +1,29 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-
+import { useQuery } from '@tanstack/react-query';
 import Container from '@/components/layout/Container';
 import TaskCard from '@/components/TaskCard/TaskCard';
 import Empty from '@/components/Empty/Empty';
 import { Skeleton } from '@/components/ui/skeleton';
+
 import { newDate } from '@/utils/dateConversion';
 import { getHistory } from '@/service/user.api';
 import { ITaskMetadata } from '@/types/task.type';
 
-function MyHistoryPage() {
-  const [tasksDone, setTasksDone] = useState<ITaskMetadata[]>([]);
-  const [loading, setLoading] = useState(true);
+function MyHistoryPage({ forceEmpty = false }: { forceEmpty?: boolean }) {
+  const {
+    data: tasksDone = [],
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ['tasksDone'],
+    queryFn: getHistory,
+    staleTime: 1000 * 60 * 5,
+  });
 
-  useEffect(() => {
-    const fetchHistory = async () => {
-      try {
-        const data = await getHistory();
-        setTasksDone(data ?? []);
-      } catch {
-      } finally {
-        setLoading(false);
-      }
-    };
+  const displayTasks = forceEmpty ? [] : tasksDone;
 
-    fetchHistory();
-  }, []);
-
-  const groupedTasks = tasksDone.reduce(
+  const groupedTasks = displayTasks.reduce(
     (acc, task) => {
       const date = newDate(task.doneAt ?? task.date);
       if (!acc[date]) {
@@ -49,15 +44,17 @@ function MyHistoryPage() {
       <h1 className="mb-pr-24 text-20b mo:mb-pr-27 mo:text-18b">
         마이 히스토리
       </h1>
-      {loading ? (
+      {error ? (
+        <p className="text-red-500">에러가 발생했습니다. 다시 시도해주세요.</p>
+      ) : isLoading ? (
         <div className="space-y-pr-16">
           <Skeleton className="h-pr-24 w-pr-120" />
           <Skeleton className="h-pr-64 w-full" />
           <Skeleton className="h-pr-64 w-full" />
           <Skeleton className="h-pr-64 w-full" />
         </div>
-      ) : tasksDone.length === 0 ? (
-        <Empty className="mt-pr-150">
+      ) : displayTasks.length === 0 ? (
+        <Empty>
           <Empty.TextWrapper>
             <Empty.Text text="완료한 작업이 없습니다." />
           </Empty.TextWrapper>
