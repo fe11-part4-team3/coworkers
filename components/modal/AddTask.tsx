@@ -39,7 +39,7 @@ export default function AddTask() {
 
   // 할 일 생성 뮤테이션
   const { createTaskMutation, createRecurringTaskMutation, isPending } =
-    useTaskMutation({ date: kstDate.toISOString() });
+    useTaskMutation();
 
   // 반복 유형 옵션
   const [frequencyOptions] = useState<SelectOption[]>([

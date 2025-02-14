@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { useEffect } from 'react';
 
 import Container from '@/components/layout/Container';
 import useUser from '@/hooks/useUser';
@@ -34,7 +35,6 @@ import {
   _UpdateTaskListParams,
 } from './TeamPage.type';
 import GroupReport from './GroupReport';
-import { useEffect } from 'react';
 
 export default function TeamPage() {
   const router = useRouter();
