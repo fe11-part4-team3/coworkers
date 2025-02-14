@@ -11,6 +11,7 @@ function DarkmodeToggle() {
     <button
       onClick={() => toggleTheme()}
       className="light:bg-i-inactive flex items-center rounded-full p-pr-8 transition-all duration-300 hover:bg-b-tertiary"
+      aria-label="Dark mode toggle"
     >
       {isDark ? (
         <Moon className="size-pr-20" />

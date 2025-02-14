@@ -41,3 +41,7 @@ Closes #123 (← 여기에 이슈 번호 입력)
 
 - 기능 구현이 적절한지 검토 요청
 - UX/UI 개선이 필요한 부분 피드백 요청
+
+👨‍💻 **Reviewer**: @FE 팀  
+📅 **Due Date**: YYYY-MM-DD  
+🔖 **Label**: `feature`, `frontend`
