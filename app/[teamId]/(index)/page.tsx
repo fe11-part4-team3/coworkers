@@ -21,6 +21,7 @@ import {
   updateGroup,
 } from '@/service/group.api';
 import { useSnackbar } from '@/contexts/SnackBar.context';
+import useDate from '@/hooks/useDate';
 
 import GroupHeader from './GroupHeader';
 import GroupMemberList from './GroupMemberList';
@@ -37,6 +38,7 @@ import GroupReport from './GroupReport';
 export default function TeamPage() {
   const router = useRouter();
   const { reload: refetchUser } = useUser(true);
+  const { date } = useDate();
   const {
     group,
     groupId,
@@ -56,7 +58,7 @@ export default function TeamPage() {
     queryFn: () =>
       getTasksInGroup({
         id: group?.id as number,
-        date: new Date().toISOString(),
+        date,
       }),
     initialData: [],
     enabled: !!group,

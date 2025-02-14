@@ -5,12 +5,12 @@ import { useSnackbar } from '@/contexts/SnackBar.context';
 import useModalStore from '@/stores/modalStore';
 import { createRecurring } from '@/service/recurring.api';
 
-import useTaskLists, { UseTaskListsParams } from './useTaskLists';
+import useTaskLists from './useTaskLists';
 
-export function useTaskMutation({ date }: UseTaskListsParams) {
+export function useTaskMutation() {
   const { showSnackbar } = useSnackbar();
   const { closeModal } = useModalStore();
-  const { refetchById } = useTaskLists({ date });
+  const { refetchById } = useTaskLists();
 
   const createTaskMutation = useMutation({
     mutationFn: createTask,
