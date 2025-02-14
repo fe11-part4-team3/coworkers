@@ -1,3 +1,5 @@
+import { motion } from 'framer-motion';
+
 import { ContainerProps } from '@/types/container.types';
 
 /**
@@ -13,7 +15,17 @@ export default function Container({
     <main
       className={`${className} mx-auto mt-pr-60 w-pr-1280 px-pr-40 mo:px-pr-16 ta:px-pr-25 tamo:w-full`}
     >
-      {children}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{
+          duration: 0.5,
+          delay: 0.3,
+        }}
+      >
+        {children}
+      </motion.div>
     </main>
   );
 }
