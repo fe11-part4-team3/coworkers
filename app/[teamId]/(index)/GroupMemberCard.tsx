@@ -5,10 +5,10 @@ import { useDeviceType } from '@/contexts/DeviceTypeContext';
 import Profile from '@/components/Profile/Profile';
 import useModalStore from '@/stores/modalStore';
 import MemberProfile from '@/components/modal/MemberProfile';
+import DropDown from '@/components/DropDown';
 
 import { _DeleteMemberParams } from './TeamPage.type';
 import DeleteMemberModal from './DeleteMemberModal';
-import DropDown from '@/components/DropDown';
 
 interface GroupMemberCard {
   role: RoleType;
