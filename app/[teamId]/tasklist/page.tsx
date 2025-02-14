@@ -39,9 +39,9 @@ export default function TaskListPage() {
   const [isCalendarOpen, setIsCalendarOpen] = useState<boolean>(false);
   const [detailTaskId, setDetailTaskId] = useState<number | null>(null);
 
-  const { date, kstDate, prev, next } = useDate();
+  const { kstDate, prev, next } = useDate();
   const { groupId } = useGroup();
-  const { taskLists, refetchById, refetchAll } = useTaskLists();
+  const { taskLists, refetchById } = useTaskLists();
   const taskListId = Number(useSearchParams().get('id'));
   const [taskList, setTaskList] = useState<ITaskList | null>(null);
 
@@ -133,10 +133,6 @@ export default function TaskListPage() {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [ref]);
-
-  useEffect(() => {
-    refetchAll();
-  }, [date]);
 
   useEffect(() => {
     const next = taskLists?.find((e) => e.id === taskListId) || null;

@@ -3,6 +3,7 @@ import { useQueries, useQueryClient } from '@tanstack/react-query';
 import { getTaskList } from '@/service/taskList.api';
 import useGroupStore from '@/stores/useGroup.store';
 import useDate from './useDate';
+import { useEffect } from 'react';
 
 /**
  * 특정 팀에 속한 모든 할 일 목록을 관리하기 위한 커스텀 훅입니다.
@@ -55,6 +56,10 @@ export default function useTaskLists() {
     clearStore();
     queryClient.removeQueries({ queryKey: ['taskLists'] });
   };
+
+  useEffect(() => {
+    refetchAll();
+  }, [date]);
 
   return {
     taskLists: data.length > 0 ? data : null,

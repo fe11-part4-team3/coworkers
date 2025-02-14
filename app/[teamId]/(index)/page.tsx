@@ -34,11 +34,12 @@ import {
   _UpdateTaskListParams,
 } from './TeamPage.type';
 import GroupReport from './GroupReport';
+import { useEffect } from 'react';
 
 export default function TeamPage() {
   const router = useRouter();
   const { reload: refetchUser } = useUser(true);
-  const { date } = useDate();
+  const { date, now } = useDate();
   const {
     group,
     groupId,
@@ -53,7 +54,7 @@ export default function TeamPage() {
 
   const role = membership?.role || 'MEMBER';
 
-  const { data: tasks } = useQuery({
+  const { data: tasks, refetch: refetchTasks } = useQuery({
     queryKey: groupId ? ['tasks', groupId] : [],
     queryFn: () =>
       getTasksInGroup({
@@ -160,6 +161,12 @@ export default function TeamPage() {
       throw new Error('관리자만 멤버를 삭제할 수 있습니다.');
     return deleteMember({ id: group?.id, ...params });
   };
+
+  useEffect(() => now(), []);
+
+  useEffect(() => {
+    refetchTasks();
+  }, [date]);
 
   //TODO 그룹 데이터 로딩 중. 로딩 컴포넌트 보여주기
   if (!group && isPending) return null;
