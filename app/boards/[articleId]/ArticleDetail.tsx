@@ -19,6 +19,9 @@ import ArticleDetailSkeleton from './ArticleDetailSkeleton';
 function ArticleDetail({ articleId }: GetArticleDetailParams) {
   const { user } = useUser();
   const router = useRouter();
+  const { showSnackbar } = useSnackbar();
+  const { openModal } = useModalStore();
+
   const {
     data: articleData,
     isLoading,
@@ -27,10 +30,6 @@ function ArticleDetail({ articleId }: GetArticleDetailParams) {
     queryKey: ['articleDetail', articleId],
     queryFn: () => getArticleDetail({ articleId: articleId }),
   });
-
-  const { showSnackbar } = useSnackbar();
-
-  const { openModal } = useModalStore();
 
   if (isError) return '에러가 발생했습니다.';
   if (!articleData || isLoading) return <ArticleDetailSkeleton />;
@@ -46,6 +45,8 @@ function ArticleDetail({ articleId }: GetArticleDetailParams) {
     isLiked,
     writer,
   } = articleData;
+
+  const isWriter = user?.id === writer.id;
 
   const handleArticleDelete = () => {
     openModal(
@@ -66,7 +67,7 @@ function ArticleDetail({ articleId }: GetArticleDetailParams) {
       <div className="pb-pr-27.5 pt-pr-24">
         <div className="flex justify-between">
           <p className="text-18m">{title}</p>
-          {user?.id === writer.id && (
+          {isWriter && (
             <div className="ml-pr-16 shrink">
               <KebabDropDown
                 onEdit={() => router.push(`/boards/editarticle/${articleId}`)}

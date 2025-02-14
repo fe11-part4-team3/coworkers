@@ -3,6 +3,12 @@ import Image from 'next/image';
 import { useDeviceType } from '@/contexts/DeviceTypeContext';
 import ICON_PLUS from '@/public/images/icon-plus.svg';
 
+interface ImageUploadProps {
+  preview: string | null;
+  handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleClearPreview: () => void;
+}
+
 /**
  * @param {File | null} props.fileValue - 현재 선택된 파일
  * @param {React.Dispatch<React.SetStateAction<File | null>>} props.setFileValue - 파일 상태를 업데이트하는 함수
@@ -12,11 +18,7 @@ function ImageUpload({
   preview,
   handleFileChange,
   handleClearPreview,
-}: {
-  preview: string | null;
-  handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleClearPreview: () => void;
-}) {
+}: ImageUploadProps) {
   const deviceType = useDeviceType();
   const mobile = deviceType === 'mobile';
 

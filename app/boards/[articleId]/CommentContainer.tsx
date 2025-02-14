@@ -77,7 +77,9 @@ function CommentContainer({ articleId }: { articleId: number }) {
     },
   });
 
-  const handleCommentDelete = ({ commentId }: DeleteArticleCommentParams) => {
+  const handleCommentDeleteClick = ({
+    commentId,
+  }: DeleteArticleCommentParams) => {
     openModal(
       <EditDelete
         title="댓글"
@@ -137,7 +139,7 @@ function CommentContainer({ articleId }: { articleId: number }) {
                   type="article"
                   commentData={comment}
                   handleDeleteClick={(id) =>
-                    handleCommentDelete({ commentId: id })
+                    handleCommentDeleteClick({ commentId: id })
                   }
                   handleUpdateSubmit={(id, content) =>
                     handleUpdateSubmit({ commentId: id, content })

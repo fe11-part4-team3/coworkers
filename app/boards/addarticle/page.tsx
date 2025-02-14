@@ -34,11 +34,9 @@ export default function AddArticlePage() {
 
   const { showSnackbar } = useSnackbar();
 
-  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    handleInputChange(e);
-  };
-
-  const handleContentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>,
+  ) => {
     handleInputChange(e);
   };
 
@@ -91,7 +89,7 @@ export default function AddArticlePage() {
               name="title"
               type="text"
               value={formData.title}
-              onChange={handleTitleChange}
+              onChange={handleChange}
               label="제목"
               essential={true}
               placeholder="제목을 입력해주세요."
@@ -102,7 +100,7 @@ export default function AddArticlePage() {
             <TextareaField
               name="content"
               value={formData.content}
-              onChange={handleContentChange}
+              onChange={handleChange}
               size="lg"
               height="h-pr-240"
               label="내용"

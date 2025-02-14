@@ -33,6 +33,34 @@ interface DeleteArticleCommentParams {
   commentId: number;
 }
 
+interface CommentProps {
+  type?: 'article' | 'task';
+  commentEditContent: string;
+  isLoading: boolean;
+}
+
+interface IUser {
+  id: number;
+}
+
+interface CommentContentProps extends CommentProps {
+  writer?: IUser;
+  user?: IUser;
+  handleEditClick: () => void;
+  commentDelete: () => void;
+}
+
+interface CommentFooterProps extends CommentProps {
+  writer?: IUserProfile;
+  user?: IUserProfile;
+  commentEdit: boolean;
+  createdAt: string;
+  updatedAt: string;
+  content: string;
+  cancelEditing: () => void;
+  updateSubmit: () => void;
+}
+
 export type {
   IArticleComment,
   IArticleCommentList,
@@ -40,4 +68,6 @@ export type {
   GetArticleCommentListParams,
   UpdateArticleCommentParams,
   DeleteArticleCommentParams,
+  CommentContentProps,
+  CommentFooterProps,
 };
