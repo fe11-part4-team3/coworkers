@@ -54,11 +54,13 @@ export default function AddTask() {
     })),
   );
 
+  const kstDate = new Date();
+  kstDate.setHours(kstDate.getHours() + 9);
   const { formData, setFormData, handleInputChange, handleInputBlur } = useForm(
     {
       name: '',
       description: '',
-      startDate: new Date().toISOString(),
+      startDate: kstDate.toISOString(),
       frequencyType: 'ONCE',
       weekDays: [],
       monthDay: 1,
