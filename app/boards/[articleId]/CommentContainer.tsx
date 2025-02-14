@@ -136,10 +136,10 @@ function CommentContainer({ articleId }: { articleId: number }) {
                 <Comment
                   type="article"
                   commentData={comment}
-                  handleDeleteClick={(id) =>
+                  handleDeleteClick={(id: number) =>
                     handleCommentDelete({ commentId: id })
                   }
-                  handleUpdateSubmit={(id, content) =>
+                  handleUpdateSubmit={(id: number, content: string) =>
                     handleUpdateSubmit({ commentId: id, content })
                   }
                   isLoading={isLoading}
