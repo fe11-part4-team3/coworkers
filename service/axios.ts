@@ -80,7 +80,7 @@ const refreshToken = async (): Promise<string | null> => {
 
     localStorage.setItem('accessToken', accessToken);
     return accessToken;
-  } catch () {
+  } catch {
     localStorage.clear();
     return null;
   }
