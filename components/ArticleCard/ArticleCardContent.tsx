@@ -5,13 +5,17 @@ import { useRouter } from 'next/navigation';
 import { CardContent } from '@/components/ui/card';
 import KebabDropDown from '@/components/KebabDropDown';
 import useUserStore from '@/stores/useUser.store';
+import { ArticleCardContentProps } from '@/types/article.type';
 
 import Highlight from './HighLight';
 
 /**
+ * @param {number} props.id - 게시글 id
  * @param {boolean} props.isBestCard - 게시글 데이터
  * @param {string} props.title - 게시글 제목
  * @param {string | null} props.image - 게시글 이미지
+ * @param {object} props.writer - 게시글 작성자 id
+ * @param {Function} props.handleArticleDelete - 게시글 삭제 함수
  * @returns {JSX.Element} 게시글 카드의 제목, 이미지가 포함된 Card Content 컴포넌트
  */
 function ArticleCardContent({
@@ -21,16 +25,7 @@ function ArticleCardContent({
   image,
   writer,
   handleArticleDelete,
-}: {
-  id: number;
-  title: string;
-  image: string | null;
-  isBestCard: boolean;
-  writer: {
-    id: number;
-  };
-  handleArticleDelete?: (id: number) => void;
-}) {
+}: ArticleCardContentProps) {
   const { user: userData } = useUserStore();
   const router = useRouter();
 

@@ -1,5 +1,9 @@
 import { useSearchParams } from 'next/navigation';
 
+/**
+ * @param {string} props.title - 게시글 제목
+ * @returns {JSX.Element} 자유게시판 검색어 입력 시 제목에 키워드 마킹
+ */
 function Highlight({ title }: { title: string }) {
   const searchParams = useSearchParams();
   const keyword = searchParams.get('q') ?? undefined;

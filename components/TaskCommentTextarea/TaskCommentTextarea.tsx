@@ -1,9 +1,13 @@
+import classNames from 'classnames';
 import { ChangeEvent, useEffect, useRef } from 'react';
 
 export interface TaskCommentTextareaProps {
   value: string;
   onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
 }
+
+const commentTextareaClass =
+  "ml-pr-8 size-pr-24 shrink-0 rounded-full bg-[url('/images/icon-enter.svg')] bg-center bg-no-repeat duration-300";
 
 /**
  * @param {string} props.value - textarea 입력 값
@@ -34,7 +38,10 @@ function TaskCommentTextarea({ value, onChange }: TaskCommentTextareaProps) {
       />
       <button
         type="submit"
-        className={`${value ? 'bg-brand-primary' : 'bg-t-default'} ml-pr-8 size-pr-24 shrink-0 rounded-full bg-[url('/images/icon-enter.svg')] bg-center bg-no-repeat duration-300`}
+        className={classNames(
+          commentTextareaClass,
+          value ? 'bg-brand-primary' : 'bg-t-default',
+        )}
         disabled={!value}
       />
     </div>

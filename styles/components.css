@@ -18,7 +18,7 @@
   }
 
   .line-col {
-    @apply mx-pr-16 h-pr-12 w-pr-1 bg-b-tertiary;
+    @apply mx-pr-16 h-pr-12 w-pr-1 bg-b-tertiary mo:mx-pr-8;
   }
 
   /* modal */

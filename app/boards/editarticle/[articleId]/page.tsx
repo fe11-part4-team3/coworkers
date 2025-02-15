@@ -62,14 +62,6 @@ function EditArticlePage() {
     fetchArticleData();
   }, [articleId]);
 
-  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    handleInputChange(e);
-  };
-
-  const handleContentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    handleInputChange(e);
-  };
-
   const { mutate, isPending } = useMutation({
     mutationFn: updateArticle,
     onSuccess: () => {
@@ -118,7 +110,9 @@ function EditArticlePage() {
               name="title"
               type="text"
               value={formData.title}
-              onChange={handleTitleChange}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                handleInputChange(e);
+              }}
               label="제목"
               essential={true}
               placeholder="제목을 입력해주세요."
@@ -129,7 +123,9 @@ function EditArticlePage() {
             <TextareaField
               name="content"
               value={formData.content}
-              onChange={handleContentChange}
+              onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
+                handleInputChange(e);
+              }}
               size="lg"
               height="h-pr-240"
               label="내용"

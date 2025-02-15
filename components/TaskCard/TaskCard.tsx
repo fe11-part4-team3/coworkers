@@ -1,17 +1,16 @@
 'use client';
 
 import { useState } from 'react';
+import classNames from 'classnames';
 
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { newDate, newTime } from '@/utils/dateConversion';
 import type { TaskCardProps } from '@/types/taskCard.type';
 import IconText from '@/components/IconLabel';
 import TaskCheckbox from '@/components/TaskCard/TaskCheckbox';
+import { FrequencyType } from '@/types/task.type';
 
-const frequencyList: Record<
-  'ONCE' | 'DAILY' | 'WEEKLY' | 'MONTHLY' | string,
-  string
-> = {
+const frequencyList: Record<FrequencyType | string, string> = {
   DAILY: '매일 반복',
   WEEKLY: '매주 반복',
   MONTHLY: '매월 반복',
@@ -46,7 +45,10 @@ function TaskCard({ type, taskData, updateTask }: TaskCardProps) {
 
   return (
     <Card
-      className={`${isTaskList && 'h-pr-74'} flex w-full cursor-pointer flex-col justify-between rounded-lg border-none bg-b-secondary px-pr-18 py-pr-16`}
+      className={classNames(
+        isTaskList && 'h-pr-74',
+        'flex w-full flex-col justify-between rounded-lg border-none bg-b-secondary px-pr-18 py-pr-16',
+      )}
     >
       <CardContent className="flex items-center p-0">
         <TaskCheckbox

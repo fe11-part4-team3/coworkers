@@ -1,3 +1,5 @@
+import classNames from 'classnames';
+
 import { Skeleton } from '@/components/ui/skeleton';
 
 /**
@@ -17,13 +19,20 @@ function ArticleSkeleton({
   return Array.from({ length: count }).map((_, i) => (
     <div
       key={i}
-      className={`${isBestSkeleton ? 'h-pr-220 w-pr-387 mo:h-pr-178 ta:w-1/2' : 'h-pr-176 w-pr-590 mo:h-pr-162 ta:w-full'} flex flex-col justify-between space-y-3 rounded-xl bg-b-secondary p-pr-24 mo:w-full`}
+      className={classNames(
+        isBestSkeleton
+          ? 'h-pr-220 w-pr-387 mo:h-pr-178 ta:w-1/2'
+          : 'h-pr-176 w-pr-590 mo:h-pr-162 ta:w-full',
+        'flex flex-col justify-between space-y-3 rounded-xl bg-b-secondary p-pr-24 mo:w-full',
+      )}
     >
       <div className="space-y-2">
         <Skeleton className="h-pr-20 w-pr-60" />
         <Skeleton className="h-pr-24 w-pr-200" />
         <Skeleton
-          className={`${isBestSkeleton ? 'h-pr-24 w-pr-170 mo:hidden' : 'hidden'}`}
+          className={classNames(
+            isBestSkeleton ? 'h-pr-24 w-pr-170 mo:hidden' : 'hidden',
+          )}
         />
         <Skeleton className="h-pr-18 w-pr-80" />
       </div>
