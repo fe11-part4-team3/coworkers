@@ -111,8 +111,6 @@ const revokeGoogleAccess = async (accessToken: string) => {
     if (!response.ok) {
       throw new Error('Google 계정 연동 해제 실패');
     }
-
-    console.log('Google 계정 연동 해제 완료');
   } catch (error) {
     console.error('Google 계정 연동 해제 오류:', error);
   }
@@ -130,7 +128,6 @@ const revokeKakaoAccess = async (accessToken: string) => {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    console.log('kakao 계정 연동 해제 완료');
 
     removeProfileUpdated();
   } catch (error) {

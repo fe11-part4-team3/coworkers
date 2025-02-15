@@ -64,7 +64,6 @@ const isPublicEndpoint = (url?: string, method?: string): boolean => {
 const refreshToken = async (): Promise<string | null> => {
   const storedToken = localStorage.getItem('refreshToken');
   if (!storedToken) {
-    console.log('로그인 세션 만료');
     return null;
   }
 
@@ -81,9 +80,8 @@ const refreshToken = async (): Promise<string | null> => {
 
     localStorage.setItem('accessToken', accessToken);
     return accessToken;
-  } catch (error) {
+  } catch () {
     localStorage.clear();
-    console.log('로그인 세션 만료');
     return null;
   }
 };

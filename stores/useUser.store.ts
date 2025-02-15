@@ -54,7 +54,6 @@ const useUserStore = create(
     {
       name: 'user-store',
       onRehydrateStorage: () => (state) => {
-        console.log('Rehydration finished. Current state:', state);
         // 재수화가 완료되면 토큰을 강제로 업데이트합니다.
         state?.setToken();
       },
