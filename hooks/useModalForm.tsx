@@ -19,12 +19,16 @@ import useModalStore from '@/stores/modalStore';
  *    newValue - 업데이트 할 값인데 그냥 웬만해선 e.target.value 넣어주시면 됩니다.
  */
 
+interface BodyData {
+  [key: string]: any;
+}
+
 export default function useModalForm({
   onClick: fetchData,
   initialLength = 1,
   body,
 }: {
-  onClick: (bodyData: object) => void;
+  onClick: any;
   initialLength?: number;
   body?: object;
 }) {
@@ -32,32 +36,64 @@ export default function useModalForm({
   const [bodyData, setBodyData] = useState<object>(body || {});
   const { closeModal } = useModalStore();
 
-  const updateInputValue = (index: number, name: string, newValue: string) => {
+  const updateInputValue = (
+    index: number,
+    name: string,
+    newValue: any,
+    existedKey?: string,
+  ) => {
     const updatedValue = [...value];
     updatedValue[index] = newValue;
     setValue(updatedValue);
-    setBodyData({ ...bodyData, [name]: newValue });
+
+    const updatedBodyData = { ...bodyData, [name]: newValue };
+    if (existedKey && updatedBodyData.hasOwnProperty(existedKey)) {
+      delete updatedBodyData[existedKey];
+    }
+    setBodyData(updatedBodyData);
+  };
+
+  const deleteInputValue = (index: number, name: string) => {
+    const updatedValue = value.filter((_, i) => index !== i);
+
+    const updatedBodyData: BodyData = { ...bodyData };
+    delete updatedBodyData[name];
+
+    setValue(updatedValue);
+    setBodyData(updatedBodyData);
   };
 
   const validateInput = () => {
-    const trimmedValue = value.every(
-      (item) => item.trim() !== '' && item !== '',
-    );
-    if (!trimmedValue) {
+    const trimmedValue = value.every((item) => {
+      if (typeof item === 'string') {
+        return item.trim() !== '';
+      }
+      if (typeof item === 'number') {
+        return item !== 0;
+      }
+      if (Array.isArray(item)) {
+        return Object.keys(item).length > 0;
+      }
       return false;
-    }
-    return true;
+    });
+
+    return trimmedValue;
   };
 
   const handleOnClick = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
     if (!validateInput()) {
-      e.preventDefault();
       return alert('항목을 입력해주세요.');
     }
 
-    fetchData(bodyData);
+    try {
+      fetchData(bodyData);
+    } catch (error) {
+      console.error(error);
+    }
     closeModal();
   };
 
-  return { value, handleOnClick, updateInputValue };
+  return { value, handleOnClick, updateInputValue, deleteInputValue };
 }

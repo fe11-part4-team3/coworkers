@@ -1,6 +1,9 @@
+import { useQueries, useQueryClient } from '@tanstack/react-query';
+
 import { getTaskList } from '@/service/taskList.api';
 import useGroupStore from '@/stores/useGroup.store';
-import { useQueries, useQueryClient } from '@tanstack/react-query';
+import useDate from './useDate';
+import { useEffect } from 'react';
 
 /**
  * 특정 팀에 속한 모든 할 일 목록을 관리하기 위한 커스텀 훅입니다.
@@ -14,25 +17,26 @@ import { useQueries, useQueryClient } from '@tanstack/react-query';
  */
 export default function useTaskLists() {
   const queryClient = useQueryClient();
+  const { date } = useDate();
   const { taskLists, setTaskLists, clearStore } = useGroupStore();
 
-  const queries = useQueries({
+  const { data, isPending, error } = useQueries({
     queries:
       taskLists?.map(({ id, groupId }) => ({
         queryKey: ['taskList', id],
-        queryFn: () =>
-          getTaskList({ groupId, id, date: new Date().toISOString() }),
-        initialData: null,
+        queryFn: () => getTaskList({ groupId, id, date }),
+        staleTime: 1000 * 60 * 5,
       })) || [],
+    combine: (results) => {
+      return {
+        data: results
+          .map((result) => result.data)
+          .filter((el) => el !== null && el !== undefined),
+        isPending: results.some((result) => result.isPending),
+        error: results.find((result) => result.error)?.error,
+      };
+    },
   });
-
-  const data = queries
-    .map((query) => query.data)
-    .filter((el) => el !== null && el !== undefined);
-
-  const isPending = queries.some((query) => query.isPending);
-
-  const error = queries.find((query) => query.error)?.error;
 
   const refetchById = async (id: number) =>
     await queryClient.refetchQueries({ queryKey: ['taskList', id] });
@@ -52,6 +56,10 @@ export default function useTaskLists() {
     clearStore();
     queryClient.removeQueries({ queryKey: ['taskLists'] });
   };
+
+  useEffect(() => {
+    refetchAll();
+  }, [date]);
 
   return {
     taskLists: data.length > 0 ? data : null,

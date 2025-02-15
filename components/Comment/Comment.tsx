@@ -50,6 +50,7 @@ const TASK_COMMENT_STYLE =
   })}
  */
 function Comment({
+  taskId,
   type = 'article',
   commentData,
   handleDeleteClick,
@@ -78,7 +79,8 @@ function Comment({
   // Dropdown 삭제하기
   const commentDelete = () => {
     // handleDeleteClick 함수로 댓글 id를 넘겨받아 DELETE 데이터 요청 실행
-    handleDeleteClick(id);
+    if (taskId) return handleDeleteClick({ taskId, commentId: id });
+    else return handleDeleteClick(id);
   };
 
   // textarea value onChange
@@ -94,16 +96,25 @@ function Comment({
 
   // 수정 완료
   const updateSubmit = () => {
-    openModal(
-      <EditDelete
-        title="댓글"
-        actionType="수정"
-        onClick={() => {
-          handleUpdateSubmit(id, commentEditContent);
-          setCommentEdit(false);
-        }}
-      />,
-    );
+    setCommentEdit(false);
+
+    if (taskId)
+      return handleUpdateSubmit({
+        taskId,
+        commentId: id,
+        content: commentEditContent,
+      });
+    else
+      return openModal(
+        <EditDelete
+          title="댓글"
+          actionType="수정"
+          onClick={() => {
+            handleUpdateSubmit(id, commentEditContent);
+            setCommentEdit(false);
+          }}
+        />,
+      );
   };
 
   return (

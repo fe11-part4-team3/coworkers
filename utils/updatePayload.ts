@@ -100,7 +100,15 @@ const updatePayloadSubmit = async <T>({
           throw new Error('이미지 업로드 실패');
         }
       } else {
-        payload[key] = value;
+        // TFormValue 타입이 Date인 경우 string으로 변환
+        if (value instanceof Date) {
+          payload[key] = value.toISOString();
+        } else if (Array.isArray(value)) {
+          // 배열인 경우 처리하지 않음
+          return;
+        } else {
+          payload[key] = value;
+        }
       }
     }),
   );

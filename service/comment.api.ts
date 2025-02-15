@@ -10,7 +10,7 @@ import instance from './axios';
 
 const getTaskComment = async ({
   taskId,
-}: GetTaskCommentParams): Promise<string> => {
+}: GetTaskCommentParams): Promise<ITaskComment[]> => {
   const response = await instance.get(`/tasks/${taskId}/comments`);
   return response.data;
 };

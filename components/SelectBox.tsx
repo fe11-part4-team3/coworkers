@@ -51,7 +51,7 @@ export default function SelectBox({
           <ICON_ARROW_FILLEND width={24} height={24} />
         </SelectTrigger>
         <SelectContent
-          className={`mt-pr-8 h-full w-auto min-w-pr-90 overflow-hidden rounded-xl border border-b-tertiary bg-b-secondary text-center text-16 text-t-default mo:text-14 ${width && widthStyledSliceWPr(width)}`}
+          className={`mt-pr-8 h-full max-h-pr-200 w-auto min-w-pr-90 overflow-hidden rounded-xl border border-b-tertiary bg-b-secondary text-center text-16 text-t-default mo:text-14 ${width && widthStyledSliceWPr(width)}`}
         >
           {options.map((option) => (
             <SelectItem

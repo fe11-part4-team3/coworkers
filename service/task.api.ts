@@ -64,16 +64,10 @@ const updateTask = async ({
   groupId,
   taskListId,
   taskId,
-  name,
-  description,
-  done,
+  body,
 }: UpdateTaskParams): Promise<ITaskMetadata> => {
   const path = `/groups/${groupId}/task-lists/${taskListId}/tasks/${taskId}`;
-  const response = await instance.patch(path, {
-    name,
-    description,
-    done,
-  });
+  const response = await instance.patch(path, body);
   return response.data;
 };
 
