@@ -114,6 +114,7 @@ function CommentFooter({
             border="primary"
             onClick={updateSubmit}
             backgroundColor="none"
+            textColor="primary"
             size="S"
             className="w-pr-74"
           />
