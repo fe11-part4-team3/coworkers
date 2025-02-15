@@ -55,6 +55,26 @@ const DrawerContent = React.forwardRef<
 ));
 DrawerContent.displayName = 'DrawerContent';
 
+const CustomDrawerContent = React.forwardRef<
+  React.ElementRef<typeof DrawerPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content>
+>(({ className, children, ...props }, ref) => (
+  <DrawerPortal>
+    <DrawerOverlay />
+    <DrawerPrimitive.Content
+      ref={ref}
+      className={cn(
+        'fixed z-50 flex h-auto flex-col border bg-background',
+        className,
+      )}
+      {...props}
+    >
+      {children}
+    </DrawerPrimitive.Content>
+  </DrawerPortal>
+));
+DrawerContent.displayName = 'CustomDrawerContent';
+
 const DrawerHeader = ({
   className,
   ...props
@@ -111,6 +131,7 @@ export {
   DrawerTrigger,
   DrawerClose,
   DrawerContent,
+  CustomDrawerContent,
   DrawerHeader,
   DrawerFooter,
   DrawerTitle,
