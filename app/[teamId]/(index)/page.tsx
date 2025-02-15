@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { useEffect } from 'react';
 
 import Container from '@/components/layout/Container';
 import useUser from '@/hooks/useUser';
@@ -21,6 +22,7 @@ import {
   updateGroup,
 } from '@/service/group.api';
 import { useSnackbar } from '@/contexts/SnackBar.context';
+import useDate from '@/hooks/useDate';
 
 import GroupHeader from './GroupHeader';
 import GroupMemberList from './GroupMemberList';
@@ -37,6 +39,7 @@ import GroupReport from './GroupReport';
 export default function TeamPage() {
   const router = useRouter();
   const { reload: refetchUser } = useUser(true);
+  const { date, now } = useDate();
   const {
     group,
     groupId,
@@ -51,12 +54,12 @@ export default function TeamPage() {
 
   const role = membership?.role || 'MEMBER';
 
-  const { data: tasks } = useQuery({
+  const { data: tasks, refetch: refetchTasks } = useQuery({
     queryKey: groupId ? ['tasks', groupId] : [],
     queryFn: () =>
       getTasksInGroup({
         id: group?.id as number,
-        date: new Date().toISOString(),
+        date,
       }),
     initialData: [],
     enabled: !!group,
@@ -158,6 +161,12 @@ export default function TeamPage() {
       throw new Error('관리자만 멤버를 삭제할 수 있습니다.');
     return deleteMember({ id: group?.id, ...params });
   };
+
+  useEffect(() => now(), []);
+
+  useEffect(() => {
+    refetchTasks();
+  }, [date]);
 
   //TODO 그룹 데이터 로딩 중. 로딩 컴포넌트 보여주기
   if (!group && isPending) return null;

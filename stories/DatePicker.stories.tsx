@@ -1,4 +1,5 @@
-import { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
+
 import DatePicker from '@/components/DateTimePicker/DatePicker';
 
 const meta: Meta<typeof DatePicker> = {
@@ -11,5 +12,5 @@ type Story = StoryObj<typeof DatePicker>;
 export default meta;
 
 export const Default: Story = {
-  args: { width: 'w-pr-300' },
+  args: { onDateChange: () => {} },
 };
