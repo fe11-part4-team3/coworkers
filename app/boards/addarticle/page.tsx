@@ -34,12 +34,6 @@ export default function AddArticlePage() {
 
   const { showSnackbar } = useSnackbar();
 
-  const handleChange = (
-    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>,
-  ) => {
-    handleInputChange(e);
-  };
-
   const { mutate, isPending } = useMutation({
     mutationFn: createArticle,
     onSuccess: () => {
@@ -89,7 +83,9 @@ export default function AddArticlePage() {
               name="title"
               type="text"
               value={formData.title}
-              onChange={handleChange}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                handleInputChange(e)
+              }
               label="제목"
               essential={true}
               placeholder="제목을 입력해주세요."
@@ -100,7 +96,9 @@ export default function AddArticlePage() {
             <TextareaField
               name="content"
               value={formData.content}
-              onChange={handleChange}
+              onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
+                handleInputChange(e);
+              }}
               size="lg"
               height="h-pr-240"
               label="내용"
