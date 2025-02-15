@@ -25,6 +25,7 @@ const TASK_COMMENT_STYLE =
  * @returns {JSX.Element} 게시글 상세 페이지 댓글 컴포넌트
  */
 function Comment({
+  taskId,
   type = 'article',
   commentData,
   handleDeleteClick,
@@ -48,16 +49,25 @@ function Comment({
 
   // 수정 완료
   const updateSubmit = () => {
-    openModal(
-      <EditDelete
-        title="댓글"
-        actionType="수정"
-        onClick={() => {
-          handleUpdateSubmit(id, commentEditContent);
-          setCommentEdit(false);
-        }}
-      />,
-    );
+    setCommentEdit(false);
+
+    if (taskId)
+      return handleUpdateSubmit({
+        taskId,
+        commentId: id,
+        content: commentEditContent,
+      });
+    else
+      return openModal(
+        <EditDelete
+          title="댓글"
+          actionType="수정"
+          onClick={() => {
+            handleUpdateSubmit(id, commentEditContent);
+            setCommentEdit(false);
+          }}
+        />,
+      );
   };
 
   return (

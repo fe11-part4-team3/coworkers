@@ -30,10 +30,11 @@ interface DeleteTaskCommentParams {
 }
 
 interface CommentProps {
+  taskId?: number;
   type?: 'article' | 'task';
   commentData: IArticleComment | ITaskComment;
-  handleDeleteClick: (id: number) => void;
-  handleUpdateSubmit: (id: number, commentEditContent: string) => void;
+  handleDeleteClick: any;
+  handleUpdateSubmit: any;
   isLoading?: boolean;
 }
 

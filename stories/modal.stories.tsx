@@ -2,7 +2,7 @@ import React from 'react';
 import type { Meta, StoryFn } from '@storybook/react';
 
 import useModalStore from '@/stores/modalStore';
-import AddTask from '@/components/modal/AddTask';
+// import AddTask from '@/components/modal/AddTask';
 import Modal from '@/components/modal/Modal';
 import Buttons from '@/components/Buttons';
 import Container from '@/components/layout/Container';
@@ -66,9 +66,9 @@ const Template: StoryFn = () => {
   const handleOpenAddTeam = () => {
     openModal(<AddTeam onClick={() => handleAddTask} />);
   };
-  const handleOpenAddTask = () => {
-    openModal(<AddTask onClick={() => handleAddTask} />);
-  };
+  // const handleOpenAddTask = () => {
+  //   openModal(<AddTask onClick={() => handleAddTask} />);
+  // };
   const handleOpenAddTaskList = () => {
     openModal(<AddTaskList onCreate={() => handleAddTask} />);
   };
@@ -102,7 +102,7 @@ const Template: StoryFn = () => {
           text="패스워드 변경 모달 열기"
         />
         <Buttons onClick={handleOpenAddTeam} text="팀 추가 모달 열기" />
-        <Buttons onClick={handleOpenAddTask} text="할 일 만들기 모달 열기" />
+        {/* <Buttons onClick={handleOpenAddTask} text="할 일 만들기 모달 열기" /> */}
         <Buttons onClick={handleOpenAddTaskList} text="할 일 목록 모달 열기" />
         <Buttons
           onClick={handleOpenAddList}

@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 import { IGroup } from '@/types/group.type';
 
@@ -9,14 +9,14 @@ import {
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
-  SidebarMenuButton,
   useSidebar,
 } from '../ui/sidebar';
-import GroupList from './GroupList';
 import SideNavigationTrigger from './SideNavigationTrigger';
+import SideNavGroupLabel from './SideNavGroupLabel';
+import SideNavTeamList from './SideNavTeamList';
+import SideNavDefaultList from './SideNavDefaultList';
 
 interface SNBProps {
   isPending: boolean;
@@ -26,20 +26,13 @@ interface SNBProps {
 }
 
 /**
- * 사이드 네비게이션
+ * STUB 사이드 네비게이션 최종 랜더링
  * @param props
  * @param props.groups 그룹 배열
- * @param props.loading groups 로딩 여부
- * @param props.showSkeleton 로딩 시 스켈레톤 표기 여부
- * @param props.skeletonLength 표기 스켈레톤 요소 수
  */
-export default function SideNavigation({
-  isPending,
-  groups,
-  showSkeleton,
-  skeletonLength,
-}: SNBProps) {
+function SideNavigation({ groups }: SNBProps) {
   const router = useRouter();
+  const pathname = usePathname();
   const { toggleSidebar } = useSidebar();
 
   const handleClick = (path: string) => {
@@ -50,37 +43,26 @@ export default function SideNavigation({
   return (
     <div className="fixed left-0 top-0 z-10">
       <Sidebar className="border-none">
-        <SidebarHeader className="items-end">
+        <SidebarHeader className="items-end p-pr-16">
           <SideNavigationTrigger
             src="images/icon-close.svg"
             alt="사이드 네비게이션 닫기"
           />
         </SidebarHeader>
         <SidebarContent>
-          {groups && (
-            <SidebarGroup>
-              <SidebarGroupLabel>그룹</SidebarGroupLabel>
-              <SidebarGroupContent>
-                <GroupList
-                  groups={groups}
-                  isPending={isPending}
-                  showSkeleton={showSkeleton}
-                  skeletonLength={skeletonLength}
-                  onClick={handleClick}
-                />
-              </SidebarGroupContent>
-            </SidebarGroup>
-          )}
           <SidebarGroup>
-            <SidebarGroupLabel>네비게이션</SidebarGroupLabel>
+            <SideNavGroupLabel toggleSidebar={toggleSidebar} />
             <SidebarGroupContent>
-              <SidebarMenu className="gap-pr-24">
-                <SidebarMenuButton
-                  className="text-14m"
-                  onClick={() => handleClick('/boards')}
-                >
-                  <span>자유게시판</span>
-                </SidebarMenuButton>
+              <SidebarMenu>
+                <SideNavTeamList
+                  groups={groups}
+                  handleClick={handleClick}
+                  pathname={pathname}
+                />
+                <SideNavDefaultList
+                  handleClick={handleClick}
+                  pathname={pathname}
+                />
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
@@ -89,3 +71,5 @@ export default function SideNavigation({
     </div>
   );
 }
+
+export default SideNavigation;
