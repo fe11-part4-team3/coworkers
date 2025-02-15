@@ -9,4 +9,8 @@
   .border-t-secondary {
     border-color: var(--t-secondary);
   }
+
+  .bg-sidebar {
+    @apply bg-b-secondary;
+  }
 }
