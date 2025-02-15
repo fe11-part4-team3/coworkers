@@ -1,12 +1,9 @@
 import { useQueries, useQueryClient } from '@tanstack/react-query';
-import { useEffect } from 'react';
 
 import { getTaskList } from '@/service/taskList.api';
 import useGroupStore from '@/stores/useGroup.store';
-
-export interface UseTaskListsParams {
-  date?: string;
-}
+import useDate from './useDate';
+import { useEffect } from 'react';
 
 /**
  * 특정 팀에 속한 모든 할 일 목록을 관리하기 위한 커스텀 훅입니다.
@@ -18,27 +15,28 @@ export interface UseTaskListsParams {
  * @property removeById 특정 할 일 목록 캐싱 삭제
  * @property refetchAll 모든 할 일 목록 리페칭
  */
-export default function useTaskLists({ date }: UseTaskListsParams = {}) {
+export default function useTaskLists() {
   const queryClient = useQueryClient();
+  const { date } = useDate();
   const { taskLists, setTaskLists, clearStore } = useGroupStore();
 
-  const queries = useQueries({
+  const { data, isPending, error } = useQueries({
     queries:
       taskLists?.map(({ id, groupId }) => ({
         queryKey: ['taskList', id],
-        queryFn: () =>
-          getTaskList({ groupId, id, date: date || new Date().toISOString() }),
-        initialData: null,
+        queryFn: () => getTaskList({ groupId, id, date }),
+        staleTime: 1000 * 60 * 5,
       })) || [],
+    combine: (results) => {
+      return {
+        data: results
+          .map((result) => result.data)
+          .filter((el) => el !== null && el !== undefined),
+        isPending: results.some((result) => result.isPending),
+        error: results.find((result) => result.error)?.error,
+      };
+    },
   });
-
-  const data = queries
-    .map((query) => query.data)
-    .filter((el) => el !== null && el !== undefined);
-
-  const isPending = queries.some((query) => query.isPending);
-
-  const error = queries.find((query) => query.error)?.error;
 
   const refetchById = async (id: number) =>
     await queryClient.refetchQueries({ queryKey: ['taskList', id] });
@@ -60,7 +58,7 @@ export default function useTaskLists({ date }: UseTaskListsParams = {}) {
   };
 
   useEffect(() => {
-    queryClient.invalidateQueries({ queryKey: ['taskList'] });
+    refetchAll();
   }, [date]);
 
   return {
