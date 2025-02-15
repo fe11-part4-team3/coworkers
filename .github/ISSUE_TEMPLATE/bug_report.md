@@ -40,11 +40,3 @@ assignees: ''
 
 - [ ]
 - [ ]
-
----
-
-### **📌 Assignee & Labels**
-
-👨‍💻 **Assignee**: @담당자  
-📅 **Due Date**: YYYY-MM-DD  
-🔖 **Label**: `bug`, `urgent`, `frontend/backend`
