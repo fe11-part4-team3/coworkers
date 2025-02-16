@@ -105,8 +105,6 @@ function TaskDetail({ task }: { task: ITask }) {
     createTaskCommentMutate(formData);
   };
 
-  console.log(commentValid);
-
   return (
     <CustomDrawerContent className="inset-y-0 right-0 w-pr-780 gap-pr-16 p-pr-40">
       <DrawerClose asChild style={{ position: 'static' }}>
@@ -123,7 +121,9 @@ function TaskDetail({ task }: { task: ITask }) {
       {/* SECTION - Header */}
       <DrawerHeader className="w-full gap-pr-16 p-0">
         <div className="flex items-center justify-between">
-          <DrawerTitle>{task.name}</DrawerTitle>
+          <DrawerTitle className="text-20b text-t-primary">
+            {task.name}
+          </DrawerTitle>
           <KebabDropDown onEdit={() => {}} onDelete={() => {}} />
         </div>
         <div className="flex items-center justify-between">
@@ -133,9 +133,11 @@ function TaskDetail({ task }: { task: ITask }) {
               image={task.writer?.image}
               profileSize={32}
             />
-            <span className="text-14m">{task.writer?.nickname}</span>
+            <span className="text-14m text-t-primary">
+              {task.writer?.nickname}
+            </span>
           </div>
-          <span className="text-14">{updatedAt}</span>
+          <span className="text-14 text-t-secondary">{updatedAt}</span>
         </div>
         <div className="flex items-center text-14">
           <IconLabel text={date} type="calendar" hasBar />
@@ -145,8 +147,10 @@ function TaskDetail({ task }: { task: ITask }) {
       </DrawerHeader>
 
       {/* SECTION - Description */}
-      <div className="min-h-280 text-14">
-        <DrawerDescription>{task.description}</DrawerDescription>
+      <div className="min-h-pr-200">
+        <DrawerDescription>
+          <span className="text-14 text-t-primary">{task.description}</span>
+        </DrawerDescription>
       </div>
 
       {/* SECTION - Comment */}
@@ -171,9 +175,10 @@ function TaskDetail({ task }: { task: ITask }) {
               'size-pr-24 shrink-0 rounded-full',
               commentValid ? 'bg-brand-primary' : 'bg-t-default',
             ])}
-            children={<IconEnter />}
             disabled={!commentValid}
-          />
+          >
+            <IconEnter />
+          </button>
         </form>
 
         <div>

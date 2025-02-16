@@ -73,7 +73,7 @@ const CustomDrawerContent = React.forwardRef<
     </DrawerPrimitive.Content>
   </DrawerPortal>
 ));
-DrawerContent.displayName = 'CustomDrawerContent';
+CustomDrawerContent.displayName = 'CustomDrawerContent';
 
 const DrawerHeader = ({
   className,
