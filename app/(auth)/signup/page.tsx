@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { signUp } from '@/service/auth.api';
 import useForm from '@/hooks/useForm';
@@ -21,6 +21,9 @@ const initialValues = {
 function SignupPage() {
   const { formData, handleInputChange, changedFields, errorMessage } =
     useForm(initialValues);
+
+  const [passwordConfirmationError, setPasswordConfirmationError] =
+    useState('');
 
   const { memberships } = useUser();
 
@@ -44,6 +47,33 @@ function SignupPage() {
     postSignup(formData);
   };
 
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleInputChange(e);
+
+    // 비밀번호가 변경될 때 비밀번호 확인 필드의 오류 메시지를 업데이트
+    if (
+      formData.passwordConfirmation &&
+      e.target.value !== formData.passwordConfirmation
+    ) {
+      setPasswordConfirmationError('비밀번호가 일치하지 않습니다.');
+    } else {
+      setPasswordConfirmationError('');
+    }
+  };
+
+  const handlePasswordConfirmationChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    handleInputChange(e);
+
+    // 비밀번호 확인 필드가 변경될 때 오류 메시지를 업데이트
+    if (e.target.value !== formData.password) {
+      setPasswordConfirmationError('비밀번호가 일치하지 않습니다.');
+    } else {
+      setPasswordConfirmationError('');
+    }
+  };
+
   useEffect(() => {
     if (memberships) {
       // STUB 로그인 후 가입된 그룹이 있을 때, 첫 번째 그룹으로 이동
@@ -65,7 +95,8 @@ function SignupPage() {
     ) ||
     requiredFields.some(
       (field) => errorMessage[field as keyof typeof errorMessage] !== '',
-    );
+    ) ||
+    formData.password !== formData.passwordConfirmation;
 
   return (
     <form onSubmit={handleSubmit}>
@@ -99,7 +130,7 @@ function SignupPage() {
           name="password"
           autoComplete="new-password"
           value={formData.password}
-          onChange={handleInputChange}
+          onChange={handlePasswordChange}
           errorMessage={errorMessage.password}
           placeholder="비밀번호를 입력해주세요."
           required
@@ -111,8 +142,10 @@ function SignupPage() {
           name="passwordConfirmation"
           autoComplete="new-password"
           value={formData.passwordConfirmation}
-          onChange={handleInputChange}
-          errorMessage={errorMessage.passwordConfirmation}
+          onChange={handlePasswordConfirmationChange}
+          errorMessage={
+            errorMessage.passwordConfirmation || passwordConfirmationError
+          }
           placeholder="비밀번호를 다시 한 번 입력해주세요."
           required
         />

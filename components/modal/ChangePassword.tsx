@@ -1,6 +1,7 @@
 'use client';
 
 import { useMutation } from '@tanstack/react-query';
+import { useState } from 'react';
 
 import useModalStore from '@/stores/modalStore';
 import Buttons from '@/components/Buttons';
@@ -8,6 +9,10 @@ import InputField from '@/components/InputField/InputField';
 import useForm from '@/hooks/useForm';
 import { updatePassword } from '@/service/user.api';
 
+const initialValues = {
+  password: '',
+  passwordConfirmation: '',
+};
 /**
  * 비밀번호 변경 모달 컴포넌트.
  * 변경하기 버튼 클릭 시 비밀번호 변경 기능을 제공합니다.
@@ -15,14 +20,15 @@ import { updatePassword } from '@/service/user.api';
 export default function ChangePassword() {
   const { closeModal } = useModalStore();
 
+  const [passwordConfirmationError, setPasswordConfirmationError] =
+    useState('');
+
   const {
     formData: passwordData,
     handleInputChange,
     errorMessage,
-  } = useForm({
-    passwordConfirmation: '',
-    password: '',
-  });
+    changedFields,
+  } = useForm(initialValues);
 
   const { mutate: updatePasswordMutate, isPending: isupdatePassword } =
     useMutation({
@@ -39,6 +45,44 @@ export default function ChangePassword() {
     closeModal();
   };
 
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleInputChange(e);
+
+    // 비밀번호가 변경될 때 비밀번호 확인 필드의 오류 메시지를 업데이트
+    if (
+      passwordData.passwordConfirmation &&
+      e.target.value !== passwordData.passwordConfirmation
+    ) {
+      setPasswordConfirmationError('비밀번호가 일치하지 않습니다.');
+    } else {
+      setPasswordConfirmationError('');
+    }
+  };
+
+  const handlePasswordConfirmationChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    handleInputChange(e);
+
+    // 비밀번호 확인 필드가 변경될 때 오류 메시지를 업데이트
+    if (e.target.value !== passwordData.password) {
+      setPasswordConfirmationError('비밀번호가 일치하지 않습니다.');
+    } else {
+      setPasswordConfirmationError('');
+    }
+  };
+
+  const requiredFields = Object.keys(initialValues);
+
+  const hasDisabled =
+    requiredFields.some(
+      (field) => !changedFields[field as keyof typeof changedFields],
+    ) ||
+    requiredFields.some(
+      (field) => errorMessage[field as keyof typeof errorMessage] !== '',
+    ) ||
+    passwordData.password !== passwordData.passwordConfirmation;
+
   return (
     <>
       <div className="modal-title-wrapper">
@@ -54,7 +98,7 @@ export default function ChangePassword() {
             label="새 비밀번호"
             autoComplete="new-password"
             errorMessage={errorMessage.password}
-            onChange={handleInputChange}
+            onChange={handlePasswordChange}
             required
           />
           <InputField
@@ -64,8 +108,10 @@ export default function ChangePassword() {
             autoComplete="new-password"
             placeholder="새 비밀번호를 다시 한 번 입력해주세요."
             label="새 비밀번호 확인"
-            errorMessage={errorMessage.passwordConfirmation}
-            onChange={handleInputChange}
+            errorMessage={
+              errorMessage.passwordConfirmation || passwordConfirmationError
+            }
+            onChange={handlePasswordConfirmationChange}
             required
           />
         </div>
@@ -82,13 +128,7 @@ export default function ChangePassword() {
             text="변경하기"
             type="submit"
             loading={isupdatePassword}
-            disabled={
-              isupdatePassword ||
-              !(
-                errorMessage.password === '' &&
-                errorMessage.passwordConfirmation === ''
-              )
-            }
+            disabled={hasDisabled}
           />
         </div>
       </form>
