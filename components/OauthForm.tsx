@@ -16,12 +16,7 @@ export default function OauthForm({ type }: { type: 'login' | 'signup' }) {
 
   const { data: session } = useSession();
 
-  console.log('🔹 useSession 실행 위치:', window.location.pathname);
-
   const kakaoLogin = useKakaoLogin();
-
-  // TODO 디버그를 위한 로그
-  // console.log('🔹 세션 상태:', session);
 
   // STUB 제공된 api 소셜 로그인 mutate
   const { mutateAsync: postOauthLogin } = useMutation({

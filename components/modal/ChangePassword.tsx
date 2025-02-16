@@ -7,6 +7,7 @@ import Buttons from '@/components/Buttons';
 import InputField from '@/components/InputField/InputField';
 import useForm from '@/hooks/useForm';
 import { updatePassword } from '@/service/user.api';
+import { useSnackbar } from '@/contexts/SnackBar.context';
 
 /**
  * 비밀번호 변경 모달 컴포넌트.
@@ -14,6 +15,7 @@ import { updatePassword } from '@/service/user.api';
  */
 export default function ChangePassword() {
   const { closeModal } = useModalStore();
+  const { showSnackbar } = useSnackbar();
 
   const {
     formData: passwordData,
@@ -27,10 +29,8 @@ export default function ChangePassword() {
   const { mutate: updatePasswordMutate, isPending: isupdatePassword } =
     useMutation({
       mutationFn: updatePassword,
-      onSuccess: () => {
-        alert('패스워드가 변경 되었습니다.');
-      },
-      onError: () => alert('패스워드 변경에 실패 했습니다.'),
+      onSuccess: () => showSnackbar('패스워드가 변경 되었습니다.'),
+      onError: () => showSnackbar('패스워드 변경에 실패 했습니다.', 'error'),
     });
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
