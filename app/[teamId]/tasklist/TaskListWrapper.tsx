@@ -1,3 +1,9 @@
+import { format } from 'date-fns';
+import Image from 'next/image';
+import { ChangeEvent, FormEvent, useRef, useState } from 'react';
+import classNames from 'classnames';
+import { useMutation, useQuery } from '@tanstack/react-query';
+
 import KebabDropDown from '@/components/KebabDropDown';
 import Profile from '@/components/Profile/Profile';
 import TaskCard from '@/components/TaskCard/TaskCard';
@@ -13,16 +19,12 @@ import {
 } from '@/components/ui/drawer';
 import { ITask } from '@/types/task.type';
 import { ITaskList } from '@/types/taskList.type';
-import { format } from 'date-fns';
-import Image from 'next/image';
-import { useRef, useState } from 'react';
-
 import IconLabel from '@/components/IconLabel';
 import IconEnter from '@/public/images/icon-enter.svg';
-import classNames from 'classnames';
-import { useQuery } from '@tanstack/react-query';
-import { getTaskComment } from '@/service/comment.api';
+import { createTaskComment, getTaskComment } from '@/service/comment.api';
 import Comment from '@/components/Comment/Comment';
+import useForm from '@/hooks/useForm';
+import { useSnackbar } from '@/contexts/SnackBar.context';
 
 const REPEAT = {
   ONCE: '반복 없음',
@@ -58,26 +60,52 @@ export default function TaskListWrapper({ taskList }: TaskListWrapper) {
 }
 
 function TaskDetail({ task }: { task: ITask }) {
-  const valid = true;
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const { formData, handleInputChange, errorMessage, resetForm } = useForm({
+    content: '',
+  });
+  const { showSnackbar } = useSnackbar();
+  const commentValid = formData.content.length > 0 && !errorMessage.content;
 
-  const { data: comments } = useQuery({
+  const { data: comments, refetch } = useQuery({
     queryKey: ['comments', task.id],
     queryFn: () => getTaskComment({ taskId: task.id }),
     enabled: !!task,
+  });
+
+  const { mutate: createTaskCommentMutate } = useMutation({
+    mutationFn: ({ content }: { content: string }) =>
+      createTaskComment({ taskId: task.id, content }),
+    onSuccess: () => {
+      refetch();
+      resetForm({ content: '' });
+      showSnackbar('댓글을 작성했습니다.');
+    },
   });
 
   const updatedAt = format(new Date(task.updatedAt), 'yyyy.MM.dd');
   const date = format(new Date(task.date), 'yyyy년 M월 dd일');
   const time = format(new Date(task.date), '오후 h:mm');
 
-  const handleInput = () => {
+  const resizeTextarea = () => {
     const textarea = textareaRef.current;
     if (textarea) {
       textarea.style.height = 'auto';
       textarea.style.height = `${Math.min(textarea.scrollHeight, 64)}px`;
     }
   };
+
+  const handleInput = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    resizeTextarea();
+    handleInputChange(event);
+  };
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    createTaskCommentMutate(formData);
+  };
+
+  console.log(commentValid);
 
   return (
     <CustomDrawerContent className="inset-y-0 right-0 w-pr-780 gap-pr-16 p-pr-40">
@@ -123,12 +151,16 @@ function TaskDetail({ task }: { task: ITask }) {
 
       {/* SECTION - Comment */}
       <div>
-        <div className="flex items-center border border-x-0 border-input py-pr-12">
+        <form
+          className="flex items-center border border-x-0 border-input py-pr-12"
+          onSubmit={handleSubmit}
+        >
           <textarea
             className="grow resize-none bg-transparent text-14 outline-none placeholder:text-t-default"
             ref={textareaRef}
-            name="comment"
+            name="content"
             rows={1}
+            value={formData.content}
             onChange={handleInput}
             placeholder="댓글을 달아주세요"
           />
@@ -137,11 +169,13 @@ function TaskDetail({ task }: { task: ITask }) {
             className={classNames([
               'flex items-center justify-center',
               'size-pr-24 shrink-0 rounded-full',
-              valid ? 'bg-brand-primary' : 'bg-t-default',
+              commentValid ? 'bg-brand-primary' : 'bg-t-default',
             ])}
             children={<IconEnter />}
+            disabled={!commentValid}
           />
-        </div>
+        </form>
+
         <div>
           {comments?.map((comment) => (
             <Comment

@@ -59,6 +59,12 @@ export const validateField = <T extends FormDataType>(
         errors[name] = '';
       }
       break;
+    case 'content':
+      if (value.length === 0) {
+        errors[name] = '내용은 필수 입력입니다.';
+      } else {
+        errors[name] = '';
+      }
     default:
       break;
   }
