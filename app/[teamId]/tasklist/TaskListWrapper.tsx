@@ -16,9 +16,11 @@ import { ITaskList } from '@/types/taskList.type';
 import { format } from 'date-fns';
 import dayjs from 'dayjs';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 import IconLabel from '@/components/IconLabel';
+import IconEnter from '@/public/images/icon-enter.svg';
+import classNames from 'classnames';
 
 const REPEAT = {
   ONCE: '반복 없음',
@@ -41,6 +43,7 @@ export default function TaskListWrapper({ taskList }: TaskListWrapper) {
       <Drawer direction="right">
         {taskList.tasks.map((task) => (
           <DrawerTrigger asChild key={task.id} onClick={() => setTask(task)}>
+            {/* div 박스가 없으면 trigger가 동작하지 않습니다. */}
             <div>
               <TaskCard type="taskList" taskData={task} />
             </div>
@@ -53,11 +56,22 @@ export default function TaskListWrapper({ taskList }: TaskListWrapper) {
 }
 
 function TaskDetail({ task }: { task: ITask }) {
+  const valid = true;
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
   dayjs.locale('ko');
 
   const updatedAt = format(new Date(task.updatedAt), 'yyyy.MM.dd');
   const date = format(new Date(task.date), 'yyyy년 M월 dd일');
   const time = format(new Date(task.date), '오후 h:mm');
+
+  const handleInput = () => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      textarea.style.height = 'auto';
+      textarea.style.height = `${Math.min(textarea.scrollHeight, 64)}px`;
+    }
+  };
 
   return (
     <CustomDrawerContent className="inset-y-0 right-0 w-pr-780 gap-pr-16 p-pr-40">
@@ -71,6 +85,8 @@ function TaskDetail({ task }: { task: ITask }) {
           />
         </button>
       </DrawerClose>
+
+      {/* SECTION - Header */}
       <DrawerHeader className="w-full gap-pr-16 p-0">
         <div className="flex items-center justify-between">
           <DrawerTitle>{task.name}</DrawerTitle>
@@ -93,7 +109,33 @@ function TaskDetail({ task }: { task: ITask }) {
           <IconLabel text={REPEAT[task.frequency]} type="repeat" />
         </div>
       </DrawerHeader>
-      <DrawerDescription>{task.description}</DrawerDescription>
+
+      {/* SECTION - Description */}
+      <div className="min-h-280 text-14">
+        <DrawerDescription>{task.description}</DrawerDescription>
+      </div>
+
+      {/* SECTION - Comment */}
+      <div className="flex items-center border border-x-0 border-input py-pr-12">
+        <textarea
+          className="grow resize-none bg-transparent text-14 outline-none placeholder:text-t-default"
+          ref={textareaRef}
+          name="comment"
+          rows={1}
+          onChange={handleInput}
+          placeholder="댓글을 달아주세요"
+        />
+        <button
+          type="submit"
+          className={classNames([
+            'flex items-center justify-center',
+            'size-pr-24 shrink-0 rounded-full',
+            valid ? 'bg-brand-primary' : 'bg-t-default',
+          ])}
+          children={<IconEnter />}
+        />
+      </div>
+
       <DrawerFooter></DrawerFooter>
     </CustomDrawerContent>
   );
