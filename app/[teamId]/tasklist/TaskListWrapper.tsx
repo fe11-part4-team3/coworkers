@@ -14,13 +14,15 @@ import {
 import { ITask } from '@/types/task.type';
 import { ITaskList } from '@/types/taskList.type';
 import { format } from 'date-fns';
-import dayjs from 'dayjs';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
 
 import IconLabel from '@/components/IconLabel';
 import IconEnter from '@/public/images/icon-enter.svg';
 import classNames from 'classnames';
+import { useQuery } from '@tanstack/react-query';
+import { getTaskComment } from '@/service/comment.api';
+import Comment from '@/components/Comment/Comment';
 
 const REPEAT = {
   ONCE: '반복 없음',
@@ -59,7 +61,11 @@ function TaskDetail({ task }: { task: ITask }) {
   const valid = true;
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  dayjs.locale('ko');
+  const { data: comments } = useQuery({
+    queryKey: ['comments', task.id],
+    queryFn: () => getTaskComment({ taskId: task.id }),
+    enabled: !!task,
+  });
 
   const updatedAt = format(new Date(task.updatedAt), 'yyyy.MM.dd');
   const date = format(new Date(task.date), 'yyyy년 M월 dd일');
@@ -116,24 +122,37 @@ function TaskDetail({ task }: { task: ITask }) {
       </div>
 
       {/* SECTION - Comment */}
-      <div className="flex items-center border border-x-0 border-input py-pr-12">
-        <textarea
-          className="grow resize-none bg-transparent text-14 outline-none placeholder:text-t-default"
-          ref={textareaRef}
-          name="comment"
-          rows={1}
-          onChange={handleInput}
-          placeholder="댓글을 달아주세요"
-        />
-        <button
-          type="submit"
-          className={classNames([
-            'flex items-center justify-center',
-            'size-pr-24 shrink-0 rounded-full',
-            valid ? 'bg-brand-primary' : 'bg-t-default',
-          ])}
-          children={<IconEnter />}
-        />
+      <div>
+        <div className="flex items-center border border-x-0 border-input py-pr-12">
+          <textarea
+            className="grow resize-none bg-transparent text-14 outline-none placeholder:text-t-default"
+            ref={textareaRef}
+            name="comment"
+            rows={1}
+            onChange={handleInput}
+            placeholder="댓글을 달아주세요"
+          />
+          <button
+            type="submit"
+            className={classNames([
+              'flex items-center justify-center',
+              'size-pr-24 shrink-0 rounded-full',
+              valid ? 'bg-brand-primary' : 'bg-t-default',
+            ])}
+            children={<IconEnter />}
+          />
+        </div>
+        <div>
+          {comments?.map((comment) => (
+            <Comment
+              key={comment.id}
+              type="task"
+              commentData={comment}
+              handleDeleteClick={() => {}}
+              handleUpdateSubmit={() => {}}
+            />
+          ))}
+        </div>
       </div>
 
       <DrawerFooter></DrawerFooter>
