@@ -45,7 +45,7 @@ function ImageUpload({
           <button
             type="button"
             className={`group absolute inset-0 flex items-center justify-center bg-black/40`}
-            onClick={handleClearPreview}
+            onClick={() => handleClearPreview()}
           >
             <Image
               src="/images/icon-cancel.svg"

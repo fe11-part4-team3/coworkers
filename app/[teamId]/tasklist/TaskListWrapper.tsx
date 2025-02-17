@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 
+import { ITaskList } from '@/types/taskList.type';
 import KebabDropDown from '@/components/KebabDropDown';
 import Profile from '@/components/Profile/Profile';
 import TaskCard from '@/components/TaskCard/TaskCard';
@@ -17,8 +18,8 @@ import {
   DrawerTrigger,
 } from '@/components/ui/drawer';
 import { ITask, UpdateTaskBodyParams } from '@/types/task.type';
-import { ITaskList } from '@/types/taskList.type';
 import IconLabel from '@/components/IconLabel';
+import Empty from '@/components/Empty/Empty';
 import { useSnackbar } from '@/contexts/SnackBar.context';
 import useUser from '@/hooks/useUser';
 import { deleteTask, updateTask } from '@/service/task.api';
@@ -66,30 +67,40 @@ export default function TaskListWrapper({ taskList }: TaskListWrapper) {
   if (!taskList) return null;
 
   return (
-    <div className="mb-pr-80 mt-pr-16 flex flex-col gap-pr-16">
-      <Drawer direction="right">
-        {taskList.tasks.map((task) => (
-          <DrawerTrigger asChild key={task.id}>
-            {/* div 박스가 없으면 trigger가 동작하지 않습니다. */}
-            <div>
-              <TaskCard
-                type="taskList"
-                taskData={task}
-                setTask={setTask}
-                updateTask={updateTaskMutate}
+    <>
+      {taskList.tasks.length > 0 ? (
+        <div className="mb-pr-80 mt-pr-16 flex flex-col gap-pr-16">
+          <Drawer direction="right">
+            {taskList.tasks.map((task) => (
+              <DrawerTrigger asChild key={task.id}>
+                {/* div 박스가 없으면 trigger가 동작하지 않습니다. */}
+                <div>
+                  <TaskCard
+                    type="taskList"
+                    taskData={task}
+                    setTask={setTask}
+                    updateTask={updateTaskMutate}
+                  />
+                </div>
+              </DrawerTrigger>
+            ))}
+            {task && (
+              <TaskDetail
+                taskListId={taskList.id}
+                task={task}
+                onClose={handleCloseDetail}
               />
-            </div>
-          </DrawerTrigger>
-        ))}
-        {task && (
-          <TaskDetail
-            taskListId={taskList.id}
-            task={task}
-            onClose={handleCloseDetail}
-          />
-        )}
-      </Drawer>
-    </div>
+            )}
+          </Drawer>
+        </div>
+      ) : (
+        <Empty className="mt-pr-80">
+          <Empty.TextWrapper>
+            <Empty.Text text="생성된 할 일이 없습니다." />
+          </Empty.TextWrapper>
+        </Empty>
+      )}
+    </>
   );
 }
 

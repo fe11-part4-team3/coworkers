@@ -2,7 +2,7 @@ import { uploadImage } from '@/service/image.api';
 import { TFormValue } from '@/types/useForm.type';
 
 export type UpdatePayloadParams = {
-  [key: string]: string | number | boolean | undefined | File;
+  [key: string]: string | number | boolean | undefined | File | null;
   image?: string;
 };
 
