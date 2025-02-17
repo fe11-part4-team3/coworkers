@@ -57,38 +57,6 @@ export default function TaskListPage() {
   //   onError: () => showSnackbar('할 일을 삭제할 수 없습니다.', 'error'),
   // });
 
-  // const fetchUpdateTaskComment = useMutation({
-  //   mutationFn: ({
-  //     taskId,
-  //     commentId,
-  //     content,
-  //   }: {
-  //     taskId: number;
-  //     commentId: number;
-  //     content: string;
-  //   }) => updateTaskComment({ taskId, commentId, content }),
-  //   onSuccess: (_, variables) => fetchGetTaskComment.mutate(variables.taskId),
-  //   onError: () => showSnackbar('댓글을 수정할 수 없습니다.', 'error'),
-  // });
-
-  // const fetchDeleteTaskComment = useMutation({
-  //   mutationFn: ({
-  //     taskId,
-  //     commentId,
-  //   }: {
-  //     taskId: number;
-  //     commentId: number;
-  //   }) => deleteTaskComment({ taskId, commentId }),
-  //   onSuccess: (_, variables) => fetchGetTaskComment.mutate(variables.taskId),
-  //   onError: () => showSnackbar('댓글을 삭제할 수 없습니다.', 'error'),
-  // });
-
-  // const handleDeleteTask = (taskId: number) => {
-  //   if (confirm('할 일을 삭제하시겠습니까?')) {
-  //     fetchDeleteTask.mutate(taskId);
-  //   }
-  // };
-
   // useEffect(() => {
   //   const handleClickOutside = (event: MouseEvent) => {
   //     if (ref.current && !ref.current.contains(event.target as Node)) {

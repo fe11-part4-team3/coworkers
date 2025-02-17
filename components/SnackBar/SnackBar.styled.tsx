@@ -41,7 +41,7 @@ function SnackBar({
       aria-live="assertive"
       aria-atomic="true"
       className={classNames(
-        'fixed left-1/2 top-pr-120 z-50 mx-auto -translate-x-1/2 transform mo:w-5/6',
+        'fixed left-1/2 top-pr-120 z-[60] mx-auto -translate-x-1/2 transform mo:w-5/6',
         'flex items-center gap-pr-10 px-pr-12 py-pr-10 mo:w-5/6 mo:px-pr-10 mo:py-pr-8',
         'rounded-xl text-14m shadow-xl mo:text-12m',
         'opacity-0 transition-opacity duration-300',
