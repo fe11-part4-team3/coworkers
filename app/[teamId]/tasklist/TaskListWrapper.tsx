@@ -24,12 +24,12 @@ import useUser from '@/hooks/useUser';
 import { deleteTask, updateTask } from '@/service/task.api';
 import useTaskLists from '@/hooks/useTaskLists';
 import useGroup from '@/hooks/useGroup';
-
-import TaskCommentWrapper from './TaskCommentWrapper';
 import useForm from '@/hooks/useForm';
 import InputField from '@/components/InputField/InputField';
 import TextareaField from '@/components/InputField/TextareaField';
 import Buttons from '@/components/Buttons';
+
+import TaskCommentWrapper from './TaskCommentWrapper';
 
 const REPEAT = {
   ONCE: '반복 없음',
@@ -109,6 +109,10 @@ function TaskDetail({ task, taskListId, onClose }: TaskDetailProps) {
     name: task.name,
     content: task.description || '',
   });
+  const [values, setValues] = useState({
+    name: task.name,
+    content: task.description,
+  });
 
   const updatedAt = format(new Date(task.updatedAt), 'yyyy.MM.dd');
   const date = format(new Date(task.date), 'yyyy년 M월 dd일');
@@ -125,6 +129,7 @@ function TaskDetail({ task, taskListId, onClose }: TaskDetailProps) {
       setIsEdit(false);
       refetchById(taskListId);
       showSnackbar('완료 여부를 변경했습니다.');
+      setValues({ ...formData });
     },
     onError: () => showSnackbar('완료 여부를 변경할 수 없습니다.', 'error'),
   });
@@ -179,7 +184,7 @@ function TaskDetail({ task, taskListId, onClose }: TaskDetailProps) {
                 errorMessage={errorMessage.name}
               />
             ) : (
-              <span className="text-20b text-t-primary">{formData.name}</span>
+              <span className="text-20b text-t-primary">{values.name}</span>
             )}
           </DrawerTitle>
           {user?.id === task.writer?.id && !isEdit && (
@@ -214,7 +219,7 @@ function TaskDetail({ task, taskListId, onClose }: TaskDetailProps) {
       <div className="min-h-pr-200">
         <DrawerDescription>
           {!isEdit && (
-            <span className="text-14 text-t-primary">{formData.content}</span>
+            <span className="text-14 text-t-primary">{values.content}</span>
           )}
         </DrawerDescription>
         {isEdit && (
