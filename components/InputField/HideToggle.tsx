@@ -19,7 +19,7 @@ export default function HideToggle({
     <button
       type="button"
       onClick={togglePassword}
-      className="absolute right-pr-16 top-pr-15.5"
+      className="absolute right-pr-16 top-pr-15.5 mo:top-pr-11.5"
       aria-label="Toggle Password Visibility"
     >
       {showPassword ? (
