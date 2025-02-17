@@ -105,7 +105,7 @@ function TaskDetail({ task, taskListId, onClose }: TaskDetailProps) {
   const { refetchById } = useTaskLists();
   const { showSnackbar } = useSnackbar();
   const [isEdit, setIsEdit] = useState(false);
-  const { formData, handleInputChange, errorMessage } = useForm({
+  const { formData, handleInputChange, errorMessage, resetForm } = useForm({
     name: task.name,
     content: task.description || '',
   });
@@ -155,12 +155,17 @@ function TaskDetail({ task, taskListId, onClose }: TaskDetailProps) {
     });
   };
 
+  const handleClickClose = () => {
+    setIsEdit(false);
+    resetForm();
+  };
+
   useEffect(() => {
     setIsEdit(false);
   }, [task]);
 
   return (
-    <CustomDrawerContent className="inset-y-0 right-0 w-pr-780 gap-pr-16 p-pr-40">
+    <CustomDrawerContent className="inset-y-0 right-0 w-pr-780 gap-pr-16 overflow-y-scroll p-pr-40">
       <DrawerClose asChild style={{ position: 'static' }}>
         <button className="absolute right-pr-25 top-pr-16 text-gray-500">
           <Image
@@ -216,14 +221,16 @@ function TaskDetail({ task, taskListId, onClose }: TaskDetailProps) {
       </DrawerHeader>
 
       {/* SECTION - Description */}
-      <div className="min-h-pr-200">
+      <div>
         <DrawerDescription>
           {!isEdit && (
-            <span className="text-14 text-t-primary">{values.content}</span>
+            <div className="min-h-pr-200">
+              <span className="text-14 text-t-primary">{values.content}</span>
+            </div>
           )}
         </DrawerDescription>
         {isEdit && (
-          <div>
+          <>
             <TextareaField
               height="min-h-pr-200"
               name="content"
@@ -233,7 +240,7 @@ function TaskDetail({ task, taskListId, onClose }: TaskDetailProps) {
             <div className="mt-pr-12 flex items-center justify-end gap-pr-8">
               <button
                 className="w-pr-48 text-14sb text-t-default"
-                onClick={() => setIsEdit(false)}
+                onClick={handleClickClose}
               >
                 취소
               </button>
@@ -249,7 +256,7 @@ function TaskDetail({ task, taskListId, onClose }: TaskDetailProps) {
                 className="w-pr-74"
               />
             </div>
-          </div>
+          </>
         )}
       </div>
 
