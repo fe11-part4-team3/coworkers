@@ -31,6 +31,7 @@ import TextareaField from '@/components/InputField/TextareaField';
 import Buttons from '@/components/Buttons';
 
 import TaskCommentWrapper from './TaskCommentWrapper';
+import IconTaskCheck from '@/public/images/icon-task-check.svg';
 
 const REPEAT = {
   ONCE: '반복 없음',
@@ -177,105 +178,119 @@ function TaskDetail({ task, taskListId, onClose }: TaskDetailProps) {
 
   return (
     <CustomDrawerContent
-      className="inset-y-0 right-0 w-pr-780 gap-pr-16 overflow-x-hidden overflow-y-scroll p-pr-40"
+      className="inset-y-0 right-0 w-pr-780"
       aria-hidden={false}
     >
-      <DrawerClose asChild style={{ position: 'static' }}>
-        <button className="absolute right-pr-25 top-pr-16 text-gray-500">
-          <Image
-            width={20}
-            height={20}
-            src="/images/icon-close.svg"
-            alt="닫기 버튼"
-          />
-        </button>
-      </DrawerClose>
+      <div className="flex grow flex-col gap-pr-16 overflow-x-hidden overflow-y-scroll p-pr-40">
+        <DrawerClose asChild style={{ position: 'static' }}>
+          <button className="absolute right-pr-25 top-pr-16 text-gray-500">
+            <Image
+              width={20}
+              height={20}
+              src="/images/icon-close.svg"
+              alt="닫기 버튼"
+            />
+          </button>
+        </DrawerClose>
 
-      {/* SECTION - Header */}
-      <DrawerHeader className="w-full gap-pr-16 p-0">
-        <div className="flex items-center justify-between">
-          <DrawerTitle className="grow">
-            {isEdit ? (
-              <InputField
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                errorMessage={errorMessage.name}
+        {/* SECTION - Header */}
+        <DrawerHeader className="w-full gap-pr-16 p-0">
+          <div className="flex items-center justify-between">
+            <DrawerTitle className="grow">
+              {isEdit ? (
+                <InputField
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  errorMessage={errorMessage.name}
+                />
+              ) : (
+                <span className="text-20b text-t-primary">{values.name}</span>
+              )}
+            </DrawerTitle>
+            {user?.id === task.writer?.id && !isEdit && (
+              <KebabDropDown
+                onEdit={() => setIsEdit(true)}
+                onDelete={deleteTaskMutate}
               />
-            ) : (
-              <span className="text-20b text-t-primary">{values.name}</span>
             )}
-          </DrawerTitle>
-          {user?.id === task.writer?.id && !isEdit && (
-            <KebabDropDown
-              onEdit={() => setIsEdit(true)}
-              onDelete={deleteTaskMutate}
-            />
-          )}
-        </div>
-
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-pr-12">
-            <Profile
-              variant="member"
-              image={task.writer?.image}
-              profileSize={32}
-            />
-            <span className="text-14m text-t-primary">
-              {task.writer?.nickname}
-            </span>
           </div>
-          <span className="text-14 text-t-secondary">{updatedAt}</span>
-        </div>
-        <div className="flex items-center text-14">
-          <IconLabel text={date} type="calendar" hasBar />
-          <IconLabel text={time} type="time" hasBar />
-          <IconLabel text={REPEAT[task.frequency]} type="repeat" />
-        </div>
-      </DrawerHeader>
 
-      {/* SECTION - Description */}
-      <div>
-        <DrawerDescription className={!isEdit ? 'min-h-pr-200' : ''}>
-          {!isEdit && (
-            <span className="text-14 text-t-primary">{values.content}</span>
-          )}
-        </DrawerDescription>
-        {isEdit && (
-          <>
-            <TextareaField
-              height="min-h-pr-200"
-              name="content"
-              value={formData.content}
-              onChange={handleInputChange}
-            />
-            <div className="mt-pr-12 flex items-center justify-end gap-pr-8">
-              <button
-                className="w-pr-48 text-14sb text-t-default"
-                onClick={handleClickClose}
-              >
-                취소
-              </button>
-
-              <Buttons
-                disabled={false}
-                text="수정하기"
-                border="primary"
-                onClick={handleEditTask}
-                backgroundColor="none"
-                textColor="primary"
-                size="S"
-                className="w-pr-74"
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-pr-12">
+              <Profile
+                variant="member"
+                image={task.writer?.image}
+                profileSize={32}
               />
+              <span className="text-14m text-t-primary">
+                {task.writer?.nickname}
+              </span>
             </div>
-          </>
-        )}
+            <span className="text-14 text-t-secondary">{updatedAt}</span>
+          </div>
+          <div className="flex items-center text-14">
+            <IconLabel text={date} type="calendar" hasBar />
+            <IconLabel text={time} type="time" hasBar />
+            <IconLabel text={REPEAT[task.frequency]} type="repeat" />
+          </div>
+        </DrawerHeader>
+
+        {/* SECTION - Description */}
+        <div>
+          <DrawerDescription className={!isEdit ? 'min-h-pr-200' : ''}>
+            {!isEdit && (
+              <span className="text-14 text-t-primary">{values.content}</span>
+            )}
+          </DrawerDescription>
+          {isEdit && (
+            <>
+              <TextareaField
+                height="min-h-pr-200"
+                name="content"
+                value={formData.content}
+                onChange={handleInputChange}
+              />
+              <div className="mt-pr-12 flex items-center justify-end gap-pr-8">
+                <button
+                  className="w-pr-48 text-14sb text-t-default"
+                  onClick={handleClickClose}
+                >
+                  취소
+                </button>
+
+                <Buttons
+                  disabled={false}
+                  text="수정하기"
+                  border="primary"
+                  onClick={handleEditTask}
+                  backgroundColor="none"
+                  textColor="primary"
+                  size="S"
+                  className="w-pr-74"
+                />
+              </div>
+            </>
+          )}
+        </div>
+
+        {/* SECTION - Comment */}
+        <DrawerFooter className="mt-0">
+          <TaskCommentWrapper taskId={task.id} />
+        </DrawerFooter>
       </div>
 
-      {/* SECTION - Comment */}
-      <TaskCommentWrapper taskId={task.id} />
-
-      <DrawerFooter></DrawerFooter>
+      <Buttons
+        className="fixed bottom-pr-32 right-pr-32 w-fit"
+        text={task.doneAt ? '완료 취소하기' : '완료하기'}
+        icon={<IconTaskCheck />}
+        rounded={true}
+        border={task.doneAt ? 'primary' : 'default'}
+        textColor={task.doneAt ? 'primary' : 'white'}
+        backgroundColor={task.doneAt ? 'white' : 'default'}
+        onClick={() => {}}
+        size="M"
+      />
     </CustomDrawerContent>
   );
 }
