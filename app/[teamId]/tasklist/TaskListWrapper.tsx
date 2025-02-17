@@ -1,6 +1,6 @@
 import { format } from 'date-fns';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 
 import KebabDropDown from '@/components/KebabDropDown';
@@ -26,6 +26,10 @@ import useTaskLists from '@/hooks/useTaskLists';
 import useGroup from '@/hooks/useGroup';
 
 import TaskCommentWrapper from './TaskCommentWrapper';
+import useForm from '@/hooks/useForm';
+import InputField from '@/components/InputField/InputField';
+import TextareaField from '@/components/InputField/TextareaField';
+import Buttons from '@/components/Buttons';
 
 const REPEAT = {
   ONCE: '반복 없음',
@@ -99,12 +103,30 @@ function TaskDetail({ task, taskListId, onClose }: TaskDetailProps) {
   const { user } = useUser();
   const { groupId } = useGroup();
   const { refetchById } = useTaskLists();
-
   const { showSnackbar } = useSnackbar();
+  const [isEdit, setIsEdit] = useState(false);
+  const { formData, handleInputChange, errorMessage } = useForm({
+    name: task.name,
+    content: task.description || '',
+  });
+
+  const updatedAt = format(new Date(task.updatedAt), 'yyyy.MM.dd');
+  const date = format(new Date(task.date), 'yyyy년 M월 dd일');
+  const time = format(new Date(task.date), '오후 h:mm');
 
   const { mutate: updateTaskMutate } = useMutation({
-    mutationFn: (body: UpdateTaskBodyParams) =>
-      updateTask({ groupId, taskListId, taskId: task.id, body }),
+    mutationFn: (params: { taskId: number; body: UpdateTaskBodyParams }) =>
+      updateTask({
+        groupId: groupId,
+        taskListId: taskListId,
+        ...params,
+      }),
+    onSuccess: () => {
+      setIsEdit(false);
+      refetchById(taskListId);
+      showSnackbar('완료 여부를 변경했습니다.');
+    },
+    onError: () => showSnackbar('완료 여부를 변경할 수 없습니다.', 'error'),
   });
 
   const { mutate: deleteTaskMutate } = useMutation({
@@ -117,9 +139,20 @@ function TaskDetail({ task, taskListId, onClose }: TaskDetailProps) {
     onError: () => showSnackbar('할 일을 삭제할 수 없습니다.', 'error'),
   });
 
-  const updatedAt = format(new Date(task.updatedAt), 'yyyy.MM.dd');
-  const date = format(new Date(task.date), 'yyyy년 M월 dd일');
-  const time = format(new Date(task.date), '오후 h:mm');
+  const handleEditTask = () => {
+    updateTaskMutate({
+      taskId: task.id,
+      body: {
+        name: formData.name,
+        description: formData.content,
+        done: !!task.doneAt,
+      },
+    });
+  };
+
+  useEffect(() => {
+    setIsEdit(false);
+  }, [task]);
 
   return (
     <CustomDrawerContent className="inset-y-0 right-0 w-pr-780 gap-pr-16 p-pr-40">
@@ -137,13 +170,26 @@ function TaskDetail({ task, taskListId, onClose }: TaskDetailProps) {
       {/* SECTION - Header */}
       <DrawerHeader className="w-full gap-pr-16 p-0">
         <div className="flex items-center justify-between">
-          <DrawerTitle className="text-20b text-t-primary">
-            {task.name}
+          <DrawerTitle className="grow">
+            {isEdit ? (
+              <InputField
+                name="name"
+                value={formData.name}
+                onChange={handleInputChange}
+                errorMessage={errorMessage.name}
+              />
+            ) : (
+              <span className="text-20b text-t-primary">{formData.name}</span>
+            )}
           </DrawerTitle>
-          {user?.id === task.writer?.id && (
-            <KebabDropDown onEdit={() => {}} onDelete={deleteTaskMutate} />
+          {user?.id === task.writer?.id && !isEdit && (
+            <KebabDropDown
+              onEdit={() => setIsEdit(true)}
+              onDelete={deleteTaskMutate}
+            />
           )}
         </div>
+
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-pr-12">
             <Profile
@@ -167,8 +213,39 @@ function TaskDetail({ task, taskListId, onClose }: TaskDetailProps) {
       {/* SECTION - Description */}
       <div className="min-h-pr-200">
         <DrawerDescription>
-          <span className="text-14 text-t-primary">{task.description}</span>
+          {!isEdit && (
+            <span className="text-14 text-t-primary">{formData.content}</span>
+          )}
         </DrawerDescription>
+        {isEdit && (
+          <div>
+            <TextareaField
+              height="min-h-pr-200"
+              name="content"
+              value={formData.content}
+              onChange={handleInputChange}
+            />
+            <div className="mt-pr-12 flex items-center justify-end gap-pr-8">
+              <button
+                className="w-pr-48 text-14sb text-t-default"
+                onClick={() => setIsEdit(false)}
+              >
+                취소
+              </button>
+
+              <Buttons
+                disabled={false}
+                text="수정하기"
+                border="primary"
+                onClick={handleEditTask}
+                backgroundColor="none"
+                textColor="primary"
+                size="S"
+                className="w-pr-74"
+              />
+            </div>
+          </div>
+        )}
       </div>
 
       {/* SECTION - Comment */}
