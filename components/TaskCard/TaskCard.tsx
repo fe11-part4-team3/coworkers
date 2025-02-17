@@ -1,6 +1,6 @@
 'use client';
 
-import { ChangeEvent, useRef, useState } from 'react';
+import { ChangeEvent, MouseEvent, useRef, useState } from 'react';
 import classNames from 'classnames';
 
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
@@ -30,11 +30,15 @@ function TaskCard({ type, taskData, updateTask, onClick }: TaskCardProps) {
   const frequencyText = frequencyList[frequency];
   const checkboxRef = useRef<HTMLInputElement>(null);
 
-  const handleToggleCheckbox = (event: ChangeEvent<HTMLInputElement>) => {
-    if (!checkboxRef.current?.contains(event.target as Node)) {
-      if (onClick) onClick(taskData);
+  const handleClickTaskCard = (event: MouseEvent<HTMLDivElement>) => {
+    if (checkboxRef.current?.contains(event.target as Node)) {
+      if (onClick) onClick(null);
+      return;
     }
-    if (onClick) onClick(null);
+    if (onClick) onClick(taskData);
+  };
+
+  const handleToggleCheckbox = () => {
     if (isTaskList && updateTask) {
       setIsChecked(!isChecked);
       updateTask({
@@ -54,6 +58,7 @@ function TaskCard({ type, taskData, updateTask, onClick }: TaskCardProps) {
         isTaskList && 'h-pr-74',
         'flex w-full flex-col justify-between rounded-lg border-none bg-b-secondary px-pr-18 py-pr-16',
       )}
+      onClick={handleClickTaskCard}
     >
       <CardContent className="flex items-center p-0">
         <TaskCheckbox

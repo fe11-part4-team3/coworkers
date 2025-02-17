@@ -34,7 +34,7 @@ interface TaskCheckboxProps {
   ref: Ref<HTMLInputElement>;
   name: TaskName;
   isChecked: boolean;
-  handleCheckedToggle: (event: ChangeEvent<HTMLInputElement>) => void;
+  handleCheckedToggle: () => void;
   isTaskList: boolean;
 }
 
