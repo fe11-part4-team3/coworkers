@@ -31,8 +31,9 @@ import Comment from '@/components/Comment/Comment';
 import useForm from '@/hooks/useForm';
 import { useSnackbar } from '@/contexts/SnackBar.context';
 import useUser from '@/hooks/useUser';
-import { updateTask } from '@/service/task.api';
+import { deleteTask, updateTask } from '@/service/task.api';
 import useTaskLists from '@/hooks/useTaskLists';
+import useGroup from '@/hooks/useGroup';
 
 const REPEAT = {
   ONCE: '반복 없음',
@@ -67,6 +68,8 @@ export default function TaskListWrapper({ taskList }: TaskListWrapper) {
     onError: () => showSnackbar('완료 여부를 변경할 수 없습니다.', 'error'),
   });
 
+  const handleCloseDetail = () => setTask(null);
+
   if (!taskList) return null;
 
   return (
@@ -85,20 +88,44 @@ export default function TaskListWrapper({ taskList }: TaskListWrapper) {
             </div>
           </DrawerTrigger>
         ))}
-        {task && <TaskDetail task={task} />}
+        {task && (
+          <TaskDetail
+            taskListId={taskList.id}
+            task={task}
+            onClose={handleCloseDetail}
+          />
+        )}
       </Drawer>
     </div>
   );
 }
 
-function TaskDetail({ task }: { task: ITask }) {
+interface TaskDetailProps {
+  taskListId: number;
+  task: ITask;
+  onClose: () => void;
+}
+
+function TaskDetail({ task, taskListId, onClose }: TaskDetailProps) {
   const { user } = useUser();
+  const { groupId } = useGroup();
+  const { refetchById } = useTaskLists();
   const { formData, handleInputChange, errorMessage, resetForm } = useForm({
     content: '',
   });
   const { showSnackbar } = useSnackbar();
   const commentValid = formData.content.length > 0 && !errorMessage.content;
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const { mutate: deleteTaskMutate } = useMutation({
+    mutationFn: () => deleteTask({ groupId, taskListId, taskId: task.id }),
+    onSuccess: () => {
+      refetchById(taskListId);
+      showSnackbar('할 일을 삭제했습니다.');
+      onClose();
+    },
+    onError: () => showSnackbar('할 일을 삭제할 수 없습니다.', 'error'),
+  });
 
   const { data: comments, refetch: refetchComment } = useQuery({
     queryKey: ['comments', task.id],
@@ -182,7 +209,7 @@ function TaskDetail({ task }: { task: ITask }) {
             {task.name}
           </DrawerTitle>
           {user?.id === task.writer?.id && (
-            <KebabDropDown onEdit={() => {}} onDelete={() => {}} />
+            <KebabDropDown onEdit={() => {}} onDelete={deleteTaskMutate} />
           )}
         </div>
         <div className="flex items-center justify-between">
