@@ -116,16 +116,16 @@ export default function TaskListPage() {
           ))}
         </ul>
         <TaskListWrapper taskList={taskList} />
-        <div className="fixed bottom-pr-48 left-1/2 flex w-full max-w-screen-xl -translate-x-1/2 items-end justify-end tamo:bottom-pr-24 tamo:pr-pr-24">
-          <Buttons
-            text="할 일 추가"
-            icon={<PlusIcon width={16} height={16} />}
-            onClick={() => openModal(<AddTask />)}
-            className="w-pr-125"
-            rounded
-          />
-        </div>
       </Container>
+      <div className="fixed bottom-pr-48 left-1/2 flex w-full max-w-screen-xl -translate-x-1/2 items-end justify-end tamo:bottom-pr-24 tamo:pr-pr-24">
+        <Buttons
+          text="할 일 추가"
+          icon={<PlusIcon width={16} height={16} />}
+          onClick={() => openModal(<AddTask />)}
+          className="w-pr-125"
+          rounded
+        />
+      </div>
     </>
   );
 }
