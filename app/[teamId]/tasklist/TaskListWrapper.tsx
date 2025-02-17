@@ -52,10 +52,10 @@ export default function TaskListWrapper({ taskList }: TaskListWrapper) {
     <div className="mb-pr-80 mt-pr-16 flex flex-col gap-pr-16">
       <Drawer direction="right">
         {taskList.tasks.map((task) => (
-          <DrawerTrigger asChild key={task.id} onClick={() => setTask(task)}>
+          <DrawerTrigger asChild key={task.id}>
             {/* div 박스가 없으면 trigger가 동작하지 않습니다. */}
             <div>
-              <TaskCard type="taskList" taskData={task} />
+              <TaskCard type="taskList" taskData={task} onClick={setTask} />
             </div>
           </DrawerTrigger>
         ))}
