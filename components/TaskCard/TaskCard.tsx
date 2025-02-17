@@ -8,7 +8,7 @@ import { newDate, newTime } from '@/utils/dateConversion';
 import type { TaskCardProps } from '@/types/taskCard.type';
 import IconText from '@/components/IconLabel';
 import TaskCheckbox from '@/components/TaskCard/TaskCheckbox';
-import { FrequencyType } from '@/types/task.type';
+import { FrequencyType, ITask } from '@/types/task.type';
 
 const frequencyList: Record<FrequencyType | string, string> = {
   DAILY: '매일 반복',
@@ -22,7 +22,7 @@ const frequencyList: Record<FrequencyType | string, string> = {
  * @param {object} props.taskData - 할 일 데이터
  * @returns {JSX.Element} 할 일 카드 컴포넌트
  */
-function TaskCard({ type, taskData, updateTask, onClick }: TaskCardProps) {
+function TaskCard({ type, taskData, updateTask, setTask }: TaskCardProps) {
   const { id, name, description, date, doneAt, commentCount, frequency } =
     taskData;
   const [isChecked, setIsChecked] = useState(Boolean(doneAt));
@@ -32,10 +32,10 @@ function TaskCard({ type, taskData, updateTask, onClick }: TaskCardProps) {
 
   const handleClickTaskCard = (event: MouseEvent<HTMLDivElement>) => {
     if (checkboxRef.current?.contains(event.target as Node)) {
-      if (onClick) onClick(null);
+      if (setTask) setTask(null);
       return;
     }
-    if (onClick) onClick(taskData);
+    if (setTask) setTask(taskData as ITask);
   };
 
   const handleToggleCheckbox = () => {

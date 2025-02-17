@@ -79,7 +79,7 @@ export default function TaskListWrapper({ taskList }: TaskListWrapper) {
               <TaskCard
                 type="taskList"
                 taskData={task}
-                onClick={setTask}
+                setTask={setTask}
                 updateTask={updateTaskMutate}
               />
             </div>
