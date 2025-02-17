@@ -32,6 +32,8 @@ import useForm from '@/hooks/useForm';
 import Empty from '@/components/Empty/Empty';
 import { useSnackbar } from '@/contexts/SnackBar.context';
 import useUser from '@/hooks/useUser';
+import { updateTask } from '@/service/task.api';
+import useTaskLists from '@/hooks/useTaskLists';
 
 const REPEAT = {
   ONCE: '반복 없음',
@@ -45,7 +47,26 @@ interface TaskListWrapper {
 }
 
 export default function TaskListWrapper({ taskList }: TaskListWrapper) {
+  const { refetchById } = useTaskLists();
   const [task, setTask] = useState<ITask | null>(null);
+  const { showSnackbar } = useSnackbar();
+
+  const { mutate: updateTaskMutate } = useMutation({
+    mutationFn: (params: {
+      taskId: number;
+      body: { name: string; description: string; done: boolean };
+    }) =>
+      updateTask({
+        groupId: taskList?.groupId as number,
+        taskListId: taskList?.id as number,
+        ...params,
+      }),
+    onSuccess: () => {
+      refetchById(taskList?.id as number);
+      showSnackbar('완료 여부를 변경했습니다.');
+    },
+    onError: () => showSnackbar('완료 여부를 변경할 수 없습니다.', 'error'),
+  });
 
   if (!taskList) return null;
 
@@ -55,14 +76,15 @@ export default function TaskListWrapper({ taskList }: TaskListWrapper) {
         <div className="mb-pr-80 mt-pr-16 flex flex-col gap-pr-16">
           <Drawer direction="right">
             {taskList.tasks.map((task) => (
-              <DrawerTrigger
-                asChild
-                key={task.id}
-                onClick={() => setTask(task)}
-              >
+              <DrawerTrigger asChild key={task.id}>
                 {/* div 박스가 없으면 trigger가 동작하지 않습니다. */}
                 <div>
-                  <TaskCard type="taskList" taskData={task} />
+                  <TaskCard
+                    type="taskList"
+                    taskData={task}
+                    setTask={setTask}
+                    updateTask={updateTaskMutate}
+                  />
                 </div>
               </DrawerTrigger>
             ))}

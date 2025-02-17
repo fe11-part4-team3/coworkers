@@ -15,6 +15,7 @@ const checkboxClass =
  * @returns {JSX.Element} 할 일 카드 컴포넌트
  */
 function TaskCheckbox({
+  ref,
   name,
   isChecked,
   handleCheckedToggle,
@@ -32,6 +33,7 @@ function TaskCheckbox({
   return (
     <div className="flex gap-pr-12" onClick={handleClick}>
       <input
+        ref={ref}
         id={name}
         type="checkbox"
         className={classNames(checkboxClass, isTaskList && 'cursor-pointer')}
