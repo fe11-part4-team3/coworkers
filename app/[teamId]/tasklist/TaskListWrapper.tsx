@@ -30,7 +30,6 @@ import TextareaField from '@/components/InputField/TextareaField';
 import Buttons from '@/components/Buttons';
 
 import TaskCommentWrapper from './TaskCommentWrapper';
-import classNames from 'classnames';
 
 const REPEAT = {
   ONCE: '반복 없음',
