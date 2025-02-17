@@ -1,6 +1,6 @@
 'use client';
 
-import { ChangeEvent, MouseEvent, useRef, useState } from 'react';
+import { MouseEvent, useRef, useState } from 'react';
 import classNames from 'classnames';
 
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
