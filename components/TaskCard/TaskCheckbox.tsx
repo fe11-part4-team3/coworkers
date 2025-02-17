@@ -18,8 +18,8 @@ function TaskCheckbox({
   ref,
   name,
   isChecked,
-  handleCheckedToggle,
   isTaskList,
+  onToggle,
 }: TaskCheckboxProps) {
   const { showSnackbar } = useSnackbar();
 
@@ -37,8 +37,9 @@ function TaskCheckbox({
         id={name}
         type="checkbox"
         className={classNames(checkboxClass, isTaskList && 'cursor-pointer')}
-        checked={isChecked}
-        onChange={handleCheckedToggle}
+        defaultChecked={onToggle ? undefined : isChecked}
+        checked={onToggle ? isChecked : undefined}
+        onChange={onToggle}
       />
 
       <div className="grid">

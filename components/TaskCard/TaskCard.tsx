@@ -1,6 +1,6 @@
 'use client';
 
-import { MouseEvent, useRef, useState } from 'react';
+import { MouseEvent, useRef } from 'react';
 import classNames from 'classnames';
 
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
@@ -8,7 +8,7 @@ import { newDate, newTime } from '@/utils/dateConversion';
 import type { TaskCardProps } from '@/types/taskCard.type';
 import IconText from '@/components/IconLabel';
 import TaskCheckbox from '@/components/TaskCard/TaskCheckbox';
-import { FrequencyType, ITask } from '@/types/task.type';
+import { FrequencyType } from '@/types/task.type';
 
 const frequencyList: Record<FrequencyType | string, string> = {
   DAILY: '매일 반복',
@@ -19,37 +19,21 @@ const frequencyList: Record<FrequencyType | string, string> = {
 
 /**
  * @param {'history' | 'taskList'} props.type - 페이지별 카드 형태
- * @param {object} props.taskData - 할 일 데이터
+ * @param {object} props.task - 할 일 데이터
  * @returns {JSX.Element} 할 일 카드 컴포넌트
  */
-function TaskCard({ type, taskData, updateTask, setTask }: TaskCardProps) {
-  const { id, name, description, date, doneAt, commentCount, frequency } =
-    taskData;
-  const [isChecked, setIsChecked] = useState(Boolean(doneAt));
+function TaskCard({ type, task, onToggle, onClick }: TaskCardProps) {
+  const { name, date, doneAt, frequency } = task;
   const isTaskList = type === 'taskList';
   const frequencyText = frequencyList[frequency];
   const checkboxRef = useRef<HTMLInputElement>(null);
 
   const handleClickTaskCard = (event: MouseEvent<HTMLDivElement>) => {
     if (checkboxRef.current?.contains(event.target as Node)) {
-      if (setTask) setTask(null);
+      event.stopPropagation();
       return;
     }
-    if (setTask) setTask(taskData as ITask);
-  };
-
-  const handleToggleCheckbox = () => {
-    if (isTaskList && updateTask) {
-      setIsChecked(!isChecked);
-      updateTask({
-        taskId: id,
-        body: {
-          name: name,
-          description: description ? description : '',
-          done: !isChecked,
-        },
-      });
-    }
+    if (isTaskList) onClick();
   };
 
   return (
@@ -64,14 +48,14 @@ function TaskCard({ type, taskData, updateTask, setTask }: TaskCardProps) {
         <TaskCheckbox
           ref={checkboxRef}
           name={name}
-          isChecked={Boolean(doneAt)}
-          handleCheckedToggle={handleToggleCheckbox}
+          isChecked={!!doneAt}
           isTaskList={isTaskList}
+          onToggle={onToggle}
         />
 
         {isTaskList && (
           <div className="ml-pr-12 mr-pr-8 mo:ml-auto">
-            <IconText type="commentCount" text={commentCount} />
+            <IconText type="commentCount" text={task.commentCount} />
           </div>
         )}
       </CardContent>

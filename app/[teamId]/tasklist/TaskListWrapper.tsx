@@ -29,9 +29,9 @@ import useForm from '@/hooks/useForm';
 import InputField from '@/components/InputField/InputField';
 import TextareaField from '@/components/InputField/TextareaField';
 import Buttons from '@/components/Buttons';
+import IconTaskCheck from '@/public/images/icon-task-check.svg';
 
 import TaskCommentWrapper from './TaskCommentWrapper';
-import IconTaskCheck from '@/public/images/icon-task-check.svg';
 
 const REPEAT = {
   ONCE: '반복 없음',
@@ -39,6 +39,11 @@ const REPEAT = {
   WEEKLY: '매주 반복',
   MONTHLY: '매월 반복',
 };
+
+const TOGGLE_RESPONSE = [
+  '할 일 완료를 취소했습니다.',
+  '할 일 을 완료했습니다.',
+];
 
 interface TaskListWrapper {
   taskList: ITaskList | null;
@@ -50,15 +55,20 @@ export default function TaskListWrapper({ taskList }: TaskListWrapper) {
   const { showSnackbar } = useSnackbar();
 
   const { mutate: updateTaskMutate } = useMutation({
-    mutationFn: (params: { taskId: number; body: UpdateTaskBodyParams }) =>
+    mutationFn: (task: ITask) =>
       updateTask({
         groupId: taskList?.groupId as number,
         taskListId: taskList?.id as number,
-        ...params,
+        taskId: task.id,
+        body: {
+          name: task.name,
+          description: task.description || '',
+          done: !task.doneAt,
+        },
       }),
-    onSuccess: () => {
+    onSuccess: (response) => {
       refetchById(taskList?.id as number);
-      showSnackbar('할 일을 수정했습니다..');
+      showSnackbar(TOGGLE_RESPONSE[Number(!!response.doneAt)]);
     },
     onError: () => showSnackbar('할 일을 수정 할 수 없습니다.', 'error'),
   });
@@ -78,9 +88,9 @@ export default function TaskListWrapper({ taskList }: TaskListWrapper) {
                 <div>
                   <TaskCard
                     type="taskList"
-                    taskData={task}
-                    setTask={setTask}
-                    updateTask={updateTaskMutate}
+                    task={task}
+                    onClick={() => setTask(task)}
+                    onToggle={() => updateTaskMutate(task)}
                   />
                 </div>
               </DrawerTrigger>
@@ -123,7 +133,8 @@ function TaskDetail({ task, taskListId, onClose }: TaskDetailProps) {
   });
   const [values, setValues] = useState({
     name: task.name,
-    content: task.description,
+    content: task.description || '',
+    done: !!task.doneAt,
   });
 
   const updatedAt = format(new Date(task.updatedAt), 'yyyy.MM.dd');
@@ -137,13 +148,17 @@ function TaskDetail({ task, taskListId, onClose }: TaskDetailProps) {
         taskListId: taskListId,
         ...params,
       }),
-    onSuccess: () => {
+    onSuccess: (response) => {
       setIsEdit(false);
       refetchById(taskListId);
-      showSnackbar('완료 여부를 변경했습니다.');
-      setValues({ ...formData });
+      showSnackbar('할 일을 수정했습니다.');
+      setValues({
+        name: response.name,
+        content: response.description || '',
+        done: !!response.doneAt,
+      });
     },
-    onError: () => showSnackbar('완료 여부를 변경할 수 없습니다.', 'error'),
+    onError: () => showSnackbar('할 일을 수정 할 수 없습니다.', 'error'),
   });
 
   const { mutate: deleteTaskMutate } = useMutation({
@@ -163,6 +178,17 @@ function TaskDetail({ task, taskListId, onClose }: TaskDetailProps) {
         name: formData.name,
         description: formData.content,
         done: !!task.doneAt,
+      },
+    });
+  };
+
+  const handleToggleDone = () => {
+    updateTaskMutate({
+      taskId: task.id,
+      body: {
+        name: values.name,
+        description: values.content,
+        done: !values.done,
       },
     });
   };
@@ -282,13 +308,13 @@ function TaskDetail({ task, taskListId, onClose }: TaskDetailProps) {
 
       <Buttons
         className="fixed bottom-pr-32 right-pr-32 w-fit"
-        text={task.doneAt ? '완료 취소하기' : '완료하기'}
+        text={values.done ? '완료 취소하기' : '완료하기'}
         icon={<IconTaskCheck />}
         rounded={true}
-        border={task.doneAt ? 'primary' : 'default'}
-        textColor={task.doneAt ? 'primary' : 'white'}
-        backgroundColor={task.doneAt ? 'white' : 'default'}
-        onClick={() => {}}
+        border={values.done ? 'primary' : 'default'}
+        textColor={values.done ? 'primary' : 'white'}
+        backgroundColor={values.done ? 'white' : 'default'}
+        onClick={handleToggleDone}
         size="M"
       />
     </CustomDrawerContent>
