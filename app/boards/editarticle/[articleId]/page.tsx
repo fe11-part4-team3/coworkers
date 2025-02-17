@@ -30,6 +30,7 @@ function EditArticlePage() {
     handleFileChange,
     handleClearPreview,
     resetForm,
+    setFormData,
   } = useForm(INITIAL_VALUES);
 
   const [prevValue, setPrevValue] = useState(INITIAL_VALUES);
@@ -50,12 +51,16 @@ function EditArticlePage() {
         const response = await getArticleDetail({
           articleId: Number(articleId),
         });
+
         const values = {
           title: response.title,
           content: response.content,
           image: response.image ?? '',
         };
-        resetForm(values);
+
+        setFormData('title', response.title);
+        setFormData('content', response.content);
+        setFormData('image', response.image || '');
         setPrevValue(values);
       }
     };
@@ -136,7 +141,7 @@ function EditArticlePage() {
 
           <div className="mt-pr-40 tamo:mt-pr-32">
             <ImageUpload
-              preview={preview ?? formData.image ?? null}
+              preview={preview || formData.image}
               handleFileChange={handleFileChange}
               handleClearPreview={handleClearPreview}
             />

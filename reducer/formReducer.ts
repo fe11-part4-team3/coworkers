@@ -17,7 +17,7 @@ const formReducer = <T>(
     case 'UPDATE_FORM_FIELD':
       return {
         ...state,
-        formData: { ...state.formData, [action.key]: action.value ?? '' },
+        formData: { ...state.formData, [action.key]: action.value ?? null },
       };
     // 에러 메시지 설정
     case 'SET_ERROR_MESSAGE':
