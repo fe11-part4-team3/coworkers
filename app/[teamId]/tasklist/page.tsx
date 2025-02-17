@@ -19,15 +19,14 @@ import useTaskLists from '@/hooks/useTaskLists';
 import { ITaskList } from '@/types/taskList.type';
 import createUrlString from '@/utils/createUrlString';
 import useDate from '@/hooks/useDate';
+import DatePicker from '@/components/DateTimePicker/DatePicker';
 
 import TaskListWrapper from './TaskListWrapper';
 
 export default function TaskListPage() {
   const { openModal } = useModalStore();
 
-  const [isCalendarOpen, setIsCalendarOpen] = useState<boolean>(false);
-
-  const { kstDate, prev, next } = useDate();
+  const { kstDate, prev, next, date, set } = useDate();
   const { groupId } = useGroup();
   const { taskLists } = useTaskLists();
   const taskListId = Number(useSearchParams().get('id'));
@@ -77,19 +76,30 @@ export default function TaskListPage() {
       <Container className="relative h-screen">
         <div className="mt-pr-40 text-t-primary">
           <h1 className="text-20b">할 일</h1>
-          <div className="relative mt-pr-24 flex items-center gap-pr-12">
-            <span className="text-16m">{kstDate}</span>
-            <div className="flex items-center gap-pr-4 text-b-secondary">
-              <PrevButtonIcon className="cursor-pointer" onClick={prev} />
-              <NextButtonIcon className="cursor-pointer" onClick={next} />
-              <CalendarButtonIcon
-                className="ml-pr-8 cursor-pointer"
-                onClick={() => setIsCalendarOpen((prev) => !prev)}
-              />
-              {/* NOTE - 테스트 코드 */}
-              {isCalendarOpen ? (
-                <span className="text-white">달력 열림</span>
-              ) : null}
+          <div className="relative mt-pr-24 flex items-center">
+            <span className="w-pr-110 text-16m">{kstDate}</span>
+            <div className="flex items-center gap-pr-12 text-b-secondary">
+              <div className="flex items-center gap-pr-4">
+                <PrevButtonIcon
+                  className="size-pr-16 cursor-pointer"
+                  onClick={prev}
+                  width={16}
+                  height={16}
+                />
+                <NextButtonIcon
+                  className="size-pr-16 cursor-pointer"
+                  onClick={next}
+                  width={16}
+                  height={16}
+                />
+              </div>
+              <DatePicker
+                selectedDate={new Date(date)}
+                onDateChange={set}
+                className="top-pr-40 w-pr-336 text-t-primary mo:-left-pr-168 mo:w-pr-288"
+              >
+                <CalendarButtonIcon className="cursor-pointer" />
+              </DatePicker>
             </div>
           </div>
         </div>
