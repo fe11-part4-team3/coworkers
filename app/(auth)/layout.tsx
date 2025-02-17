@@ -1,6 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
+import classNames from 'classnames';
 
 import Container from '@/components/layout/Container';
 import OauthForm from '@/components/OauthForm';
@@ -26,7 +27,16 @@ export default function Layout({ children }: ILayoutProps) {
   };
 
   return (
-    <Container className="py-pr-140 mo:py-pr-24 ta:py-pr-100">
+    <Container
+      className={classNames(
+        'py-pr-140 mo:py-pr-24 ta:py-pr-100',
+        currentPath &&
+          ['jointeam', 'addteam', 'reset-password', 'login'].includes(
+            currentPath,
+          ) &&
+          'mt-0 flex h-screen w-full flex-col items-center justify-center',
+      )}
+    >
       <h1 className="mb-pr-80 text-center text-40m mo:mb-pr-24 tamo:text-24m">
         {getTitle(currentPath)}
       </h1>
