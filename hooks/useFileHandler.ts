@@ -80,7 +80,7 @@ export function useFileHandler<T extends Record<string, TFormValue>>({
         dispatch({
           type: 'UPDATE_FORM_FIELD',
           key: fileFieldKey,
-          value: '',
+          value: null,
         });
         dispatch({
           type: 'SET_CHANGED_FIELD',
