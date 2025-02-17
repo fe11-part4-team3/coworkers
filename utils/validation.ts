@@ -1,13 +1,14 @@
+import { TFormValue } from '@/types/useForm.type';
+
 export const rPASSWORD =
   /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
 
-export type FormDataType = Record<string, any>;
+export type FormDataType = Record<string, TFormValue>;
 
 export const validateField = <T extends FormDataType>(
   name: keyof T,
   value: string,
   formData: T,
-  initialValues: T,
 ): Partial<Record<keyof T, string>> => {
   const errors: Partial<Record<keyof T, string>> = {};
 
@@ -35,7 +36,7 @@ export const validateField = <T extends FormDataType>(
     case 'passwordConfirmation':
       if (value.length === 0) {
         errors[name] = '비밀번호 확인을 입력해주세요.';
-      } else if (value !== formData.password) {
+      } else if (formData.password && formData.password !== value) {
         errors[name] = '비밀번호가 일치하지 않습니다.';
       } else {
         errors[name] = '';

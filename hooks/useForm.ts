@@ -85,12 +85,7 @@ const useForm = <T extends Record<string, TFormValue>>(initialValues: T) => {
    */
   const debouncedValidateField = useDebounce(
     (key: keyof T, value: string, updatedFormData: T) => {
-      const fieldErrors = validateField(
-        key,
-        value,
-        updatedFormData,
-        initialValues,
-      );
+      const fieldErrors = validateField(key, value, updatedFormData);
       dispatch({
         type: 'SET_ERROR_MESSAGE',
         key,
