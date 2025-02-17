@@ -30,6 +30,7 @@ import TextareaField from '@/components/InputField/TextareaField';
 import Buttons from '@/components/Buttons';
 
 import TaskCommentWrapper from './TaskCommentWrapper';
+import classNames from 'classnames';
 
 const REPEAT = {
   ONCE: '반복 없음',
@@ -56,9 +57,9 @@ export default function TaskListWrapper({ taskList }: TaskListWrapper) {
       }),
     onSuccess: () => {
       refetchById(taskList?.id as number);
-      showSnackbar('완료 여부를 변경했습니다.');
+      showSnackbar('할 일을 수정했습니다..');
     },
-    onError: () => showSnackbar('완료 여부를 변경할 수 없습니다.', 'error'),
+    onError: () => showSnackbar('할 일을 수정 할 수 없습니다.', 'error'),
   });
 
   const handleCloseDetail = () => setTask(null);
@@ -165,7 +166,10 @@ function TaskDetail({ task, taskListId, onClose }: TaskDetailProps) {
   }, [task]);
 
   return (
-    <CustomDrawerContent className="inset-y-0 right-0 w-pr-780 gap-pr-16 overflow-y-scroll p-pr-40">
+    <CustomDrawerContent
+      className="inset-y-0 right-0 w-pr-780 gap-pr-16 overflow-y-scroll p-pr-40"
+      aria-hidden={false}
+    >
       <DrawerClose asChild style={{ position: 'static' }}>
         <button className="absolute right-pr-25 top-pr-16 text-gray-500">
           <Image
@@ -222,11 +226,9 @@ function TaskDetail({ task, taskListId, onClose }: TaskDetailProps) {
 
       {/* SECTION - Description */}
       <div>
-        <DrawerDescription>
+        <DrawerDescription className={!isEdit ? 'min-h-pr-200' : ''}>
           {!isEdit && (
-            <div className="min-h-pr-200">
-              <span className="text-14 text-t-primary">{values.content}</span>
-            </div>
+            <span className="text-14 text-t-primary">{values.content}</span>
           )}
         </DrawerDescription>
         {isEdit && (
