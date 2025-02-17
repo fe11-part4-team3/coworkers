@@ -1,8 +1,7 @@
 import { format } from 'date-fns';
 import Image from 'next/image';
-import { ChangeEvent, FormEvent, useRef, useState } from 'react';
-import classNames from 'classnames';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
 
 import KebabDropDown from '@/components/KebabDropDown';
 import Profile from '@/components/Profile/Profile';
@@ -17,23 +16,16 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer';
-import { ITask } from '@/types/task.type';
+import { ITask, UpdateTaskBodyParams } from '@/types/task.type';
 import { ITaskList } from '@/types/taskList.type';
 import IconLabel from '@/components/IconLabel';
-import IconEnter from '@/public/images/icon-enter.svg';
-import {
-  createTaskComment,
-  deleteTaskComment,
-  getTaskComment,
-  updateTaskComment,
-} from '@/service/comment.api';
-import Comment from '@/components/Comment/Comment';
-import useForm from '@/hooks/useForm';
 import { useSnackbar } from '@/contexts/SnackBar.context';
 import useUser from '@/hooks/useUser';
 import { deleteTask, updateTask } from '@/service/task.api';
 import useTaskLists from '@/hooks/useTaskLists';
 import useGroup from '@/hooks/useGroup';
+
+import TaskCommentWrapper from './TaskCommentWrapper';
 
 const REPEAT = {
   ONCE: '반복 없음',
@@ -52,10 +44,7 @@ export default function TaskListWrapper({ taskList }: TaskListWrapper) {
   const { showSnackbar } = useSnackbar();
 
   const { mutate: updateTaskMutate } = useMutation({
-    mutationFn: (params: {
-      taskId: number;
-      body: { name: string; description: string; done: boolean };
-    }) =>
+    mutationFn: (params: { taskId: number; body: UpdateTaskBodyParams }) =>
       updateTask({
         groupId: taskList?.groupId as number,
         taskListId: taskList?.id as number,
@@ -110,12 +99,13 @@ function TaskDetail({ task, taskListId, onClose }: TaskDetailProps) {
   const { user } = useUser();
   const { groupId } = useGroup();
   const { refetchById } = useTaskLists();
-  const { formData, handleInputChange, errorMessage, resetForm } = useForm({
-    content: '',
-  });
+
   const { showSnackbar } = useSnackbar();
-  const commentValid = formData.content.length > 0 && !errorMessage.content;
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const { mutate: updateTaskMutate } = useMutation({
+    mutationFn: (body: UpdateTaskBodyParams) =>
+      updateTask({ groupId, taskListId, taskId: task.id, body }),
+  });
 
   const { mutate: deleteTaskMutate } = useMutation({
     mutationFn: () => deleteTask({ groupId, taskListId, taskId: task.id }),
@@ -127,67 +117,9 @@ function TaskDetail({ task, taskListId, onClose }: TaskDetailProps) {
     onError: () => showSnackbar('할 일을 삭제할 수 없습니다.', 'error'),
   });
 
-  const { data: comments, refetch: refetchComment } = useQuery({
-    queryKey: ['comments', task.id],
-    queryFn: () => getTaskComment({ taskId: task.id }),
-    enabled: !!task,
-  });
-
-  const sortedComments = comments?.sort(
-    (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
-  );
-
-  const { mutate: createTaskCommentMutate } = useMutation({
-    mutationFn: ({ content }: { content: string }) =>
-      createTaskComment({ taskId: task.id, content }),
-    onSuccess: () => {
-      refetchComment();
-      resetForm({ content: '' });
-      showSnackbar('댓글을 작성했습니다.');
-    },
-    onError: () => showSnackbar('댓글을 작성할 수 없습니다.', 'error'),
-  });
-
-  const { mutate: updateTaskCommentMutate } = useMutation({
-    mutationFn: updateTaskComment,
-    onSuccess: () => {
-      refetchComment();
-      showSnackbar('댓글이 수정되었습니다.');
-    },
-    onError: () => showSnackbar('댓글을 수정할 수 없습니다.', 'error'),
-  });
-
-  const { mutate: deleteTaskCommentMutate } = useMutation({
-    mutationFn: (id: number) =>
-      deleteTaskComment({ taskId: task.id, commentId: id }),
-    onSuccess: () => {
-      refetchComment();
-      showSnackbar('댓글이 삭제되었습니다.');
-    },
-    onError: () => showSnackbar('댓글을 삭제할 수 없습니다.', 'error'),
-  });
-
   const updatedAt = format(new Date(task.updatedAt), 'yyyy.MM.dd');
   const date = format(new Date(task.date), 'yyyy년 M월 dd일');
   const time = format(new Date(task.date), '오후 h:mm');
-
-  const resizeTextarea = () => {
-    const textarea = textareaRef.current;
-    if (textarea) {
-      textarea.style.height = 'auto';
-      textarea.style.height = `${Math.min(textarea.scrollHeight, 64)}px`;
-    }
-  };
-
-  const handleInput = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    resizeTextarea();
-    handleInputChange(event);
-  };
-
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    createTaskCommentMutate(formData);
-  };
 
   return (
     <CustomDrawerContent className="inset-y-0 right-0 w-pr-780 gap-pr-16 p-pr-40">
@@ -240,46 +172,7 @@ function TaskDetail({ task, taskListId, onClose }: TaskDetailProps) {
       </div>
 
       {/* SECTION - Comment */}
-      <div>
-        <form
-          className="flex items-center border border-x-0 border-input py-pr-12"
-          onSubmit={handleSubmit}
-        >
-          <textarea
-            className="grow resize-none bg-transparent text-14 outline-none placeholder:text-t-default"
-            ref={textareaRef}
-            name="content"
-            rows={1}
-            value={formData.content}
-            onChange={handleInput}
-            placeholder="댓글을 달아주세요"
-          />
-          <button
-            type="submit"
-            className={classNames([
-              'flex items-center justify-center',
-              'size-pr-24 shrink-0 rounded-full',
-              commentValid ? 'bg-brand-primary' : 'bg-t-default',
-            ])}
-            disabled={!commentValid}
-          >
-            <IconEnter />
-          </button>
-        </form>
-
-        <div>
-          {sortedComments?.map((comment) => (
-            <Comment
-              key={comment.id}
-              type="task"
-              taskId={task.id}
-              commentData={comment}
-              handleDeleteClick={deleteTaskCommentMutate}
-              handleUpdateSubmit={updateTaskCommentMutate}
-            />
-          ))}
-        </div>
-      </div>
+      <TaskCommentWrapper taskId={task.id} />
 
       <DrawerFooter></DrawerFooter>
     </CustomDrawerContent>
