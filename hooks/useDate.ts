@@ -1,12 +1,14 @@
-import useDateStore from '@/stores/useDateStore';
-import { addDays, format, subDays } from 'date-fns';
-import dayjs from 'dayjs';
+import { addDays, format, subDays, getDay } from 'date-fns';
 
+import useDateStore from '@/stores/useDateStore';
+
+const DAYS_IN_KOREAN = ['일', '월', '화', '수', '목', '금', '토'];
 const useDate = () => {
   const { date, setDate } = useDateStore();
-  dayjs.locale('ko');
 
-  const kstDate = format(date, 'M월 d일 (E)');
+  const dayIndex = getDay(date);
+  const dayInKorean = DAYS_IN_KOREAN[dayIndex];
+  const kstDate = `${format(date, 'M월 d일')} (${dayInKorean})`;
 
   /**
    * NOTE
