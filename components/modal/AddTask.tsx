@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useParams, useSearchParams } from 'next/navigation';
+import { format } from 'date-fns';
 
 import SelectBox from '@/components/SelectBox';
 import Buttons from '@/components/Buttons';
@@ -23,6 +24,9 @@ export default function AddTask() {
   const searchParams = useSearchParams();
   const teamId = Number(params.teamId);
   const taskListId = Number(searchParams.get('id'));
+
+  const [date, setdate] = useState<Date>(new Date());
+  const formattedDate = date ? format(date, 'yyyy년 MM월 dd일') : '';
 
   const kstDate = new Date();
   kstDate.setHours(kstDate.getHours() + 9);
@@ -150,11 +154,15 @@ export default function AddTask() {
         <div className="flex flex-col">
           <InputLabel label="시작 날짜 및 시간" />
           <DatePicker
+            selectedDate={date}
             onDateChange={(date: Date) => {
+              setdate(date);
               const isoDate = date.toISOString();
               setFormData('startDate', isoDate);
             }}
-          />
+          >
+            <InputField value={formattedDate} name="startDate" readOnly />
+          </DatePicker>
         </div>
         <div className="flex gap-pr-12">
           <div>
