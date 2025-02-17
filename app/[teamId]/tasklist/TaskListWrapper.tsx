@@ -21,10 +21,18 @@ import { ITask } from '@/types/task.type';
 import { ITaskList } from '@/types/taskList.type';
 import IconLabel from '@/components/IconLabel';
 import IconEnter from '@/public/images/icon-enter.svg';
-import { createTaskComment, getTaskComment } from '@/service/comment.api';
+import {
+  createTaskComment,
+  deleteTaskComment,
+  getTaskComment,
+  updateTaskComment,
+} from '@/service/comment.api';
 import Comment from '@/components/Comment/Comment';
 import useForm from '@/hooks/useForm';
 import { useSnackbar } from '@/contexts/SnackBar.context';
+import useUser from '@/hooks/useUser';
+import { updateTask } from '@/service/task.api';
+import useTaskLists from '@/hooks/useTaskLists';
 
 const REPEAT = {
   ONCE: '반복 없음',
@@ -38,7 +46,26 @@ interface TaskListWrapper {
 }
 
 export default function TaskListWrapper({ taskList }: TaskListWrapper) {
+  const { refetchById } = useTaskLists();
   const [task, setTask] = useState<ITask | null>(null);
+  const { showSnackbar } = useSnackbar();
+
+  const { mutate: updateTaskMutate } = useMutation({
+    mutationFn: (params: {
+      taskId: number;
+      body: { name: string; description: string; done: boolean };
+    }) =>
+      updateTask({
+        groupId: taskList?.groupId as number,
+        taskListId: taskList?.id as number,
+        ...params,
+      }),
+    onSuccess: () => {
+      refetchById(taskList?.id as number);
+      showSnackbar('완료 여부를 변경했습니다.');
+    },
+    onError: () => showSnackbar('완료 여부를 변경할 수 없습니다.', 'error'),
+  });
 
   if (!taskList) return null;
 
@@ -46,10 +73,15 @@ export default function TaskListWrapper({ taskList }: TaskListWrapper) {
     <div className="mb-pr-80 mt-pr-16 flex flex-col gap-pr-16">
       <Drawer direction="right">
         {taskList.tasks.map((task) => (
-          <DrawerTrigger asChild key={task.id} onClick={() => setTask(task)}>
+          <DrawerTrigger asChild key={task.id}>
             {/* div 박스가 없으면 trigger가 동작하지 않습니다. */}
             <div>
-              <TaskCard type="taskList" taskData={task} />
+              <TaskCard
+                type="taskList"
+                taskData={task}
+                onClick={setTask}
+                updateTask={updateTaskMutate}
+              />
             </div>
           </DrawerTrigger>
         ))}
@@ -60,27 +92,52 @@ export default function TaskListWrapper({ taskList }: TaskListWrapper) {
 }
 
 function TaskDetail({ task }: { task: ITask }) {
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const { user } = useUser();
   const { formData, handleInputChange, errorMessage, resetForm } = useForm({
     content: '',
   });
   const { showSnackbar } = useSnackbar();
   const commentValid = formData.content.length > 0 && !errorMessage.content;
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const { data: comments, refetch } = useQuery({
+  const { data: comments, refetch: refetchComment } = useQuery({
     queryKey: ['comments', task.id],
     queryFn: () => getTaskComment({ taskId: task.id }),
     enabled: !!task,
   });
 
+  const sortedComments = comments?.sort(
+    (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
+  );
+
   const { mutate: createTaskCommentMutate } = useMutation({
     mutationFn: ({ content }: { content: string }) =>
       createTaskComment({ taskId: task.id, content }),
     onSuccess: () => {
-      refetch();
+      refetchComment();
       resetForm({ content: '' });
       showSnackbar('댓글을 작성했습니다.');
     },
+    onError: () => showSnackbar('댓글을 작성할 수 없습니다.', 'error'),
+  });
+
+  const { mutate: updateTaskCommentMutate } = useMutation({
+    mutationFn: updateTaskComment,
+    onSuccess: () => {
+      refetchComment();
+      showSnackbar('댓글이 수정되었습니다.');
+    },
+    onError: () => showSnackbar('댓글을 수정할 수 없습니다.', 'error'),
+  });
+
+  const { mutate: deleteTaskCommentMutate } = useMutation({
+    mutationFn: (id: number) =>
+      deleteTaskComment({ taskId: task.id, commentId: id }),
+    onSuccess: () => {
+      refetchComment();
+      showSnackbar('댓글이 삭제되었습니다.');
+    },
+    onError: () => showSnackbar('댓글을 삭제할 수 없습니다.', 'error'),
   });
 
   const updatedAt = format(new Date(task.updatedAt), 'yyyy.MM.dd');
@@ -124,7 +181,9 @@ function TaskDetail({ task }: { task: ITask }) {
           <DrawerTitle className="text-20b text-t-primary">
             {task.name}
           </DrawerTitle>
-          <KebabDropDown onEdit={() => {}} onDelete={() => {}} />
+          {user?.id === task.writer?.id && (
+            <KebabDropDown onEdit={() => {}} onDelete={() => {}} />
+          )}
         </div>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-pr-12">
@@ -182,13 +241,14 @@ function TaskDetail({ task }: { task: ITask }) {
         </form>
 
         <div>
-          {comments?.map((comment) => (
+          {sortedComments?.map((comment) => (
             <Comment
               key={comment.id}
               type="task"
+              taskId={task.id}
               commentData={comment}
-              handleDeleteClick={() => {}}
-              handleUpdateSubmit={() => {}}
+              handleDeleteClick={deleteTaskCommentMutate}
+              handleUpdateSubmit={updateTaskCommentMutate}
             />
           ))}
         </div>
