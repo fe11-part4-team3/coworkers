@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { MouseEvent, useRef, useState } from 'react';
 import classNames from 'classnames';
 
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
@@ -8,7 +8,7 @@ import { newDate, newTime } from '@/utils/dateConversion';
 import type { TaskCardProps } from '@/types/taskCard.type';
 import IconText from '@/components/IconLabel';
 import TaskCheckbox from '@/components/TaskCard/TaskCheckbox';
-import { FrequencyType } from '@/types/task.type';
+import { FrequencyType, ITask } from '@/types/task.type';
 
 const frequencyList: Record<FrequencyType | string, string> = {
   DAILY: '매일 반복',
@@ -22,14 +22,23 @@ const frequencyList: Record<FrequencyType | string, string> = {
  * @param {object} props.taskData - 할 일 데이터
  * @returns {JSX.Element} 할 일 카드 컴포넌트
  */
-function TaskCard({ type, taskData, updateTask }: TaskCardProps) {
+function TaskCard({ type, taskData, updateTask, setTask }: TaskCardProps) {
   const { id, name, description, date, doneAt, commentCount, frequency } =
     taskData;
   const [isChecked, setIsChecked] = useState(Boolean(doneAt));
   const isTaskList = type === 'taskList';
   const frequencyText = frequencyList[frequency];
+  const checkboxRef = useRef<HTMLInputElement>(null);
 
-  const handleCheckedToggle = () => {
+  const handleClickTaskCard = (event: MouseEvent<HTMLDivElement>) => {
+    if (checkboxRef.current?.contains(event.target as Node)) {
+      if (setTask) setTask(null);
+      return;
+    }
+    if (setTask) setTask(taskData as ITask);
+  };
+
+  const handleToggleCheckbox = () => {
     if (isTaskList && updateTask) {
       setIsChecked(!isChecked);
       updateTask({
@@ -49,12 +58,14 @@ function TaskCard({ type, taskData, updateTask }: TaskCardProps) {
         isTaskList && 'h-pr-74',
         'flex w-full flex-col justify-between rounded-lg border-none bg-b-secondary px-pr-18 py-pr-16',
       )}
+      onClick={handleClickTaskCard}
     >
       <CardContent className="flex items-center p-0">
         <TaskCheckbox
+          ref={checkboxRef}
           name={name}
           isChecked={Boolean(doneAt)}
-          handleCheckedToggle={handleCheckedToggle}
+          handleCheckedToggle={handleToggleCheckbox}
           isTaskList={isTaskList}
         />
 

@@ -1,3 +1,5 @@
+import { Ref } from 'react';
+
 import { ITask } from '../types/task.type';
 
 type TaskName = string;
@@ -9,6 +11,7 @@ interface TaskCardProps {
     taskId: number;
     body: { name: string; description: string; done: boolean };
   }) => void;
+  setTask?: (param: ITask | null) => void;
 }
 
 interface TaskData extends Partial<ITask> {
@@ -29,6 +32,7 @@ interface IconTextProps {
 }
 
 interface TaskCheckboxProps {
+  ref: Ref<HTMLInputElement>;
   name: TaskName;
   isChecked: boolean;
   handleCheckedToggle: () => void;
