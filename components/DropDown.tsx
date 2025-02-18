@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Ref, useState } from 'react';
+import { Ref } from 'react';
 
 import {
   DropdownMenu,
