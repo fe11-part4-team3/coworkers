@@ -1,10 +1,10 @@
 'use client';
 
 import classNames from 'classnames';
+import { isBefore } from 'date-fns';
 
 import { Calendar } from '@/components/ui/calendar';
 import { useToggle } from '@/hooks/useToggle';
-import { useSnackbar } from '@/contexts/SnackBar.context';
 
 /**
  * DatePicker 컴포넌트는 달력을 표시하고 선택한 날짜를 반환합니다.
@@ -29,7 +29,6 @@ export default function DatePicker({
   prevDates?: boolean;
 }) {
   const [isOpen, toggleIsOpen] = useToggle();
-  const { showSnackbar } = useSnackbar();
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
@@ -41,15 +40,10 @@ export default function DatePicker({
           mode="single"
           selected={selectedDate}
           onSelect={(date: Date | undefined) => {
-            if (date) {
-              if (!prevDates && date < today) {
-                showSnackbar('오늘 이전 날짜는 선택할 수 없습니다.', 'error');
-                return;
-              }
-              onDateChange(date);
-            }
+            if (date) onDateChange(date);
           }}
           onDayClick={toggleIsOpen}
+          disabled={(date) => !prevDates && isBefore(date, today)}
           className={classNames(
             'absolute left-0 z-10 flex min-h-pr-258 w-full items-center justify-center rounded-2xl border border-brand-primary bg-b-secondary p-pr-16',
             className,
