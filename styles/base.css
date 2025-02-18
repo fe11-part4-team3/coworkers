@@ -25,6 +25,8 @@
     /* background */
     --b-primary-dark: #0f172a;
     --b-primary-light: #ffffff;
+    --b-primary-2-dark: #020617;
+    --b-primary-2-light: #fcfcfc;
     --b-secondary-dark: #1e293b;
     --b-secondary-light: #f1f5f9;
     --b-secondary-2-dark: #18212f;
@@ -65,6 +67,7 @@
   .dark {
     --background: #0f172a;
     --b-primary-light: var(--b-primary-dark);
+    --b-primary-2-light: var(--b-primary-2-dark);
     --b-secondary-light: var(--b-secondary-dark);
     --b-secondary-2-light: var(--b-secondary-2-dark);
     --b-tertiary-light: var(--b-tertiary-dark);
@@ -79,6 +82,7 @@
   }
   .light {
     --b-primary-dark: var(--b-primary-light);
+    --b-primary-2-dark: var(--b-primary-2-light);
     --b-secondary-dark: var(--b-secondary-light);
     --b-secondary-2-dark: var(--b-secondary-2-light);
     --b-tertiary-dark: var(--b-tertiary-light);
