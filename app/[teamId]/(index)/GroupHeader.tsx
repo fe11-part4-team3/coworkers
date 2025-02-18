@@ -54,7 +54,7 @@ export default function GroupHeader({
         {role === 'ADMIN' && (
           <DropDown
             trigger={
-              <IconGear className="transition-all hover:rotate-90 hover:scale-110 focus:rotate-90 data-[state=open]:rotate-90 data-[state=open]:scale-110" />
+              <IconGear className="cursor-pointer transition-all hover:rotate-90 hover:scale-110 focus:rotate-90 data-[state=open]:rotate-90 data-[state=open]:scale-110" />
             }
             items={[
               { text: '수정하기', onClick: handleClickEdit },
