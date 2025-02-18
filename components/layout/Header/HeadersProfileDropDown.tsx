@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { signOut } from 'next-auth/react';
 import { useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 
 import Logout from '@/components/modal/Logout';
 import { removeLoginProcessed } from '@/lib/kakaoStorage';
@@ -14,13 +15,14 @@ import { Button } from '@/components/ui/button';
 import Profile from './Profile';
 
 function HeadersProfileDropDown() {
+  const queryClient = useQueryClient();
+  const router = useRouter();
+
   const { user, clear: clearUser } = useUser();
   const { clear: clearGroup } = useGroup();
 
   const { showSnackbar } = useSnackbar();
   const { openModal } = useModalStore();
-
-  const queryClient = useQueryClient();
 
   const logout = () => {
     clearUser();
@@ -42,17 +44,19 @@ function HeadersProfileDropDown() {
     openModal(<Logout onClick={logout} />);
   };
 
+  const redirect = (href: string) => router.push(href);
+
   const dropdownItems = useMemo(
     () => [
-      { text: '마이 히스토리', href: '/myhistory' },
-      { text: '계정 설정', href: '/mypage' },
-      { text: '팀 참여', href: '/jointeam' },
+      { text: '마이 히스토리', onClick: () => redirect('/myhistory') },
+      { text: '계정 설정', onClick: () => redirect('/mypage') },
+      { text: '팀 참여', onClick: () => redirect('/jointeam') },
       {
         text: '로그아웃',
         onClick: handleClickLogout,
       },
     ],
-    [logout],
+    [logout, redirect],
   );
 
   if (!user) return null;
