@@ -212,8 +212,8 @@ function TaskDetail({ task, taskListId, onClose }: TaskDetailProps) {
   return (
     <CustomDrawerContent
       className="inset-y-0 right-0 w-pr-780"
-      aria-hidden={!!task}
-      role="menu"
+      aria-hidden={!task}
+      role="dialog"
     >
       <div className="flex grow flex-col gap-pr-16 overflow-x-hidden overflow-y-scroll p-pr-40">
         <DrawerClose asChild style={{ position: 'static' }}>

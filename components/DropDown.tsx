@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Ref } from 'react';
+import { Ref, useState } from 'react';
 
 import {
   DropdownMenu,
@@ -65,6 +65,7 @@ export default function DropDown({
         <DropdownMenuTrigger asChild>{trigger}</DropdownMenuTrigger>
         <DropdownMenuContent
           ref={ref}
+          role="menu"
           className={`mt-pr-8 w-auto overflow-hidden rounded-xl border bg-b-secondary p-0 text-center text-14 text-t-default ${width}`}
           align="end"
         >
