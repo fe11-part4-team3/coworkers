@@ -1,32 +1,28 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { useEffect } from 'react';
 
+import { getHistory } from '@/service/user.api';
+import { newDate } from '@/utils/dateConversion';
 import Container from '@/components/layout/Container';
 import TaskCard from '@/components/TaskCard/TaskCard';
 import Empty from '@/components/Empty/Empty';
 import { Skeleton } from '@/components/ui/skeleton';
-import { newDate } from '@/utils/dateConversion';
-import { getHistory } from '@/service/user.api';
 import { ITaskMetadata } from '@/types/task.type';
+import { useSnackbar } from '@/contexts/SnackBar.context';
 
 function MyHistoryPage() {
-  const [tasksDone, setTasksDone] = useState<ITaskMetadata[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { showSnackbar } = useSnackbar();
 
-  useEffect(() => {
-    const fetchHistory = async () => {
-      try {
-        const data = await getHistory();
-        setTasksDone(data ?? []);
-      } catch {
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchHistory();
-  }, []);
+  const {
+    data: tasksDone = [],
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ['tasksDone'],
+    queryFn: getHistory,
+  });
 
   const groupedTasks = tasksDone.reduce(
     (acc, task) => {
@@ -44,20 +40,31 @@ function MyHistoryPage() {
     (a, b) => new Date(b).getTime() - new Date(a).getTime(),
   );
 
+  useEffect(() => {
+    if (error)
+      showSnackbar(
+        '작업 내역을 불러오는데 실패했습니다. 다시 시도해주세요.',
+        'error',
+      );
+  }, [error]);
+
+  if (isLoading)
+    return (
+      <div className="space-y-pr-16">
+        <Skeleton className="h-pr-24 w-pr-120" />
+        <Skeleton className="h-pr-64 w-full" />
+        <Skeleton className="h-pr-64 w-full" />
+        <Skeleton className="h-pr-64 w-full" />
+      </div>
+    );
+
   return (
     <Container className="pt-pr-40 tamo:pt-pr-24">
       <h1 className="mb-pr-24 text-20b mo:mb-pr-27 mo:text-18b">
         마이 히스토리
       </h1>
-      {loading ? (
-        <div className="space-y-pr-16">
-          <Skeleton className="h-pr-24 w-pr-120" />
-          <Skeleton className="h-pr-64 w-full" />
-          <Skeleton className="h-pr-64 w-full" />
-          <Skeleton className="h-pr-64 w-full" />
-        </div>
-      ) : tasksDone.length === 0 ? (
-        <Empty className="mt-pr-150">
+      {tasksDone.length === 0 ? (
+        <Empty>
           <Empty.TextWrapper>
             <Empty.Text text="완료한 작업이 없습니다." />
           </Empty.TextWrapper>
