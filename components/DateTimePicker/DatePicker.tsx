@@ -4,23 +4,34 @@ import classNames from 'classnames';
 
 import { Calendar } from '@/components/ui/calendar';
 import { useToggle } from '@/hooks/useToggle';
+import { useSnackbar } from '@/contexts/SnackBar.context';
 
 /**
  * DatePicker 컴포넌트는 달력을 표시하고 선택한 날짜를 반환합니다.
- * @param {Function} onDateChange - 날짜 변경 시 호출되는 함수
+ *
+ * @param {Date} props.selectedDate - 선택된 날짜
+ * @param {Function} props.onDateChange - 날짜 변경 시 호출되는 함수
+ * @param {ReactNode} props.children - 캘린더 오픈 트리거
+ * @param {string} props.className - 컴포넌트 스타일 클래스
+ * @param {boolean} props.allowPastDates - 과거 날짜 선택 허용 여부
  */
 export default function DatePicker({
   selectedDate,
   onDateChange,
   children,
   className,
+  prevDates = true,
 }: {
   selectedDate: Date;
   onDateChange: (date: Date) => void;
   children: React.ReactNode;
   className?: string;
+  prevDates?: boolean;
 }) {
   const [isOpen, toggleIsOpen] = useToggle();
+  const { showSnackbar } = useSnackbar();
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
 
   return (
     <div className="relative flex w-full flex-col gap-pr-8">
@@ -30,11 +41,17 @@ export default function DatePicker({
           mode="single"
           selected={selectedDate}
           onSelect={(date: Date | undefined) => {
-            if (date) onDateChange(date);
+            if (date) {
+              if (!prevDates && date < today) {
+                showSnackbar('오늘 이전 날짜는 선택할 수 없습니다.', 'error');
+                return;
+              }
+              onDateChange(date);
+            }
           }}
           onDayClick={toggleIsOpen}
           className={classNames(
-            'absolute left-0 top-pr-60 z-10 flex min-h-pr-258 w-full items-center justify-center rounded-2xl border border-brand-primary bg-b-secondary p-pr-16',
+            'absolute left-0 z-10 flex min-h-pr-258 w-full items-center justify-center rounded-2xl border border-brand-primary bg-b-secondary p-pr-16',
             className,
           )}
         />
