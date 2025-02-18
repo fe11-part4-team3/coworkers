@@ -45,7 +45,7 @@ function SideNavigation({ groups }: SNBProps) {
       <Sidebar className="border-none">
         <SidebarHeader className="items-end p-pr-16">
           <SideNavigationTrigger
-            src="images/icon-close.svg"
+            src="/images/icon-close.svg"
             alt="사이드 네비게이션 닫기"
           />
         </SidebarHeader>
