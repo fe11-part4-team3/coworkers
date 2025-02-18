@@ -160,6 +160,8 @@ export default function AddTask() {
               const isoDate = date.toISOString();
               setFormData('startDate', isoDate);
             }}
+            prevDates={false}
+            className="top-pr-60"
           >
             <InputField value={formattedDate} name="startDate" readOnly />
           </DatePicker>
