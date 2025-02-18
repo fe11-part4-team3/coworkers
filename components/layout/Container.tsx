@@ -23,6 +23,7 @@ export default function Container({
           duration: 0.5,
           delay: 0.3,
         }}
+        className="mo:w-full"
       >
         {children}
       </motion.div>
