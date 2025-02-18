@@ -1,8 +1,10 @@
+import classNames from 'classnames';
+
 import Buttons from '@/components/Buttons';
 import DateDisplay from '@/components/DateDisplay';
 import Profile from '@/components/Profile/Profile';
 import { CardFooter } from '@/components/ui/card';
-import { IUserProfile } from '@/types/user.type';
+import { CommentFooterProps } from '@/types/articleComment.type';
 
 import { CommentDateSkeleton, CommentProfileSkeleton } from './CommentSkeleton';
 
@@ -31,23 +33,11 @@ function CommentFooter({
   cancelEditing,
   updateSubmit,
   isLoading,
-}: {
-  type?: 'article' | 'task';
-  writer?: IUserProfile;
-  user?: IUserProfile;
-  commentEdit: boolean;
-  createdAt: string;
-  updatedAt: string;
-  commentEditContent: string;
-  content: string;
-  cancelEditing: () => void;
-  updateSubmit: () => void;
-  isLoading: boolean;
-}) {
+}: CommentFooterProps) {
   const isArticleComment = type === 'article';
 
   return (
-    <CardFooter className={`flex justify-between p-0`}>
+    <CardFooter className="flex justify-between p-0">
       <div className="flex items-center">
         <div className="flex items-center">
           {!isLoading ? (
@@ -92,7 +82,7 @@ function CommentFooter({
             {!isLoading ? (
               <DateDisplay
                 createdAt={createdAt}
-                className={`${isArticleComment && 'text-t-disabled'}`}
+                className={classNames(isArticleComment && 'text-t-disabled')}
               />
             ) : (
               <CommentDateSkeleton />
@@ -114,6 +104,7 @@ function CommentFooter({
             border="primary"
             onClick={updateSubmit}
             backgroundColor="none"
+            textColor="primary"
             size="S"
             className="w-pr-74"
           />

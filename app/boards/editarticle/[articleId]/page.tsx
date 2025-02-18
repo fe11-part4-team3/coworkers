@@ -30,6 +30,7 @@ function EditArticlePage() {
     handleFileChange,
     handleClearPreview,
     resetForm,
+    setFormData,
   } = useForm(INITIAL_VALUES);
 
   const [prevValue, setPrevValue] = useState(INITIAL_VALUES);
@@ -50,25 +51,21 @@ function EditArticlePage() {
         const response = await getArticleDetail({
           articleId: Number(articleId),
         });
+
         const values = {
           title: response.title,
           content: response.content,
           image: response.image ?? '',
         };
-        resetForm(values);
+
+        setFormData('title', response.title);
+        setFormData('content', response.content);
+        setFormData('image', response.image || '');
         setPrevValue(values);
       }
     };
     fetchArticleData();
   }, [articleId]);
-
-  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    handleInputChange(e);
-  };
-
-  const handleContentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    handleInputChange(e);
-  };
 
   const { mutate, isPending } = useMutation({
     mutationFn: updateArticle,
@@ -118,7 +115,9 @@ function EditArticlePage() {
               name="title"
               type="text"
               value={formData.title}
-              onChange={handleTitleChange}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                handleInputChange(e);
+              }}
               label="제목"
               essential={true}
               placeholder="제목을 입력해주세요."
@@ -129,7 +128,9 @@ function EditArticlePage() {
             <TextareaField
               name="content"
               value={formData.content}
-              onChange={handleContentChange}
+              onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
+                handleInputChange(e);
+              }}
               size="lg"
               height="h-pr-240"
               label="내용"
@@ -140,7 +141,7 @@ function EditArticlePage() {
 
           <div className="mt-pr-40 tamo:mt-pr-32">
             <ImageUpload
-              preview={preview ?? formData.image ?? null}
+              preview={preview || formData.image}
               handleFileChange={handleFileChange}
               handleClearPreview={handleClearPreview}
             />

@@ -81,7 +81,7 @@ const shadcnConfig: Config = {
         },
         t: {
           primary: 'var(--t-primary-light)',
-          secondary: 'var(--t-secondary)',
+          secondary: 'var(--t-secondary-light)',
           tertiary: 'var(--t-tertiary)',
           default: 'var(--t-default)',
           inverse: 'var(--t-inverse)',

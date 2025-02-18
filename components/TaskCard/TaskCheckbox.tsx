@@ -1,7 +1,11 @@
 import { MouseEvent } from 'react';
+import classNames from 'classnames';
 
 import { TaskCheckboxProps } from '@/types/taskCard.type';
 import { useSnackbar } from '@/contexts/SnackBar.context';
+
+const checkboxClass =
+  "size-pr-16 shrink-0 appearance-none rounded-md border border-t-primary checked:border-none checked:bg-[url('/images/icon-checked.svg')]";
 
 /**
  * @param {string} props.name - 할 일 이름
@@ -11,6 +15,7 @@ import { useSnackbar } from '@/contexts/SnackBar.context';
  * @returns {JSX.Element} 할 일 카드 컴포넌트
  */
 function TaskCheckbox({
+  ref,
   name,
   isChecked,
   handleCheckedToggle,
@@ -28,9 +33,10 @@ function TaskCheckbox({
   return (
     <div className="flex gap-pr-12" onClick={handleClick}>
       <input
+        ref={ref}
         id={name}
         type="checkbox"
-        className={`size-pr-16 shrink-0 appearance-none rounded-md border border-t-primary checked:border-none checked:bg-[url('/images/icon-checked.svg')] ${isTaskList && 'cursor-pointer'}`}
+        className={classNames(checkboxClass, isTaskList && 'cursor-pointer')}
         checked={isChecked}
         onChange={handleCheckedToggle}
       />
@@ -38,7 +44,11 @@ function TaskCheckbox({
       <div className="grid">
         <label
           htmlFor={name}
-          className={`truncate text-14m font-normal leading-4 ${isChecked && 'line-through'} ${isTaskList && 'cursor-pointer'}`}
+          className={classNames(
+            isChecked && 'line-through',
+            isTaskList && 'cursor-pointer',
+            'truncate text-14m font-normal leading-4',
+          )}
         >
           {name}
         </label>

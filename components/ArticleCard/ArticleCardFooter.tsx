@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import { useRouter } from 'next/navigation';
 
 import { dotDate } from '@/utils/dateConversion';
 import { CardFooter } from '@/components/ui/card';
@@ -6,26 +7,27 @@ import WriterProfile from '@/components/WriterProfile';
 import LikeCount from '@/components/LikeCount';
 import useUserStore from '@/stores/useUser.store';
 import KebabDropDown from '@/components/KebabDropDown';
+import { ArticleCardFooterProps } from '@/types/article.type';
 
 /**
+ * @param {number} props.id - 게시글 id
  * @param {boolean} props.isBestCard - 게시글 데이터
  * @param {object} props.writer - 게시글 작성자 id, nickname
- * @param {string} props.createdAt - 게시글 생성일
  * @param {number} props.likeCount - 게시글 좋아요 수
+ * @param {string} props.createdAt - 게시글 생성일
+ * @param {Function} props.handleArticleDelete - 게시글 삭제 함수
  * @returns {JSX.Element} 게시글 카드의 프로필, 생성일, 좋아요가 포함된 Card Footer 컴포넌트
  */
 function ArticleCardFooter({
+  id,
   isBestCard,
   writer,
   likeCount,
   createdAt,
-}: {
-  isBestCard: boolean;
-  writer: { nickname: string; id: number };
-  createdAt: string;
-  likeCount: number;
-}) {
+  handleArticleDelete,
+}: ArticleCardFooterProps) {
   const { user: userData } = useUserStore();
+  const router = useRouter();
 
   const cardFooterStyled = classNames(
     'p-0 mo:items-center',
@@ -52,11 +54,16 @@ function ArticleCardFooter({
           <div className="mo:flex mo:items-center mo:gap-pr-8">
             <LikeCount type="readOnly" likeCount={likeCount} />
 
-            {userData?.id === writer.id && (
-              <div className="hidden mo:block">
+            {userData?.id === writer.id && handleArticleDelete && (
+              <div
+                className="hidden mo:block"
+                onClick={(e: React.MouseEvent) => {
+                  e.stopPropagation();
+                }}
+              >
                 <KebabDropDown
-                  onEdit={() => alert('수정')}
-                  onDelete={() => alert('삭제')}
+                  onEdit={() => router.push(`/boards/editarticle/${id}`)}
+                  onDelete={() => handleArticleDelete(id)}
                 />
               </div>
             )}

@@ -1,6 +1,7 @@
 import Link from 'next/link';
+import classNames from 'classnames';
 
-import { IArticle } from '@/types/article.type';
+import { ArticleCardProps } from '@/types/article.type';
 import { dotDate } from '@/utils/dateConversion';
 import BestMedal from '@/public/images/icon-medal.svg';
 import ArticleCardContent from '@/components/ArticleCard/ArticleCardContent';
@@ -16,24 +17,21 @@ const BEST_STYLE =
 /**
  * @param {'normal' | 'best'} props.type - 게시글 카드 타입 (normal type default)
  * @param {object} props.articleData - 게시글 데이터
+ * @param {Function} props.handleArticleDelete - 게시글 삭제 함수
  * @returns {JSX.Element} 베스트, 일반 게시글 카드 컴포넌트
  */
 function ArticleCard({
   type = 'normal',
   articleData,
   handleArticleDelete,
-}: {
-  type?: 'normal' | 'best';
-  articleData: IArticle;
-  handleArticleDelete?: (id: number) => void;
-}) {
+}: ArticleCardProps) {
   const { id, title, image, createdAt, writer, likeCount } = articleData;
   const isBestCard = type === 'best';
 
   return (
     <Link
       href={`/boards/${id}`}
-      className={`${CARD_STYLE} ${isBestCard ? BEST_STYLE : NORMAL_STYLE}`}
+      className={classNames(CARD_STYLE, isBestCard ? BEST_STYLE : NORMAL_STYLE)}
     >
       {isBestCard && (
         <div className="absolute top-pr-13 flex items-center">
@@ -60,10 +58,12 @@ function ArticleCard({
       )}
 
       <ArticleCardFooter
+        id={id}
         isBestCard={isBestCard}
         writer={writer}
         createdAt={createdAt}
         likeCount={likeCount}
+        handleArticleDelete={handleArticleDelete}
       />
     </Link>
   );

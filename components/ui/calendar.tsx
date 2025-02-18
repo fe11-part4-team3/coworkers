@@ -76,9 +76,9 @@ function Calendar({
       components={{
         IconLeft: () =>
           isDarkMode ? (
-            <ChevronLeftIcon width={24} height={24} style={{ fill: 'black' }} />
+            <ChevronLeftIcon width={24} height={24} />
           ) : (
-            <ChevronLeftIcon width={24} height={24} style={{ fill: 'black' }} />
+            <ChevronLeftIcon width={24} height={24} />
           ),
         IconRight: () => <ChevronRightIcon width={24} height={24} />,
       }}

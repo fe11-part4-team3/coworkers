@@ -1,4 +1,5 @@
 import { ChangeEvent, useState } from 'react';
+import classNames from 'classnames';
 
 import { Card } from '@/components/ui/card';
 import { IArticleComment } from '@/types/articleComment.type';
@@ -16,38 +17,12 @@ const TASK_COMMENT_STYLE =
 
 /**
  * 게시글 상세 페이지 댓글(조회, 수정) 컴포넌트
- * @param {object} props - 컴포넌트에 전달되는 props
  * @param {'article' | 'task'} [props.type='article'] - 댓글의 유형 (게시글 댓글 or 할 일 댓글)
  * @param {IArticleComment | ITaskComment} props.commentData - 댓글 데이터
  * @param {Function} props.handleDeleteClick - 댓글을 삭제하는 함수, 댓글 ID를 인수로 받습니다.
  * @param {Function} props.handleUpdateSubmit - 댓글을 업데이트하는 함수, 댓글 ID를 인수로 받습니다.
  * @param {boolean} props.isLoading - 댓글 리스트 데이터 로딩 유무
  * @returns {JSX.Element} 게시글 상세 페이지 댓글 컴포넌트
- *
- * @example
- * 게시글 댓글의 경우
- * {commentData.list.map((comment) => {
-    return (
-      <ArticleDetailComment
-        key={comment.id}
-        type="article | task"
-        commentData={comment}
-        handleDeleteClick={(id) => alert(`${id} 삭제`)}
-        handleUpdateSubmit={(id) => alert(`${id} 수정`)}
-        isLoading={isLoading}
-      />
-    );
- * })}
- * 
- * 할 일 상세 댓글의 경우
- * {TaskCommentData.map((comment) => {
-    return (
-      <ArticleDetailComment
-        type="task"
-        ...
-      />
-    );
-  })}
  */
 function Comment({
   taskId,
@@ -64,35 +39,13 @@ function Comment({
   const { openModal } = useModalStore();
 
   const isArticleComment = type === 'article';
+  const isTaskComment = type === 'task';
 
   // 타입 단언으로 writer/user 접근
   const writer = isArticleComment
     ? (commentData as IArticleComment).writer
     : undefined;
-  const user = type === 'task' ? (commentData as ITaskComment).user : undefined;
-
-  // Dropdown 수정하기
-  const handleEditClick = () => {
-    setCommentEdit(true);
-  };
-
-  // Dropdown 삭제하기
-  const commentDelete = () => {
-    // handleDeleteClick 함수로 댓글 id를 넘겨받아 DELETE 데이터 요청 실행
-    if (taskId) return handleDeleteClick({ taskId, commentId: id });
-    else return handleDeleteClick(id);
-  };
-
-  // textarea value onChange
-  const updateCommentContent = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setCommentEditContent(e.target.value);
-  };
-
-  // 수정 중 취소하기 버튼
-  const cancelEditing = () => {
-    setCommentEdit(false);
-    setCommentEditContent(content);
-  };
+  const user = isTaskComment ? (commentData as ITaskComment).user : undefined;
 
   // 수정 완료
   const updateSubmit = () => {
@@ -119,7 +72,9 @@ function Comment({
 
   return (
     <Card
-      className={`${isArticleComment ? ARTICLE_COMMENT_STYLE : TASK_COMMENT_STYLE} `}
+      className={classNames(
+        isArticleComment ? ARTICLE_COMMENT_STYLE : TASK_COMMENT_STYLE,
+      )}
     >
       {!commentEdit ? (
         <CommentContent
@@ -127,8 +82,8 @@ function Comment({
           commentEditContent={commentEditContent}
           writer={writer}
           user={user}
-          handleEditClick={handleEditClick}
-          commentDelete={commentDelete}
+          handleEditClick={() => setCommentEdit(true)}
+          commentDelete={() => handleDeleteClick(id)}
           isLoading={isLoading}
         />
       ) : (
@@ -138,7 +93,9 @@ function Comment({
             size="md"
             value={commentEditContent}
             placeholder="댓글을 입력해주세요"
-            onChange={updateCommentContent}
+            onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
+              setCommentEditContent(e.target.value)
+            }
           />
         </div>
       )}
@@ -152,7 +109,10 @@ function Comment({
         updatedAt={updatedAt}
         commentEditContent={commentEditContent}
         content={content}
-        cancelEditing={cancelEditing}
+        cancelEditing={() => {
+          setCommentEdit(false);
+          setCommentEditContent(content);
+        }}
         updateSubmit={updateSubmit}
         isLoading={isLoading}
       />

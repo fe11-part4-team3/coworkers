@@ -9,9 +9,6 @@ import BestArticleList from './BestArticleList';
 import ArticleList from './ArticleList';
 import ArticleSearch from './ArticleSearch';
 
-/**
- * @returns {JSX.Element} 자유게시판 페이지
- */
 export default function BoardsPage() {
   const searchParams = useSearchParams();
   const keyword = searchParams.get('q') ?? undefined;

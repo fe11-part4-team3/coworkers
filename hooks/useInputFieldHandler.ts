@@ -57,12 +57,7 @@ export const useInputFieldHandler = <T extends Record<string, TFormValue>>({
     }
 
     const updatedFormData = { ...formDataRef.current, [key]: value };
-    const fieldErrors = validateField(
-      key,
-      value,
-      updatedFormData,
-      initialValues,
-    );
+    const fieldErrors = validateField(key, value, updatedFormData);
     dispatch({
       type: 'SET_ERROR_MESSAGE',
       key,

@@ -1,3 +1,5 @@
+import classNames from 'classnames';
+
 import { elapsedTime } from '@/utils/dateConversion';
 
 /**
@@ -12,7 +14,9 @@ function DateDisplay({
   className?: string;
 }) {
   return (
-    <span className={`text-14 ${className}`}>{elapsedTime(createdAt)}</span>
+    <span className={classNames(className, 'text-14')}>
+      {elapsedTime(createdAt)}
+    </span>
   );
 }
 
