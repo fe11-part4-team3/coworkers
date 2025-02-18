@@ -40,11 +40,6 @@ const REPEAT = {
   MONTHLY: '매월 반복',
 };
 
-const TOGGLE_RESPONSE = [
-  '할 일 완료를 취소했습니다.',
-  '할 일 을 완료했습니다.',
-];
-
 interface TaskListWrapper {
   taskList: ITaskList | null;
 }
@@ -68,7 +63,11 @@ export default function TaskListWrapper({ taskList }: TaskListWrapper) {
       }),
     onSuccess: (response) => {
       refetchById(taskList?.id as number);
-      showSnackbar(TOGGLE_RESPONSE[Number(!!response.doneAt)]);
+      showSnackbar(
+        response.doneAt
+          ? '할 일을 완료했습니다.'
+          : '할 일 완료를 취소했습니다.',
+      );
     },
     onError: () => showSnackbar('할 일을 수정 할 수 없습니다.', 'error'),
   });
@@ -151,7 +150,15 @@ function TaskDetail({ task, taskListId, onClose }: TaskDetailProps) {
     onSuccess: (response) => {
       setIsEdit(false);
       refetchById(taskListId);
-      showSnackbar('할 일을 수정했습니다.');
+      if (values.done === !!response.doneAt) {
+        showSnackbar('할 일을 수정했습니다.');
+      } else {
+        showSnackbar(
+          response.doneAt
+            ? '할 일을 완료했습니다.'
+            : '할 일 완료를 취소했습니다.',
+        );
+      }
       setValues({
         name: response.name,
         content: response.description || '',
@@ -205,7 +212,8 @@ function TaskDetail({ task, taskListId, onClose }: TaskDetailProps) {
   return (
     <CustomDrawerContent
       className="inset-y-0 right-0 w-pr-780"
-      aria-hidden={false}
+      aria-hidden={!!task}
+      role="menu"
     >
       <div className="flex grow flex-col gap-pr-16 overflow-x-hidden overflow-y-scroll p-pr-40">
         <DrawerClose asChild style={{ position: 'static' }}>
