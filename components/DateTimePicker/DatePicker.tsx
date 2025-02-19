@@ -2,6 +2,7 @@
 
 import classNames from 'classnames';
 import { isBefore } from 'date-fns';
+import { useEffect, useRef } from 'react';
 
 import { Calendar } from '@/components/ui/calendar';
 import { useToggle } from '@/hooks/useToggle';
@@ -28,12 +29,33 @@ export default function DatePicker({
   className?: string;
   prevDates?: boolean;
 }) {
-  const [isOpen, toggleIsOpen] = useToggle();
+  const [isOpen, toggleIsOpen, setIsOpen] = useToggle();
   const today = new Date();
   today.setHours(0, 0, 0, 0);
+  const ref = useRef<HTMLDivElement>(null);
+
+  // 캘린더 외부 클릭 시 캘린더 닫기
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    // 클린업 함수
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen]);
 
   return (
-    <div className="relative flex w-full flex-col gap-pr-8">
+    <div ref={ref} className="relative flex w-full flex-col gap-pr-8">
       <div onClick={toggleIsOpen}>{children}</div>
       {isOpen && (
         <Calendar

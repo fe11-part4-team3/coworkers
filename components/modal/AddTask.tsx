@@ -10,6 +10,7 @@ import TextareaField from '@/components/InputField/TextareaField';
 import InputField from '@/components/InputField/InputField';
 import useForm from '@/hooks/useForm';
 import { useTaskMutation } from '@/hooks/useTaskMutation';
+import { useSnackbar } from '@/contexts/SnackBar.context';
 
 import InputLabel from '../InputField/InputLabel';
 import DatePicker from '../DateTimePicker/DatePicker';
@@ -24,6 +25,7 @@ export default function AddTask() {
   const searchParams = useSearchParams();
   const teamId = Number(params.teamId);
   const taskListId = Number(searchParams.get('id'));
+  const { showSnackbar } = useSnackbar();
 
   const [date, setdate] = useState<Date>(new Date());
   const formattedDate = date ? format(date, 'yyyy년 MM월 dd일') : '';
@@ -82,6 +84,12 @@ export default function AddTask() {
       startDate: formData.startDate,
       frequencyType: formData.frequencyType,
     };
+
+    // 반복 유형에 따른 유효성 검사
+    if (formData.frequencyType === 'WEEKLY' && formData.weekDays.length === 0) {
+      showSnackbar('반복 요일을 선택해주세요.', 'error');
+      return;
+    }
 
     // 반복 유형에 따라 요청 데이터 준비
     switch (formData.frequencyType) {
