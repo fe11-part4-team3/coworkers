@@ -57,7 +57,7 @@ export default function TaskDetail({
   });
   const [values, setValues] = useState({
     name: task.name,
-    content: task.description,
+    content: task.description || '',
     done: !!task.doneAt,
   });
 
@@ -78,7 +78,7 @@ export default function TaskDetail({
       resetForm({ name: response.name, content: response.description || '' });
       setValues({
         name: response.name,
-        content: response.description,
+        content: response.description || '',
         done: !!response.doneAt,
       });
       if (values.done === !!response.doneAt) {
@@ -110,7 +110,7 @@ export default function TaskDetail({
       body: {
         name: formData.name,
         description: formData.content,
-        done: !!task.doneAt,
+        done: values.done,
       },
     });
   };
@@ -119,8 +119,8 @@ export default function TaskDetail({
     updateTaskMutate({
       taskId: task.id,
       body: {
-        name: task.name,
-        description: task.description || '',
+        name: values.name,
+        description: values.content,
         done: !values.done,
       },
     });
@@ -128,7 +128,7 @@ export default function TaskDetail({
 
   const handleClickClose = () => {
     setIsEdit(false);
-    resetForm({ name: task.name, content: task.description || '' });
+    resetForm({ name: values.name, content: values.content || '' });
   };
 
   useEffect(() => {
@@ -136,7 +136,7 @@ export default function TaskDetail({
     resetForm({ name: task.name, content: task.description || '' });
     setValues({
       name: task.name,
-      content: task.description,
+      content: task.description || '',
       done: !!task.doneAt,
     });
   }, [task]);
@@ -246,17 +246,19 @@ export default function TaskDetail({
         </DrawerFooter>
       </div>
 
-      <Buttons
-        className="fixed bottom-pr-32 right-pr-32 w-fit"
-        text={values.done ? '완료 취소하기' : '완료하기'}
-        icon={<IconTaskCheck />}
-        rounded={true}
-        border={values.done ? 'primary' : 'default'}
-        textColor={values.done ? 'primary' : 'white'}
-        backgroundColor={values.done ? 'white' : 'default'}
-        onClick={handleToggleDone}
-        size="M"
-      />
+      {!isEdit && (
+        <Buttons
+          className="fixed bottom-pr-32 right-pr-32 w-fit"
+          text={values.done ? '완료 취소하기' : '완료하기'}
+          icon={<IconTaskCheck />}
+          rounded={true}
+          border={values.done ? 'primary' : 'default'}
+          textColor={values.done ? 'primary' : 'white'}
+          backgroundColor={values.done ? 'white' : 'default'}
+          onClick={handleToggleDone}
+          size="M"
+        />
+      )}
     </CustomDrawerContent>
   );
 }
