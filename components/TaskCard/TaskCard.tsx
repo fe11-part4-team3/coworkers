@@ -26,7 +26,7 @@ function TaskCard({ type, task, onToggle, onClick }: TaskCardProps) {
   const { name, date, doneAt, frequency } = task;
   const isTaskList = type === 'taskList';
   const frequencyText = frequencyList[frequency];
-  const checkboxRef = useRef<HTMLInputElement>(null);
+  const checkboxRef = useRef<HTMLDivElement>(null);
 
   const handleClickTaskCard = (event: MouseEvent<HTMLDivElement>) => {
     if (checkboxRef.current?.contains(event.target as Node)) {

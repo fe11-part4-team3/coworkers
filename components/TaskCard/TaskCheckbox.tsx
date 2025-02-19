@@ -31,9 +31,8 @@ function TaskCheckbox({
   };
 
   return (
-    <div className="flex gap-pr-12" onClick={handleClick}>
+    <div className="flex gap-pr-12" onClick={handleClick} ref={ref}>
       <input
-        ref={ref}
         id={name}
         type="checkbox"
         className={classNames(checkboxClass, isTaskList && 'cursor-pointer')}

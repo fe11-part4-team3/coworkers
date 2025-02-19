@@ -29,7 +29,7 @@ interface IconTextProps {
 }
 
 interface TaskCheckboxProps {
-  ref: Ref<HTMLInputElement>;
+  ref: Ref<HTMLDivElement>;
   name: TaskName;
   isChecked: boolean;
   onToggle?: () => void;
