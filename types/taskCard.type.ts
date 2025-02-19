@@ -1,27 +1,24 @@
 import { Ref } from 'react';
 
-import { ITask } from '../types/task.type';
+import { ITask, ITaskMetadata } from '../types/task.type';
 
 type TaskName = string;
 
-interface TaskCardProps {
-  type: 'history' | 'taskList';
-  taskData: TaskData;
-  updateTask?: (variables: {
-    taskId: number;
-    body: { name: string; description: string; done: boolean };
-  }) => void;
-  setTask?: (param: ITask | null) => void;
+interface HistoryTaskCardProps {
+  type: 'history';
+  task: ITaskMetadata;
+  onToggle?: undefined;
+  onClick?: undefined;
 }
 
-interface TaskData extends Partial<ITask> {
-  id: number;
-  name: string;
-  date: string;
-  doneAt: string | null;
-  commentCount: number;
-  frequency: 'ONCE' | 'DAILY' | 'WEEKLY' | 'MONTHLY';
+interface TaskListTaskCardProps {
+  type: 'taskList';
+  task: ITask;
+  onToggle: () => void;
+  onClick: () => void;
 }
+
+type TaskCardProps = HistoryTaskCardProps | TaskListTaskCardProps;
 
 interface IconTextProps {
   text: string | number;
@@ -32,11 +29,11 @@ interface IconTextProps {
 }
 
 interface TaskCheckboxProps {
-  ref: Ref<HTMLInputElement>;
+  ref: Ref<HTMLDivElement>;
   name: TaskName;
   isChecked: boolean;
-  handleCheckedToggle: () => void;
+  onToggle?: () => void;
   isTaskList: boolean;
 }
 
-export type { TaskCardProps, TaskData, IconTextProps, TaskCheckboxProps };
+export type { TaskCardProps, IconTextProps, TaskCheckboxProps };

@@ -75,11 +75,7 @@ function MyHistoryPage() {
             <div key={date} className="flex flex-col gap-pr-16">
               <h2 className="text-16m">{date}</h2>
               {groupedTasks[date].map((task) => (
-                <TaskCard
-                  key={task.id}
-                  type="history"
-                  taskData={{ ...task, commentCount: 0 }}
-                />
+                <TaskCard key={task.id} type="history" task={task} />
               ))}
             </div>
           ))}
