@@ -53,7 +53,7 @@ function SideNavigation({ groups }: SNBProps) {
           <SidebarGroup>
             <SideNavGroupLabel toggleSidebar={toggleSidebar} />
             <SidebarGroupContent>
-              <SidebarMenu>
+              <SidebarMenu className="gap-0">
                 <SideNavTeamList
                   groups={groups}
                   handleClick={handleClick}
