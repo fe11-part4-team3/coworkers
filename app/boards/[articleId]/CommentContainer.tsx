@@ -40,6 +40,7 @@ function CommentContainer({ articleId }: GetArticleDetailParams) {
       createArticleComment(newComment),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['commentList'] });
+      queryClient.invalidateQueries({ queryKey: ['articleDetail', articleId] });
       showSnackbar('댓글이 등록되었습니다.');
       setCommentValue('');
     },
