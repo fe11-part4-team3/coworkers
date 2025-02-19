@@ -12,7 +12,7 @@ import NextButtonIcon from '@/public/images/icon-next-button.svg';
 import CalendarButtonIcon from '@/public/images/icon-calendar-button.svg';
 import useGroup from '@/hooks/useGroup';
 import Buttons from '@/components/Buttons';
-import PlusIcon from '@/public/images/icon-plus.svg';
+import ICON_PLUS from '@/public/images/icon-plus.svg';
 import useModalStore from '@/stores/modalStore';
 import AddTask from '@/components/modal/AddTask';
 import useTaskLists from '@/hooks/useTaskLists';
@@ -130,7 +130,7 @@ export default function TaskListPage() {
       <div className="fixed bottom-pr-48 left-1/2 flex w-full max-w-screen-xl -translate-x-1/2 items-end justify-end tamo:bottom-pr-24 tamo:pr-pr-24">
         <Buttons
           text="할 일 추가"
-          icon={<PlusIcon width={16} height={16} />}
+          icon={<ICON_PLUS width={16} height={16} strokeWidth={2} />}
           onClick={() => openModal(<AddTask />)}
           className="w-pr-125"
           rounded
