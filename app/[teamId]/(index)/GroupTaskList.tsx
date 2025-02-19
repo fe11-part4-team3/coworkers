@@ -70,7 +70,7 @@ export default function GroupTaskList({
 
   return (
     <div
-      className="flex overflow-hidden rounded-pr-12 transition-all duration-300 hover:scale-[101%] hover:drop-shadow-lg"
+      className="flex cursor-pointer overflow-hidden rounded-pr-12 transition-all duration-300 hover:scale-[101%] hover:drop-shadow-lg"
       onClick={handleClickTaskList}
     >
       <div className={`w-pr-12 ${POINT_COLOR_CLASSES[pointColor]}`}></div>

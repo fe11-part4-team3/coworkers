@@ -43,7 +43,7 @@ export default function GroupMemberCard({
   return (
     <div
       onClick={handleClickCard}
-      className="relative flex max-h-pr-73 items-center gap-pr-12 rounded-pr-16 bg-b-secondary px-pr-24 py-pr-20 transition-all duration-300 hover:scale-105 hover:drop-shadow-lg mo:px-pr-16 mo:py-pr-12"
+      className="relative flex max-h-pr-73 cursor-pointer items-center gap-pr-12 rounded-pr-16 bg-b-secondary px-pr-24 py-pr-20 transition-all duration-300 hover:scale-105 hover:drop-shadow-lg mo:px-pr-16 mo:py-pr-12"
     >
       {deviceType !== 'mobile' ? (
         <DefaultContent member={member} />
