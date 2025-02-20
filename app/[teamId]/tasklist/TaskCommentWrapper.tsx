@@ -33,7 +33,7 @@ export default function TaskCommentWrapper({ taskId }: TaskCommentWrapper) {
   });
 
   const sortedComments = comments?.sort(
-    (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
   );
 
   const { mutate: createTaskCommentMutate } = useMutation({
@@ -112,16 +112,24 @@ export default function TaskCommentWrapper({ taskId }: TaskCommentWrapper) {
       </form>
 
       <div>
-        {sortedComments?.map((comment) => (
-          <Comment
-            key={comment.id}
-            type="task"
-            taskId={taskId}
-            commentData={comment}
-            handleDeleteClick={deleteTaskCommentMutate}
-            handleUpdateSubmit={updateTaskCommentMutate}
-          />
-        ))}
+        {sortedComments?.length === 0 ? (
+          <p className="my-pr-118 text-center text-16m text-t-default">
+            아직 작성된 댓글이 없습니다.
+          </p>
+        ) : (
+          <>
+            {sortedComments?.map((comment) => (
+              <Comment
+                key={comment.id}
+                type="task"
+                taskId={taskId}
+                commentData={comment}
+                handleDeleteClick={deleteTaskCommentMutate}
+                handleUpdateSubmit={updateTaskCommentMutate}
+              />
+            ))}
+          </>
+        )}
       </div>
     </div>
   );
