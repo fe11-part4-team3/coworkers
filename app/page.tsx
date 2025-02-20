@@ -5,11 +5,9 @@ import { useRouter } from 'next/navigation';
 
 import Buttons from '@/components/Buttons';
 import useUser from '@/hooks/useUser';
-import LandingCardItemsFirst from '@/components/Landing/LandingCardItemsFirst';
-import LandingCardItemsSecond from '@/components/Landing/LandingCardItemsSecond';
-import LandingCardItemsthird from '@/components/Landing/LandingCardItemsthird';
 import Empty from '@/components/Empty/Empty';
 import Container from '@/components/layout/Container';
+import LandingCardList from '@/components/Landing/LandingCardList';
 
 export default function LandingPage() {
   const { user, memberships, isPending } = useUser();
@@ -95,11 +93,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="relative mt-pr-60 flex flex-col items-center gap-pr-80 tamo:gap-pr-24">
-        <LandingCardItemsFirst />
-        <LandingCardItemsSecond />
-        <LandingCardItemsthird />
-      </section>
+      <LandingCardList />
 
       <footer>
         <div className="relative flex h-pr-1080 w-screen flex-col items-center mo:h-pr-640 ta:h-pr-940">
