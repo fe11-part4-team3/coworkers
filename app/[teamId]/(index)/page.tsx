@@ -58,11 +58,11 @@ export default function TeamPage() {
     queryKey: groupId ? ['tasks', groupId] : [],
     queryFn: () =>
       getTasksInGroup({
-        id: group?.id as number,
+        id: groupId,
         date,
       }),
     initialData: [],
-    enabled: !!group,
+    enabled: !!groupId,
   });
 
   const { mutate: onEditGroup } = useMutation({
