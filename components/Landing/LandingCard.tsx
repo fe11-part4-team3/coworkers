@@ -10,7 +10,10 @@ interface LandingCardProps {
 function LandingCard({ children, className }: LandingCardProps) {
   return (
     <div
-      className={classNames('flex h-pr-419 w-pr-996 rounded-pr-40', className)}
+      className={classNames(
+        'flex h-pr-419 w-full overflow-hidden rounded-pr-40 mo:h-pr-467 mo:flex-col mo:gap-pr-40 ta:h-pr-354',
+        className,
+      )}
     >
       {children}
     </div>
@@ -19,7 +22,9 @@ function LandingCard({ children, className }: LandingCardProps) {
 
 function LandingInnerCard({ children }: { children: ReactNode }) {
   return (
-    <div className="flex size-full rounded-pr-40 bg-[#0F172A]">{children}</div>
+    <div className="flex size-full overflow-hidden rounded-pr-40 bg-[#0F172A] mo:flex-col-reverse mo:gap-pr-40">
+      {children}
+    </div>
   );
 }
 
@@ -37,17 +42,26 @@ function LandingCardImage({
   return (
     <div
       className={classNames(
-        'flex h-full w-1/2',
-        xPosition === 'start' ? 'justify-start' : 'justify-end',
-        yPosition === 'start' ? 'items-start' : 'items-end',
+        'flex h-full w-1/2 mo:w-full',
+        xPosition === 'start'
+          ? 'justify-start mo:justify-center'
+          : 'justify-end mo:justify-center',
+        yPosition === 'start'
+          ? 'items-start mo:items-center'
+          : 'items-end mo:items-center',
       )}
     >
       <Image
         src={src}
         alt=""
-        width={291}
-        height={338}
-        className={xPosition === 'end' ? 'mr-pr-51' : 'ml-pr-51'}
+        width={294}
+        height={329}
+        className={classNames(
+          'tamo:h-pr-268 tamo:w-pr-231',
+          xPosition === 'end'
+            ? 'mr-pr-51 tamo:mr-pr-0'
+            : 'ml-pr-51 tamo:ml-pr-0',
+        )}
       />
     </div>
   );
@@ -57,34 +71,41 @@ function LandingCardTextWrapper({
   children,
   icon,
   right,
+  className,
 }: {
   children: ReactNode;
   icon: string;
   right?: boolean;
+  className?: string;
 }) {
   return (
     <div
       className={classNames(
-        'flex h-full w-1/2 items-center',
-        right ? 'justify-end' : 'justify-start',
+        'flex h-full w-1/2 items-center mo:w-full',
+        right
+          ? 'justify-end mo:items-start mo:justify-center'
+          : 'justify-start mo:items-start mo:justify-center',
+        className,
       )}
     >
       <div
         className={classNames(
-          'flex flex-col',
-          right ? 'items-end pr-pr-160' : 'items-start pl-pr-160',
+          'flex flex-col mo:min-w-pr-231',
+          right
+            ? 'items-end pr-pr-160 mo:items-start mo:pr-pr-0 ta:pr-pr-100'
+            : 'items-start pl-pr-160 mo:pl-pr-0 ta:pl-pr-100',
         )}
       >
         <div
           style={{ boxShadow: '0 0 12px 2px rgba(0, 0, 0, 0.25)' }}
-          className="mb-pr-12 flex size-pr-48 items-center justify-center rounded-xl border border-[#343E4E] bg-[#1E293B]"
+          className="mb-pr-12 flex size-pr-48 items-center justify-center rounded-xl border-[#343E4E] bg-[#1E293B]"
         >
           <Image src={icon} alt="" width={24} height={24} />
         </div>
         <div
           className={classNames(
             'flex flex-col',
-            right ? 'items-end' : 'items-start',
+            right ? 'items-end mo:items-start' : 'items-start',
           )}
         >
           {children}
@@ -95,7 +116,7 @@ function LandingCardTextWrapper({
 }
 
 function LandingCardText({ children }: { children: string }) {
-  return <p className="text-24m text-white">{children}</p>;
+  return <p className="text-24m text-white tamo:text-18m">{children}</p>;
 }
 
 LandingCard.Image = LandingCardImage;

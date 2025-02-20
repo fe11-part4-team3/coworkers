@@ -34,7 +34,7 @@ export default function Layout({ children }: ILayoutProps) {
           ['jointeam', 'addteam', 'reset-password', 'login'].includes(
             currentPath,
           ) &&
-          'mt-0 flex h-screen w-full flex-col items-center justify-center',
+          'mt-pr-0 flex h-screen w-full flex-col items-center justify-center',
       )}
     >
       <h1 className="mb-pr-80 text-center text-40m mo:mb-pr-24 tamo:text-24m">
