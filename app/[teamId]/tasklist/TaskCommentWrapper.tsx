@@ -12,6 +12,7 @@ import {
   updateTaskComment,
 } from '@/service/comment.api';
 import IconEnter from '@/public/images/icon-enter.svg';
+import useTaskLists from '@/hooks/useTaskLists';
 
 interface TaskCommentWrapper {
   taskId: number;
@@ -19,6 +20,7 @@ interface TaskCommentWrapper {
 
 export default function TaskCommentWrapper({ taskId }: TaskCommentWrapper) {
   const { showSnackbar } = useSnackbar();
+  const { refetchAll } = useTaskLists();
 
   const { formData, handleInputChange, errorMessage, resetForm } = useForm({
     content: '',
@@ -43,6 +45,7 @@ export default function TaskCommentWrapper({ taskId }: TaskCommentWrapper) {
       refetchComment();
       resetForm({ content: '' });
       showSnackbar('댓글을 작성했습니다.');
+      refetchAll();
     },
     onError: () => showSnackbar('댓글을 작성할 수 없습니다.', 'error'),
   });
