@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import Image from 'next/image';
 import { ReactNode } from 'react';
+import { motion } from 'framer-motion';
 
 interface LandingCardProps {
   children: ReactNode;
@@ -40,7 +41,7 @@ function LandingCardImage({
   yPosition,
 }: LandingCardImageProps) {
   return (
-    <div
+    <motion.div
       className={classNames(
         'flex h-full w-1/2 mo:w-full',
         xPosition === 'start'
@@ -50,6 +51,13 @@ function LandingCardImage({
           ? 'items-start mo:items-center'
           : 'items-end mo:items-center',
       )}
+      initial={{ opacity: 0, y: 10 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{
+        duration: 0.5,
+        delay: 0.5,
+      }}
     >
       <Image
         src={src}
@@ -63,7 +71,7 @@ function LandingCardImage({
             : 'ml-pr-51 tamo:ml-pr-0',
         )}
       />
-    </div>
+    </motion.div>
   );
 }
 
@@ -79,7 +87,7 @@ function LandingCardTextWrapper({
   className?: string;
 }) {
   return (
-    <div
+    <motion.div
       className={classNames(
         'flex h-full w-1/2 items-center mo:w-full',
         right
@@ -87,6 +95,13 @@ function LandingCardTextWrapper({
           : 'justify-start mo:items-start mo:justify-center',
         className,
       )}
+      initial={{ opacity: 0, y: 10 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{
+        duration: 0.5,
+        delay: 0.8,
+      }}
     >
       <div
         className={classNames(
@@ -111,7 +126,7 @@ function LandingCardTextWrapper({
           {children}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
