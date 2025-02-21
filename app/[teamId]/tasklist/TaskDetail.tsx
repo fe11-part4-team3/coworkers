@@ -2,6 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import classNames from 'classnames';
 
 import InputField from '@/components/InputField/InputField';
 import KebabDropDown from '@/components/KebabDropDown';
@@ -25,6 +26,7 @@ import IconLabel from '@/components/IconLabel';
 import TextareaField from '@/components/InputField/TextareaField';
 import Buttons from '@/components/Buttons';
 import IconTaskCheck from '@/public/images/icon-task-check.svg';
+import Complete from '@/public/images/icon-complete.svg';
 
 import TaskCommentWrapper from './TaskCommentWrapper';
 
@@ -171,7 +173,22 @@ export default function TaskDetail({
                   errorMessage={errorMessage.name}
                 />
               ) : (
-                <span className="text-20b text-t-primary">{values.name}</span>
+                <>
+                  {values.done && (
+                    <span className="flex gap-pr-6 text-12m text-brand-tertiary">
+                      <Complete />
+                      완료
+                    </span>
+                  )}
+                  <span
+                    className={classNames(
+                      { 'mt-pr-12 line-through': values.done },
+                      'inline-block text-20b text-t-primary',
+                    )}
+                  >
+                    {values.name}
+                  </span>
+                </>
               )}
             </DrawerTitle>
             {user?.id === task.writer?.id && !isEdit && (
@@ -226,7 +243,10 @@ export default function TaskDetail({
                 </button>
 
                 <Buttons
-                  disabled={false}
+                  disabled={
+                    values.name === formData.name &&
+                    values.content === formData.content
+                  }
                   text="수정하기"
                   border="primary"
                   onClick={handleEditTask}

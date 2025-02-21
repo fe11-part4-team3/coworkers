@@ -39,7 +39,7 @@ function TaskCard({ type, task, onToggle, onClick }: TaskCardProps) {
   return (
     <Card
       className={classNames(
-        isTaskList && 'h-pr-74',
+        isTaskList && 'h-pr-74 cursor-pointer',
         'flex w-full flex-col justify-between rounded-lg border-none bg-b-secondary px-pr-18 py-pr-16',
       )}
       onClick={handleClickTaskCard}
