@@ -115,7 +115,7 @@ function ArticleList({ keyword }: { keyword: string | undefined }) {
             </motion.div>
           ))
         ) : (
-          <ArticleSkeleton count={4} />
+          <ArticleSkeleton count={12} />
         )}
       </div>
     </section>
