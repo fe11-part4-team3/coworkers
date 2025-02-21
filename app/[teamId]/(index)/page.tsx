@@ -176,7 +176,7 @@ export default function TeamPage() {
 
   return (
     <Container>
-      <div className="flex flex-col gap-pr-24 pt-pr-24">
+      <div className="mb-pr-84 flex flex-col gap-pr-24 pt-pr-24">
         <GroupHeader
           role={role}
           group={group}
