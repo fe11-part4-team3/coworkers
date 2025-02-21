@@ -145,11 +145,11 @@ export default function TaskDetail({
 
   return (
     <CustomDrawerContent
-      className="inset-y-0 right-0 w-pr-780"
+      className="inset-y-0 right-0 w-pr-780 mo:w-full"
       aria-hidden={!task}
       role="dialog"
     >
-      <div className="flex grow flex-col gap-pr-16 overflow-x-hidden overflow-y-scroll p-pr-40">
+      <div className="flex grow flex-col gap-pr-16 overflow-x-hidden overflow-y-scroll p-pr-40 mo:p-pr-16">
         <DrawerClose asChild style={{ position: 'static' }}>
           <button className="absolute right-pr-25 top-pr-16 text-gray-500">
             <Image
@@ -162,9 +162,9 @@ export default function TaskDetail({
         </DrawerClose>
 
         {/* SECTION - Header */}
-        <DrawerHeader className="w-full gap-pr-16 p-0">
+        <DrawerHeader className="w-full gap-pr-16 p-0 mo:gap-pr-17">
           <div className="flex items-center justify-between">
-            <DrawerTitle className="grow">
+            <DrawerTitle className="grow text-left">
               {isEdit ? (
                 <InputField
                   name="name"
@@ -221,7 +221,9 @@ export default function TaskDetail({
 
         {/* SECTION - Description */}
         <div>
-          <DrawerDescription className={!isEdit ? 'min-h-pr-200' : ''}>
+          <DrawerDescription
+            className={!isEdit ? 'min-h-pr-200 mo:min-h-pr-142' : ''}
+          >
             {!isEdit && (
               <span className="text-14 text-t-primary">{values.content}</span>
             )}
@@ -229,7 +231,7 @@ export default function TaskDetail({
           {isEdit && (
             <>
               <TextareaField
-                height="min-h-pr-200"
+                height="min-h-pr-200 mo:min-h-pr-142"
                 name="content"
                 value={formData.content}
                 onChange={handleInputChange}
@@ -261,7 +263,7 @@ export default function TaskDetail({
         </div>
 
         {/* SECTION - Comment */}
-        <DrawerFooter className="mt-0">
+        <DrawerFooter className="mt-0 p-0">
           <TaskCommentWrapper taskId={task.id} />
         </DrawerFooter>
       </div>
