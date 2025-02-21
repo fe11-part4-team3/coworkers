@@ -66,10 +66,10 @@ export default function LandingPage() {
           src="/images/landing/img-Landing-bg-ta.png"
           alt="background-tablet"
           fill
-          className="absolute inset-0 hidden object-cover mo:hidden ta:block"
+          className="floating-boat absolute inset-0 hidden object-cover mo:hidden ta:block"
         />
         <div
-          className="absolute inset-0 hidden bg-cover bg-center bg-no-repeat mo:block"
+          className="floating-boat absolute inset-0 hidden bg-cover bg-center bg-no-repeat mo:block"
           style={{
             backgroundImage: "url('/images/landing/img-Landing-bg-mo.png')",
           }}
