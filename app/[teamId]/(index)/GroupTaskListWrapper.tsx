@@ -54,6 +54,10 @@ export default function GroupTaskListWrapper({
   const [more, setMore] = useState(false);
   const { openModal } = useModalStore();
 
+  const sortedTaskLists = taskLists?.sort(
+    (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
+  );
+
   const handleClickCreate = () =>
     openModal(<AddTaskList onCreate={onCreate} />);
 
@@ -77,7 +81,7 @@ export default function GroupTaskListWrapper({
         )}
       </div>
       {taskLists &&
-        taskLists.map((taskList, i) => {
+        sortedTaskLists?.map((taskList, i) => {
           return more || i < SIZE ? (
             <GroupTaskList
               key={taskList.id}
