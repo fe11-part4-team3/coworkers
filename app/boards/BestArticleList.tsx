@@ -25,7 +25,6 @@ const PAGE_SIZE = {
  */
 function BestArticleList() {
   const deviceType = useDeviceType();
-  const isMobile = deviceType === 'mobile';
 
   const [api, setApi] = useState<CarouselApi>();
 
@@ -73,7 +72,7 @@ function BestArticleList() {
                 })}
               </CarouselContent>
 
-              {isMobile && <Indicators api={api} />}
+              <Indicators api={api} />
             </Carousel>
           </>
         ) : (
