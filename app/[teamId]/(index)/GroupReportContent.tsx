@@ -14,6 +14,7 @@ import { ITaskList } from '@/types/taskList.type';
 import IconTodo from '@/public/images/icon-report-todo.svg';
 import IconDone from '@/public/images/icon-report-done.svg';
 import parseTasks from '@/utils/parseTasks';
+import Indicators from '@/components/Indicators';
 
 import TodayProgressChart from './charts/TodayProgressChart';
 import TodayTasksChart from './charts/TodayTasksChart';
@@ -120,17 +121,6 @@ function ChartContent({ taskLists }: ChartContentProps) {
 
 function MobileChartContent({ taskLists }: ChartContentProps) {
   const [api, setApi] = useState<CarouselApi>();
-  const [current, setCurrent] = useState(0);
-
-  useEffect(() => {
-    if (!api) {
-      return;
-    }
-
-    api.on('select', () => {
-      setCurrent(api.selectedScrollSnap());
-    });
-  }, [api]);
 
   return (
     <div>
@@ -144,14 +134,8 @@ function MobileChartContent({ taskLists }: ChartContentProps) {
           </CarouselItem>
         </CarouselContent>
       </Carousel>
-      <div className="flex justify-center gap-pr-8">
-        <div
-          className={`size-pr-12 rounded-full transition-all duration-300 ${current ? 'bg-b-tertiary' : 'bg-t-primary'}`}
-        />
-        <div
-          className={`size-pr-12 rounded-full transition-all duration-300 ${current ? 'bg-t-primary' : 'bg-b-tertiary'}`}
-        />
-      </div>
+
+      <Indicators api={api} />
     </div>
   );
 }
