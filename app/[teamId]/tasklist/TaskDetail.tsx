@@ -244,8 +244,8 @@ export default function TaskDetail({
 
                 <Buttons
                   disabled={
-                    task.name === formData.name &&
-                    task.description === formData.content
+                    values.name === formData.name &&
+                    values.content === formData.content
                   }
                   text="수정하기"
                   border="primary"
