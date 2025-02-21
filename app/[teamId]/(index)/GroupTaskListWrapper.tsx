@@ -80,8 +80,8 @@ export default function GroupTaskListWrapper({
           </button>
         )}
       </div>
-      {taskLists &&
-        sortedTaskLists?.map((taskList, i) => {
+      {sortedTaskLists ? (
+        sortedTaskLists.map((taskList, i) => {
           return more || i < SIZE ? (
             <GroupTaskList
               key={taskList.id}
@@ -92,7 +92,12 @@ export default function GroupTaskListWrapper({
               onDelete={onDelete}
             />
           ) : null;
-        })}
+        })
+      ) : (
+        <p className="my-pr-118 text-center text-16m text-t-default">
+          아직 생성된 할 일 목록이 없습니다.
+        </p>
+      )}
       {taskLists && taskLists?.length > SIZE && (
         <button
           className="m-auto flex w-fit items-center underline-offset-4 hover:underline"
