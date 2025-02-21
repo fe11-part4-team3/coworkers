@@ -113,6 +113,28 @@
   .scrollbar::-webkit-scrollbar-button {
     display: none;
   }
+
+  @keyframes floating-boat {
+    0% {
+      transform: translateX(0) rotate(0deg);
+    }
+    25% {
+      transform: translateX(5px) rotate(2deg);
+    }
+    50% {
+      transform: translateX(0) rotate(0deg);
+    }
+    75% {
+      transform: translateX(-5px) rotate(-2deg);
+    }
+    100% {
+      transform: translateX(0) rotate(0deg);
+    }
+  }
+
+  .floating-boat {
+    animation: floating-boat 6s linear infinite;
+  }
 }
 
 * {

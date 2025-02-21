@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { motion } from 'framer-motion';
 
 import Buttons from '@/components/Buttons';
 import useUser from '@/hooks/useUser';
@@ -44,13 +45,22 @@ export default function LandingPage() {
   }
 
   return (
-    <div className="mt-pr-60 flex w-screen flex-col items-center overflow-x-hidden">
+    <motion.div
+      className="mt-pr-60 flex w-screen flex-col items-center overflow-x-hidden"
+      initial={{ opacity: 0, y: 10 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{
+        duration: 0.5,
+        delay: 0.3,
+      }}
+    >
       <section className="relative h-pr-1080 w-screen mo:h-pr-640 ta:h-pr-940">
         <Image
           src="/images/landing/img-Landing-bg.png"
           alt="background"
           fill
-          className="absolute inset-0 object-cover tamo:hidden"
+          className="floating-boat absolute inset-0 object-cover tamo:hidden"
         />
         <Image
           src="/images/landing/img-Landing-bg-ta.png"
@@ -65,21 +75,31 @@ export default function LandingPage() {
           }}
         />
 
-        <div className="absolute left-1/2 top-pr-204 flex -translate-x-1/2 flex-col items-center justify-center gap-pr-20 text-center mo:top-pr-175 mo:gap-pr-4 ta:top-pr-220">
-          <h2 className="flex gap-pr-24 whitespace-nowrap text-48sb text-t-primary mo:gap-pr-4 mo:text-24sb ta:text-40sb">
-            함께 만들어가는 투두 리스트
-            <Image
-              src="/images/landing/icon-Tool.svg"
-              alt="Tool"
-              width={56}
-              height={56}
-              className="mo:size-pr-28 ta:size-pr-48"
-            />
-          </h2>
-          <h2 className="whitespace-nowrap bg-gradient-to-r from-brand-primary to-brand-tertiary bg-clip-text text-center text-64sb text-transparent mo:text-32sb ta:text-48sb">
-            Coworkers
-          </h2>
-        </div>
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{
+            duration: 0.5,
+            delay: 0.5,
+          }}
+        >
+          <div className="absolute left-1/2 top-pr-204 flex -translate-x-1/2 flex-col items-center justify-center gap-pr-20 text-center mo:top-pr-175 mo:gap-pr-4 ta:top-pr-220">
+            <h2 className="flex gap-pr-24 whitespace-nowrap text-48sb text-t-primary mo:gap-pr-4 mo:text-24sb ta:text-40sb">
+              함께 만들어가는 투두 리스트
+              <Image
+                src="/images/landing/icon-Tool.svg"
+                alt="Tool"
+                width={56}
+                height={56}
+                className="mo:size-pr-28 ta:size-pr-48"
+              />
+            </h2>
+            <h2 className="whitespace-nowrap bg-gradient-to-r from-brand-primary to-brand-tertiary bg-clip-text text-center text-64sb text-transparent mo:text-32sb ta:text-48sb">
+              Coworkers
+            </h2>
+          </div>
+        </motion.div>
 
         <div className="absolute bottom-pr-120 left-1/2 -translate-x-1/2 mo:bottom-pr-48 ta:bottom-pr-119">
           <Buttons
@@ -116,7 +136,16 @@ export default function LandingPage() {
             className="absolute inset-0 hidden object-cover mo:block"
           />
 
-          <div className="absolute top-pr-230 flex flex-col items-center mo:top-pr-123 ta:top-pr-176">
+          <motion.div
+            className="absolute top-pr-230 flex flex-col items-center mo:top-pr-123 ta:top-pr-176"
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{
+              duration: 0.5,
+              delay: 0.3,
+            }}
+          >
             <h1 className="mb-pr-24 text-center text-40sb text-t-primary mo:mb-pr-16 mo:text-24sb">
               지금 바로 시작해보세요
             </h1>
@@ -124,9 +153,9 @@ export default function LandingPage() {
               팀원 모두와 같은 방향, <br className="hidden mo:block" />
               같은 속도로 나아가는 가장 쉬운 방법
             </h2>
-          </div>
+          </motion.div>
         </div>
       </footer>
-    </div>
+    </motion.div>
   );
 }
