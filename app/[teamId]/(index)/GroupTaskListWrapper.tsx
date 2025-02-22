@@ -1,8 +1,11 @@
+import { useState } from 'react';
+
 import IconPlus from '@/public/images/icon-plus.svg';
 import { ITaskList } from '@/types/taskList.type';
 import { RoleType } from '@/types/group.type';
 import useModalStore from '@/stores/modalStore';
 import AddTaskList from '@/components/modal/AddTaskList';
+import ArrowDown from '@/public/images/icon-arrow-down.svg';
 
 import GroupTaskList from './GroupTaskList';
 import {
@@ -38,6 +41,9 @@ const POINT_COLOR: PointColorType[] = [
   'yellow',
 ];
 
+// 기본으로 노출되는 할 일 목록의 수
+const SIZE = 6;
+
 export default function GroupTaskListWrapper({
   role,
   taskLists,
@@ -45,7 +51,12 @@ export default function GroupTaskListWrapper({
   onEdit,
   onDelete,
 }: GroupTaskListWrapperProps) {
+  const [more, setMore] = useState(false);
   const { openModal } = useModalStore();
+
+  const sortedTaskLists = taskLists?.sort(
+    (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
+  );
 
   const handleClickCreate = () =>
     openModal(<AddTaskList onCreate={onCreate} />);
@@ -69,17 +80,33 @@ export default function GroupTaskListWrapper({
           </button>
         )}
       </div>
-      {taskLists &&
-        taskLists.map((taskList, i) => (
-          <GroupTaskList
-            key={taskList.id}
-            role={role}
-            taskList={taskList}
-            pointColor={POINT_COLOR[i % POINT_COLOR.length]}
-            onEdit={onEdit}
-            onDelete={onDelete}
-          />
-        ))}
+      {sortedTaskLists ? (
+        sortedTaskLists.map((taskList, i) => {
+          return more || i < SIZE ? (
+            <GroupTaskList
+              key={taskList.id}
+              role={role}
+              taskList={taskList}
+              pointColor={POINT_COLOR[i % POINT_COLOR.length]}
+              onEdit={onEdit}
+              onDelete={onDelete}
+            />
+          ) : null;
+        })
+      ) : (
+        <p className="my-pr-118 text-center text-16m text-t-default">
+          아직 생성된 할 일 목록이 없습니다.
+        </p>
+      )}
+      {taskLists && taskLists?.length > SIZE && (
+        <button
+          className="m-auto flex w-fit items-center underline-offset-4 hover:underline"
+          onClick={() => setMore((prev) => !prev)}
+        >
+          <ArrowDown className={more ? 'rotate-180' : ''} />
+          <span>{more ? '간략히' : '더보기'}</span>
+        </button>
+      )}
     </div>
   );
 }

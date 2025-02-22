@@ -70,7 +70,7 @@ function ArticleList({ keyword }: { keyword: string | undefined }) {
           <Empty.Text text="조회된 게시글이 없습니다." />
         </Empty.TextWrapper>
         <Empty.ButtonWrapper>
-          <Empty.Buttons text="게시글 작성하기" href="/addarticle" />
+          <Empty.Buttons text="게시글 작성하기" href="/boards/addarticle" />
         </Empty.ButtonWrapper>
       </Empty>
     );
@@ -115,7 +115,7 @@ function ArticleList({ keyword }: { keyword: string | undefined }) {
             </motion.div>
           ))
         ) : (
-          <ArticleSkeleton count={4} />
+          <ArticleSkeleton count={12} />
         )}
       </div>
     </section>

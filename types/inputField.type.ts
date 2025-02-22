@@ -20,4 +20,5 @@ export interface TextareaFieldProps
   size?: 'md' | 'lg';
   height?: string;
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  ref?: React.Ref<HTMLTextAreaElement>;
 }

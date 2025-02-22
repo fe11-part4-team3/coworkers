@@ -21,7 +21,7 @@ export default function DropdownTab({ group, onClick }: DropdownTabProps) {
 
   return (
     <DropdownMenuItem
-      className="mb-pr-8 rounded-lg px-pr-8 py-pr-7"
+      className="mb-pr-8 cursor-pointer rounded-lg px-pr-8 py-pr-7"
       onClick={handleClick}
     >
       <div className="relative size-pr-24 overflow-hidden rounded-pr-6">

@@ -36,7 +36,6 @@ const memberCount = 10;
 
 export const Default: Story = {
   args: {
-    groupId: 2024,
     members: getMockMembers(memberCount),
   },
 };

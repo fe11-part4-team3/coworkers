@@ -50,7 +50,7 @@ export default function GroupMemberCard({
       ) : (
         <MobileContent member={member} />
       )}
-      {role === 'ADMIN' && (
+      {role === 'ADMIN' && member.role === 'MEMBER' && (
         <div className="size-pr-16">
           <DropDown
             ref={dropdownRef}

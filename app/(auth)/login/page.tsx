@@ -30,7 +30,7 @@ function LoginPage() {
   } = useForm(initialValues);
 
   const route = useRouter();
-  const { reload, memberships } = useUser();
+  const { user, reload, memberships } = useUser();
   const { openModal } = useModalStore();
   const params = useSearchParams();
   const redirect = params.get('redirect');
@@ -68,27 +68,25 @@ function LoginPage() {
   };
 
   useEffect(() => {
-    if (memberships) {
+    if (user) {
       // STUB 로그인 후 가입된 그룹이 있을 때, 첫 번째 그룹으로 이동
-      if (memberships.length > 0) {
+      if (redirect) {
+        route.push(redirect);
+      } else if (memberships && memberships.length > 0) {
         route.push(`/${memberships[0].groupId}`);
       } else {
         route.push(`/`);
       }
-
-      if (redirect) {
-        route.push(redirect);
-      }
-    } else {
-      return;
     }
-  }, [route, memberships, redirect]);
+  }, [route, user, memberships, redirect]);
 
   const requiredFields = Object.keys(initialValues);
 
   const hasDisabled =
     requiredFields.some(
-      (field) => !changedFields[field as keyof typeof changedFields],
+      (field) =>
+        !formData[field as keyof typeof formData] &&
+        !changedFields[field as keyof typeof changedFields],
     ) ||
     requiredFields.some(
       (field) => errorMessage[field as keyof typeof errorMessage] !== '',

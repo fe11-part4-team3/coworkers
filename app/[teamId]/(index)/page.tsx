@@ -58,11 +58,11 @@ export default function TeamPage() {
     queryKey: groupId ? ['tasks', groupId] : [],
     queryFn: () =>
       getTasksInGroup({
-        id: group?.id as number,
+        id: groupId,
         date,
       }),
     initialData: [],
-    enabled: !!group,
+    enabled: !!groupId,
   });
 
   const { mutate: onEditGroup } = useMutation({
@@ -176,7 +176,7 @@ export default function TeamPage() {
 
   return (
     <Container>
-      <div className="flex flex-col gap-pr-24 pt-pr-24">
+      <div className="mb-pr-84 flex flex-col gap-pr-24 pt-pr-24">
         <GroupHeader
           role={role}
           group={group}
@@ -193,7 +193,6 @@ export default function TeamPage() {
         <GroupReport tasks={tasks} taskLists={taskLists} />
         <GroupMemberList
           role={role}
-          groupId={group.id}
           members={members}
           onDelete={onDeleteMember}
         />

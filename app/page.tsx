@@ -70,10 +70,10 @@ export default function LandingPage() {
           fill
           priority
           sizes="(max-width: 768px) 100vw, 50vw"
-          className="absolute inset-0 hidden object-cover mo:hidden ta:block"
+          className="floating-boat absolute inset-0 hidden object-cover mo:hidden ta:block"
         />
         <div
-          className="absolute inset-0 hidden bg-cover bg-center bg-no-repeat mo:block"
+          className="floating-boat absolute inset-0 hidden bg-cover bg-center bg-no-repeat mo:block"
           style={{
             backgroundImage: "url('/images/landing/img-Landing-bg-mo.png')",
           }}

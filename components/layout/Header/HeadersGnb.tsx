@@ -11,22 +11,20 @@ function HeadersGnb() {
 
   return (
     <nav className="flex flex-1 items-center gap-pr-40 mo:hidden ta:gap-pr-24">
-      <div className="space-x-pr-8">
-        {groups && (
-          <NavigationGroupDropdown
-            groups={groups}
-            isPending={isPending}
-            currentGroup={group}
-          />
-        )}
-        {user && (
-          <Link href="/boards">
-            <Button variant="link">
-              <span className="text-16m">자유게시판</span>
-            </Button>
-          </Link>
-        )}
-      </div>
+      {groups && (
+        <NavigationGroupDropdown
+          groups={groups}
+          isPending={isPending}
+          currentGroup={group}
+        />
+      )}
+      {user && (
+        <Link href="/boards">
+          <Button variant="link">
+            <span className="text-16m">자유게시판</span>
+          </Button>
+        </Link>
+      )}
     </nav>
   );
 }

@@ -25,7 +25,7 @@ function SignupPage() {
   const [passwordConfirmationError, setPasswordConfirmationError] =
     useState('');
 
-  const { memberships } = useUser();
+  const { user, memberships } = useUser();
 
   const route = useRouter();
 
@@ -75,17 +75,14 @@ function SignupPage() {
   };
 
   useEffect(() => {
-    if (memberships) {
-      // STUB 로그인 후 가입된 그룹이 있을 때, 첫 번째 그룹으로 이동
-      if (memberships.length > 0) {
+    if (user) {
+      if (memberships && memberships.length > 0) {
         route.push(`/${memberships[0].groupId}`);
       } else {
         route.push(`/`);
       }
-    } else {
-      return;
     }
-  }, [route, memberships]);
+  }, [route, user, memberships]);
 
   const requiredFields = Object.keys(initialValues);
 
