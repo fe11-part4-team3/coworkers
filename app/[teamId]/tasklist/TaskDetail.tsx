@@ -171,6 +171,7 @@ export default function TaskDetail({
                   value={formData.name}
                   onChange={handleInputChange}
                   errorMessage={errorMessage.name}
+                  placeholder={values.name}
                 />
               ) : (
                 <>
@@ -235,6 +236,7 @@ export default function TaskDetail({
                 name="content"
                 value={formData.content}
                 onChange={handleInputChange}
+                placeholder={values.content}
               />
               <div className="mt-pr-12 flex items-center justify-end gap-pr-8">
                 <button

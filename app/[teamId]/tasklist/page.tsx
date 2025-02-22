@@ -111,6 +111,7 @@ export default function TaskListPage() {
                 queryParams: { id: taskList.id },
               })}
               key={taskList.id}
+              className="select-none"
             >
               <li
                 className={classNames(
