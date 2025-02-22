@@ -1,4 +1,5 @@
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 import { IGroup } from '@/types/group.type';
 import {
@@ -11,6 +12,8 @@ import ArrowDwon from '@/public/images/icon-arrow-down.svg';
 import { Button } from '../ui/button';
 import DropdownTab from './DropdownTab';
 import DropdownAddGroup from './DropdownAddGroup';
+
+const DEFAULT_GROUP_PROFILE = '/images/icon-image-default.svg';
 
 interface NavigationGroupDropdownProps {
   groups: IGroup[] | null;
@@ -39,11 +42,24 @@ export default function NavigationGroupDropdown({
       <DropdownMenuTrigger asChild>
         <Button variant="link" className="bg-inherit text-t-primary">
           {/* TODO 펜딩 시 스피너 렌더링 해야함 */}
-          {isPending ? (
-            <span>로딩 중</span>
-          ) : (
-            <span className="text-16m">{currentGroup?.name || '팀 선택'}</span>
+          {isPending && <span className="text-16m">로딩 중</span>}
+          {!isPending && !currentGroup && (
+            <span className="text-16m">팀 선택</span>
           )}
+          {!isPending && currentGroup && (
+            <>
+              <div className="relative size-pr-24 overflow-hidden rounded-pr-6">
+                <Image
+                  fill
+                  className="object-cover"
+                  src={currentGroup.image || DEFAULT_GROUP_PROFILE}
+                  alt="프로필 옵션"
+                />
+              </div>
+              <span className="text-16m">{currentGroup.name}</span>
+            </>
+          )}
+
           <ArrowDwon />
         </Button>
       </DropdownMenuTrigger>
