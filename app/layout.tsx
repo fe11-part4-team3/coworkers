@@ -48,7 +48,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
       </head>
-      <body>
+      <body className="scrollbar">
         <DeviceTypeProvider>
           <ThemeProvider
             attribute="class"
