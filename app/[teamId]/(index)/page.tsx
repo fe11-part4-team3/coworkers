@@ -193,7 +193,6 @@ export default function TeamPage() {
         <GroupReport tasks={tasks} taskLists={taskLists} />
         <GroupMemberList
           role={role}
-          groupId={group.id}
           members={members}
           onDelete={onDeleteMember}
         />
