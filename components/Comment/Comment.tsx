@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 
 import { Card } from '@/components/ui/card';
@@ -36,6 +36,8 @@ function Comment({
   const [commentEditContent, setCommentEditContent] = useState(content);
   const [commentEdit, setCommentEdit] = useState(false);
 
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+
   const { openModal } = useModalStore();
 
   const isArticleComment = type === 'article';
@@ -47,18 +49,31 @@ function Comment({
     : undefined;
   const user = isTaskComment ? (commentData as ITaskComment).user : undefined;
 
+  // 댓글 수정 시 textarea focus
+  useEffect(() => {
+    if (commentEdit && textareaRef.current) {
+      const textarea = textareaRef.current;
+      textarea.focus();
+
+      // 커서를 맨 뒤로 이동
+      textarea.setSelectionRange(
+        commentEditContent.length,
+        commentEditContent.length,
+      );
+    }
+  }, [commentEdit, commentEditContent]);
+
   // 수정 완료
   const updateSubmit = () => {
-    setCommentEdit(false);
-
-    if (taskId)
-      return handleUpdateSubmit({
+    if (taskId) {
+      handleUpdateSubmit({
         taskId,
         commentId: id,
         content: commentEditContent,
       });
-    else
-      return openModal(
+      setCommentEdit(false);
+    } else {
+      openModal(
         <EditDelete
           title="댓글"
           actionType="수정"
@@ -68,6 +83,7 @@ function Comment({
           }}
         />,
       );
+    }
   };
 
   return (
@@ -89,6 +105,7 @@ function Comment({
       ) : (
         <div className="mb-pr-16">
           <TextareaField
+            ref={textareaRef}
             name="content"
             size="md"
             value={commentEditContent}
