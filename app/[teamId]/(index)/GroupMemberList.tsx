@@ -1,18 +1,14 @@
 import { useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
 
 import { IMember, RoleType } from '@/types/group.type';
 import { useDeviceType } from '@/contexts/DeviceTypeContext';
 import Plus from '@/public/images/icon-plus.svg';
-import { getInvitation } from '@/service/group.api';
 import ArrowDown from '@/public/images/icon-arrow-down.svg';
 import useModalStore from '@/stores/modalStore';
-import InviteMember from '@/components/modal/InviteMember';
-import createUrlString from '@/utils/createUrlString';
-import { useSnackbar } from '@/contexts/SnackBar.context';
 
 import GroupMemberCard from './GroupMemberCard';
 import { _DeleteMemberParams } from './TeamPage.type';
+import InviteMemberModal from './InviteMemberModal';
 
 interface GroupMemberListProps {
   role: RoleType;
@@ -42,30 +38,11 @@ export default function GroupMemberList({
   const deviceType = useDeviceType();
   const [more, setMore] = useState(false);
   const { openModal } = useModalStore();
-  const { showSnackbar } = useSnackbar();
-
-  const { mutate: getInvitationMutate, isPending } = useMutation({
-    mutationFn: () => getInvitation({ id: groupId }),
-    onSuccess: (token) => copyLink(token),
-    onError: (error) => showSnackbar(error.message, 'error'),
-  });
 
   //TODO 데이터가 있을 때 중복 요청 안보내게 개선
 
-  const copyLink = (token: string) => {
-    const path = createUrlString({
-      origin: location.origin,
-      pathname: ['/jointeam'],
-      queryParams: { token },
-    });
-    setTimeout(() => navigator.clipboard.writeText(path), 500);
-    showSnackbar('초대하기 링크를 클립보드에 복사했습니다.');
-  };
-
   const handleClickInvitation = async () => {
-    openModal(
-      <InviteMember onClick={getInvitationMutate} loading={isPending} />,
-    );
+    openModal(<InviteMemberModal />);
   };
 
   if (!members) return null;
