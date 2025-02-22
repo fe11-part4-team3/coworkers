@@ -52,7 +52,7 @@ export default function Profile({
         height={profileSize || 64}
         src={image || ''}
         alt={`${variant} 프로필 이미지`}
-        className="h-full w-auto"
+        className="h-full w-auto object-cover object-center"
       />
     ) : (
       <IconProfile variant={variant} size={profileSize} />
