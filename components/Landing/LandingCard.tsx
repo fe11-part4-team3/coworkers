@@ -64,8 +64,9 @@ function LandingCardImage({
         alt=""
         width={294}
         height={329}
+        priority
         className={classNames(
-          'tamo:h-pr-268 tamo:w-pr-231',
+          'size-auto tamo:h-pr-268 tamo:w-pr-231',
           xPosition === 'end'
             ? 'mr-pr-51 tamo:mr-pr-0'
             : 'ml-pr-51 tamo:ml-pr-0',
