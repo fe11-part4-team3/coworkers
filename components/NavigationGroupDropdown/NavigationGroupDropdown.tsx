@@ -1,4 +1,5 @@
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 import { IGroup } from '@/types/group.type';
 import {
@@ -11,7 +12,6 @@ import ArrowDwon from '@/public/images/icon-arrow-down.svg';
 import { Button } from '../ui/button';
 import DropdownTab from './DropdownTab';
 import DropdownAddGroup from './DropdownAddGroup';
-import Image from 'next/image';
 
 const DEFAULT_GROUP_PROFILE = '/images/icon-image-default.svg';
 
