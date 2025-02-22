@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { signIn, useSession } from 'next-auth/react';
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import { signInProvider } from '@/service/auth.api';
 import useUser from '@/hooks/useUser';
@@ -10,8 +10,8 @@ import { useSnackbar } from '@/contexts/SnackBar.context';
 import useUserStore from '@/stores/useUser.store';
 
 export default function OauthForm({ type }: { type: 'login' | 'signup' }) {
-  const { reload } = useUser();
-  const user = useUserStore((state) => state.user);
+  const { user, reload } = useUser();
+
   const { showSnackbar } = useSnackbar();
 
   const { data: session } = useSession();
@@ -46,12 +46,8 @@ export default function OauthForm({ type }: { type: 'login' | 'signup' }) {
     signIn('kakao', { redirect: false });
   }, []);
 
-  const isExecuted = useRef(false);
-
   useEffect(() => {
-    if (!session || isExecuted.current) return;
-
-    isExecuted.current = true;
+    if (!session) return;
 
     if (session?.googleIdToken) {
       // STUB 유저 정보가 없고, 구글 로그인 데이터가 있을 때
