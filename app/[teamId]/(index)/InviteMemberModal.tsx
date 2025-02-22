@@ -2,7 +2,6 @@
 
 import Buttons from '@/components/Buttons';
 import CloseButton from '@/components/modal/ModalCloseButton';
-
 import useModalStore from '@/stores/modalStore';
 
 import AddMemberModal from './AddMemberModal';

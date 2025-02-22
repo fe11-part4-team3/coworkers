@@ -12,7 +12,6 @@ import InviteMemberModal from './InviteMemberModal';
 
 interface GroupMemberListProps {
   role: RoleType;
-  groupId: number;
   members: IMember[] | null;
   onDelete: (params: _DeleteMemberParams) => void;
 }
@@ -31,7 +30,6 @@ const GRID_COLRS = {
 
 export default function GroupMemberList({
   role,
-  groupId,
   members,
   onDelete,
 }: GroupMemberListProps) {

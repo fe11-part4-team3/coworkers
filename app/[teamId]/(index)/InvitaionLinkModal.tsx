@@ -1,10 +1,11 @@
 'use client';
 
+import { useMutation } from '@tanstack/react-query';
+
 import CloseButton from '@/components/modal/ModalCloseButton';
 import Buttons from '@/components/Buttons';
 import createUrlString from '@/utils/createUrlString';
 import useGroup from '@/hooks/useGroup';
-import { useMutation } from '@tanstack/react-query';
 import { getInvitation } from '@/service/group.api';
 import { useSnackbar } from '@/contexts/SnackBar.context';
 
