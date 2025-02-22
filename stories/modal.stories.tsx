@@ -8,7 +8,6 @@ import Buttons from '@/components/Buttons';
 import Container from '@/components/layout/Container';
 import ResetPassword from '@/components/modal/ResetPassword';
 import Logout from '@/components/modal/Logout';
-import InviteMember from '@/components/modal/InviteMember';
 import DeleteTask from '@/components/modal/DeleteTask';
 import DeleteAccount from '@/components/modal/DeleteAccount';
 import ChangePassword from '@/components/modal/ChangePassword';
@@ -43,10 +42,6 @@ const Template: StoryFn = () => {
         }}
       />,
     );
-  };
-
-  const handleOpenInviteMember = () => {
-    openModal(<InviteMember loading={false} onClick={() => handleAddTask} />);
   };
 
   const handleOpenDeleteTask = () => {
@@ -94,7 +89,6 @@ const Template: StoryFn = () => {
         />
 
         <Buttons onClick={handleOpenLogout} text="로그아웃 모달 열기" />
-        <Buttons onClick={handleOpenInviteMember} text="멤버 초대 모달 열기" />
         <Buttons onClick={handleOpenDeleteTask} text="할일 삭제 모달 열기" />
         <Buttons onClick={handleOpenDeleteAccount} text="회원 탈퇴 모달 열기" />
         <Buttons
