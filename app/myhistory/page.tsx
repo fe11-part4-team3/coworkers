@@ -59,28 +59,30 @@ function MyHistoryPage() {
     );
 
   return (
-    <Container className="pt-pr-40 tamo:pt-pr-24">
-      <h1 className="mb-pr-24 text-20b mo:mb-pr-27 mo:text-18b">
-        마이 히스토리
-      </h1>
-      {tasksDone.length === 0 ? (
-        <Empty>
-          <Empty.TextWrapper>
-            <Empty.Text text="완료한 작업이 없습니다." />
-          </Empty.TextWrapper>
-        </Empty>
-      ) : (
-        <div className="space-y-pr-40">
-          {sortedDates.map((date) => (
-            <div key={date} className="flex flex-col gap-pr-16">
-              <h2 className="text-16m">{date}</h2>
-              {groupedTasks[date].map((task) => (
-                <TaskCard key={task.id} type="history" task={task} />
-              ))}
-            </div>
-          ))}
-        </div>
-      )}
+    <Container>
+      <div className="pt-pr-40 tamo:pt-pr-24">
+        <h1 className="mb-pr-24 text-20b mo:mb-pr-27 mo:text-18b">
+          마이 히스토리
+        </h1>
+        {tasksDone.length === 0 ? (
+          <Empty>
+            <Empty.TextWrapper>
+              <Empty.Text text="완료한 작업이 없습니다." />
+            </Empty.TextWrapper>
+          </Empty>
+        ) : (
+          <div className="space-y-pr-40">
+            {sortedDates.map((date) => (
+              <div key={date} className="flex flex-col gap-pr-16">
+                <h2 className="text-16m">{date}</h2>
+                {groupedTasks[date].map((task) => (
+                  <TaskCard key={task.id} type="history" task={task} />
+                ))}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </Container>
   );
 }

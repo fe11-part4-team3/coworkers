@@ -27,25 +27,22 @@ export default function Layout({ children }: ILayoutProps) {
   };
 
   return (
-    <Container
-      className={classNames(
-        'py-pr-140 mo:py-pr-24 ta:py-pr-100',
-        currentPath &&
-          ['jointeam', 'addteam', 'reset-password', 'login'].includes(
-            currentPath,
-          ) &&
-          'mt-pr-0 flex h-screen w-full flex-col items-center justify-center',
-      )}
-    >
-      <h1 className="mb-pr-80 text-center text-40m mo:mb-pr-24 tamo:text-24m">
-        {getTitle(currentPath)}
-      </h1>
-      <div className="mx-auto w-pr-460 mo:w-full">
-        {children}
-        <div className="mt-pr-48 mo:mt-pr-25">
-          {currentPath && ['login', 'signup'].includes(currentPath) && (
-            <OauthForm type={currentPath as 'login' | 'signup'} />
-          )}
+    <Container>
+      <div
+        className={classNames(
+          '-mt-pr-60 flex h-screen w-full flex-col items-center justify-center',
+        )}
+      >
+        <h1 className="mb-pr-80 text-center text-40m mo:mb-pr-24 tamo:text-24m">
+          {getTitle(currentPath)}
+        </h1>
+        <div className="mx-auto w-pr-460 mo:w-full">
+          {children}
+          <div className="mt-pr-48 mo:mt-pr-25">
+            {currentPath && ['login', 'signup'].includes(currentPath) && (
+              <OauthForm type={currentPath as 'login' | 'signup'} />
+            )}
+          </div>
         </div>
       </div>
     </Container>
