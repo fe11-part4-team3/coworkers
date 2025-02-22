@@ -88,7 +88,9 @@ function LoginPage() {
 
   const hasDisabled =
     requiredFields.some(
-      (field) => !changedFields[field as keyof typeof changedFields],
+      (field) =>
+        !formData[field as keyof typeof formData] &&
+        !changedFields[field as keyof typeof changedFields],
     ) ||
     requiredFields.some(
       (field) => errorMessage[field as keyof typeof errorMessage] !== '',
