@@ -43,10 +43,8 @@ export default function RootLayout({
           content="Coworkers | 함께 만들어가는 Todo List"
         />
         <link
-          rel="preload"
+          rel="stylesheet"
           href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css"
-          as="font"
-          type="text/css"
           crossOrigin="anonymous"
         />
       </head>
