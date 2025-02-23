@@ -65,7 +65,6 @@ export default function TaskDetail({
 
   const updatedAt = format(new Date(task.updatedAt), 'yyyy.MM.dd');
   const date = format(new Date(task.date), 'yyyy년 M월 dd일');
-  const time = format(new Date(task.date), '오후 h:mm');
 
   const { mutate: updateTaskMutate } = useMutation({
     mutationFn: (params: { taskId: number; body: UpdateTaskBodyParams }) =>
@@ -215,7 +214,6 @@ export default function TaskDetail({
           </div>
           <div className="flex items-center text-14">
             <IconLabel text={date} type="calendar" hasBar />
-            <IconLabel text={time} type="time" hasBar />
             <IconLabel text={REPEAT[task.frequency]} type="repeat" />
           </div>
         </DrawerHeader>

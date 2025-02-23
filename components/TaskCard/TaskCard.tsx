@@ -4,7 +4,7 @@ import { MouseEvent, useRef } from 'react';
 import classNames from 'classnames';
 
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
-import { newDate, newTime } from '@/utils/dateConversion';
+import { newDate } from '@/utils/dateConversion';
 import type { TaskCardProps } from '@/types/taskCard.type';
 import IconText from '@/components/IconLabel';
 import TaskCheckbox from '@/components/TaskCard/TaskCheckbox';
@@ -63,7 +63,6 @@ function TaskCard({ type, task, onToggle, onClick }: TaskCardProps) {
       {isTaskList && (
         <CardFooter className="flex p-0">
           <IconText type="calendar" text={newDate(date)} hasBar />
-          <IconText type="time" text={newTime(date)} hasBar />
           <IconText type="repeat" text={frequencyText} />
         </CardFooter>
       )}
