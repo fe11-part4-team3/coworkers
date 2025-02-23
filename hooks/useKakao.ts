@@ -1,4 +1,5 @@
 import { useCallback, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 
 import {
   getLoginProcessed,
@@ -19,6 +20,7 @@ const useKakaoLogin = () => {
   // STUB 중복 로그인 방지 플래그
   const signInExecutedRef = useRef(false);
   const { showSnackbar } = useSnackbar();
+  const router = useRouter();
 
   const kakaoLogin = useCallback(
     async ({ id, user: userData }: IKakaoLogin, reload: () => void) => {
@@ -65,6 +67,7 @@ const useKakaoLogin = () => {
             }
           }
         } finally {
+          router.push('/login');
           reload();
         }
       };
