@@ -132,81 +132,83 @@ export default function MyPage() {
 
   // 로그인 상태일 때
   return (
-    <Container className="w-pr-842 pt-pr-40 tamo:pt-pr-24">
-      <h1 className="mb-pr-24 text-20b">계정 설정</h1>
-      <div className="auth_input-list">
-        {/* 프로필 이미지 */}
-        <Profile
-          isEdit={true}
-          variant="member"
-          image={preview || user?.image}
-          onSelectFile={handleFileChange}
-          errorMessage={errorMessage.image}
-        />
-
-        {/* 닉네임 */}
-        <InputField
-          label="닉네임"
-          name="nickname"
-          value={formData.nickname}
-          placeholder={user?.nickname}
-          errorMessage={errorMessage.nickname}
-          onChange={handleInputChange}
-        />
-
-        {/* 이메일 */}
-        <InputField
-          type="email"
-          value={user?.email}
-          placeholder={user?.email}
-          name="email"
-          disabled={true}
-          label="이메일"
-        />
-
-        {/* 비밀번호 */}
-        <InputField
-          type="password"
-          value="password"
-          name="password"
-          placeholder="******"
-          disabled={true}
-          label="비밀번호"
-          sesstionStatus={status}
-        />
-      </div>
-
-      {/* 회원탈퇴, 저장하기 버튼 */}
-      <div className="mt-pr-24 flex items-center justify-between">
-        <button
-          type="button"
-          onClick={(e) => handleUserDelete(e)}
-          className="flex items-center justify-center gap-pr-8 text-16m text-s-danger"
-        >
-          <Image
-            src="/images/icon-secession.svg"
-            alt="회원탈퇴"
-            width={24}
-            height={24}
+    <Container>
+      <div className="mx-auto w-pr-842 pt-pr-40 tamo:w-full tamo:pt-pr-24">
+        <h1 className="mb-pr-24 text-20b">계정 설정</h1>
+        <div className="auth_input-list">
+          {/* 프로필 이미지 */}
+          <Profile
+            isEdit={true}
+            variant="member"
+            image={preview || user?.image}
+            onSelectFile={handleFileChange}
+            errorMessage={errorMessage.image}
           />
-          회원 탈퇴하기
-        </button>
 
-        {/* 프로필 이미지 또는 닉네임의 변경사항이 있을 경우 해당 버튼 노출 */}
-        {updateValidation && (
-          <Buttons
-            type="submit"
-            text="저장하기"
-            className="w-pr-100"
-            backgroundColor="none"
-            textColor="primary"
-            border="primary"
-            size="M"
-            onClick={handleSubmit}
-            disabled={!updateValidation || isUpdateUserPending}
-            loading={isUpdateUserPending}
+          {/* 닉네임 */}
+          <InputField
+            label="닉네임"
+            name="nickname"
+            value={formData.nickname}
+            placeholder={user?.nickname}
+            errorMessage={errorMessage.nickname}
+            onChange={handleInputChange}
           />
-        )}
+
+          {/* 이메일 */}
+          <InputField
+            type="email"
+            value={user?.email}
+            placeholder={user?.email}
+            name="email"
+            disabled={true}
+            label="이메일"
+          />
+
+          {/* 비밀번호 */}
+          <InputField
+            type="password"
+            value="password"
+            name="password"
+            placeholder="******"
+            disabled={true}
+            label="비밀번호"
+            sesstionStatus={status}
+          />
+        </div>
+
+        {/* 회원탈퇴, 저장하기 버튼 */}
+        <div className="mt-pr-24 flex items-center justify-between">
+          <button
+            type="button"
+            onClick={(e) => handleUserDelete(e)}
+            className="flex items-center justify-center gap-pr-8 text-16m text-s-danger"
+          >
+            <Image
+              src="/images/icon-secession.svg"
+              alt="회원탈퇴"
+              width={24}
+              height={24}
+            />
+            회원 탈퇴하기
+          </button>
+
+          {/* 프로필 이미지 또는 닉네임의 변경사항이 있을 경우 해당 버튼 노출 */}
+          {updateValidation && (
+            <Buttons
+              type="submit"
+              text="저장하기"
+              className="w-pr-100"
+              backgroundColor="none"
+              textColor="primary"
+              border="primary"
+              size="M"
+              onClick={handleSubmit}
+              disabled={!updateValidation || isUpdateUserPending}
+              loading={isUpdateUserPending}
+            />
+          )}
+        </div>
       </div>
     </Container>
   );

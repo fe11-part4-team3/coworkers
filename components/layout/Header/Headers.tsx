@@ -2,7 +2,6 @@
 
 import React from 'react';
 
-import { DeviceType, useDeviceType } from '@/contexts/DeviceTypeContext';
 import useUser from '@/hooks/useUser';
 import DarkmodeToggle from '@/components/DarkmodeToggle';
 
@@ -11,13 +10,20 @@ import HeadersGnb from './HeadersGnb';
 import HeadersSideNav from './HeadersSideNav';
 import HeadersProfileDropDown from './HeadersProfileDropDown';
 
-function renderGnb(type: DeviceType) {
-  return type === 'mobile' ? <HeadersSideNav /> : <HeadersGnb />;
+function renderGnb() {
+  return (
+    <>
+      <div className="hidden mo:block">
+        <HeadersSideNav />
+      </div>
+      <div className="block mo:hidden">
+        <HeadersGnb />
+      </div>
+    </>
+  );
 }
 
 function Headers() {
-  const deviceType = useDeviceType();
-
   const { user } = useUser();
 
   return (
@@ -25,7 +31,7 @@ function Headers() {
       <div className="mx-auto flex h-pr-60 w-pr-1280 items-center justify-between px-pr-40 mo:px-pr-16 ta:px-pr-25">
         <div className="flex items-center gap-x-pr-24 mo:flex-row-reverse mo:gap-x-pr-16">
           <Logo className="mo:flex-1" />
-          {user && renderGnb(deviceType)}
+          {user && renderGnb()}
         </div>
 
         <div className="flex items-center">

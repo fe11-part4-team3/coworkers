@@ -13,7 +13,7 @@ export default function Container({
 }: ContainerProps) {
   return (
     <main
-      className={`${className} mx-auto mt-pr-60 w-pr-1280 px-pr-40 mo:px-pr-16 ta:px-pr-25 tamo:w-full`}
+      className={`${className} mx-auto w-pr-1280 px-pr-40 pt-pr-60 mo:px-pr-16 ta:px-pr-25 tamo:w-full`}
     >
       <motion.div
         initial={{ opacity: 0, y: 10 }}

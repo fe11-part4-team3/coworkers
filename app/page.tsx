@@ -60,12 +60,16 @@ export default function LandingPage() {
           src="/images/landing/img-Landing-bg.png"
           alt="background"
           fill
+          priority
+          sizes="(max-width: 768px) 100vw, 50vw"
           className="floating-boat absolute inset-0 object-cover tamo:hidden"
         />
         <Image
           src="/images/landing/img-Landing-bg-ta.png"
           alt="background-tablet"
           fill
+          priority
+          sizes="(max-width: 768px) 100vw, 50vw"
           className="floating-boat absolute inset-0 hidden object-cover mo:hidden ta:block"
         />
         <div
@@ -121,18 +125,24 @@ export default function LandingPage() {
             src="/images/landing/img-Landing-bottom.png"
             alt="background-bottom"
             fill
+            priority
+            sizes="(max-width: 768px) 100vw, 50vw"
             className="absolute inset-0 object-cover tamo:hidden"
           />
           <Image
             src="/images/landing/img-Landing-bottom-ta.png"
             alt="background-bottom-tablet"
             fill
+            priority
+            sizes="(max-width: 768px) 100vw, 50vw"
             className="absolute inset-0 hidden object-cover mo:hidden ta:block"
           />
           <Image
             src="/images/landing/img-Landing-bottom-mo.png"
             alt="background-bottom-mobile"
             fill
+            priority
+            sizes="(max-width: 768px) 100vw, 50vw"
             className="absolute inset-0 hidden object-cover mo:block"
           />
 
