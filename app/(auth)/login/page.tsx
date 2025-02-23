@@ -4,6 +4,7 @@ import React, { useEffect, MouseEvent, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useMutation } from '@tanstack/react-query';
+import { useSession } from 'next-auth/react';
 
 import { signIn } from '@/service/auth.api';
 import useForm from '@/hooks/useForm';
@@ -14,6 +15,7 @@ import useModalStore from '@/stores/modalStore';
 import ResetPassword from '@/components/modal/ResetPassword';
 import { useSnackbar } from '@/contexts/SnackBar.context';
 import useUserStore from '@/stores/useUser.store';
+import AuthLoading from '@/components/AuthLoading';
 
 const initialValues = {
   email: '',
@@ -34,6 +36,10 @@ function LoginPage() {
   const { openModal } = useModalStore();
   const params = useSearchParams();
   const redirect = params.get('redirect');
+
+  const { status } = useSession();
+
+  console.log('status - login', status);
 
   const { showSnackbar } = useSnackbar();
 
@@ -68,17 +74,19 @@ function LoginPage() {
   };
 
   useEffect(() => {
-    if (user) {
-      // STUB 로그인 후 가입된 그룹이 있을 때, 첫 번째 그룹으로 이동
-      if (redirect) {
-        route.push(redirect);
-      } else if (memberships && memberships.length > 0) {
-        route.push(`/${memberships[0].groupId}`);
-      } else {
-        route.push(`/`);
+    if (status === 'authenticated') {
+      if (user) {
+        // STUB 로그인 후 가입된 그룹이 있을 때, 첫 번째 그룹으로 이동
+        if (redirect) {
+          route.push(redirect);
+        } else if (memberships && memberships.length > 0) {
+          route.push(`/${memberships[0].groupId}`);
+        } else {
+          route.push(`/`);
+        }
       }
     }
-  }, [route, user, memberships, redirect]);
+  }, [route, user, memberships, redirect, status]);
 
   const requiredFields = Object.keys(initialValues);
 
@@ -91,6 +99,10 @@ function LoginPage() {
     requiredFields.some(
       (field) => errorMessage[field as keyof typeof errorMessage] !== '',
     );
+
+  if (status === 'loading') {
+    return <AuthLoading />;
+  }
 
   // STUB 로그인 상태가 아닐 때
   return (
