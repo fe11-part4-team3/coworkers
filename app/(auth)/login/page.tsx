@@ -85,6 +85,8 @@ function LoginPage() {
           route.push(`/`);
         }
       }
+    } else if (status === 'loading') {
+      route.push('/login');
     }
   }, [route, user, memberships, redirect, status]);
 
