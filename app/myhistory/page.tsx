@@ -50,12 +50,21 @@ function MyHistoryPage() {
 
   if (isLoading)
     return (
-      <div className="space-y-pr-16">
-        <Skeleton className="h-pr-24 w-pr-120" />
-        <Skeleton className="h-pr-64 w-full" />
-        <Skeleton className="h-pr-64 w-full" />
-        <Skeleton className="h-pr-64 w-full" />
-      </div>
+      <Container>
+        <div className="pt-pr-40 tamo:pt-pr-24">
+          <div className="space-y-pr-40">
+            <div className="flex flex-col gap-pr-16">
+              <Skeleton className="h-pr-20 w-pr-80" />
+              {Array.from({ length: 3 }).map((_, index) => (
+                <Skeleton
+                  key={index}
+                  className="h-pr-48 w-full rounded-pr-12"
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </Container>
     );
 
   return (
