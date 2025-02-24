@@ -74,7 +74,7 @@ function LoginPage() {
   };
 
   useEffect(() => {
-    if (status === 'authenticated') {
+    if (status === 'authenticated' || status === 'unauthenticated') {
       if (user) {
         // STUB 로그인 후 가입된 그룹이 있을 때, 첫 번째 그룹으로 이동
         if (redirect) {
