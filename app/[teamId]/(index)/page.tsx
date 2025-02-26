@@ -39,7 +39,7 @@ import GroupReport from './GroupReport';
 export default function TeamPage() {
   const router = useRouter();
   const { reload: refetchUser } = useUser(true);
-  const { date, now } = useDate();
+  const { date } = useDate();
   const {
     group,
     groupId,
@@ -162,11 +162,9 @@ export default function TeamPage() {
     return deleteMember({ id: group?.id, ...params });
   };
 
-  useEffect(() => now(), []);
-
   useEffect(() => {
     refetchTasks();
-  }, [date]);
+  }, [date, refetchTasks]);
 
   //TODO 그룹 데이터 로딩 중. 로딩 컴포넌트 보여주기
   if (!group && isPending) return null;
