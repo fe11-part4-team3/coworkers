@@ -34,6 +34,10 @@ export default function TaskListPage() {
   const taskListId = Number(useSearchParams().get('id'));
   const [taskList, setTaskList] = useState<ITaskList | null>(null);
 
+  const sortedTaskLists = taskLists?.sort(
+    (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
+  );
+
   useEffect(() => {
     const next = taskLists?.find((e) => e.id === taskListId) || null;
     setTaskList(next);
@@ -80,7 +84,7 @@ export default function TaskListPage() {
           </div>
         </div>
         <ul className="mt-pr-24 flex gap-pr-12 text-16m">
-          {taskLists?.map((taskList) => (
+          {sortedTaskLists?.map((taskList) => (
             <Link
               href={createUrlString({
                 pathname: [groupId, 'tasklist'],
