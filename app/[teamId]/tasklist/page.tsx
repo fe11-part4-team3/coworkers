@@ -32,40 +32,6 @@ export default function TaskListPage() {
   const taskListId = Number(useSearchParams().get('id'));
   const [taskList, setTaskList] = useState<ITaskList | null>(null);
 
-  // const fetchUpdateTask = useMutation({
-  //   mutationFn: ({
-  //     taskId,
-  //     body,
-  //   }: {
-  //     taskId: number;
-  //     body: UpdateTaskBodyParams;
-  //   }) => updateTask({ groupId, taskListId, taskId, body }),
-  //   onSuccess: () => {
-  //     refetchById(taskListId);
-  //     showSnackbar('할 일이 수정되었습니다.');
-  //   },
-  //   onError: () => showSnackbar('할 일 수정할 수 없습니다.', 'error'),
-  // });
-
-  // const fetchDeleteTask = useMutation({
-  //   mutationFn: (taskId: number) => deleteTask({ groupId, taskListId, taskId }),
-  //   onSuccess: () => {
-  //     refetchById(taskListId);
-  //     showSnackbar('할 일이 삭제되었습니다.');
-  //   },
-  //   onError: () => showSnackbar('할 일을 삭제할 수 없습니다.', 'error'),
-  // });
-
-  // useEffect(() => {
-  //   const handleClickOutside = (event: MouseEvent) => {
-  //     if (ref.current && !ref.current.contains(event.target as Node)) {
-  //       setIsCalendarOpen(false);
-  //     }
-  //   };
-  //   document.addEventListener('mousedown', handleClickOutside);
-  //   return () => document.removeEventListener('mousedown', handleClickOutside);
-  // }, [ref]);
-
   useEffect(() => {
     const next = taskLists?.find((e) => e.id === taskListId) || null;
     setTaskList(next);
