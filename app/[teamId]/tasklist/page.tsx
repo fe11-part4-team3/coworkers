@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import 'dayjs/locale/ko';
 import Link from 'next/link';
 import classNames from 'classnames';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import Container from '@/components/layout/Container';
 import PrevButtonIcon from '@/public/images/icon-prev-button.svg';
@@ -20,10 +20,12 @@ import { ITaskList } from '@/types/taskList.type';
 import createUrlString from '@/utils/createUrlString';
 import useDate from '@/hooks/useDate';
 import DatePicker from '@/components/DateTimePicker/DatePicker';
+import { Button } from '@/components/ui/button';
 
 import TaskListWrapper from './TaskListWrapper';
 
 export default function TaskListPage() {
+  const router = useRouter();
   const { openModal } = useModalStore();
 
   const { kstDate, prev, next, date, set } = useDate();
@@ -41,7 +43,15 @@ export default function TaskListPage() {
     <>
       <Container className="relative h-screen">
         <div className="mt-pr-40 text-t-primary">
-          <h1 className="text-20b">할 일</h1>
+          <div className="flex items-center justify-between">
+            <h1 className="text-20b">할 일</h1>
+            <Button
+              className="bg-inherit text-16m text-t-primary hover:bg-white/10"
+              onClick={() => router.push(`/${groupId}`)}
+            >
+              팀으로 돌아가기
+            </Button>
+          </div>
           <div className="relative mt-pr-24 flex items-center">
             <span className="w-pr-110 text-16m">{kstDate}</span>
             <div className="flex items-center gap-pr-12 text-b-secondary">
